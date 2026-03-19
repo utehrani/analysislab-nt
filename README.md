@@ -121,7 +121,7 @@ Python 3.8 or later. No other dependencies.
 **Paper 1:** *A Curvature Decomposition of the Explicit Formula for the
 Riemann Zeta Function*
 — Ulrich Tehrani, March 2026
-— [Zenodo DOI: 10.5281/zenodo.19025598. ](https://10.5281/zenodo.19025598)
+— [Zenodo DOI: 10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)
 
 **Paper 2:** *Renormalized Weights for the Weil Explicit Formula:
 Construction and Numerical Evidence*
