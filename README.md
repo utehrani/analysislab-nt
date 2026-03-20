@@ -123,9 +123,9 @@ Riemann Zeta Function*
 — Ulrich Tehrani, March 2026
 — [Zenodo DOI: 10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)
 
-**Paper 2:** *Renormalized Weights for the Weil Explicit Formula:
-Construction and Numerical Evidence*
-— Ulrich Tehrani, March 2026 (in preparation)
+**Paper 2:** *From Local Curvature to the Weil Functional: An Explicit Construction*
+— Ulrich Tehrani, March 2026
+— [Zenodo DOI: 10.5281/zenodo.19106992](https://doi.org/10.5281/zenodo.19106992)
 
 ---
 
