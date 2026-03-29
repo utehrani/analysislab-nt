@@ -7,8 +7,7 @@ model of prime–zero energy structure.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
-**DOIs:**
- [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
+**DOIs:** [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
 [Paper 3](https://doi.org/10.5281/zenodo.19307989)
 
@@ -271,30 +270,35 @@ The weaker statement for canonical `c_p` remains open (OP 6.2).
 
 ## Citation
 
+**Paper 1:**
 ```bibtex
 @misc{tehrani2026curvature,
   author    = {Tehrani, Ulrich},
-  title     = {A Curvature Decomposition of the Explicit Formula
-               for the Riemann Zeta Function},
+  title     = {A Curvature Decomposition of the Explicit Formula for the Riemann Zeta Function},
   year      = {2026},
   doi       = {10.5281/zenodo.19025598},
   publisher = {Zenodo}
 }
+```
 
+**Paper 2:**
+```bibtex
 @misc{tehrani2026weil,
   author    = {Tehrani, Ulrich},
-  title     = {From Local Curvature to the Weil Functional:
-               An Explicit Construction},
+  title     = {From Local Curvature to the Weil Functional: An Explicit Construction},
   year      = {2026},
   doi       = {10.5281/zenodo.19106992},
   publisher = {Zenodo}
 }
+```
 
+**Paper 3:**
+```bibtex
 @misc{tehrani2026hilbert,
   author    = {Tehrani, Ulrich},
-  title     = {A Finite-Cutoff Hilbert-Space Model
-               for Prime--Zero Energy Structure},
+  title     = {A Finite-Cutoff Hilbert-Space Model for Prime--Zero Energy Structure},
   year      = {2026},
+  doi       = {10.5281/zenodo.19307989},
   publisher = {Zenodo}
 }
 ```
