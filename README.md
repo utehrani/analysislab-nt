@@ -7,9 +7,10 @@ model of prime–zero energy structure.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
-**DOIs:** [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
+**DOIs:**
+ [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
-Paper 3 (forthcoming)
+[Paper 3](https://doi.org/10.5281/zenodo.19307989)
 
 ---
 
@@ -85,7 +86,7 @@ python code/paper2/verify_paper2.py
 ---
 
 ### Paper 3 — A Finite-Cutoff Hilbert-Space Model for Prime–Zero Energy Structure
-**DOI:** forthcoming  
+**DOI:** [10.5281/zenodo.19307989](https://doi.org/10.5281/zenodo.19307989)  
 **File:** [`papers/paper3/paper3_v1.pdf`](papers/paper3/)  
 **Scripts:** [`code/paper3/`](code/paper3/)
 
