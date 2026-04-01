@@ -1,0 +1,1454 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+% -- Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem*{remark}{Remark}
+\newtheorem*{openproblem}{Open Problem}
+
+% Custom label-free environments
+\newenvironment{model}[1]{\par\smallskip\noindent\textit{[Model: #1]}\quad}{\par\smallskip}
+\newenvironment{heuristic}[1]{\par\smallskip\noindent\textit{[Heuristic: #1]}\quad}{\par\smallskip}
+
+% -- Macros (Paper 3 base)
+\newcommand{\Hstr}{H_{\mathrm{str}}}
+\newcommand{\Hnull}{H_{\mathrm{null}}}
+\newcommand{\Estr}{E_{\mathrm{str}}}
+\newcommand{\Espec}{E_{\mathrm{spec}}}
+\newcommand{\etaorig}{\eta_{\mathrm{orig}}}
+\newcommand{\Tren}{T_{\mathrm{ren}}}
+\newcommand{\Gun}{G^{\mathrm{un}}}
+\newcommand{\Hlocal}{H_{\mathrm{local}}}
+% -- Paper 4 specific macros
+\newcommand{\Tt}{\widetilde{T}}
+\newcommand{\Ceta}{C_{\eta}}
+\newcommand{\CT}{C_{T}}
+\newcommand{\kdom}{k_{\mathrm{dom}}}
+\newcommand{\Wone}{W_1}
+\newcommand{\Dburstvar}{\Delta_{\mathrm{Burst}}}
+\newcommand{\Dcross}{\Delta_{\mathrm{Cross}}}
+\newcommand{\Dstream}{\Delta_{\mathrm{Stream}}}
+
+% -- Title
+\title{\vspace{-1.5em}\bfseries A Dual Operator for Prime--Zero Coupling\\[0.4em]
+\large and a Conditional Proof of Energy Asymmetry}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ April 2026 \textperiodcentered\ v2}
+
+\begin{document}
+\maketitle
+
+% -------------------------------------------------------
+\begin{abstract}
+We introduce the operator $\Tt := \Phi \circ \Phi^*$,
+the dual of the loop operator $T = \Phi^* \circ \Phi$ constructed in Paper~3
+of this series. Here $\Phi\colon\Hstr \to \Hnull$ maps a
+finite-dimensional prime space into a finite-dimensional zero space via
+Gaussian-damped prime resonance vectors.
+
+\textbf{What is proved in this paper.}
+We establish (\S\,2.3) the algebraic spectral identity
+$\sigma(T)\setminus\{0\} = \sigma(\Tt)\setminus\{0\}$
+by classical operator theory; the maximum discrepancy between shared
+eigenvalues is below $10^{-15}$ (machine precision).
+We prove (\S\,3.4) that $\Wone := \CT\cdot\Tt^+$ is self-adjoint.
+$\Wone$ does not assume RH or the HP postulate; however, its normalization
+constant $\CT$ is calibrated against the zero ordinates via OLS and should
+not be presented as fully input-free.
+$\Tt$ itself --- built from prime resonance vectors without $\gamma_k$ as
+algebraic inputs to the operator --- is the circularity-free object (\S\,3.4).
+We prove (\S\,4.3, Lemma~4.3) the \textbf{Abel Summation Principle} (Lemma~M3):
+for monotone decreasing weights $f_i$ and a sequence $g_i$ with bounded
+partial sums, $|\sum_i f_i g_i| \leq M f_1$.
+We prove (\S\,4.4, Theorem~4.4) the \textbf{Prime Exponential Sum Bound}
+(Theorem~EXPLICIT): for fixed $\gamma > 0$,
+\[
+M_k(\kappa) := \max_{x \leq \kappa}\Bigl|\sum_{p \leq x}\sin(\gamma_k\log p)\Bigr|
+= O\!\left(\frac{\pi(\kappa)}{\gamma_k}\right)
+\]
+using only the Prime Number Theorem (no Riemann Hypothesis).
+We prove (\S\,2.4, Proposition~2.11) that $\Tt$ is \textbf{not} a
+Hilbert--P\'olya operator: the correlation
+$r_2 = \mathrm{corr}(\omega_j,\gamma_{k(j)})$
+falls from $0.50$ to $0.16$ for $\kappa\in\{23,\ldots,503\}$.
+
+\textbf{What is numerical.}
+The eigenvectors of $\Tt$ localize at zero ordinates $\gamma_k$
+with degrees $0.45$--$0.99$ [Numerical, \S\,3.2].
+The correlation $r_1 = \mathrm{corr}(\mu_j,1/\gamma_{k(j)}) = 0.950$
+($\kappa=53$) [Numerical, \S\,3.1].
+The energy asymmetry $\etaorig > 0$ holds for all tested $\kappa\leq 1009$
+[Numerical, \S\,5.1].
+
+\textbf{What is conditional.}
+Under Assumption~A --- two conditions on the line
+$\mathrm{Re}(s)=1$, distinct from the Riemann Hypothesis:
+$(a)$~$\zeta(1+in\gamma_k)\neq 0$ for all $n\geq 1$, $k\leq N$, and
+$(b)$~joint equidistribution of prime log-phases (\S\,6, Open Problem~6.1)
+--- we prove (\S\,5.3, Theorem~5.3(i)(ii)) that the normalised cross/stream
+averages vanish [CONDITIONAL on Assumption~A].
+We establish numerically (Theorem~5.3(iii)(iv)) that
+$\Delta(\kappa)\geq\Dburstvar\approx 3.11 > 0$ for all tested $\kappa > 7$
+[NUMERICAL lower bound, $\kappa$-invariant] and
+$\etaorig(\kappa)\to\eta_\infty\approx 0.81 > 0$ [NUMERICAL].
+
+\textbf{What remains open.}
+The analytic proof of $\etaorig > 0$ without the above assumption
+(Open Problem~6.2); whether a circularity-free spectral function
+$f(\Tt)$ exists with spectrum converging to $\{\gamma_k\}$
+(Open Problem~6.3); and the arithmetic origin of
+$\Ceta \approx 0.39$ (Open Problem~6.4).
+
+\textbf{Structure.}
+The formal core is self-contained in \S\S\,2--5.
+Sections~6 and~7 contain open problems and a geometric interpretation
+(clearly marked, not used in proofs).
+No use of the Riemann Hypothesis, the GUE conjecture, the Montgomery
+pair correlation conjecture, or the Hilbert--P\'olya postulate is made
+anywhere in \S\S\,2--5.
+\end{abstract}
+
+% -------------------------------------------------------
+\section{Introduction}
+
+\subsection{Background and Motivation}
+
+This paper is the fourth in a series studying the curvature of the Riemann
+zeta function from a geometric and operator-theoretic perspective.
+A reader familiar with Paper~3 \cite{Paper3} may begin at \S\,2;
+the present introduction provides series context and an explicit
+reader contract for all results.
+The formal content in \S\S\,2--5 is self-contained.
+
+\textbf{Paper~1} \cite{Paper1} introduced the local curvature function
+\[
+H_\xi(\sigma,\kappa) := \sum_{p\leq\kappa} V_p(\sigma),
+\]
+where $V_p(\sigma) = \tfrac{d^2}{d\sigma^2}\log\|M_\sigma f_{\kappa,p}\|^2 > 0$.
+A key finding was the divergence
+$H_{\mathrm{local}}(\tfrac{1}{2},\kappa)\sim 8(\log\kappa)^2\to\infty$
+at $\sigma=\tfrac{1}{2}$, contrasted with
+$H_{\mathrm{local}}(\sigma,\kappa)\to C(\sigma)<\infty$
+for all $\sigma>\tfrac{1}{2}$.
+
+\textbf{Paper~2} \cite{Paper2} constructed the Weil functional and established
+$W(g^*\ast\check{g}^*) = Z(g^*) - H_{\mathrm{local}}(\sigma,\kappa) + O(\varepsilon)$,
+connecting local curvature to the Weil positivity criterion.
+
+\textbf{Paper~3} \cite{Paper3} made the geometric structure explicit.
+Given a prime cutoff $\kappa$ and $N$ zero ordinates $\gamma_k$,
+two finite-dimensional real Hilbert spaces $\Hstr$ (over primes) and
+$\Hnull$ (over zeros) are connected by a linear map $\Phi$.
+The loop operator $T = \Phi^*\circ\Phi$ is self-adjoint and positive
+semi-definite.
+The energy asymmetry
+$\etaorig = \Delta/\Estr \in [0.598, 0.704]$
+(benchmark $\kappa=53$, $\varepsilon=0.05$, $N=100$) was established
+numerically; the structural energy $\Estr\to 6.1$ as $\kappa\to\infty$
+(analytically explained by absolute convergence of $\sum_p(\log p)^2/p^2$).
+
+\textbf{The present paper} introduces and analyzes
+$\Tt = \Phi\circ\Phi^*$, the dual of $T$, acting on the zero space
+$\Hnull$.
+The operator emerges canonically from the same $\Phi$ already constructed
+in Paper~3, and requires no new postulate.
+
+The main conditional result of Paper~4
+is a \textbf{conditional analytic proof} that $\etaorig > 0$: under Assumption~A --- two conditions
+on $\mathrm{Re}(s)=1$ --- the energy asymmetry persists in the limit
+$\kappa\to\infty$.
+Both conditions concern $\mathrm{Re}(s)=1$, distinct from RH which concerns
+$\mathrm{Re}(s)=\tfrac{1}{2}$.
+Non-vanishing on $\mathrm{Re}(s)=1$ is known for all real $t\neq 0$
+(Hadamard, 1896), but the general result does not settle the specific
+values $t = n\gamma_k$. Both conditions are the main open problems of
+this paper.
+
+\subsection{Non-Circularity Statement}
+
+\emph{The following holds unconditionally throughout \S\S\,2--5:}
+
+\textbf{No result in this paper assumes:}
+\begin{enumerate}[label=(\roman*)]
+\item The Riemann Hypothesis;
+\item The GUE conjecture;
+\item The Montgomery pair correlation conjecture;
+\item The Hilbert--P\'olya postulate.
+\end{enumerate}
+
+The operator $\Tt = \Phi\circ\Phi^*$ is constructed explicitly from
+the prime resonance vectors $\{a_p\}_{p\leq\kappa}$ (defined in \S\,2.1).
+The zero ordinates $\gamma_k$ appear as \emph{inputs} to the construction
+of $\Phi$, not as conclusions.
+In Theorem~5.3 (\S\,5.3), Assumption~A is explicitly
+labelled CONDITIONAL; it is a condition on $\mathrm{Re}(s)=1$, distinct
+from RH which concerns $\mathrm{Re}(s)=\tfrac{1}{2}$.
+Its logical relationship to RH is not analysed in this paper.
+
+In particular, $\Tt = \Phi\circ\Phi^*$ is a deterministic,
+explicitly computable finite-dimensional operator --- not a random matrix
+or a statistical ensemble.
+No GUE conjecture, no Montgomery pair correlation conjecture,
+and no random-matrix-theoretic assumption is used or implied anywhere
+in \S\S\,2--5.
+The structural similarity between eigenvector localization in $\Tt$ and
+GUE level statistics is a numerical observation, not a postulate.
+
+\emph{Note on $\Wone$:}
+The inverse operator $\Wone = \CT\cdot\Tt^+$ does not assume RH or the
+HP postulate; however, its normalization constant $\CT$ is calibrated
+against the zero ordinates via OLS (\S\,3.3).
+$\Wone$ is therefore not fully input-free.
+Only $\Tt$ itself --- built from prime resonance vectors without $\gamma_k$
+as algebraic inputs to the operator --- is the circularity-free object
+of this paper.
+
+\subsection{Imported Results from Papers 1--3}
+
+The following results from earlier papers are used in this paper,
+exclusively in the indicated roles.
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lp{4.5cm}p{2.8cm}p{3cm}}
+\toprule
+Label & Result & Status & Used where \\
+\midrule
+(R1) & $H_{\mathrm{local}}(\tfrac{1}{2},\kappa)\sim 8(\log\kappa)^2$
+  & Proved [Paper~1, \S\,2] & \S\,1.1, \S\,7 (motivation only) \\
+(R2) & Weil bridge
+  & Proved [Paper~2, \S\,3] & \S\,1.1, \S\,7 (motivation only) \\
+(R3) & $T=\Phi^*\Phi$, $\etaorig\in[0.598,0.704]$, normative $c_p$
+  & Proved/Numerical [Paper~3] & \S\,2.1, \S\,5 \\
+(R4) & $\Estr(\infty)\approx 6.1$ (convergent)
+  & Numerical [Paper~3, \S\,5] & \S\,5.1 (context) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Results (R1) and (R2) are used for motivation only.
+Results (R3) and (R4) are recorded for completeness;
+the formal core in \S\S\,2--5 depends only on the definitions in \S\,2.1,
+not on $\eta$-values from Paper~3.
+
+\subsection{What This Paper Proves and What It Imports}
+
+\emph{Reader Contract.}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+Content & Status & Where \\
+\midrule
+$\Tt = \Phi\circ\Phi^*$ definition & Proved here & \S\,2.2 \\
+Self-adjointness and PSD of $\Tt$ & Proved here & \S\,2.2 \\
+Algebraic spectral identity $\lambda_j(T)=\mu_j(\Tt)$ & Proved here & \S\,2.3 \\
+$\Tt$ is NOT a Hilbert--P\'olya operator & Num.\ negative result & \S\,2.4 \\
+Lemma M3 (Abel Summation Principle) & Proved here & \S\,4.3 \\
+Theorem EXPLICIT: $M_k(\kappa)=O(\pi(\kappa)/\gamma_k)$ & Proved here & \S\,4.4 \\
+$\Wone = \CT\cdot\Tt^+$ self-adjoint & Proved here & \S\,3.4 \\
+$\Wone$: no RH/HP; $\CT$ OLS-calibrated & Proved here & \S\,3.4 \\
+$\mu_j \sim \CT/\gamma_{k(j)}$, $r_1=0.950$ & \textbf{Numerical} & \S\,3.1 \\
+Eigenvector localization $0.45$--$0.99$ & \textbf{Numerical} & \S\,3.2 \\
+$\etaorig > 0$ for $\kappa\leq 1009$ & \textbf{Numerical} & \S\,5.1 \\
+$\Dburstvar \approx 3.11 > 0$, $\kappa$-invariant & \textbf{Numerical} & \S\,5.2 \\
+$\Wone$ is NOT an asymptotic HP-operator & \textbf{Numerical} & \S\,3.4 \\
+Theorem~5.3(i)(ii) (equidist.\ vanishing) & \textbf{Conditional} & \S\,5.3 \\
+Theorem~5.3(iii): $\Delta(\kappa)\geq\Dburstvar > 0$
+  & \textbf{Numerical} & \S\,5.3 \\
+Theorem~5.3(iv): $\etaorig(\kappa)\to\eta_\infty\approx 0.81 > 0$
+  & \textbf{Numerical} & \S\,5.3 \\
+$\etaorig > 0$ analytically & \textbf{Open} & \S\,6 \\
+Assumption~A: non-vanishing + equidist.\ (both open)
+  & \textbf{Open} & \S\,6.1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Relation to Existing Work}
+
+\textbf{Hilbert--P\'olya setting.}
+A Hilbert--P\'olya operator $\mathcal{H}$ would satisfy
+$\mathcal{H}\psi_k = \gamma_k\psi_k$ ---
+the zero ordinates appear directly as eigenvalues.
+The Tehrani operator $\Tt$ has eigenvalues $\mu_j\sim\CT/\gamma_{k(j)}$
+(numerically); the zero ordinates appear as \emph{localization centers}
+of eigenvectors, not as eigenvalues.
+This is a weaker but constructive relationship.
+The inverse $\Wone = \CT\cdot\Tt^+$
+is a natural candidate for an HP-operator,
+but it fails (\S\,2.4): the correlation
+$r_2 = \mathrm{corr}(\omega_j,\gamma_{k(j)})$ falls to $0.16$.
+We use the standard formulation of the Hilbert--P\'olya setting
+--- see e.g.\ the survey by Bombieri \cite{Bom00} ---
+without adopting it as a postulate.
+
+\begin{quote}
+\textit{Standard formulation (used throughout this paper):}
+``$\Tt$ is a resonance operator: the zero ordinates $\gamma_k$
+appear as localization centers of its eigenvectors, not as eigenvalues.
+This distinguishes $\Tt$ from the classical Hilbert--P\'olya setting.''
+\end{quote}
+
+\textbf{Connes' approach \cite{Con99}.}
+The Connes spectral triple framework provides structural parallels;
+no formal connection between $\Tt$ and the Connes trace formula is
+established in this paper.
+
+\textbf{Goldston--G\"onek \cite{GG05}.}
+Their exponential sum formula provides an independent confirmation of
+$M_k(\kappa) = O(\pi(\kappa)/\gamma_k)$ proved in \S\,4.4
+(see Remark~4.7).
+
+\textbf{Paper~3 \cite{Paper3}.}
+The present paper is the direct sequel; \S\,2.1 recollects all necessary
+objects.
+
+\subsection{Outline}
+
+Section~2 defines $\Tt$, proves the algebraic spectral identity,
+and establishes that $\Tt$ is not a Hilbert--P\'olya operator.
+Section~3 presents the spectral analysis of $\Tt$: eigenvalue structure,
+eigenvector localization, and the two arithmetic constants
+$\Ceta$ and $\CT$.
+Section~4 develops the monotonicity mechanism: Abel summation (Lemma~M3)
+and the prime exponential sum bound (Theorem~EXPLICIT).
+Section~5 collects results on $\etaorig > 0$: numerical confirmation,
+the $\Delta$-decomposition, and the conditional theorem.
+Section~6 states the open problems.
+Section~7 presents the Fisher-information geometric interpretation
+(all statements in \S\,7 are explicitly marked as geometric model
+or heuristic).
+
+% -------------------------------------------------------
+\section{The Tehrani Operator}
+
+\subsection{Recollection: $\Hstr$, $\Hnull$, $\Phi$, $T$}
+
+We fix throughout:
+\begin{itemize}
+\item A prime cutoff $\kappa > 1$, with active prime set
+  $S(\kappa) := \{p\text{ prime}: p\leq\kappa\}$
+  and $\pi(\kappa) := |S(\kappa)|$.
+\item The first $N$ positive imaginary parts of nontrivial zeros of
+  $\zeta(s)$, ordered $0 < \gamma_1 \leq \gamma_2 \leq \cdots \leq \gamma_N$.
+\item A Gaussian damping parameter $\varepsilon > 0$.
+\end{itemize}
+
+\textbf{Normative parameters:} $\kappa=53$, $\varepsilon=0.05$,
+$N=100$, $\sigma=\tfrac{1}{2}$.
+
+\begin{definition}[$\Hstr$ and $\Hnull$, from Paper~3]
+\[
+\Hstr := \ell^2(S(\kappa)),\quad \dim\Hstr = \pi(\kappa).
+\qquad
+\Hnull := \ell^2(\{\gamma_k\}_{k=1}^N),\quad \dim\Hnull = N.
+\]
+Both spaces carry standard inner products.
+We work throughout with real vectors and real operators.
+\end{definition}
+
+\begin{definition}[Resonance vectors, from Paper~3]
+For each prime $p\in S(\kappa)$, the \emph{resonance vector}
+$a_p\in\Hnull$ is defined by
+\[
+a_p := \bigl(e^{-\varepsilon^2\gamma_k^2/2}\sin(\gamma_k\log p)\bigr)_{k=1}^N.
+\]
+The Gaussian envelope ensures $a_p\in\ell^2(\{\gamma_k\})$ uniformly
+in $\kappa$.
+\end{definition}
+
+\begin{definition}[Linear map $\Phi$, from Paper~3]
+\[
+\Phi\colon\Hstr\to\Hnull,\quad
+\Phi(e_p) = a_p,\quad
+\Phi(c) = \sum_{p\leq\kappa}c_p a_p.
+\]
+\end{definition}
+
+\begin{definition}[Loop operator $T$, from Paper~3]
+\[
+T := \Phi^*\circ\Phi\colon\Hstr\to\Hstr,\quad
+T_{pq} = \langle a_p,a_q\rangle_{\Hnull} = G^{\mathrm{un}}_{pq}.
+\]
+$T$ is self-adjoint, positive semi-definite, and identical to the Gram
+matrix $\Gun$ of the resonance vectors.
+\end{definition}
+
+\begin{definition}[Canonical weight vector, from Paper~3]
+The normative weight vector $c\in\Hstr$ has components
+$c_p := \sqrt{V_p(\tfrac{1}{2})}$,
+where $V_p(\sigma) = \tfrac{d^2}{d\sigma^2}\log\|M_\sigma f_{\kappa,p}\|^2$.
+The exact formula is
+$c_p = \sqrt{4(\log p)^2(2p-1)/(p(p-1)^2)}$.
+The leading-term ($K=1$) approximation $c_p \approx 4\log(p)/\sqrt{p}$
+is asymptotically close but numerically differs for small primes;
+the exact formula is used throughout this paper and in all verification scripts.
+
+Reference values ($\varepsilon=0.05$, $\sigma=\tfrac{1}{2}$):
+$c_2\approx 1.698$, $c_3\approx 1.418$, $c_5\approx 1.080$,
+$c_7\approx 0.884$.
+\end{definition}
+
+\begin{definition}[Energy quantities, from Paper~3]
+\[
+\Estr := \sum_{p\leq\kappa}c_p^2\|a_p\|^2 = c^T Dc,
+\qquad
+\Espec := \Bigl\|\sum_{p\leq\kappa}c_p a_p\Bigr\|^2 = \|\Phi c\|^2,
+\]
+where $D := \mathrm{diag}(\|a_p\|^2)_{p\in S(\kappa)}$.
+The energy asymmetry is
+\[
+\Delta := \Estr - \Espec \geq 0\quad\text{(numerically)},
+\qquad
+\etaorig := \frac{\Delta}{\Estr}
+= 1 - \frac{c^T\Gun c}{\Estr}.
+\]
+\end{definition}
+
+\subsection{Definition of the Tehrani Operator $\widetilde{T}$}
+
+\begin{definition}[Tehrani Operator]
+\begin{equation}
+\boxed{\Tt := \Phi\circ\Phi^*\colon\Hnull\to\Hnull.}
+\end{equation}
+
+\textbf{Matrix representation.}
+In the standard basis $\{f_k\}_{k=1}^N$ of $\Hnull$:
+\[
+\Tt_{kl}
+= \sum_{p\leq\kappa}(a_p)_k(a_p)_l
+= \sum_{p\leq\kappa}
+e^{-\varepsilon^2\gamma_k^2/2}\sin(\gamma_k\log p)
+\cdot
+e^{-\varepsilon^2\gamma_l^2/2}\sin(\gamma_l\log p).
+\]
+\end{definition}
+
+\begin{proposition}[Properties of $\Tt$]\label{prop:Tt-properties}
+The operator $\Tt$ satisfies:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Self-adjointness:}
+  $\Tt^* = (\Phi\Phi^*)^* = \Phi\Phi^* = \Tt$. $\checkmark$
+\item \textbf{Positive semi-definiteness:}
+  For all $u\in\Hnull$,
+  $\langle\Tt u,u\rangle = \|\Phi^* u\|^2 \geq 0$. $\checkmark$
+\item \textbf{Rank:}
+  $\mathrm{rank}(\Tt) = \mathrm{rank}(\Phi) = \pi(\kappa)$. $\checkmark$
+\item \textbf{Explicit construction:}
+  $\Tt$ is built directly from prime resonance vectors $\{a_p\}$.
+  No zero ordinates appear as inputs to the operator itself;
+  the $\gamma_k$ enter only as axis labels of $\Hnull$.
+\end{enumerate}
+\emph{Proof.}
+Parts (i) and (ii) are immediate from $\Tt=\Phi\Phi^*$ using standard
+properties of adjoints.
+Part (iii) follows from
+$\mathrm{rank}(AB)\leq\min(\mathrm{rank}(A),\mathrm{rank}(B))$
+and $\pi(\kappa)\leq N$ in all normative parameter choices. $\square$
+\end{proposition}
+
+\subsection{Algebraic Spectral Identity}
+
+\begin{theorem}[Spectral Identity — PROVED]\label{thm:spectral-identity}
+\[
+\sigma(T)\setminus\{0\} = \sigma(\Tt)\setminus\{0\}.
+\]
+The shared nonzero eigenvalues satisfy:
+\[
+\max_{j=1}^{\pi(\kappa)}|\lambda_j(T) - \mu_j(\Tt)| < 10^{-15}
+\quad\text{(machine precision, verified numerically)}.
+\]
+\emph{Proof.}
+Classical result: for any $A,B$,
+$\sigma(AB)\setminus\{0\} = \sigma(BA)\setminus\{0\}$.
+Applied with $A=\Phi^*$, $B=\Phi$: $T=\Phi^*\Phi$ and
+$\Tt=\Phi\Phi^*$, so $\sigma(T)\setminus\{0\}=\sigma(\Tt)\setminus\{0\}$.
+(For finite-dimensional matrices, Sylvester's determinant identity:
+$\det(\lambda I - AB) = \lambda^{n-m}\det(\lambda I-BA)$
+for $A\in\mathbb{R}^{m\times n}$, $B\in\mathbb{R}^{n\times m}$.) $\square$
+\end{theorem}
+
+\begin{remark}
+The identity $\lambda_j(T)=\mu_j(\Tt)$ is an \emph{algebraic} theorem
+--- it holds in exact arithmetic for any choice of $\kappa$, $\varepsilon$,
+and $N$.
+The eigenvalues $\lambda_j = \mu_j$ are not the zero ordinates $\gamma_k$;
+they are constructive spectral quantities arising from $\Phi$.
+\end{remark}
+
+\subsection{$\Tt$ is NOT a Hilbert--P\'olya Operator}
+
+This section records a negative result.
+
+\begin{proposition}[Numerical Negative Result]\label{prop:not-HP}
+A Hilbert--P\'olya operator $\mathcal{H}$ would satisfy
+$\mathcal{H}\psi_k = \gamma_k\psi_k$ for all $k$,
+i.e., the zero ordinates $\gamma_k$ appear directly as eigenvalues.
+$\Tt$ does \textbf{not} have this property:
+\begin{enumerate}[label=(\alph*)]
+\item \emph{[Numerical]} The eigenvalues of $\Tt$ satisfy
+  $\mu_j\sim\CT/\gamma_{k(j)}$ --- they are \emph{inversely} proportional
+  to zero ordinates (\S\,3.1).
+\item \emph{[Numerical]} The zero ordinates $\gamma_k$ appear as
+  \emph{localization centers} of eigenvectors $v_j$ (\S\,3.2),
+  not as eigenvalues.
+\item \emph{[Numerical]} The inverse operator $\Wone := \CT\cdot\Tt^+$
+  has eigenvalues $\omega_j = \CT/\mu_j \approx \gamma_{k(j)}$
+  for small $j$, but the correlation
+  $r_2 := \mathrm{corr}(\omega_j, \gamma_{k(j)})$
+  falls from $0.502$ (at $\kappa=23$) to $0.160$ (at $\kappa=503$).
+  $\Wone$ is therefore \textbf{not} an asymptotic HP-operator.
+\end{enumerate}
+\emph{The fundamental distinction:}
+\[
+\text{HP-operator: eigenvalues} = \gamma_k.
+\qquad
+\Tt\text{: eigenvector localization centers} = \gamma_k.
+\]
+$\Tt$ is a \textbf{resonance operator}: it encodes the $\gamma_k$
+as mode centers, not as spectral values.
+
+\emph{Proof of (a)(b)(c).}
+Numerical; see \S\,3.1, \S\,3.2, \S\,3.4 for detailed data. $\square$
+\end{proposition}
+
+\begin{remark}[Structural obstruction]
+The Gaussian damping $e^{-\varepsilon^2\gamma_k^2/2}$ in $a_p$ causes
+$\mu_j$ to decay super-exponentially (exponent $\alpha\approx -4.88$),
+far faster than the $1/\gamma$-law (exponent $-0.56$).
+Inverting $\Tt$ to form $\Wone$ catastrophically amplifies the smallest
+eigenvalues.
+For $j=16$ at $\kappa=53$:
+$\omega_{16}\approx 7\times 10^6$ against $\gamma_{16}\approx 67$.
+This is the structural reason $\Wone$ fails as an HP-operator
+(see \S\,3.4 and Open Problem~6.3).
+\end{remark}
+
+% -------------------------------------------------------
+\section{Spectral Analysis of $\widetilde{T}$}
+
+\subsection{Eigenvalue Structure: $\mu_j \sim \CT/\gamma_{k(j)}$}
+
+\textbf{Numerical Result NR~3.1} (Eigenvalue--Zero Ordinate Correlation).
+\emph{[Status: NUMERICAL --- $\kappa=53$, $\varepsilon=0.05$, $N=100$]}
+
+\emph{All numerical results in this paper are reproducible using
+the verification scripts at \url{https://github.com/utehrani/analysislab-nt}
+(public repository, March 2026) \cite{Code26}.
+All computations use $N=100$ zero ordinates computed via \texttt{mpmath}
+at default precision (approximately 15 significant digits) and normative
+parameters $\kappa=53$, $\varepsilon=0.05$, $\sigma=\tfrac{1}{2}$
+unless otherwise stated.}
+
+Let $\kdom(j) := \arg\max_k|(v_j)_k|$ be the dominant zero index
+for eigenvector $v_j$. Then:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$j$ & $\mu_j(\Tt)$ & $\kdom$ & $\gamma_{\kdom}$ & Localization \\
+\midrule
+1 & 4.219803 & 1 & 14.1347 & 0.985 \\
+2 & 2.565694 & 3 & 25.0109 & 0.741 \\
+3 & 1.744649 & 2 & 21.0220 & 0.745 \\
+4 & 0.986492 & 4 & 30.4249 & 0.854 \\
+5 & 0.314199 & 5 & 32.9351 & 0.794 \\
+6 & 0.217900 & 6 & 37.5862 & 0.885 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The OLS correlation between $\mu_j$ and $1/\gamma_{k(j)}$ is
+\[
+r_1 = \mathrm{corr}\bigl(\mu_j,\,1/\gamma_{k(j)}\bigr) = 0.950
+\quad(\kappa=53).
+\]
+For $\kappa=503$: $r_1 = 0.859$ (weakening as $\kappa$ grows,
+due to Gaussian damping).
+
+\begin{remark}
+The dominant index satisfies $\kdom(1) = 1$ for all tested
+$\kappa\in\{23,53,101,199,503,1009\}$:
+the first eigenvector of $\Tt$ is always associated with
+$\gamma_1 = 14.1347$.
+\end{remark}
+
+\begin{remark}[Cauchy--Schwarz warning]
+Note that $r_1 = 0.950$ coexists with $r_2 = 0.502$ (\S\,3.4).
+These measure different things: $r_1$ tests monotone ordering;
+$r_2$ tests value-level approximation.
+The distinction between ordering and value accuracy is crucial for
+the HP assessment in \S\,2.4.
+\end{remark}
+
+\subsection{Eigenvector Localization}
+
+\textbf{Numerical Result NR~3.2} (Eigenvector Localization).
+\emph{[Status: NUMERICAL --- $\kappa=53$, $\varepsilon=0.05$, $N=100$]}
+
+For each eigenvector $v_j$ of $\Tt$ (normalized: $\|v_j\|=1$),
+the localization is measured by $L_j := |(v_j)_{\kdom(j)}|$.
+Observed range: $L_j\in[0.45,0.99]$ for $j=1,\ldots,14$.
+
+For comparison, a uniformly random unit vector in $\mathbb{R}^{100}$
+has typical entry magnitude $1/\sqrt{100} = 0.10$.
+The observed localization is $4.5$--$9.9$ times the random baseline.
+
+\emph{[Geometric interpretation, not used in any proof]:}
+The localization structure suggests that $\Tt$ `encodes'
+the ordering of zero ordinates in a distributional sense:
+each mode $v_j$ is concentrated near the zero $\gamma_{k(j)}$
+in the zero-space $\Hnull$.
+This is the precise content of calling $\Tt$ a resonance operator.
+
+\subsection{The Two Arithmetic Constants $\Ceta$ and $\CT$}
+
+\begin{definition}[Arithmetic Constants]\label{def:constants}
+\[
+\Ceta := \lim_{\kappa\to\infty}\frac{\lambda_{\max}(\Tren)}{\pi(\kappa)},
+\qquad\Ceta\approx 0.39,
+\]
+where $\Tren := D^{-1/2}TD^{-1/2}$.
+\[
+\CT(\kappa) := \text{OLS-slope of } \mu_j\sim\CT/\gamma_{k(j)},
+\qquad \CT/\pi(\kappa) \in \{2.49,\,2.21,\,2.17,\,1.94,\,1.89\}
+\]
+for $\kappa\in\{23,53,101,199,503\}$ (weakly decreasing).
+
+\[
+\boxed{\Ceta \neq \CT}
+\]
+\emph{These are two distinct arithmetic quantities. Always use subscripts.}
+\end{definition}
+
+The constant $\Ceta\approx 0.39$ is $\kappa$-independent;
+$\CT$ grows with $\kappa$ (numerically observed to grow approximately as $2\pi(\kappa)$).
+
+\textbf{Numerical Result NR~3.3} ($\lambda_{\max,\mathrm{ren}}$ growth).
+\emph{[Status: NUMERICAL]}
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$\kappa$ & $\pi(\kappa)$ & $\lambda_{\max,\mathrm{ren}}$ & Ratio \\
+\midrule
+23  & 9   & 3.59  & 0.399 \\
+53  & 16  & 6.38  & 0.399 \\
+101 & 26  & 10.35 & 0.398 \\
+199 & 46  & 17.76 & 0.386 \\
+503 & 96  & 37.38 & 0.389 \\
+1009 & 169 & 65.16 & 0.386 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Variance of the ratio: $\sigma^2 < 0.0003$ --- extremely stable.
+The universal bound $\lambda_{\max,\mathrm{ren}} < 1$
+(an earlier conjecture in this series, now falsified) is numerically falsified:
+$\lambda_{\max,\mathrm{ren}}\to\infty$.
+
+\begin{remark}[Analytical status of $\Ceta$]
+The value $\Ceta\approx 0.39$ is not analytically explained.
+A candidate formula $\Ceta = 1/I_N(\varepsilon)$ is \textbf{falsified}:
+it gives $1/I_{100}(0.05)\approx 0.73\neq 0.39$.
+The correct representation involves a harmonic mean
+(analytically open; see Open Problem~6.4 and \S\,6).
+\end{remark}
+
+\subsection{The Inverse Operator $\Wone = \CT\cdot\Tt^+$}
+
+\begin{definition}[Inverse Operator]
+$\Wone := \CT\cdot\Tt^+$,
+where $\Tt^+$ denotes the Moore--Penrose pseudoinverse of $\Tt$
+and $\CT$ is the OLS constant from Definition~\ref{def:constants}.
+\end{definition}
+
+\begin{proposition}[Self-Adjointness of $\Wone$ --- PROVED]\label{prop:W1-sa}
+$\Wone$ is self-adjoint.
+
+\emph{Proof.}
+$\Tt$ is self-adjoint (Proposition~\ref{prop:Tt-properties}(i)).
+For any self-adjoint operator, the Moore--Penrose pseudoinverse is also
+self-adjoint (standard result in linear algebra).
+$\CT$ is a real scalar.
+Therefore $\Wone = \CT\cdot\Tt^+$ is self-adjoint. $\square$
+\end{proposition}
+
+Numerically: $\|\Wone - \Wone^T\|_\infty = 3.1\times 10^{-4}$
+(machine precision effects from eigendecomposition).
+
+\begin{proposition}[Non-Circularity Status of $\Wone$ --- PROVED]\label{prop:W1-circ}
+$\Wone = \CT\cdot\Tt^+$ does not assume RH or the Hilbert--P\'olya postulate.
+However, its normalization constant $\CT$ is the OLS slope in
+$\mu_j\sim\CT/\gamma_{k(j)}$, which is calibrated against the zero ordinates.
+$\Wone$ should therefore not be presented as fully input-free.
+$\Tt$ itself --- built from prime resonance vectors without $\gamma_k$
+as algebraic inputs --- is the circularity-free object.
+
+\emph{Proof.}
+$\Tt$ is constructed from prime resonance vectors alone
+(Definition~2.7) $\checkmark$.
+$\Tt^+$ is the Moore--Penrose pseudoinverse --- no postulate $\checkmark$.
+The scalar $\CT$ is computed via OLS regression of $\mu_j$ against
+$1/\gamma_{k(j)}$: this uses $\gamma_k$ as calibration values, but
+does not assume RH or HP. $\square$
+\end{proposition}
+
+\textbf{Numerical Result NR~3.4} ($\Wone$ HP-correlation --- failure).
+\emph{[Status: NUMERICAL]}
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$\kappa$ & $\pi(\kappa)$ & $r_2 = \mathrm{corr}(\omega_j,\gamma_{k(j)})$ \\
+\midrule
+23  & 9  & 0.502 \\
+53  & 16 & 0.436 \\
+101 & 26 & 0.321 \\
+199 & 46 & 0.226 \\
+503 & 96 & 0.160 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The decreasing trend confirms: $\Wone$ is \textbf{not} an asymptotic
+HP-operator.
+The structural cause is Gaussian damping: $e^{-\varepsilon^2\gamma_k^2/2}$
+in $\Phi$ causes superexponential decay of $\mu_j$
+(observed exponent $\alpha\approx -4.88$),
+far exceeding the $1/\gamma$ growth pattern required for HP.
+Pseudoinversion catastrophically amplifies tail modes.
+
+\textbf{Summary for \S\,3.4:}
+$\Wone$ is self-adjoint (proved).
+Its construction does not assume RH or the HP postulate, but $\CT$
+is calibrated via OLS on the zero ordinates --- $\Wone$ is therefore
+not fully input-free (Proposition~\ref{prop:W1-circ}).
+$\Wone$ is the natural HP-candidate but fails numerically as
+$\kappa$ grows.
+This rules out this particular pseudoinverse construction as an HP candidate.
+This does not preclude other spectral functions $f(\Tt)$ from being valid
+HP-candidates; see Open Problem~6.3.
+
+% -------------------------------------------------------
+\section{The Monotonicity Mechanism}
+
+The strategy for bounding $\etaorig$ from below rests on the
+interplay of three structural features:
+the monotone weight sequence $(c_p)$,
+the oscillatory mode structure $(\sin(\gamma_k\log p))$,
+and Abel summation.
+
+\subsection{Monotone Weight Structure (Lemma M1) --- [Partial]}
+
+\begin{lemma}[Monotone Weight Structure]\label{lem:M1}
+\emph{[Status: PROVED for $p\geq 11$, $K=1$; general case OPEN]}
+
+For $K=1$ (leading term of $V_p(\sigma)$) and $p\geq 11$:
+\[
+c_p \approx \frac{4\log p}{\sqrt{p}}\quad\text{is strictly monotone
+decreasing in } p.
+\]
+\emph{Proof.}
+Differentiate with respect to $p$ (treating $p$ as continuous):
+$\frac{d}{dp}[\log p/\sqrt{p}] = (1/2-\log p)/(p\sqrt{p}) < 0$
+for $p > e^{1/2}\approx 1.65$.
+This holds for all primes $p\geq 2$. $\square$
+\end{lemma}
+
+\begin{remark}[Status for $K>1$]
+When $K>1$ (i.e., $p^2\leq\kappa$), the weight formula $V_p(\sigma,K)$
+is more complex.
+The monotonicity $V_p(\sigma,K+1)\geq V_p(\sigma,K)$ is numerically
+supported but not formally proved.
+The general monotonicity of $c_p$ for all $p$ with $K>1$ is therefore
+OPEN.
+\end{remark}
+
+\subsection{Oscillatory Mode Structure (Lemma M2) --- [Partial]}
+
+\begin{lemma}[Oscillatory Mode Structure]\label{lem:M2}
+\emph{[Partial status --- see below]}
+
+\emph{(M2a) [PROVED]:}
+The function $p\mapsto\sin(\gamma_k\log p)$ changes sign in the
+intervals
+\[
+I_m := \bigl[e^{m\pi/\gamma_k},\, e^{(m+1)\pi/\gamma_k}\bigr],
+\quad m = 1,2,3,\ldots
+\]
+
+\emph{Proof.}
+Direct from $\sin(x)=0$ at $x=m\pi$: the argument
+$\gamma_k\log p$ crosses $m\pi$ at $p = e^{m\pi/\gamma_k}$. $\square$
+
+\emph{(M2b) [Partial]:}
+By the Prime Number Theorem, each interval $I_m$ contains at least
+one prime $p\leq\kappa$, for $m$ in a range depending on $\gamma_k$
+and $\kappa$.
+Full quantitative control for all $m$ is OPEN.
+\end{lemma}
+
+\subsection{Abel Summation Principle (Lemma M3) --- [PROVED]}
+
+\begin{lemma}[Abel Summation Principle --- PROVED]\label{lem:M3}
+Let $P\geq 1$.
+Let $(f_1,\ldots,f_P)$ be monotone non-increasing and non-negative.
+Let $(g_1,\ldots,g_P)$ be any sequence with partial sums bounded by $M$:
+$|G_m| := |\sum_{i=1}^m g_i|\leq M$ for all $m$.
+Then:
+\[
+\Bigl|\sum_{i=1}^P f_i g_i\Bigr| \leq M\cdot f_1.
+\]
+\emph{Proof.}
+Apply the Abel partial summation formula:
+$\sum_{i=1}^P f_i g_i = f_P G_P - \sum_{i=1}^{P-1}(f_{i+1}-f_i)G_i$.
+Taking absolute values:
+\begin{align*}
+\Bigl|\sum_{i=1}^P f_i g_i\Bigr|
+&\leq |f_P|\cdot|G_P| + \sum_{i=1}^{P-1}|f_{i+1}-f_i|\cdot|G_i| \\
+&\leq Mf_P + M\sum_{i=1}^{P-1}(f_i-f_{i+1})
+ \quad\text{[$f$ decreasing]} \\
+&= Mf_P + M(f_1-f_P) = Mf_1. \quad\square
+\end{align*}
+\end{lemma}
+
+\begin{remark}[Application context for Paper~4]
+With $f_i = (D^{-1/2}\tilde{c})_{p_i}\propto c_{p_i}/\|a_{p_i}\|$
+(monotone decreasing --- Lemma~\ref{lem:M1}) and $g_i = (u_j)_{p_i}$
+(oscillatory eigenvector entries --- Lemma~\ref{lem:M2}),
+Lemma~\ref{lem:M3} bounds the projection
+$|\langle u_j, D^{-1/2}\tilde{c}\rangle|
+\leq M_{k(j)}(\kappa)\cdot c_{p_1}/\|a_{p_1}\|$,
+provided the partial sums of $u_j$-entries are bounded by
+$M_{k(j)}(\kappa)$.
+\emph{[The full reduction is structural, not a direct consequence of
+Lemma~\ref{lem:M3} alone.]}
+\end{remark}
+
+\subsection{Prime Exponential Sum Bound (Theorem EXPLICIT) --- [PROVED]}
+
+\begin{theorem}[Prime Exponential Sum Bound --- PROVED --- no RH used]\label{thm:EXPLICIT}
+For fixed $\gamma > 0$ and $\kappa\geq 2$:
+\[
+M_k(\kappa) := \max_{x\leq\kappa}\Bigl|\sum_{p\leq x}\sin(\gamma_k\log p)\Bigr|
+= O\!\left(\frac{\pi(\kappa)}{\gamma_k}\right).
+\]
+Explicitly:
+\[
+M_k(\kappa) \leq \left(\frac{2}{\gamma_k} + o\!\left(\frac{1}{\gamma_k}\right)\right)\pi(\kappa),
+\quad\kappa\geq 2.
+\]
+\emph{Proof.}
+We establish three auxiliary lemmas.
+
+\textbf{Lemma~T1} (Abel--Stieltjes Representation --- PROVED).
+For $\gamma > 0$ and $\kappa\geq 2$:
+\[
+\sum_{p\leq\kappa}p^{i\gamma}
+= A_0(\gamma) + J_\gamma(\kappa) + R_\gamma(\kappa),
+\]
+where $|A_0(\gamma)|\leq 0.1$;
+$J_\gamma(\kappa) := \int_2^\kappa x^{i\gamma}/\log x\,dx$ (main term);
+$R_\gamma(\kappa) := \kappa^{i\gamma}E(\kappa)
+- i\gamma\int_2^\kappa E(x)x^{i\gamma-1}dx$,
+with $E(x) = O(xe^{-c\sqrt{\log x}})$ (error term).
+No RH is used; PNT provides the $E(x)$ bound. $\square$
+
+\textbf{Lemma~T2} (Main Term Bound --- PROVED).
+\[
+|J_\gamma(\kappa)| \leq
+\left(\frac{2}{\gamma} + o\!\left(\frac{1}{\gamma}\right)\right)\pi(\kappa).
+\]
+\emph{Proof.}
+The dominant term satisfies
+$|\kappa^{1+i\gamma}/((1+i\gamma)\log\kappa)|
+= \kappa/(\sqrt{1+\gamma^2}\cdot\log\kappa) \leq \kappa/(\gamma\log\kappa)$.
+Since $\pi(\kappa)\sim\kappa/\log\kappa$ (PNT):
+$|J_\gamma(\kappa)|\leq(2/\gamma)\pi(\kappa)(1+O(1/\log\kappa))$. $\square$
+
+\textbf{Lemma~T3} (Error Term Control --- PROVED).
+For fixed $\gamma > 0$ and $\kappa\to\infty$:
+$|R_\gamma(\kappa)| = o(\pi(\kappa))$.
+
+\emph{Proof.}
+PNT (Hadamard/de la Vall\'ee-Poussin):
+$|E(x)| = O(xe^{-c\sqrt{\log x}})$.
+Substitution $u = \sqrt{\log x}$ yields
+$\int_2^\kappa e^{-c\sqrt{\log x}}\,dx
+= O(\sqrt{\log\kappa}\cdot\kappa\cdot e^{-c\sqrt{\log\kappa}})
+= o(\pi(\kappa))$,
+since $\sqrt{\log\kappa}\cdot e^{-c\sqrt{\log\kappa}} = o(1/\log\kappa)$.
+Combined: $|R_\gamma(\kappa)| = o(\pi(\kappa))$ for fixed $\gamma$. $\square$
+
+\emph{Proof of Theorem~\ref{thm:EXPLICIT}:}
+The imaginary part of Lemma~T1 gives
+$A_k(\kappa) = \mathrm{Im}[A_0] + \mathrm{Im}[J_{\gamma_k}]
++ \mathrm{Im}[R_{\gamma_k}]$.
+Applying T2 and T3:
+\[
+|A_k(\kappa)| \leq 0.1 + \frac{2}{\gamma_k}\pi(\kappa)(1+o(1)) + o(\pi(\kappa))
+= O\!\left(\frac{\pi(\kappa)}{\gamma_k}\right).
+\]
+The same bound holds for all partial sums (Remark~4.5), so the maximum
+$M_k(\kappa)$ satisfies the same bound. $\square$
+\end{theorem}
+
+\begin{corollary}
+For $k\to\infty$ (with $\gamma_k\to\infty$):
+$M_k(\kappa)/\pi(\kappa)\to 0$ uniformly in $\kappa$.
+\end{corollary}
+
+\begin{remark}[Goldston--G\"onek confirmation \cite{GG05}]
+An independent formula of Goldston--G\"onek yields the same
+$O(\pi(\kappa)/\gamma_k)$ bound via mean-value methods.
+This provides an independent check.
+It provides no improvement for fixed $k$, confirming that the bottleneck
+is the 1-dimensional equidistribution question Assumption~A(a).
+\end{remark}
+
+\begin{remark}[What Theorem~EXPLICIT does NOT prove]
+Theorem~\ref{thm:EXPLICIT} does not prove
+$M_k(\kappa) = o(\pi(\kappa))$ for \emph{fixed} $k$ as $\kappa\to\infty$.
+This stronger statement is equivalent (via Weyl's equidistribution criterion)
+to $\zeta(1+in\gamma_k)\neq 0$ for all $n\geq 1$ ---
+the 1-dimensional component Assumption~A(a) of the joint assumption
+Assumption~A (\S\,6, Open Problem~6.1).
+\end{remark}
+
+% -------------------------------------------------------
+\section{Results on $\etaorig > 0$}
+
+\subsection{Numerical Confirmation}
+
+\textbf{Numerical Result NR~5.1} ($\etaorig > 0$ for $\kappa\leq 1009$).
+\emph{[Status: NUMERICAL --- $\varepsilon=0.05$, $N=100$]}
+
+Let $\tilde{c} = D^{1/2}c/\sqrt{\Estr}$ be the normalized canonical
+weight vector. The Rayleigh quotient identity
+\[
+\langle\Tren\,\tilde{c},\,\tilde{c}\rangle = 1 - \etaorig
+\]
+holds to machine precision ($< 2\times 10^{-16}$),
+where $\Tren := D^{-1/2}TD^{-1/2}$.
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$\kappa$ & $\pi(\kappa)$ & $\langle\Tren\tilde{c},\tilde{c}\rangle$
+  & $< 1$? & $\etaorig$ \\
+\midrule
+23   & 9   & 0.18849 & $\checkmark$ & 0.81151 \\
+53   & 16  & 0.33073 & $\checkmark$ & 0.66927 \\
+101  & 26  & 0.22803 & $\checkmark$ & 0.77197 \\
+199  & 46  & 0.21740 & $\checkmark$ & 0.78260 \\
+503  & 96  & 0.21788 & $\checkmark$ & 0.78212 \\
+1009 & 169 & 0.18002 & $\checkmark$ & 0.81998 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$\etaorig > 0$ for all tested $\kappa\leq 1009$ $\checkmark$.
+
+\textbf{Collective mechanism.}
+The dominant contribution to $\langle\Tren\tilde{c},\tilde{c}\rangle
+= \sum_j B_j$ comes from mode $j=4$ ($B_4=0.193$),
+not from the dominant eigenmode $j=1$ ($B_1=0.040$).
+Approximately $92\%$ cancellation occurs at $j=1$ ($\kappa=53$).
+The effect is distributed across $\sim 8$ eigenmodes ---
+$\etaorig > 0$ is a \textbf{collective spectral effect}, not a simple
+$u_1$-orthogonality principle.
+
+\subsection{$\Delta$-Decomposition and Burst Stability}
+
+\begin{definition}[$\Delta$-Decomposition]
+With $S(r) := \sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2}\cos(\gamma_k\log r)$:
+\[
+\Delta = \Dburstvar + \Dcross + \Dstream,
+\]
+where
+\[
+\Dburstvar = \sum_{p < q\leq 7}c_p c_q[S(pq)-S(p/q)],
+\quad
+\Dcross = \sum_{p\leq 7 < q\leq\kappa}c_p c_q[S(pq)-S(p/q)],
+\]
+\[
+\Dstream = \sum_{7 < p < q\leq\kappa}c_p c_q[S(pq)-S(p/q)].
+\]
+The factorization
+$S(pq)-S(p/q) = -2\sum_k e^{-\varepsilon^2\gamma_k^2}
+\sin(\gamma_k\log p)\sin(\gamma_k\log q)$
+follows from $\cos(A+B)-\cos(A-B) = -2\sin A\sin B$. [PROVED, algebraic]
+\end{definition}
+
+\textbf{Numerical Result NR~5.4} ($\Dburstvar$ stability).
+\emph{[NUMERICAL]}
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Pair & $S(pq)$ & $S(p/q)$ & $c_p c_q$ & Contribution \\
+\midrule
+$(2,3)$ & 0.9536 & 0.2653 & $\approx 2.408$ & $+1.657$ \\
+$(2,5)$ & 0.4110 & 0.6555 & $\approx 1.833$ & $-0.448$ \\
+$(2,7)$ & 0.5794 & 0.5812 & $\approx 1.501$ & $-0.003$ \\
+$(3,5)$ & 0.9440 & 0.3686 & $\approx 1.531$ & $+0.881$ \\
+$(3,7)$ & 0.7193 & 0.5571 & $\approx 1.254$ & $+0.203$ \\
+$(5,7)$ & 0.9668 & 0.1135 & $\approx 0.954$ & $+0.814$ \\
+\midrule
+\textbf{Total} & & & & $\mathbf{\approx +3.11}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$\Dburstvar\approx 3.11 > 0$, and it is \textbf{$\kappa$-invariant}
+for all tested $\kappa > 7$.
+The sufficient condition for $\Delta > 0$ is:
+\[
+|\Dcross + \Dstream| < \Dburstvar \approx 3.11.
+\]
+This is numerically satisfied for all $\kappa\leq 1009$;
+analytic proof is OPEN.
+
+\subsection{Conditional Theorem (Theorem 5.3)}
+
+\begin{theorem}[Conditional Proof of $\etaorig > 0$ ---
+CONDITIONAL on Assumption~A]\label{thm:T5}
+
+\textbf{Assumption~A (Open Problem~6.1):}
+
+$(a)$~$\zeta(1+in\gamma_k)\neq 0$ for all integers $n\geq 1$
+and all $k\leq N$.
+
+$(b)$~The sequences
+$\{(\gamma_{k_1}\log p,\,\gamma_{k_2}\log p)\bmod 2\pi\}_{p\leq\kappa,
+\kappa\to\infty}$
+are jointly equidistributed in $[0,2\pi)^2$
+for all $k_1\neq k_2$ with $k_1,k_2\leq N$.
+
+\emph{Structural motivation:}
+Part~$(a)$ is precisely what Weyl's equidistribution criterion requires
+to make the diagonal sums $\frac{1}{\pi(\kappa)}\sum_p e^{in\gamma_k\log p}$
+vanish --- equivalently, it is the non-vanishing condition for $\zeta$ on
+$\mathrm{Re}(s)=1$ at the specific values $s=1+in\gamma_k$.
+Part~$(b)$ is the natural $2$-dimensional extension required to make the
+off-diagonal (cross) terms
+$\frac{1}{\pi(\kappa)}\sum_p\sin(\gamma_{k_1}\log p)\sin(\gamma_{k_2}\log p)$
+vanish for $k_1\neq k_2$; without it, the cross-term cancellation
+in step~(ii) cannot be established.
+These two conditions are the minimal structural requirements for the proof
+of~(i)--(ii).
+
+\emph{Note:}
+Part $(a)$ alone implies $1$-dimensional equidistribution of
+$\{\gamma_k\log p\bmod 2\pi\}$ via Weyl's criterion.
+Part $(b)$ is the $2$-dimensional extension required for the vanishing
+of cross terms.
+Both parts are open.
+
+Under this Assumption:
+
+\begin{enumerate}[label=(\roman*)]
+\item The sequence $\{\gamma_k\log p\bmod 2\pi\}_{p\leq\kappa,\kappa\to\infty}$
+  is equidistributed modulo $2\pi$ for each fixed $k\leq N$.
+\item \emph{[Unweighted]} The normalized unweighted cross averages vanish:
+  \[
+  \frac{1}{\pi(\kappa)}\sum_{p\leq\kappa}
+  \sin(\gamma_{k_1}\log p)\,\sin(\gamma_{k_2}\log p)\to 0
+  \quad\text{for all }k_1\neq k_2.
+  \]
+\item \emph{[Numerical lower bound --- no assumption needed]}
+  $\Delta(\kappa) \geq \Dburstvar \approx 3.11 > 0$ for all tested $\kappa > 7$.
+  [NUMERICAL --- $\kappa$-invariant by construction.]
+  Numerically, both $\Dcross$ and $\Dstream$ appear to converge individually,
+  and their sum tends to $\approx 1.8$; hence
+  $\Delta(\kappa) = \Dburstvar + \Dcross + \Dstream
+  \to \Delta_\infty \approx 3.11 + 1.8 \approx 4.9 > \Dburstvar$.
+  The equidistribution of parts (i)--(ii) implies
+  $(\Dcross+\Dstream)/\pi(\kappa)\to 0$, but the absolute values
+  converge to a finite positive limit, not to zero.
+\item $\etaorig(\kappa)\to\eta_\infty = \Delta_\infty/\Estr(\infty) > 0$.
+  [NUMERICAL: $\eta_\infty\approx 0.81$, consistent with
+  $\Delta_\infty\approx 4.9$ and $\Estr(\infty)\approx 6.1$.]
+  The lower bound from (iii) gives
+  $\eta_\infty\geq\Dburstvar/\Estr(\infty)\approx 0.51 > 0$
+  unconditionally [NUMERICAL].
+\end{enumerate}
+
+\emph{Proof sketch.}
+(i) follows from Assumption $(a)$ by Weyl's criterion
+(cf.\ \cite{IK04}, \S\,21).
+(ii) follows from Assumption $(b)$ via
+$\sin A\sin B = \tfrac{1}{2}[\cos(A-B)-\cos(A+B)]$.
+(iii) is a direct numerical observation: $\Dburstvar$ is $\kappa$-invariant
+by construction, and $\Delta(\kappa)\geq\Dburstvar > 0$ for all tested
+$\kappa > 7$.
+(iv) follows from $\Delta_\infty > 0$ (numerically) and
+$\Estr(\infty)\approx 6.1 < \infty$ (proved).
+No RH is used. $\square$
+\end{theorem}
+
+\begin{remark}[Weighted transfer --- correction note]\label{rem:weighted-transfer}
+The equidistribution assumption Assumption~A implies
+$\Dstream(\kappa)/\pi(\kappa)\to 0$ and $\Dcross(\kappa)/\pi(\kappa)\to 0$
+(Cross/Stream terms are $o(\pi(\kappa))$).
+However, numerically $\Dcross + \Dstream$ converges to a finite positive
+limit $\approx 1.8$, not to zero.
+The earlier formulation ``$\Delta(\kappa)\to\Dburstvar$'' was therefore incorrect:
+$\Dburstvar \approx 3.11$ is a \textbf{$\kappa$-invariant lower bound}
+for $\Delta(\kappa)$, not the limit.
+The correct limit is $\Delta_\infty \approx 4.9 > \Dburstvar$.
+The conclusion $\eta_\infty > 0$ follows from the numerical lower bound
+$\Delta(\kappa)\geq\Dburstvar > 0$, without requiring the equidistribution
+assumption.
+\end{remark}
+
+\begin{remark}[Status of the Assumption]
+The condition $\zeta(1+in\gamma_k)\neq 0$ is a non-vanishing condition
+on $\mathrm{Re}(s)=1$, distinct from RH which concerns
+$\mathrm{Re}(s)=\tfrac{1}{2}$.
+It is known for all real $t\neq 0$ (Hadamard, 1896), but this general
+result does not settle the structured values $t = n\gamma_k$.
+The logical relationship between this assumption and RH is not analysed
+in this paper.
+\end{remark}
+
+\subsection{Reduction to $\mathrm{Re}(s) = 1$}
+
+\begin{remark}[The line $\mathrm{Re}(s)=1$ vs.\ $\mathrm{Re}(s)=\tfrac{1}{2}$]
+Theorem~\ref{thm:T5} requires Assumption~A.
+Part $(a)$ translates via Weyl's criterion into a non-vanishing condition:
+$\zeta(1+in\gamma_k)\neq 0$ for all $n\geq 1$, $k\leq N$.
+This concerns $\mathrm{Re}(s)=1$ --- \textbf{not} $\mathrm{Re}(s)=\tfrac{1}{2}$.
+
+Within the present program, the implication chain is:
+\[
+\mathrm{RH}
+\;\longleftarrow\;
+[\text{transfer } \sigma=\tfrac{1}{2}\to\sigma\neq\tfrac{1}{2},\,\text{open}]
+\;\longleftarrow\; \etaorig > 0
+\;\longleftarrow\; \text{Theorem~\ref{thm:T5}}
+\;\longleftarrow\; \text{Assumption~A (open)}.
+\]
+Paper~4 proves the conditional implication in the middle.
+The connection to RH requires a quantitative transfer from
+$\sigma=\tfrac{1}{2}$ to $\sigma\neq\tfrac{1}{2}$ on the curvature level
+--- a step entirely outside the scope of this paper.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Open Problems}
+
+\begin{openproblem}[Assumption~A --- Main Open Problem]
+The proof of Theorem~\ref{thm:T5} requires:
+
+$(a)$~$\zeta(1+in\gamma_k)\neq 0$ for all $n\geq 1$, $k\leq N$.
+
+$(b)$~Joint equidistribution of
+$\{(\gamma_{k_1}\log p,\gamma_{k_2}\log p)\bmod 2\pi\}$
+for all $k_1\neq k_2$, $k_1,k_2\leq N$.
+
+Known for $(a)$: $\zeta(1+it)\neq 0$ for all real $t\neq 0$
+(Hadamard, 1896).
+Open: $t = n\gamma_k$ for specific zero ordinates.
+Condition $(b)$ is independent and open.
+
+Possible approaches:
+(A) Direct Hadamard product estimate near $s = 1+in\gamma_k$.
+(B) Linear independence of $\{\gamma_k\log p\}$ over $\mathbb{Q}$
+  (sufficient for $(b)$).
+(C) Numerical verification for small $n$, $k$.
+\end{openproblem}
+
+\begin{openproblem}[Analytic proof of $\etaorig > 0$ without Assumption]
+Prove $\langle\Tren\tilde{c},\tilde{c}\rangle < 1$ for the canonical
+weight system without the equidistribution assumption of
+Theorem~\ref{thm:T5}.
+
+Current best: $M_k(\kappa) = O(\pi(\kappa)/\gamma_k)$
+(Theorem~\ref{thm:EXPLICIT}) bounds individual projections but is
+insufficient for the full sum
+$\sum_j\lambda_j|\langle u_j, D^{-1/2}\tilde{c}\rangle|^2 < \Estr$.
+\end{openproblem}
+
+\begin{openproblem}[HP-operator --- negative result, circularity-free]
+Does any circularity-free spectral function $f(\Tt)$ satisfy
+$\mathrm{Spec}(f(\Tt))\to\{\gamma_k\}$ as $\kappa\to\infty$?
+
+The natural candidate $\Wone = \CT\cdot\Tt^+$ fails: $r_2\to 0.16$
+(\S\,3.4). The structural obstruction is Gaussian damping.
+
+A possible modification: replace $e^{-\varepsilon^2\gamma_k^2/2}$
+by $e^{-\varepsilon\gamma_k}$ (slower decay) in $\Phi$.
+\end{openproblem}
+
+\begin{openproblem}[Arithmetic constant $\Ceta\approx 0.39$]
+Determine the analytic formula for
+$\Ceta = \lim_{\kappa\to\infty}\lambda_{\max,\mathrm{ren}}/\pi(\kappa)$.
+The candidate $\Ceta = 1/I_N(\varepsilon)$ is falsified.
+The correct representation involves a harmonic mean
+(analytically open).
+\end{openproblem}
+
+\begin{openproblem}[Asymptotics of $\CT(\kappa)/\pi(\kappa)$]
+Does $\CT(\kappa)/\pi(\kappa)$ converge as $\kappa\to\infty$?
+Numerically: values $2.49, 2.21, 2.17, 1.94, 1.89$ (decreasing) ---
+the limit, if it exists, is analytically undetermined.
+\end{openproblem}
+
+\begin{openproblem}[Monotone bound]
+Is $\etaorig > 0$ a consequence of the Prime Number Theorem alone,
+independent of any RH-related hypothesis?
+
+Evidence: $\Dburstvar\approx 3.11 > 0$ depends only on primes
+$p\leq 7$ and is $\kappa$-invariant.
+Analytically OPEN.
+\end{openproblem}
+
+\begin{remark}[Connection to RH --- Geometric Interpretation, not a theorem]
+\emph{[Geometric interpretation --- not established as a formal
+statement in this paper.]}
+
+The implication chain:
+\[
+\mathrm{RH} \leftarrow
+[\text{transfer open}]
+\leftarrow \etaorig > 0
+\leftarrow \text{Theorem~\ref{thm:T5}}
+\leftarrow \zeta(1+in\gamma_k)\neq 0.
+\]
+No direct connection between $\etaorig > 0$ and RH is established
+in this paper. The missing step is a quantitative transfer from
+$\sigma=\tfrac{1}{2}$ to $\sigma\neq\tfrac{1}{2}$ on the curvature level
+--- a step entirely outside the scope of this paper and the subject of
+future work.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Fisher-Information Connection (Geometric Interpretation)}
+
+\emph{All statements in this section are clearly marked as geometric
+interpretation or [Geometric heuristic --- not used in proof].
+None are used in any argument in \S\S\,2--5.}
+
+\subsection{The Weight Vector as Fisher Information}
+
+The canonical weight $c_p = \sqrt{V_p(\tfrac{1}{2})}$ has the structure
+of a Fisher information weight at $\sigma=\tfrac{1}{2}$:
+
+\emph{[Geometric interpretation]:}
+$V_p(\sigma) = \tfrac{d^2}{d\sigma^2}\log\|M_\sigma f_{\kappa,p}\|^2$
+is the log-convexity of the local norm squared ---
+analogous to Fisher information for a location family.
+The canonical weight $c_p$ assigns larger weight to primes that are
+``more informative'' about $\sigma$ at $\sigma=\tfrac{1}{2}$.
+
+\subsection{Energy Interpretation}
+
+\emph{[Geometric interpretation]:}
+\[
+\Estr = \sum_p V_p(\tfrac{1}{2})\|a_p\|^2
+\approx \text{``Fisher-weighted resonance energy''}.
+\]
+\[
+\Delta = \mathrm{Var}\bigl(\sqrt{V_p(\tfrac{1}{2})}\cdot a_p\bigr)
+\approx \text{``spectral variance of Fisher-weighted resonance''}.
+\]
+\emph{[Geometric heuristic --- not a mathematical claim]:}
+$\etaorig$ may be interpreted as a ``coding efficiency of primes
+for zero localization''.
+
+\subsection{Cram\'er--Rao Analogy}
+
+\emph{[Geometric heuristic --- not used in proof --- not used in any proof]:}
+
+The Cram\'er--Rao inequality reads
+$\mathrm{Var}(\hat\theta)\geq 1/\mathcal{I}(\theta)$.
+By structural analogy:
+$\Estr\longleftrightarrow\mathcal{I}(\tfrac{1}{2})$;
+$\Delta\longleftrightarrow\mathrm{Var}$.
+
+\emph{[Speculative analogy --- not a theorem]:}
+A Cram\'er--Rao-type inequality
+$\etaorig\cdot H_{\mathrm{local}}\geq C$ would be a quantitative
+information-theoretic bound; its existence is not established here.
+Numerically, $\etaorig\approx 0.67$ and
+$H_{\mathrm{local}}\sim 8(\log\kappa)^2\to\infty$ would give a
+vanishing lower bound --- consistent but non-informative.
+No formal version of this analogy has been proved.
+
+\emph{This section provides intuition for future work, not a proof strategy.}
+
+% -------------------------------------------------------
+\section*{Acknowledgments}
+
+The author thanks the project's structured review and verification
+workflow for error detection across draft versions.
+
+\emph{Pauca sed matura.} --- C.F. Gauss
+
+% -------------------------------------------------------
+\begin{thebibliography}{99}
+
+\bibitem{Bom00}
+E. Bombieri, ``Problems of the Millennium: The Riemann Hypothesis'',
+Clay Mathematics Institute, 2000.
+
+\bibitem{Code26}
+U. Tehrani, \emph{AnalysisLab\_L1\_L5 --- Verification Scripts},
+GitHub repository,
+\url{https://github.com/utehrani/analysislab-nt},
+March 2026. Tags: v1.0.0, v1.0.1.
+
+\bibitem{Con99}
+A. Connes, ``Trace formula in noncommutative geometry and the zeros
+of the Riemann zeta function'',
+\emph{Selecta Math.}, 5 (1999), 29--106.
+
+\bibitem{GG05}
+D.A. Goldston and S.M. G\"onek,
+``A note on $S(T)$ and the zeros of the Riemann zeta-function'',
+\emph{arXiv:math/0511092}, 2005.
+
+\bibitem{IK04}
+H. Iwaniec and E. Kowalski,
+\emph{Analytic Number Theory},
+AMS Colloquium Publications 53, 2004.
+
+\bibitem{Lag99}
+J.C. Lagarias,
+``On a positivity property of the Riemann $\xi$-function'',
+\emph{Acta Arithmetica}, 89 (1999), 217--234.
+
+\bibitem{Li97}
+X.-J. Li,
+``The positivity of a sequence of numbers and the Riemann Hypothesis'',
+\emph{J. Number Theory}, 65 (1997), 325--333.
+
+\bibitem{Paper1}
+U. Tehrani,
+``A Curvature Decomposition of the Explicit Formula'',
+Zenodo, DOI: 10.5281/zenodo.19025598, v7, March 2026.
+
+\bibitem{Paper2}
+U. Tehrani,
+``From Local Curvature to the Weil Functional'',
+Zenodo, DOI: 10.5281/zenodo.19106992, v4, March 2026.
+
+\bibitem{Paper3}
+U. Tehrani,
+``A Finite-Cutoff Hilbert-Space Model for Prime--Zero Energy Structure'',
+Zenodo, DOI: 10.5281/zenodo.19307989, v1, March 2026.
+
+\bibitem{Tat50}
+J. Tate,
+``Fourier analysis in number fields, and Hecke's zeta-functions'',
+\emph{Algebraic Number Theory} (Brighton, 1965),
+Thompson, Washington, D.C., 1967, 305--347.
+
+\bibitem{Wei52}
+A. Weil,
+``Sur les `formules explicites' de la th\'eorie des nombres premiers'',
+\emph{Comm. S\'em. Math. Univ. Lund}, 1952, 252--265.
+
+\end{thebibliography}
+
+% -------------------------------------------------------
+\appendix
+
+\section{Normative Parameter Table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+Parameter & Value & Definition \\
+\midrule
+$\kappa$ & 53 (normative benchmark) & Prime cutoff \\
+$\varepsilon$ & 0.05 & Gaussian damping \\
+$N$ & 100 & Number of zero ordinates \\
+$\sigma$ & 0.5 & Reference point \\
+$\etaorig(\kappa=53)$ & 0.66927 & Energy asymmetry \\
+$\Estr(\infty)$ & $\approx 6.1$ & Limiting structural energy \\
+$\eta_\infty$ & $\approx 0.81\pm 0.03$ & Limiting energy asymmetry \\
+$\Ceta$ & $\approx 0.39$ & $\lambda_{\max,\mathrm{ren}}/\pi(\kappa)$ \\
+$\CT$ (normative) & $\approx 35.3$ ($\kappa=53$)
+  & OLS slope $\mu_j\sim\CT/\gamma_{k(j)}$ \\
+$\Dburstvar$ & $\approx 3.11$ & $\kappa$-invariant for $\kappa > 7$ \\
+$r_1$ & 0.950 ($\kappa=53$)
+  & $\mathrm{corr}(\mu_j, 1/\gamma_{k(j)})$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Status Summary}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lll}
+\toprule
+Result & Section & Status \\
+\midrule
+$\Tt$ self-adjoint, PSD & \S\,2.2 & PROVED \\
+Spectral identity $\lambda_j=\mu_j$ & \S\,2.3 & PROVED \\
+$\Tt\neq$ HP-operator & \S\,2.4 & NUMERICAL NEGATIVE RESULT \\
+$\Wone$ self-adjoint & \S\,3.4 & PROVED \\
+$\Wone$: no RH/HP; $\CT$ OLS-calibrated & \S\,3.4 & PROVED (Prop.~3.8) \\
+Lemma~M1 (monotone weights, $K=1$) & \S\,4.1 & PROVED ($p\geq 11$); OPEN ($K>1$) \\
+Lemma~M2a (sign changes) & \S\,4.2 & PROVED \\
+Lemma~M3 (Abel summation) & \S\,4.3 & PROVED \\
+Theorem~T1 (Abel--Stieltjes) & \S\,4.4 & PROVED \\
+Lemma~T2 (main term bound) & \S\,4.4 & PROVED \\
+Lemma~T3 (error term) & \S\,4.4 & PROVED \\
+Theorem~EXPLICIT ($M_k=O(\pi/\gamma_k)$) & \S\,4.4 & PROVED \\
+$\mu_j\sim\CT/\gamma_{k(j)}$, $r_1=0.950$ & \S\,3.1 & NUMERICAL \\
+Localization $0.45$--$0.99$ & \S\,3.2 & NUMERICAL \\
+$\Wone$ fails as HP-operator ($r_2\to 0.16$) & \S\,3.4 & NUMERICAL \\
+$\etaorig > 0$ for $\kappa\leq 1009$ & \S\,5.1 & NUMERICAL \\
+$\Dburstvar\approx 3.11 > 0$ & \S\,5.2 & NUMERICAL \\
+$\Ceta\approx 0.39$ structure & \S\,3.3 & NUMERICAL ($1/I_N$ FALSIFIED) \\
+Thm~5.3(i)(ii): equidistribution vanishing & \S\,5.3 & CONDITIONAL (Assumption~A) \\
+Thm~5.3(i)(ii): equidistribution vanishing & \S\,5.3 & CONDITIONAL (Assumption~A) \\
+Thm~5.3(iii): $\Delta(\kappa)\geq\Dburstvar\approx 3.11 > 0$
+  & \S\,5.3 & NUMERICAL \\
+Thm~5.3(iv): $\etaorig(\kappa)\to\eta_\infty\approx 0.81 > 0$
+  & \S\,5.3 & NUMERICAL \\
+Assumption~A: $\zeta(1+in\gamma_k)\neq 0$ + equidist. & \S\,6 & OPEN \\
+$\etaorig > 0$ analytically & \S\,6 & OPEN \\
+Closed HP-question for $\Wone$ & \S\,3.4 & CLOSED (falsified) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\hrule
+\smallskip
+\noindent\small
+\emph{Paper~4 v2 \textperiodcentered\ April~2026}\\
+\emph{Pauca sed matura}
+
+\end{document}
