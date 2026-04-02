@@ -115,7 +115,7 @@ python code/paper3/eta_inf_analysis.py
 
 ### Paper 4 — A Dual Operator for Prime–Zero Coupling and a Conditional Proof of Energy Asymmetry (The Tehrani Operator)
 **DOI:** [10.5281/zenodo.19364703](https://doi.org/10.5281/zenodo.19364703)
-**File:** [`papers/paper4/paper4_v1.pdf`](papers/paper4/)  
+**File:** [`papers/paper4/paper4_v3.pdf`](papers/paper4/)  
 **Scripts:** [`code/paper4/`](code/paper4/)
 
 **What it introduces:**  
@@ -149,10 +149,11 @@ C_η ≈ 0.39  — λ_max,ren / π(κ)  [κ-independent]
 C_T ≈ 2π(κ) — OLS slope μ_j ~ C_T/γ_{k(j)}  [grows with κ]
 ```
 
-**Open problem OF-EXPLICIT-1' (main):**  
-Prove ζ(1+inγ_k) ≠ 0 for all n≥1, k≤N,  
-and joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p) mod 2π}.  
-Both concern Re(s)=1, not Re(s)=½. Not RH.
+**Open problem OF-EXPLICIT-1' — genuine open content (b):**  
+Joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p) mod 2π}.  
+Via Weyl's criterion: (1/π(κ)) Σ_{p≤κ} e^{inγ_k log p} → 0 as κ→∞.  
+Concerns Re(s)=1, not Re(s)=½. Not RH.  
+*(Note: part (a) ζ(1+inγ_k)≠0 is settled by Hadamard 1896 — corrected in v3)*
 
 **Reproduce:**
 ```bash
@@ -215,8 +216,8 @@ analysislab-nt/
 │   │   ├── paper3_v1.tex           LaTeX source, Paper 3 v1
 │   │   └── paper3_v1.pdf           Compiled PDF
 │   └── paper4/
-│       ├── paper4_v1.tex           LaTeX source, Paper 4 v1
-│       └── paper4_v1.pdf           Compiled PDF
+│       ├── paper4_v3.tex           LaTeX source, Paper 4 v3
+│       └── paper4_v3.pdf           Compiled PDF
 │
 ├── code/
 │   ├── paper1/
