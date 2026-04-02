@@ -290,13 +290,17 @@ matplotlib ≥ 3.5, sympy ≥ 1.11
 
 | Problem | Statement | Paper |
 |---------|-----------|-------|
-| **OF-EXPLICIT-1'(a)** | Prove ζ(1+inγ_k) ≠ 0 for all n≥1, k≤N | Paper 4 |
-| **OF-EXPLICIT-1'(b)** | Joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p)} | Paper 4 |
+| **OF-EXPLICIT-1'(b)** | Joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p) mod 2π} — the genuine open condition (Weyl criterion) | Paper 4 |
 | **OP 6.2** | Prove η_orig > 0 analytically without equidistribution assumption | Paper 4 |
 | **OF-HP-3** | Does e^{-ε·γ_k} damping (instead of Gaussian) yield r₂→1? | Paper 4 |
 | **L6** | Transfer σ=½ → σ≠½ on Γ-curvature level (the RH step) | Series |
 
-**Closed:**  
+**Closed / Settled:**  
+- **OF-EXPLICIT-1'(a)** `ζ(1+inγ_k) ≠ 0 for all n≥1, k≤N`: **SETTLED** —
+  follows directly from Hadamard–de la Vallée Poussin (1896),
+  which establishes ζ(1+it) ≠ 0 for all real t ≠ 0.
+  The values t = nγ_k are real and positive; no further proof needed.
+  *(Corrected in v3, April 2026)*  
 - Conjecture §31 `λ_max(D^{-1/2}TD^{-1/2}) < 1` universally: **FALSIFIED**  
 - HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂→0.16, structural failure)
 
@@ -324,4 +328,4 @@ https://doi.org/10.5281/zenodo.19364703
 
 ---
 
-*v2 (April 2026) · MIT License*
+*v3 (April 2026) — OF-EXPLICIT-1'(a) settled (Hadamard) · MIT License*
