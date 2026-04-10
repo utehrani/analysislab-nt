@@ -48,7 +48,7 @@ python code/paper1/verify_v6.py
 
 ### Paper 2 — From Local Curvature to the Weil Functional
 **DOI:** [10.5281/zenodo.19106992](https://doi.org/10.5281/zenodo.19106992)  
-**File:** [`papers/paper2/weil_v4.pdf`](papers/paper2/)  
+**File:** [`papers/paper2/weil_v5.pdf`](papers/paper2/)  
 **Scripts:** [`code/paper2/`](code/paper2/)
 
 **Imports from Paper 1:** `H_local` divergence (R1)
@@ -211,7 +211,7 @@ analysislab-nt/
 │   ├── paper1/
 │   │   └── curvature_note_v8.tex   LaTeX source, Paper 1 v8
 │   ├── paper2/
-│   │   └── weil_v4.tex             LaTeX source, Paper 2 v4
+│   │   └── weil_v5.tex             LaTeX source, Paper 2 v5
 │   ├── paper3/
 │   │   ├── paper3_v2.tex           LaTeX source, Paper 3 v2
 │   │   └── paper3_v2.pdf           Compiled PDF
