@@ -1,0 +1,899 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+% -- Theorem environments 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem*{remark}{Remark}
+\newtheorem*{openproblem}{Open Problem}
+
+% Custom label-free environments
+\newenvironment{model}[1]{\par\smallskip\noindent\textit{[Model: #1]}\quad}{\par\smallskip}
+\newenvironment{heuristic}[1]{\par\smallskip\noindent\textit{[Heuristic: #1]}\quad}{\par\smallskip}
+
+% -- Macros 
+\newcommand{\Hstr}{H_{\mathrm{str}}}
+\newcommand{\Hnull}{H_{\mathrm{null}}}
+\newcommand{\Estr}{E_{\mathrm{str}}}
+\newcommand{\Espec}{E_{\mathrm{spec}}}
+\newcommand{\etaorig}{\eta_{\mathrm{orig}}}
+\newcommand{\Tren}{T_{\mathrm{ren}}}
+\newcommand{\Gun}{G^{\mathrm{un}}}
+\newcommand{\Gnorm}{G^{\mathrm{norm}}}
+\newcommand{\acan}{a_p^{\mathrm{can}}}
+\newcommand{\Dcan}{D^{\mathrm{can}}}
+\newcommand{\Estrcan}{\Estr^{\mathrm{can}}}
+\newcommand{\Especcan}{\Espec^{\mathrm{can}}}
+\newcommand{\Hlocal}{H_{\mathrm{local}}}
+\newcommand{\Hren}{H_{\mathrm{ren}}}
+\newcommand{\cren}{c_p^{\mathrm{ren}}}
+
+% -- Title 
+\title{\vspace{-1.5em}\bfseries A Finite-Cutoff Hilbert-Space Model\\[0.4em]
+\large for Prime--Zero Energy Structure}
+\author{Ulrich Tehrani}
+% FIX v2 — version update
+\date{Research Note \textperiodcentered\ April 2026 \textperiodcentered\ v2}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We construct a finite-cutoff Hilbert-space model for the spectral structure
+associated with primes and nontrivial zeros of the Riemann zeta function.
+Given a prime cutoff $\kappa$ and truncated zero ordinates
+$\{\gamma_1,\ldots,\gamma_N\}$, we define two finite-dimensional real
+Hilbert spaces $\Hstr$ (over primes) and $\Hnull$ (over zeros),
+connected by a linear map $\Phi\colon\Hstr\to\Hnull$, and the
+self-adjoint loop operator $T = \Phi^*\circ\Phi$.
+We establish the algebraic identity
+\[
+\Delta := \Estr - \Espec
+ = \sum_p c_p^2\|a_p\|^2 - \Bigl\|\sum_p c_p a_p\Bigr\|^2
+\]
+by direct expansion; numerically, $\Delta > 0$ and
+$\etaorig = \Delta/\Estr \in [0.598,\,0.704]$ for benchmark parameters
+$(\kappa,\varepsilon,N)=(53,0.05,100)$, $\sigma\in[0.1,0.95]$.
+The formal core is self-contained in \S\S\,2--5;
+results from Papers~1--2 appear only as context.
+An analytic proof of $\etaorig>0$ remains open.
+\emph{[Geometric interpretation, not used in any proof]:}
+The model suggests a picture in which $\sigma=\tfrac12$ plays
+the role of an energy reference point.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Introduction}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{Background and Motivation}
+
+The present paper is the third in a series studying the curvature of the
+Riemann zeta function from a geometric and operator-theoretic perspective.
+A reader may read \S\S\,2--5 independently of the series context;
+\S\S\,1.1--1.2 and \S\S\,7--10 provide motivation and interpretation
+but are not needed for the formal results.
+The paper is intended to be mathematically self-contained and readable
+without prior knowledge of the earlier papers in the series.
+Definitions and formal setup are in~\S2.
+The proofs of the main formal statements are in \S\S\,3--5, and are
+self-contained. Section~6 records open problems.
+No external project material is needed for \S\S\,2--5.
+The geometric interpretations in \S\S\,7--10 are clearly separated from
+the formal content.
+
+\textbf{Paper~1}~\cite{Paper1} introduced the function
+\[
+H_{\xi}(\sigma,t) := \frac{d^2}{d\sigma^2}\log|\xi(\sigma+it)|^2
+\]
+as a second-derivative decomposition of the log-completed zeta function, and
+established its local positivity structure. A key finding was the divergence
+$\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2\to\infty$ at $\sigma=\tfrac12$, % FIX v2 — asymptotic corrected to 2(log kappa)^2
+contrasted with convergence for $\sigma>\tfrac12$. The connection to the Li
+coefficients $\lambda_n$, whose positivity is equivalent to RH~\cite{Li97},
+was identified.
+
+\textbf{Paper~2}~\cite{Paper2} built on this by constructing explicit
+Schwartz-class test functions $g^*\in\mathcal{S}_{\mathrm{ad}}$ adapted
+to the adelic zeta integral. These functions realize the Weil explicit formula
+as an identity
+$W(g^*\ast\check{g}^*)=Z(g^*)-\Hlocal(\sigma,\kappa)+O(\varepsilon)$,
+providing a bridge between local curvature data and the Weil positivity
+criterion.
+
+\textbf{The present paper} makes the geometric structure underlying both
+papers explicit. The central objects --- two finite-dimensional Hilbert spaces
+connected by a linear map $\Phi$, and a self-adjoint loop operator ---
+are motivated by structures appearing in Papers~1 and~2 and are here
+constructed and analyzed directly.
+
+\subsection{Imported Results from Papers 1 and 2}
+\label{sec:imported}
+
+This paper builds on the following results established in Papers~1 and~2:
+
+\begin{itemize}[leftmargin=2.2em]
+\item[\textbf{(R1)}] The truncated local curvature
+$\Hlocal(\sigma,\kappa)=\psi_1(\sigma)+\sum_{p\le\kappa}V_p(\sigma)$ satisfies
+$\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2\to\infty$, while % FIX v2 — asymptotic corrected to 2(log kappa)^2
+$\Hlocal(\sigma,\kappa)\to C(\sigma)<\infty$ for all $\sigma>\tfrac12$.
+\emph{[Paper~1, Lemma~2]}
+
+\item[\textbf{(R2)}] An explicit family of admissible test functions $g^*$
+satisfies
+$W(g^*\ast\check{g}^*)=Z(g^*)-\Hlocal(\sigma,\kappa)+O(\varepsilon)$.
+\emph{[Paper~2, Theorem~3.1]}
+
+\item[\textbf{(R3)}] The renormalized prime weights $\cren=f_p^{1/2}>0$ satisfy
+$D=\sum_p(\cren)^2\approx 9.471<\infty$. \emph{[Paper~2, \S4]}
+\end{itemize}
+
+\textbf{Reader contract:} Results R1--R3 are not used in any proof or
+theorem-level argument in \S\S\,2--5. They appear in \S\,2.3 (Remark~2.3)
+for motivation only, and formally in \S\,10.2 for contextual discussion.
+\S\S\,2--5 are a finite-dimensional operator model; they do not require
+acceptance of any RH-related interpretation.
+
+\subsection{What This Paper Proves and What It Imports}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Content & Status & Where \\
+\midrule
+$\Hstr, \Hnull, \Phi, T$ (\S\S\,2--5) & Proved here & \S\S\,2--5 \\
+Algebraic identity $\Delta=\Estr-\Espec$ & Proved here & \S4 \\
+$\etaorig\in[0.598,0.704]$ & Numerical (this paper) & \S5 \\
+$\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2$ (R1) & Imported \cite{Paper1} & \S\,2.3, \S\S\,8--9 \\ % FIX v2 — asymptotic corrected to 2(log kappa)^2
+$W(\cdot)=Z(g^*)-\Hlocal+O(\varepsilon)$ (R2) & Imported \cite{Paper2} & \S\,10.2 \\
+$\cren=f_p^{1/2}$, $D\approx 9.471$ (R3) & Imported \cite{Paper2} & \S\,10.2 \\
+\S\S\,7--10 geometric model & Interpretive only & Not in proofs \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Connection to Papers 1 and 2}
+
+The present paper isolates a finite-cutoff Hilbert-space structure underlying
+the energy comparisons of Papers~1 and~2, while the full normalization-level
+identification with Paper~2 remains open (\S\,10.2). The renormalized
+framework ($Z_{\mathrm{ren}}, \Hren, \cren$) of Paper~2 and the
+$\eta$-framework ($\Estr, \Espec, c_p$) of this paper use different
+normalizations; a precise normalization-level identification remains open
+(see \S\,10.2 and Open Problem~6.5).
+
+\subsection{Relation to Existing Work}
+
+The construction of $T=\Phi^*\circ\Phi$ from prime resonance vectors provides
+a concrete Hilbert-space realization outside the Hilbert-P\'olya setting:
+$T$ is explicitly constructed from prime-resonance vectors,
+and its eigenvalues are not the zero ordinates.
+The adelic viewpoint connects to Connes' noncommutative geometry
+approach~\cite{Con99}, and the test functions of Paper~2 have the structure
+of adelic Schwartz functions as in Tate's thesis~\cite{Tat50}. The Weil
+positivity criterion~\cite{Wei52,Lag99} provides the outer framework.
+
+\subsection{Outline}
+
+Section~2 defines the two Hilbert spaces and their inner products.
+Section~3 constructs the linear map $\Phi$ and the loop operator $T$.
+Section~4 proves the variance identity and defines $\etaorig$.
+Section~5 collects numerical results.
+Section~6 states open problems.
+Sections~7--10 develop the geometric interpretation (all statements in these
+sections are explicitly marked as geometric model or heuristic).
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Two Hilbert Spaces}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+We work throughout with real Hilbert spaces; all vectors and operators have
+real entries. Complex phasor language appears in \S\,3.1 and \S\S\,7--10 as
+heuristic motivation only; all formal objects ($\Hstr, \Hnull, \Phi, T$)
+are real.
+
+Throughout this paper, $\kappa>1$ is a fixed real cutoff parameter,
+$S(\kappa):=\{p\text{ prime}:p\leq\kappa\}$ the set of active primes,
+and $\{\gamma_k\}_{k=1}^N$ the first $N$ positive imaginary parts of
+nontrivial zeros of $\zeta(s)$, ordered $0<\gamma_1\leq\gamma_2\leq\cdots$.
+The Gaussian damping parameter $\varepsilon>0$ is fixed throughout.
+
+\begin{definition}[Prime Space $\Hstr$]
+\[
+\Hstr := \ell^2(S(\kappa))
+\]
+with basis $\{e_p : p\in S(\kappa)\}$, standard inner product
+$\langle a,b\rangle_{\mathrm{str}}=\sum_p a_p b_p$, and
+$\dim\Hstr=|S(\kappa)|=\pi(\kappa)$.
+The \emph{structural energy} of a weight vector $c\in\Hstr$ is
+$\Estr(c)=\sum_p c_p^2\|a_p\|^2$ (defined in \S4 after $\Phi$ is introduced).
+\end{definition}
+
+\begin{definition}[Zero Space $\Hnull$]
+\[
+\Hnull := \ell^2(\{\gamma_1,\ldots,\gamma_N\})
+\]
+with basis $\{f_k:k=1,\ldots,N\}$, inner product
+$\langle u,v\rangle_{\mathrm{null}}=\sum_{k=1}^N u_k v_k$
+(unweighted), and $\dim\Hnull=N$.
+\end{definition}
+
+\begin{remark}[Why $\sigma=\tfrac12$ is a distinguished reference point]
+\label{rem:half}
+\emph{[Context only --- not used in any argument in \S\S\,3--5.]}
+
+Two independent proven reasons support this choice:
+
+\emph{(i) Symmetry} [proven]: $\sigma=\tfrac12$ is the unique fixed point of
+$s\mapsto 1-s$, the symmetry of the completed zeta function
+$\xi(s)=\xi(1-s)$.
+
+\emph{(ii) Curvature singularity} [proven, Papers~1--2]:
+$\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2\to\infty$ as $\kappa\to\infty$, % FIX v2 — asymptotic corrected to 2(log kappa)^2
+while $\Hlocal(\sigma,\kappa)\to C(\sigma)<\infty$ for all $\sigma>\tfrac12$.
+
+$\sigma=\tfrac12$ is thus a distinguished reference point by symmetry and
+curvature divergence. Energy near-equality ($\Estr\approx\Espec$) is NOT
+observed in the finite-cutoff model (see \S5 and \S8).
+\end{remark}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{The Linear Map $\Phi$ and the Loop Operator $T$}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{Convention (Option B throughout):} Damping lives in the vectors:
+$a_p=(e^{-\varepsilon^2\gamma_k^2/2}\sin(\gamma_k\log p))_k$.
+The $\Hnull$ inner product is unweighted: $\langle u,v\rangle=\sum_k u_kv_k$.
+
+\subsection{Motivation for the resonance vectors}
+
+\emph{[Heuristic motivation --- the formal definition is Definition~3.2 below.]}
+
+The prime resonance vector at zero ordinate $\gamma_k$ and prime $p$ arises as
+the imaginary part of the prime phasor $\varphi_p(u)=e^{iu\log p}$ evaluated
+at $u=\gamma_k$, with Gaussian regularization for convergence:
+\[
+(a_p)_k = e^{-\varepsilon^2\gamma_k^2/2}\cdot\sin(\gamma_k\log p).
+\]
+The $k$-th component measures how strongly prime $p$ resonates with zero
+ordinate $\gamma_k$.
+
+\begin{definition}[Prime Resonance Vectors]
+For each prime $p\in S(\kappa)$, the \emph{canonical resonance vector}
+at $\sigma=\tfrac12$ is
+\[
+\acan := a_p :=
+\bigl(e^{-\varepsilon^2\gamma_k^2/2}\sin(\gamma_k\log p)\bigr)_{k=1}^N
+\;\in\;\Hnull.
+\]
+At general $\sigma$, the resonance vectors depend on $\sigma$ via
+\[
+a_p^{(\sigma)} := p^{-(\sigma-1/2)}\cdot\acan.
+\]
+The vectors $a_p=\acan=a_p^{(1/2)}$ at $\sigma=\tfrac12$ are the
+canonical representatives used in all primary definitions.
+\end{definition}
+
+\begin{definition}[Linear Map $\Phi$]
+\[
+\Phi\colon\Hstr\to\Hnull,\qquad\Phi(e_p):=\acan.
+\]
+Extended linearly: $\Phi(c)=\sum_p c_p\acan$ for any
+$c=\sum_p c_p e_p\in\Hstr$.
+
+\emph{We define $\Phi$ as a linear map; no injectivity claim is made for the
+finite-cutoff model.}
+\end{definition}
+
+\begin{definition}[Gram Matrices]
+The \emph{unnormalized Gram matrix} (canonical) is
+\[
+\Gun_{pq} := \Gun{}^{\mathrm{,can}}_{pq}
+:= \langle\acan,a_q^{\mathrm{can}}\rangle_{\Hnull}
+= \sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2}\sin(\gamma_k\log p)\sin(\gamma_k\log q).
+\]
+The $\sigma$-dependent extension is
+$\Gun(\sigma)_{pq}=p^{-(\sigma-1/2)}q^{-(\sigma-1/2)}\Gun_{pq}$.
+The \emph{normalized Gram matrix} is
+\[
+\Gnorm_{pq}:=\frac{\Gun_{pq}}{\|\acan\|\cdot\|a_q^{\mathrm{can}}\|}
+=\Bigl\langle\frac{\acan}{\|\acan\|},\frac{a_q^{\mathrm{can}}}{\|a_q^{\mathrm{can}}\|}\Bigr\rangle_{\Hnull}.
+\]
+The matrix $\Gnorm$ is $\sigma$-invariant (Proposition~3.5(iv)).
+\end{definition}
+
+\begin{definition}[Loop Operator $T$]
+\[
+T:=\Phi^*\circ\Phi\colon\Hstr\longrightarrow\Hstr.
+\]
+The matrix representation of $T$ in the prime basis is $T_{pq}=\Gun_{pq}$.
+$T$ is thus identical to the canonical Gram matrix $\Gun$, and is explicitly
+constructed from prime resonance vectors.
+\end{definition}
+
+\begin{proposition}[Properties of $T$]
+\label{prop:T}
+\begin{enumerate}[label=\emph{(\roman*)}, leftmargin=2.2em]
+\item \emph{Self-adjoint:} $T^*=(\Phi^*\Phi)^*=\Phi^*\Phi=T$.
+\item \emph{Positive semi-definite:} $\langle Tc,c\rangle=\|\Phi c\|^2\geq 0$
+for all $c\in\Hstr$.
+\item \emph{Non-negative eigenvalues:} All eigenvalues $\lambda_j\geq 0$.
+\item \emph{$\sigma$-invariance of $\Gnorm$} [by direct calculation]:
+For the $\sigma$-dependent family $a_p^{(\sigma)}$, the normalized Gram matrix
+$\Gnorm_{pq}$ is independent of $\sigma$. \emph{Proof:} The scalar factor
+$p^{-(\sigma-1/2)}$ cancels in the normalized ratio. \qed
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}[Spectral structure of $T$]
+The eigenvalues $\lambda_j\geq 0$ of $T=\Phi^*\circ\Phi$ are the squares of
+the singular values $\sigma_j(\Phi)$: $\lambda_j=\sigma_j(\Phi)^2$.
+The eigenvalues $\lambda_j$ are built from the zero ordinates $\gamma_k$
+appearing in the definition of $\acan$, but are \emph{not} directly the zeros
+$\gamma_k$ themselves. This distinguishes $T$ from the classical Hilbert-P\'olya
+ansatz: $T$ is explicitly constructed, not postulated.
+\end{remark}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{The Variance Identity and $\etaorig$}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{Convention:} Objects without $\sigma$-argument refer to the canonical
+($\sigma=\tfrac12$) version throughout \S\S\,4--5.
+
+\begin{definition}[Canonical and $\sigma$-dependent Energies]
+\label{def:energies}
+For a weight vector $c\in\Hstr$ with components $c_p$:
+
+\emph{Canonical quantities} (at $\sigma=\tfrac12$):
+\[
+\Dcan:=\mathrm{diag}\!\bigl(\|\acan\|^2\bigr)_{p\in S(\kappa)},
+\qquad
+\Estrcan:=c^\top\Dcan c=\sum_p c_p^2\|\acan\|^2,
+\]
+\[
+\Especcan:=\|\Phi c\|^2=c^\top\Gun c.
+\]
+
+\emph{$\sigma$-dependent extensions:}
+\[
+D(\sigma)_{pp}:=p^{-2(\sigma-1/2)}\cdot\Dcan_{pp},
+\qquad
+\Estr(\sigma):=\sum_p c_p^2\,p^{-2(\sigma-1/2)}\|\acan\|^2,
+\]
+\[
+\Espec(\sigma):=c^\top\Gun(\sigma)\,c.
+\]
+% FIX v2 — canonical weight updated to SSOT Rev 27
+The \emph{canonical weight vector} in the $\eta$-context is
+\[
+c_p = \sqrt{V_p({\textstyle\frac12})}
+    = \sqrt{\frac{4(\log p)^2(2p-1)}{p(p-1)^2}},
+    \qquad p \in S(\kappa).
+\]
+\begin{remark}[Canonical weights --- normative form]
+The canonical weight $c_p = \sqrt{V_p(\frac{1}{2})}$
+is the normative form per SSOT Rev~27. For large $p$,
+$c_p \approx \sqrt{8}\cdot(\log p)/p$; the two forms
+agree asymptotically but differ for small primes.
+The numerical results in \S\,5 use the normative form.
+\end{remark}
+\end{definition}
+
+\begin{assumption}[Positive definiteness of $D$]
+Throughout this paper we assume $D_{pp}=\|a_p\|^2>0$ for all
+$p\in S(\kappa)$. This holds in all numerical experiments conducted here.
+\end{assumption}
+
+\begin{theorem}[Algebraic Identity]
+\label{thm:identity}
+The following equality holds by direct expansion:
+\[
+\Delta:=\Estr-\Espec=\sum_p c_p^2\|a_p\|^2-\Bigl\|\sum_p c_p a_p\Bigr\|^2.
+\]
+\end{theorem}
+
+\begin{proof}
+Expand $\Espec=\|\Phi c\|^2=\bigl\langle\sum_p c_p a_p,\sum_q c_q
+a_q\bigr\rangle=\sum_{p,q}c_p c_q\langle a_p,a_q\rangle=c^\top\Gun c$.
+Then $\Delta=c^\top\Dcan c-c^\top\Gun c$, which is the stated identity.
+\end{proof}
+
+\begin{observation}[Non-negativity, numerical]
+\label{obs:nonneg}
+\[
+\Delta\geq 0\quad\text{equivalently}\quad\etaorig\geq 0
+\]
+holds for all tested parameters with canonical weights
+$c_p=\sqrt{V_p({\textstyle\frac12})}$ (Definition~\ref{def:energies}). % FIX v2 — canonical weight updated to SSOT Rev 27
+\emph{[Numerical only --- no unconditional proof for general $c$.]}
+
+Note: $\etaorig\geq 0$ for general weight vector $c$ is equivalent to
+$\lambda_{\max}(D^{-1/2}TD^{-1/2})\leq 1$, which is the content of
+Open Problem~6.2. Numerical experiments show
+$\lambda_{\max}(D^{-1/2}TD^{-1/2})\approx 0.39\cdot\pi(\kappa)\to\infty$,
+so the universal bound $\lambda_{\max}\leq 1$ does not hold in general.
+
+\emph{Cauchy-Schwarz does \textbf{not} guarantee $\etaorig\geq 0$}: the
+correct identity is $\Delta=c^\top(\Dcan-\Gun)c$; the sign of $\Delta$ is not
+determined by the algebraic identity alone.
+\end{observation}
+
+\begin{definition}[$\etaorig$]
+\label{def:eta}
+\[
+\etaorig:=1-\frac{\Espec}{\Estr}=1-\frac{\|\Phi c\|^2}{\Estr}.
+\]
+Boundary cases: $\etaorig=0$ iff $\Espec=\Estr$; $\etaorig=1$ iff $\Phi c=0$.
+\end{definition}
+
+\begin{remark}[$\sigma$-dependence via rescaled weights]
+The entire $\sigma$-dependence of $\etaorig(\sigma)$ is carried by the
+rescaled weight vector $\tilde{c}_p(\sigma):=c_p\cdot p^{-(\sigma-1/2)}$:
+\[
+\etaorig(\sigma)=1-\frac{\tilde{c}(\sigma)^\top\Gun\,\tilde{c}(\sigma)}
+{\tilde{c}(\sigma)^\top\Dcan\,\tilde{c}(\sigma)}.
+\]
+\emph{Proof:} Since $\Gun(\sigma)_{pq}=p^{-(\sigma-1/2)}q^{-(\sigma-1/2)}\Gun_{pq}$,
+one has $c^\top\Gun(\sigma)c=\tilde{c}^\top\Gun\tilde{c}$ and
+$\Estr(\sigma)=\tilde{c}^\top\Dcan\tilde{c}$. \qed
+\end{remark}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Numerical Results}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{Setup.}
+Zeros $\gamma_k$ computed via \texttt{mpmath.zetazero()}, $N=100$ throughout.
+$\sigma$~grid: $\{0.1,0.2,\ldots,0.9,0.95\}$.
+Eigenvectors and eigenvalues: NumPy \texttt{linalg.eigh()}.
+Requirements: mpmath $\geq 1.3$; NumPy $\geq 1.24$.
+All computations via \texttt{eta\_verification.py}; companion code at
+\url{https://github.com/utehrani/analysislab-nt}.
+Algebraic identity (Theorem~\ref{thm:identity}) numerically verified to
+rounding error $<10^{-14}$.
+
+\emph{All results in this section are numerical. Parameters tested:
+$\kappa\in\{23,53,101,199\}$, $\varepsilon\in\{0.02,0.05,0.10\}$,
+$\sigma\in[0.1,0.95]$, $N=100$.}
+
+\begin{observation}[$\etaorig$ positive across all tested parameters]
+$\etaorig>0$ in all tested parameter combinations. For the benchmark slice
+$(\kappa,\varepsilon,N)=(53,0.05,100)$, $\sigma\in[0.1,0.95]$:
+\[
+\etaorig\in[0.598,\;0.704].
+\]
+The function $\sigma\mapsto\etaorig(\sigma)$ is strictly monotone decreasing.
+Note: the range $[0.598,0.704]$ is strongly $\varepsilon$-dependent; no
+universal range over all $(\kappa,\varepsilon)$ is claimed.
+\end{observation}
+
+\textbf{Table 5.2}: $\etaorig(\sigma)$ for $(\kappa,\varepsilon,N)=(53,0.05,100)$.
+[Numerical]
+
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+$\sigma$ & $\etaorig$ \\
+\midrule
+0.10 & 0.70441977 \\
+0.20 & 0.69826865 \\
+0.30 & 0.69038398 \\
+0.40 & 0.68072993 \\
+0.50 & 0.66926873 \\
+0.60 & 0.65602069 \\
+0.70 & 0.64110102 \\
+0.80 & 0.62472010 \\
+0.90 & 0.60715692 \\
+0.95 & 0.59802896 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{observation}[Uniform spectral bound $B_{\max}\leq 0.106<1$]
+Define the mode contribution
+$B_j(\sigma):=\lambda_j(\sigma)|\langle c,u_j(\sigma)\rangle|^2/\Estr(\sigma)$
+with consistency identity $\sum_j B_j(\sigma)=1-\etaorig(\sigma)$ [algebraic].
+The empirical diagnostic $B_{\max}(\sigma):=\max_{j:\lambda_j>1}B_j(\sigma)$
+satisfies
+\[
+B_{\max}(\kappa,\varepsilon,\sigma)\leq 0.106<1
+\]
+for all tested $(\kappa,\varepsilon,\sigma)$. Selected values:
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$\kappa$ & $\varepsilon=0.02$ & $\varepsilon=0.05$ & $\varepsilon=0.10$ \\
+\midrule
+23  & 0.1047 & 0.0220 & 0.0000 \\
+53  & 0.0793 & 0.0737 & 0.0000 \\
+101 & 0.0537 & 0.0844 & 0.0324 \\
+199 & 0.0891 & 0.0461 & 0.1058 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{observation}
+
+\begin{observation}[$B_{\max}(\sigma)$ numerically $\sigma$-invariant]
+For $(\kappa,\varepsilon)=(53,0.05)$, $B_{\max}(\sigma)=0.0737$ for all
+tested $\sigma\in\{0.3,0.4,0.5,0.6,0.7\}$. Analytical explanation: open
+(Open Problem~6.4).
+\end{observation}
+
+\begin{remark}[Cancellation mechanism, numerical analysis]
+The mechanism underlying $B_{\max}<1$ is a cancellation between the monotone
+% FIX v2 — canonical weight updated to SSOT Rev 27
+weight vector $c_p=\sqrt{V_p({\textstyle\frac12})}$ and the oscillatory eigenvectors $u_j$
+of $\Gun$: for $\kappa=53$, eigenvectors $u_1,\ldots,u_4$ each exhibit 10
+sign changes along the prime ordering. Cancellation rates 67--97\% observed
+for $\kappa\in\{23,53,101,199\}$. Formal proof: Open Problem~6.3.
+\end{remark}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Open Problems}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{(a) Within the $\eta$-framework of this paper:}
+
+\begin{openproblem}[Analytic positivity]
+Prove analytically that $\etaorig>0$ for the canonical weight vector
+$c_p=\sqrt{V_p({\textstyle\frac12})}$. % FIX v2 — canonical weight updated to SSOT Rev 27
+Numerically confirmed: $\etaorig\in[0.598,0.704]$ for $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+$\sigma\in[0.1,0.95]$ (Table~5.2).
+\end{openproblem}
+
+\begin{openproblem}[Spectral bound for canonical weights]
+Let $\Tren:=D^{-1/2}TD^{-1/2}$.
+Numerical experiments show $\lambda_{\max}(\Tren)\approx 0.39\cdot\pi(\kappa)\to\infty$;
+the universal bound $\lambda_{\max}<1$ (for all $c$) does not hold.
+However, for the canonical weight vector $c_p=\sqrt{V_p({\textstyle\frac12})}$, % FIX v2 — canonical weight updated to SSOT Rev 27
+the quantity $\langle\Tren\tilde{c},\tilde{c}\rangle$ satisfies
+$\langle\Tren\tilde{c},\tilde{c}\rangle<1$ (equivalently $\etaorig>0$)
+for all tested $\kappa\in\{23,53,101,199,503,1009\}$.
+Prove this analytically. The canonical $c_p$ appears orthogonal to the
+dominant eigenmode of $\Tren$ (localized at $\gamma_1=14.13\ldots$);
+proving this orthogonality is the core open problem.
+\end{openproblem}
+
+\begin{openproblem}[Analytical cancellation bound]
+Prove analytically:
+\[
+\max_{j:\,\lambda_j>1}\frac{|\langle c,u_j\rangle|^2}{\|c\|^2}\leq C_1\ll 1
+\quad\text{uniformly in }\kappa,j.
+\]
+Approach: Abel summation for $c_p\sim(\log p)/p$ against oscillatory partial
+sums $\sum_{q\leq p}(u_j)_q$, without reference to RH.
+Numerically: $C_1<0.36$ for $(\kappa,\varepsilon)=(53,0.05)$.
+\end{openproblem}
+
+\begin{openproblem}[$\sigma$-invariance of $B_{\max}$ analytically]
+The numerical $\sigma$-invariance of $B_{\max}(\sigma)$ (consistent with
+Proposition~\ref{prop:T}(iv)) is not yet derived analytically from the weight
+rescaling $c\mapsto\tilde{c}(\sigma)$.
+\end{openproblem}
+
+\textbf{(b) Beyond the scope of this paper:}
+
+\begin{openproblem}[Renormalized shell energy]
+The renormalized shell energy $\Hren(\kappa,\varepsilon(\kappa))$ for canonical
+coupling $N_{\mathrm{eff}}=\pi(\kappa)$ is not yet computed. This lies in the
+Paper~2 normalization framework (see \S\,10.2).
+\end{openproblem}
+
+\begin{remark}[Connection to the Riemann Hypothesis]
+\emph{[Geometric interpretation --- not a theorem.]}
+In the geometric model, RH is modeled heuristically as injectivity of an
+idealized linear map $\Phi$. No formal connection between injectivity of the
+finite-cutoff $\Phi$ and $\etaorig>0$ is established here. The quantitative
+convexity inequality of Papers~1--2 is an open problem in the earlier framework
+and is \textbf{not} addressed in this paper.
+\end{remark}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Four Interpretive Levels (Geometric Interpretation)}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{Notation for \S\S\,7--10.}
+Every statement using model labels
+(\emph{prime resonance, interference field, resonance frequencies, energy
+reference point}) is a geometric interpretation --- not a theorem.
+Formal objects retain their definitions from \S\S\,2--5.
+No map ($\Phi_{01},\Phi_{12},\Phi_{23}$), no intermediate space $\mathcal{I}$,
+and no duality statement in \S\S\,7--10 is part of the theorem-level content.
+
+\textbf{[Model 7.1]} (Four Interpretive Levels).
+We organize the arithmetic and spectral structures into four levels:
+\begin{align*}
+\Omega_0 &: \mathbb{N}\quad\text{(arithmetic, discrete)}\\
+\Omega_1 &: \Hstr\quad\text{(prime exponent lattice, structural energy)}\\
+\Omega_2 &: \mathcal{I}\quad\text{(interference fields)}\\
+\Omega_3 &: \Hnull\quad\text{(spectral space, zero resonance frequencies)}
+\end{align*}
+with model maps (mnemonics only, not formal objects):
+$\Phi_{01}:\mathbb{N}\to\Hstr$,
+$\Phi_{12}:\Hstr\to\mathcal{I}$,
+$\Phi_{23}:\mathcal{I}\to\Hnull$.
+
+\textbf{[Heuristic 7.3]} (Zeros as Resonance Frequencies).
+In this geometric picture, the zeros $\gamma_k$ may be viewed as resonance
+frequencies of the prime interference field: the condition
+$\zeta(\sigma+i\gamma_k)=0$ is modeled as destructive interference of the
+prime resonance waves $p^{-\sigma-i\gamma_k}$ at frequency $\gamma_k$.
+\emph{This is a heuristic model picture.}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{The Energy Plane}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{[Model 8.1]} (Energy Coordinates).
+For canonical weight vector $c$ and parameter $\sigma$, define
+$X(\sigma):=\sqrt{\Estr(\sigma)}$ and $Y(\sigma):=\sqrt{\Espec(\sigma)}$.
+
+\textbf{[Numerically verified, $(\kappa,\varepsilon,\sigma)=(53,0.05,0.5)$]:}
+Energy near-equality does NOT hold in the finite-cutoff model:
+\[
+\Espec/\Estr\approx 0.331\qquad(\text{not }\approx 1).
+\]
+$\sigma=\tfrac12$ remains distinguished by proven properties (symmetry and
+curvature divergence), NOT by energy equilibrium.
+
+\textbf{[Model 8.3]} (Variance Identity in the Energy Plane).
+$\Delta=\Estr-\Espec=X^2-Y^2=(X+Y)(X-Y)$.
+The condition $\etaorig>0$ is represented as $X>Y$, observed numerically
+throughout (Observation~\ref{obs:nonneg}).
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Why $\sigma=\tfrac{1}{2}$ is Special: Four Reasons}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\emph{Reason~(i) is proven. Reason~(ii) is numerical. Reason~(iii) is proven.
+Reason~(iv) is a conceptual model only.}
+
+\textbf{(i) Symmetry} [proven]:
+$\sigma=\tfrac12$ is the unique fixed point of $s\mapsto 1-s$,
+the symmetry underlying $\xi(s)=\xi(1-s)$.
+
+\textbf{(ii) Energy dominance} [numerical, \S5]:
+$\Estr(\tfrac12)>\Espec(\tfrac12)$ for all tested $(\kappa,\varepsilon)$,
+with $\Espec/\Estr\approx 0.331$ at $(\kappa,\varepsilon)=(53,0.05)$.
+For the benchmark slice, $\etaorig(\sigma)$ is strictly monotone decreasing
+on $[0.1,0.95]$ (Table~5.2). Energy near-equality
+($\Estr\approx\Espec$) is NOT observed.
+
+\textbf{(iii) Curvature singularity} [proven, Papers~1--2]:
+\[
+\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2\to\infty,\qquad % FIX v2 — asymptotic corrected to 2(log kappa)^2
+\Hlocal(\sigma,\kappa)\to C(\sigma)<\infty\text{ for }\sigma>\tfrac12.
+\]
+
+\textbf{(iv)} [Conceptual model, NOT numerically verified]: In the energy-plane
+model of \S8, one might expect $\sigma=\tfrac12$ to be the
+``45${}^\circ$-point'' where $X(\sigma)\approx Y(\sigma)$ in an idealized
+infinite model. This is not confirmed in the finite-cutoff numerics:
+$\sqrt{\Espec/\Estr}\approx 0.575\neq 1$ at $(\kappa,\varepsilon)=(53,0.05)$.
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section{Duality $\mathbb{N}\leftrightarrow\mathbb{C}$ and Outlook}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\textbf{[Model 10.1]} (Structural Duality).
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Structural side} $\Omega_1$ & \textbf{Spectral side} $\Omega_3$ \\
+\midrule
+Basis: primes $p$ & Basis: zero ordinates $\gamma_k$ \\
+Energy: $\Estr$ & Energy: $\Espec$ \\
+Structure: multiplication & Structure: interference \\
+Tool: Euler product & Tool: Explicit formula \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{[Model 10.2]} (Connection to Weil Positivity).
+\emph{[Contextual only --- not part of the formal proof core \S\S\,2--6.]}
+
+In Paper~2, the Weil functional $W(g^*\ast\check{g}^*)$, whose positivity for
+all admissible $g^*$ is equivalent to RH~\cite{Wei52,Lag99}, satisfies
+$W(g^*\ast\check{g}^*)=Z(g^*)-\Hlocal(\sigma,\kappa)+O(\varepsilon)$.
+This suggests an energy-balance analogy with the $\eta$-framework, but the
+$\eta$-framework and Weil framework live in different normalizations.
+No theorem in this paper identifies $(\Estr,\Espec,\Delta)$ with
+$(Z_{\mathrm{ren}},\Hren,Z_{\mathrm{off}})$ (see Open Problem~6.5).
+
+\textbf{Outlook 10.3.}
+Direct next problems: (1) analytic proof of $\etaorig>0$ via uniform partial
+summation (Open Problem~6.3); (2) spectral bound for canonical weights (Open
+Problem~6.2); (3) renormalized shell energy $\Hren(\kappa,\varepsilon(\kappa))$
+(Open Problem~6.5). Broader questions include the connection to Connes'
+program~\cite{Con99} and whether the test function family $\{g^*_{\sigma,\varepsilon}\}$
+is a complete witness system for the Weil criterion~\cite{Lag99}.
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\section*{References}
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{thebibliography}{99}
+
+\bibitem{Con99}
+Connes, A.
+\textit{Trace formula in noncommutative geometry and the zeros of the Riemann
+zeta function.}
+Selecta Math.\ (N.S.)\ \textbf{5} (1999), 29--106.
+
+\bibitem{Edw74}
+Edwards, H.M.
+\textit{Riemann's Zeta Function.}
+Academic Press, 1974.
+
+\bibitem{IK04}
+Iwaniec, H.; Kowalski, E.
+\textit{Analytic Number Theory.}
+AMS, 2004.
+
+\bibitem{Lag99}
+Lagarias, J.C.
+\textit{On a positivity property of the Riemann $\xi$-function.}
+Acta Arith.\ \textbf{89} (1999), 217--234.
+
+\bibitem{Li97}
+Li, X.-J.
+\textit{The positivity of a sequence of numbers and the Riemann hypothesis.}
+J.\ Number Theory \textbf{65} (1997), 325--333.
+
+\bibitem{Odl92}
+Odlyzko, A.M.
+\textit{The $10^{20}$-th zero of the Riemann zeta function and 70 million of
+its neighbors.} Unpublished, 1992.
+\url{https://www-users.cse.umn.edu/~odlyzko/unpublished/zeta.10to20.1992.pdf}
+
+\bibitem{Paper1}
+Tehrani, U.
+\textit{A Curvature Decomposition of the Explicit Formula for the Riemann Zeta
+Function.}
+Zenodo, \href{https://doi.org/10.5281/zenodo.19025598}{doi:10.5281/zenodo.19025598},
+v7, March 2026.
+
+\bibitem{Paper2}
+Tehrani, U.
+\textit{From Local Curvature to the Weil Functional: An Explicit Construction.}
+Zenodo, \href{https://doi.org/10.5281/zenodo.19106992}{doi:10.5281/zenodo.19106992},
+v4, March 2026.
+
+\bibitem{Sar05}
+Sarnak, P.
+\textit{Problems of the Millennium: The Riemann Hypothesis.}
+Clay Math.\ Institute, 2004.
+In: \textit{The Millennium Prize Problems}, AMS, 2006.
+
+\bibitem{Tat50}
+Tate, J.T.
+\textit{Fourier analysis in number fields, and Hecke's zeta-functions.}
+In: \textit{Algebraic Number Theory} (Cassels--Fr\"ohlich), Academic Press, 1967.
+
+\bibitem{Wei52}
+Weil, A.
+\textit{Sur les ``formules explicites'' de la th\'eorie des nombres premiers.}
+Comm.\ S\'em.\ Math.\ Univ.\ Lund (1952), 252--265.
+
+\end{thebibliography}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\appendix
+%% ═══════════════════════════════════════════════════════════════════════════
+
+\section{Variable Reference}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{3.4cm}p{7.0cm}p{2.0cm}}
+\toprule
+Symbol & Definition & Status \\
+\midrule
+$\kappa$ & prime cutoff & parameter \\
+$S(\kappa)$ & primes $p\leq\kappa$ & definition \\
+$\gamma_k$ & $k$-th zero ordinate (positive imag.\ part) & input \\
+$\varepsilon$ & Gaussian damping & parameter \\
+$\acan=a_p$ & canonical resonance vector at $\sigma=\tfrac12$ & \S3.1 \\
+$a_p^{(\sigma)}$ & $=p^{-(\sigma-1/2)}\acan$ & \S3.1 \\
+$\Gun_{pq}$ & canonical unnormalized Gram matrix & \S3.3 \\
+$\Gun(\sigma)_{pq}$ & $\sigma$-dependent Gram & \S3.3 \\
+$\Gnorm_{pq}$ & normalized Gram; $\sigma$-invariant [proven] & \S3.3 \\
+$T=\Phi^*\Phi$ & loop operator $=\Gun$ & \S3.4 \\
+$\Dcan$ & $\mathrm{diag}(\|\acan\|^2)$ & \S4.1 \\
+$\Estrcan$ & $=c^\top\Dcan c$ & \S4.1 \\
+$\Especcan$ & $=\|\Phi c\|^2=c^\top\Gun c$ & \S4.1 \\
+$\Delta$ & $=\Estr-\Espec$ [algebraic]; sign numerical & \S4.2a/b \\
+$\etaorig$ & $=\Delta/\Estr$ & \S4.3 \\
+$\tilde{c}_p(\sigma)$ & $=c_p\cdot p^{-(\sigma-1/2)}$ & \S4.4 \\
+$c_p$ & $=\sqrt{V_p({\textstyle\frac12})}$ (canonical weight, SSOT Rev~27) & \S4.1 \\ % FIX v2 — canonical weight updated to SSOT Rev 27
+$B_j(\sigma)$ & $=\lambda_j|\langle c,u_j\rangle|^2/\Estr$; $\sum_jB_j=1-\etaorig$ & \S5.1 \\
+$B_{\max}(\sigma)$ & $=\max_{j:\lambda_j>1}B_j$ [numerical threshold] & \S5.1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Non-Circularity Remarks}
+
+This paper uses no circular reasoning with respect to RH\@. The construction
+of $T=\Phi^*\Phi$ from prime resonance vectors is explicit and postulates
+neither GUE statistics, Montgomery's pair correlation, nor the Hilbert-P\'olya
+conjecture. Geometric model content (\S\S\,7--10) is always marked as such
+and is not used in any formal argument.
+
+The following distinctions are maintained throughout:
+\begin{itemize}
+\item The identity $\Delta=\Estr-\Espec$ is an algebraic theorem
+(Theorem~\ref{thm:identity}); the sign $\Delta\geq 0$ is numerical only ---
+these are distinct levels.
+\item The eigenvalues $\lambda_j$ of $T=\Phi^*\Phi$ are the squares of the
+singular values of $\Phi$, not the zero ordinates $\gamma_k$ themselves.
+\item No claim relating $\etaorig$ to RH is proved or used.
+\end{itemize}
+
+\section{Sample Output of \texttt{eta\_verification.py}}
+
+The following output was produced with $\kappa=53$, $\varepsilon=0.05$,
+$N=100$, $\sigma=0.5$:
+
+\begin{verbatim}
+-- NUM4 Benchmark (kappa=53, eps=0.05, sigma=0.5, N=100) --
+eta_orig = 0.66926873
+Reference:  0.66926893   (Delta = 1.97e-07)
+
+-- NUM2 Normative table (kappa=53, eps=0.05, N=100) --------
+ sigma | eta_orig
+ 0.10  | 0.70441977
+ 0.20  | 0.69826865
+ 0.30  | 0.69038398
+ 0.40  | 0.68072993
+ 0.50  | 0.66926873
+ 0.60  | 0.65602069
+ 0.70  | 0.64110102
+ 0.80  | 0.62472010
+ 0.90  | 0.60715692
+ 0.95  | 0.59802896
+
+Monotone decreasing? True
+\end{verbatim}
+
+Requirements: Python~3.x, NumPy~$\geq 1.24$, mpmath~$\geq 1.3$.
+Command: \texttt{python eta\_verification.py}
+
+% FIX v2 — changelog
+\section*{Change Log}
+\textbf{v2 (April 2026):}
+Canonical weights updated to normative form
+$c_p = \sqrt{V_p(\frac{1}{2})} = \sqrt{4(\log p)^2(2p-1)/(p(p-1)^2)}$ (SSOT Rev~27).
+Asymptotic $\Hlocal(\frac{1}{2},\kappa)$
+corrected from $8(\log\kappa)^2$ to $2(\log\kappa)^2$.
+All formal proofs and numerical results unchanged.
+
+\bigskip
+\noindent\textit{U. Tehrani \textperiodcentered\ April 2026}
+
+\end{document}

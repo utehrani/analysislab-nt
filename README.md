@@ -77,7 +77,7 @@ python code/paper2/verify_paper2.py
 
 ### Paper 3 — A Finite-Cutoff Hilbert-Space Model for Prime–Zero Energy Structure
 **DOI:** [10.5281/zenodo.19307989](https://doi.org/10.5281/zenodo.19307989)  
-**File:** [`papers/paper3/paper3_v1.pdf`](papers/paper3/)  
+**File:** [`papers/paper3/paper3_v2.pdf`](papers/paper3/)  
 **Scripts:** [`code/paper3/`](code/paper3/)
 
 **Formal core (§§2–5) is self-contained.**
@@ -213,8 +213,8 @@ analysislab-nt/
 │   ├── paper2/
 │   │   └── weil_v4.tex             LaTeX source, Paper 2 v4
 │   ├── paper3/
-│   │   ├── paper3_v1.tex           LaTeX source, Paper 3 v1
-│   │   └── paper3_v1.pdf           Compiled PDF
+│   │   ├── paper3_v2.tex           LaTeX source, Paper 3 v2
+│   │   └── paper3_v2.pdf           Compiled PDF
 │   └── paper4/
 │       ├── paper4_v4.tex           LaTeX source, Paper 4 v4
 │       └── paper4_v4.pdf           Compiled PDF
@@ -329,4 +329,4 @@ https://doi.org/10.5281/zenodo.19364703
 
 ---
 
-*v4 (April 2026) — Assumption A(a) settled (Hadamard), Theorem 5.3 labels corrected, Call for Feedback added · MIT License*
+*v4/v2 (April 2026) — Paper 4 v4 + Paper 3 v2: canonical weights & asymptotic corrected · MIT License*
