@@ -1,0 +1,294 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{lmodern}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+\title{\vspace{-1.5em}\bfseries A Curvature Decomposition of the Explicit Formula\\[0.4em]\large for the Riemann Zeta Function}
+\author{Ulrich Tehrani}
+% FIX v8 — version update
+\date{Research Note \textperiodcentered\ April 2026 \textperiodcentered\ v8}
+
+% v6 corrections: (1) archimedean factor psi_1 = (1/8)psi^{(1)}(sigma/2),
+% not (1/4); (2) active local norm formula corrected; (3) numerical
+% constant C ~ 2 (not 8) and H_local(0.3,1300) ~ 915 (not 2800).
+
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study the second logarithmic derivative of the completed Riemann zeta function in the form
+\[
+H_{\xi}(\sigma,t):=\partial_{\sigma}^{2}\log\lvert\xi(\sigma+it)\rvert^{2},
+\]
+and interpret it as a second-derivative specialization of the classical explicit formula. This yields a prime-cutoff decomposition into local curvature contributions from the archimedean place and finite Euler factors, together with a spectral remainder encoding the contribution of the nontrivial zeros. We prove local positivity at every finite place, establish critical divergence of the truncated local curvature on the line $\sigma=\tfrac12$ with order $(\log \kappa)^2$, and show convergence for $\sigma>\tfrac12$.
+% FIX v8 — soften "structural proximity"
+We also discuss the automorphic Rankin--Selberg analogue and a structural comparison of the
+curvature field with Li-type positivity criteria,
+noting that local positivity does not imply
+global Li positivity.
+The note concludes with an open question on whether the singular kernel underlying this curvature formulation can be embedded into the admissible Weil test-function framework.
+\end{abstract}
+
+\section{The Curvature Field}
+
+The starting point is the second logarithmic derivative of $\xi$, which by the Hadamard product decomposes as
+\begin{equation}
+(\log \xi)''(s) = -\sum_{\rho}\frac{1}{(s-\rho)^2} + (\text{local terms}).
+\tag{0}
+\end{equation}
+Equation (0) shows that the curvature field $H_{\xi}$ defined below can be viewed as the second-derivative specialization of the classical explicit formula. The zero sum encodes the nontrivial zero geometry, while the remaining local terms arise from the archimedean contribution and the local Euler factors. The present note studies the real part of this identity as a curvature field.
+
+The Hadamard product representation together with logarithmic differentiation of the completed zeta function $\xi(s)$ yields
+\begin{equation}\label{eq:Hxi}
+H_{\xi}(\sigma,t) := \frac{d^2}{d\sigma^2}\log\lvert\xi(\sigma+it)\rvert^2
+= 2\,\Re (\log \xi)''(s)
+= -2\,\Re\sum_{\rho}\frac{1}{(s-\rho)^2} + (\text{archimedean and trivial-zero terms}),
+\tag{1}
+\end{equation}
+where the sum runs over the nontrivial zeros $\rho$ of $\zeta(s)$. The archimedean contribution (from the Gamma factor) is separated into the local terms defined below. This quantity may be viewed as a curvature-type specialization of the spectral side of the explicit formula: choosing a test function whose Mellin transform produces the kernel $(s-\rho)^{-2}$ recovers $H_{\xi}$ as the spectral output.
+
+In the adelic framework of Tate's thesis, define local curvature contributions at each place. At the archimedean place,
+\begin{equation}
+\psi_1(\sigma) := \frac{1}{4}\,\frac{d^2}{d\sigma^2}\log\lvert\Gamma(\sigma/2)\rvert^2.\notag
+\end{equation}
+For real $\sigma$ this coincides with $\frac18\psi^{(1)}(\sigma/2)$, where $\psi^{(1)}$ denotes the trigamma function. (One has $\frac{d^2}{d\sigma^2}\log\lvert\Gamma(\sigma/2)\rvert^2 = \frac12\psi^{(1)}(\sigma/2)$ by the chain rule, so $\psi_1(\sigma)=\frac14\cdot\frac12\psi^{(1)}(\sigma/2)=\frac18\psi^{(1)}(\sigma/2)$.)
+
+At each finite place $p$, with $M_s$ the local Mellin transform and $f_p$ the standard Tate test function,
+\begin{equation}
+V_p(\sigma) := \frac{d^2}{d\sigma^2}\log\|M_s f_p\|^2_{L^2(\mathbb{Q}_p^\times)}.
+\tag{2}
+\end{equation}
+Explicitly, for the unramified local factor,
+\begin{equation}
+\|M_s f_p\|^2 = (1-p^{-1})(1-p^{-2\sigma})^{-1}.\notag
+\end{equation}
+so that
+\begin{equation}\label{eq:Vp}
+V_p(\sigma)=4(\log p)^2\,\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^2}.
+\tag{3}
+\end{equation}
+Define the truncated local curvature
+\begin{equation}
+H_{\mathrm{local}}(\sigma,\kappa) := \psi_1(\sigma)+\sum_{p\le \kappa} V_p(\sigma)
+\tag{4}
+\end{equation}
+and the spectral remainder at cutoff $\kappa$
+\begin{equation}
+H_{\mathrm{dual}}(\sigma,t,\kappa) := H_{\xi}(\sigma,t)-H_{\mathrm{local}}(\sigma,\kappa).
+\tag{5}
+\end{equation}
+Note that for $\sigma>\tfrac12$, $H_{\mathrm{local}}(\sigma,\kappa)$ converges as $\kappa\to\infty$ and $H_{\mathrm{dual}}(\sigma,t,\kappa)$ has a well-defined limit. At $\sigma=\tfrac12$, $H_{\mathrm{local}}$ diverges (Lemma 2 below), and $H_{\mathrm{dual}}$ must be understood at finite $\kappa$; the decomposition $H_{\xi}=H_{\mathrm{local}}+H_{\mathrm{dual}}$ holds at every finite cutoff.
+
+The prime-cutoff decomposition $H_{\xi}=H_{\mathrm{local}}+H_{\mathrm{dual}}$ separates the curvature into local prime contributions and the spectral remainder encoding the zero contributions. This is the corresponding specialization of the local side of the explicit formula to the same curvature-type test function. The decomposition holds at every finite cutoff $\kappa$ and is not a new identity but a reorganization of the explicit formula in curvature form.
+
+To the best of our knowledge, this curvature formulation does not appear explicitly in the literature (cf. J.-F. Burnol, personal communication).
+
+\section{Local Positivity}
+
+\begin{lemma*}
+For every prime $p$ and all $\sigma>0$,
+\[
+V_p(\sigma)\ge 0.
+\]
+\end{lemma*}
+
+\textit{Proof.} From the explicit expression \eqref{eq:Vp},
+\[
+V_p(\sigma)=4(\log p)^2\,\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^2}.
+\]
+All factors are manifestly positive for $\sigma>0$, since $0<p^{-2\sigma}<1$. More generally, for the active local norm with prime cutoff $K$ and annulus values $S_m = p^{1-m}-p^{-K}$ (for $m=1,\ldots,K$) and $S_0 = 2-p^{-1}-p^{-K}$,
+\[
+\|M_s f_{\kappa,p}\|^2 = (1-p^{-1})\Bigl(\frac{|S_0|^2}{1-p^{-2\sigma}}+\sum_{m=1}^{K}|S_m|^2\,p^{2m\sigma}\Bigr).
+\]
+This is a sum of exponentials in $\sigma$ with positive coefficients. Its logarithm is therefore convex: the second derivative of a logarithm of a sum of positive exponentials is non-negative by the Cauchy--Schwarz inequality applied to the variance of the exponential weights. \hfill$\square$
+
+The archimedean contribution $\psi_1(\sigma)\ge 0$ is classical (log-convexity of the Gamma function, Bohr--Mollerup theorem).
+
+\begin{corollary*}
+For all $\sigma>0$ and all $\kappa$,
+\[
+H_{\mathrm{local}}(\sigma,\kappa)\ge 0.
+\]
+\end{corollary*}
+
+\section{Divergence and Convergence}
+
+\begin{lemma*}
+As $\kappa\to\infty$,
+\[
+H_{\mathrm{local}}(1/2,\kappa) \asymp C\, (\log \kappa)^2
+\]
+for a constant $C>0$ depending on the normalization.
+\end{lemma*}
+
+\textit{Proof sketch.} From \eqref{eq:Vp},
+\[
+V_p(1/2)\sim 4(\log p)^2\,p^{-1}(1-p^{-1})^{-2}
+\]
+for large $p$. By the prime number theorem,
+\[
+\sum_{p\le \kappa}\frac{(\log p)^2}{p}\sim (\log \kappa)^2,
+\]
+by partial summation against $\pi(x)\sim x/\log x$. The leading constant depends on the precise local norm conventions; numerically we observe $C\approx 2$ for the standard Tate test functions (with $V_p$ as in~\eqref{eq:Vp}), but we state only the order of growth as proven.
+
+\begin{lemma*}
+For $\sigma>\tfrac12$,
+\[
+H_{\mathrm{local}}(\sigma,\kappa)\to H_{\mathrm{local}}(\sigma,\infty)<\infty.
+\]
+\end{lemma*}
+
+\textit{Proof.} One has $V_p(\sigma)=O((\log p)^2 p^{-2\sigma})$. Since $2\sigma>1$, the series $\sum_p (\log p)^2 p^{-2\sigma}$ converges absolutely by comparison with the prime zeta function. \hfill$\square$
+
+\medskip
+\textbf{Summary.} The local curvature diverges at the critical point $\sigma=\tfrac12$ and converges everywhere else in the half-plane $\sigma>\tfrac12$. The critical line is the phase boundary between divergence and convergence of the local curvature sum.
+
+\section{Numerical Illustration}
+
+At $t=0$ (away from zeros), $\sigma=0.3$, $\kappa=1300$,
+\[
+H_{\mathrm{local}}\approx 915,
+\qquad
+H_{\xi}\approx 0.09.
+\]
+The spectral remainder $H_{\mathrm{dual}}$ nearly cancels $H_{\mathrm{local}}$, with compensation exceeding $99.99\%$.
+
+Near the first zero $t=\gamma_1\approx 14.13$,
+\[
+H_{\xi}(0.3,\gamma_1)\approx -50,
+\qquad
+H_{\xi}(0.5,\gamma_1)\approx +89558.
+\]
+The curvature spikes sharply at $\sigma=\tfrac12$ and is negative on both sides. The spike arises because the term $2\Re (s-\rho)^{-2}$ in \eqref{eq:Hxi} has a double pole at $s=\rho$; near a zero, the dominant contribution is governed by the singular kernel $2\Re (s-\rho)^{-2}$, producing the large values observed. The spikes become sharper near higher zeros: $H_{\xi}(0.5,\gamma_2)\approx +480178$.
+
+The symmetry $H_{\xi}(\sigma,t)=H_{\xi}(1-\sigma,t)$ is verified numerically to machine precision, as it must hold by the functional equation $\xi(s)=\xi(1-s)$.
+
+\section{Rankin--Selberg Universality}
+
+The divergence at $\sigma=\tfrac12$ is not specific to $\zeta(s)$.
+
+For a cuspidal automorphic representation $\pi$ on $\mathrm{GL}(n)/\mathbb{Q}$ with Satake parameters $\alpha_{\pi,j}(p)$, the diagonal curvature sum
+\[
+\sum_{p\le \kappa}\Bigl(\sum_{j=1}^{n}\lvert \alpha_{\pi,j}(p)\rvert^2\Bigr)\frac{(\log p)^2}{p}
+\]
+grows on the order of $C_{\pi}(\log \kappa)^2$ with $C_{\pi}>0$. This follows from the simple pole of $L(s,\pi\times\tilde{\pi})$ at $s=1$, combined with a Tauberian argument; the precise asymptotic coefficient depends on normalization conventions (cf. Kowalski--Michel, \emph{Pacific J. Math.} 207(2), 2002, for related prime sums in the Rankin--Selberg context).
+
+Thus the curvature decomposition and the critical divergence are universal phenomena for automorphic $L$-functions with Euler product and functional equation.
+
+\section{Connection to Li Coefficients}
+
+The Li coefficients $\lambda_n$, defined via
+\[
+g(z):=\log \xi\left(\frac{1}{1-z}\right),
+\qquad
+g'(z)=\sum_{n\ge 1}\lambda_n z^{n-1},
+\]
+satisfy Li's criterion:
+\[
+\mathrm{RH}\iff \lambda_n\ge 0\quad\text{for all }n\ge 1.
+\]
+The second derivative yields
+\begin{equation}
+g''(z)=(\log \xi)''\!\left(\frac{1}{1-z}\right)(1-z)^{-4}
++2(\log \xi)'\!\left(\frac{1}{1-z}\right)(1-z)^{-3}.
+\tag{6}
+\end{equation}
+The term $(\log \xi)''(s)$ appearing here is exactly the core of the curvature field:
+\[
+H_{\xi}(s)=2\Re (\log \xi)''(s).
+\]
+The present curvature quantities are therefore structurally close to Li-type positivity criteria: both are built from logarithmic derivatives of $\xi$. The difference is that $H_{\xi}(s)$ is a continuous pointwise second-derivative field, whereas Li's coefficients package the same logarithmic data into a discrete sequence after Mobius reparametrization around $s=1$.
+
+\medskip
+\textbf{Important caveat.} The local positivity $V_p(\sigma)\ge 0$ at each place does \emph{not} directly imply $\lambda_n\ge 0$. Li positivity is a global statement mixing all places, the functional equation, the complete zero geometry, and specific test-function structure. Local positivity is a necessary ingredient but not sufficient. This gap is fundamental and is likely equivalent to RH itself.
+
+\section{The Open Question}
+
+The central open problem arising from this decomposition is the following.
+
+\medskip
+\textbf{Question.} Does there exist an appropriate global packaging --- a summation procedure, test-function class, or regularization --- that transfers the local positivity
+\[
+V_p(\sigma)\ge 0\quad(\forall p),
+\qquad
+\psi_1(\sigma)\ge 0
+\]
+and the critical divergence
+\[
+H_{\mathrm{local}}(1/2,\kappa)\to \infty
+\]
+into a global Li/Weil-type positivity statement?
+
+More precisely: can the singular test function implicit in $H_{\xi}$ --- whose Mellin side produces the kernel $(s-\rho)^{-2}$ --- be embedded in, or approximated by, the class of admissible test functions for which Weil positivity $W(f*\check f)\ge 0$ is equivalent to RH?
+
+This is a question about the interaction between
+\begin{itemize}[leftmargin=2em]
+\item local curvature positivity (proven, Lemma 1),
+\item critical divergence rate (proven above),
+\item the functional equation, and
+\item the admissible test-function class.
+\end{itemize}
+% FIX v8 — clarify what a positive answer would give
+A positive answer would connect the curvature
+decomposition to the Weil positivity framework
+(cf.\ Lagarias, 1999; Connes--Consani, 2021).
+Whether this connection could be extended to
+a full Weil positivity statement for $S_{ad}$
+remains a separate and deeper open question.
+
+\section*{References}
+\begin{enumerate}[label={[\arabic*]},leftmargin=2em]
+\item Connes, A. \emph{Trace formula in noncommutative geometry and the zeros of the Riemann zeta function}. Sel. Math. (N.S.) 5(1), 29--106 (1999).
+\item Connes, A., Consani, C. \emph{Weil positivity and trace formula, the archimedean place}. Sel. Math. (N.S.) 27, 77 (2021).
+\item Lagarias, J.C. \emph{Li coefficients for automorphic L-functions}. Ann. Inst. Fourier 57(5), 1689--1740 (2007).
+\item Li, X.-J. \emph{The positivity of a sequence of numbers and the Riemann hypothesis}. J. Number Theory 65, 325--333 (1997).
+\item Burnol, J.-F. \emph{Sur les formules explicites I: analyse invariante}. arXiv:math/9902080 (1999).
+\item Kowalski, E., Michel, P. \emph{Zeros of families of automorphic L-functions close to 1}. Pacific J. Math. 207(2), 411--431 (2002).
+\item Edwards, H.M. \emph{Riemann's Zeta Function}. Dover (1974).
+% FIX v8 — update Paper 2 reference to v5
+\item Tehrani, U. \emph{From Local Curvature to the Weil Functional: An Explicit Construction}. Research Note, v5, April 2026.
+\href{https://doi.org/10.5281/zenodo.19106992}{doi:10.5281/zenodo.19106992}.
+\end{enumerate}
+
+\medskip
+% FIX v8 — update Note added to reference Paper 2 v5
+\textbf{Note added (v8).} A companion note~[8]
+(updated to v5, April 2026) constructs an explicit
+admissible test function $g^*_{\sigma,\varepsilon}
+\in S_{ad}$ and derives the prime-side identity
+$W(g^*\ast\check{g}^*) = Z(g^*) -
+H_{\mathrm{local}}(\sigma,\kappa) + O(\varepsilon)$,
+connecting the curvature decomposition of the
+present note to the Weil positivity framework.
+The remaining open step --- the spectral inequality
+$Z(g^*) \ge H_{\mathrm{local}}$ --- is explicitly
+marked as open and of RH strength in~[8].
+
+\section*{Acknowledgment}
+The author thanks Jean-Francois Burnol for confirming that the curvature formulation does not appear in the literature known to him and for suggesting connections to Connes' program and the Langlands framework.
+
+% FIX v8 — changelog
+\section*{Change Log}
+\textbf{v8 (April 2026):}
+Abstract framing of Li-proximity clarified;
+Open Question conclusion softened to reflect
+that a positive answer connects to Weil framework
+but does not automatically yield RH.
+Note added updated to reference Paper~2 v5.
+All formal proofs unchanged.
+
+\end{document}
