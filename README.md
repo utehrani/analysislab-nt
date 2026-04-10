@@ -115,7 +115,7 @@ python code/paper3/eta_inf_analysis.py
 
 ### Paper 4 — A Dual Operator for Prime–Zero Coupling and a Conditional Proof of Energy Asymmetry (The Tehrani Operator)
 **DOI:** [10.5281/zenodo.19364703](https://doi.org/10.5281/zenodo.19364703)
-**File:** [`papers/paper4/paper4_v3.pdf`](papers/paper4/)  
+**File:** [`papers/paper4/paper4_v4.pdf`](papers/paper4/)  
 **Scripts:** [`code/paper4/`](code/paper4/)
 
 **What it introduces:**  
@@ -153,7 +153,7 @@ C_T ≈ 2π(κ) — OLS slope μ_j ~ C_T/γ_{k(j)}  [grows with κ]
 Joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p) mod 2π}.  
 Via Weyl's criterion: (1/π(κ)) Σ_{p≤κ} e^{inγ_k log p} → 0 as κ→∞.  
 Concerns Re(s)=1, not Re(s)=½. Not RH.  
-*(Note: part (a) ζ(1+inγ_k)≠0 is settled by Hadamard 1896 — corrected in v3)*
+*(Note: part (a) ζ(1+inγ_k)≠0 is settled by Hadamard 1896 — corrected in v4)*
 
 **Reproduce:**
 ```bash
@@ -216,8 +216,8 @@ analysislab-nt/
 │   │   ├── paper3_v1.tex           LaTeX source, Paper 3 v1
 │   │   └── paper3_v1.pdf           Compiled PDF
 │   └── paper4/
-│       ├── paper4_v3.tex           LaTeX source, Paper 4 v3
-│       └── paper4_v3.pdf           Compiled PDF
+│       ├── paper4_v4.tex           LaTeX source, Paper 4 v4
+│       └── paper4_v4.pdf           Compiled PDF
 │
 ├── code/
 │   ├── paper1/
@@ -301,7 +301,7 @@ matplotlib ≥ 3.5, sympy ≥ 1.11
   follows directly from Hadamard–de la Vallée Poussin (1896),
   which establishes ζ(1+it) ≠ 0 for all real t ≠ 0.
   The values t = nγ_k are real and positive; no further proof needed.
-  *(Corrected in v3, April 2026)*  
+  *(Corrected in v4, April 2026)*  
 - Conjecture §31 `λ_max(D^{-1/2}TD^{-1/2}) < 1` universally: **FALSIFIED**  
 - HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂→0.16, structural failure)
 
@@ -329,4 +329,4 @@ https://doi.org/10.5281/zenodo.19364703
 
 ---
 
-*v3 (April 2026) — OF-EXPLICIT-1'(a) settled (Hadamard) · MIT License*
+*v4 (April 2026) — Assumption A(a) settled (Hadamard), Theorem 5.3 labels corrected, Call for Feedback added · MIT License*
