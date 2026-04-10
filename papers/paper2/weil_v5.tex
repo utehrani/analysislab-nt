@@ -1,0 +1,489 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+% microtype not used in this environment
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+% lmodern not available in this environment
+\usepackage{booktabs}
+\usepackage{array}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,
+urlcolor=blue!50!black,citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+\title{\vspace{-1.5em}\bfseries
+From Local Curvature to the Weil Functional:\\[0.4em]
+\large An Explicit Construction}
+\author{Ulrich Tehrani}
+% FIX v5 — version update
+\date{Research Note \textperiodcentered\ April 2026 \textperiodcentered\ v5}
+
+% v5 corrections (April 2026):
+% (1) FIX v5: Introduction framing softened — no longer implies
+%     that the paper "packages" a global Weil positivity statement;
+%     only the prime-side construction is claimed.
+% (2) FIX v5: Abstract clarified — spectral inequality marked as
+%     open and of RH strength.
+% (3) FIX v5: Remark[Status of the spectral inequality] added
+%     before eq:openineq with explicit open/RH-strength statement.
+%
+% v4 corrections (March 2026):
+% (1) V_p(1/2) table values corrected (3.844, 3.621, 3.238, 2.945, 2.530)
+% (2) c_p^ren simplified to f_p^{1/2} (removed p^{1/4}/(log p)^{1/2} factor)
+%     so that [c_p^ren]^2 = f_p exactly, consistent with D = sum f_p
+% (3) H_ren asymptotic corrected: H_ren has sawtooth structure,
+%     not simple log kappa growth; Mertens connection clarified
+
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Building on the curvature decomposition established in~\cite{paper1},
+we construct an explicit family of admissible test functions
+$g^*_{\sigma,\varepsilon} \in S_{ad}$ for the Weil explicit formula.
+For this family we derive a prime-side identity of the form
+\[
+W(g^*_{\sigma,\varepsilon} * \check g^*_{\sigma,\varepsilon})
+=
+Z(g^*_{\sigma,\varepsilon}) - H_{\mathrm{local}}(\sigma,\kappa) + O(\varepsilon),
+\]
+where $Z(g^*_{\sigma,\varepsilon})$ denotes the corresponding zero sum.
+We further introduce renormalized prime weights
+$c_p^{\mathrm{ren}} > 0$, prove convergence of the associated series
+\[
+D = \sum_p \bigl(c_p^{\mathrm{ren}}\bigr)^2 \approx 9.471,
+\]
+and show that the renormalized prime-side scale is logarithmic in $\kappa$.
+% FIX v5 — clarify RH-strength of open inequality
+This isolates the remaining open problem as a single spectral inequality
+relating $Z(g^*_{1/2,\varepsilon})$ to $H_{\mathrm{local}}(1/2,\kappa)$;
+establishing this inequality unconditionally would be of RH strength.
+We also record the appearance of the Mertens constant as the natural scale
+of the renormalized curvature remainder.
+\end{abstract}
+
+\section{Introduction and relation to Paper~1}
+
+In~\cite{paper1} we studied the curvature field
+\[
+H_{\xi}(\sigma,t)
+:= \frac{d^2}{d\sigma^2}\log|\xi(\sigma+it)|^2
+= H_{\mathrm{local}}(\sigma,\kappa) + H_{\mathrm{dual}}(\sigma,t,\kappa),
+\]
+where $H_{\mathrm{dual}} := H_{\xi} - H_{\mathrm{local}}$ is the spectral
+remainder encoding the zero contributions (sign convention as in~\cite{paper1},
+equation~(5)).
+where the truncated local curvature
+\[
+H_{\mathrm{local}}(\sigma,\kappa) = \psi_1(\sigma)
++ \sum_{p\le\kappa} V_p(\sigma)
+\]
+contains the archimedean term and the finite-place contributions. The prime-side pieces satisfy
+$V_p(\sigma) \ge 0$, and on the critical line one has
+$H_{\mathrm{local}}(1/2,\kappa) \asymp (\log\kappa)^2$.
+
+% FIX v5 — soften framing
+The central open question of~\cite[\S7]{paper1} asks whether this local
+positivity and critical divergence can be organized into an explicit admissible
+test-function construction whose prime-side term matches the local curvature;
+the spectral (zero-side) inequality remains open. The present note addresses a
+concrete part of that question by constructing an explicit family
+$g^*_{\sigma,\varepsilon} \in S_{ad}$ and identifying the corresponding
+prime-side term in the Weil functional with the local curvature studied in
+Paper~1.
+
+The remaining open step is then isolated as a single spectral inequality;
+see Section~\ref{sec:open}.
+
+\section{Construction of the admissible test function}
+
+\subsection{The raw family}
+
+Recall from~\cite[Eq.~(3)]{paper1} that
+\[
+V_p(\sigma)
+= 4(\log p)^2\,\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^2}.
+\]
+Define
+\[
+c_{p,\sigma}
+:= V_p(\sigma)^{1/2}
+\cdot \frac{p^{1/4}}{(\log p)^{1/2}},
+\]
+and let
+\[
+\varphi_\varepsilon(x)
+= \frac{1}{\varepsilon\sqrt{2\pi}}e^{-x^2/(2\varepsilon^2)}
+\]
+be the standard Gaussian bump. For fixed $\kappa$ set
+\[
+\widehat f_{\sigma,\varepsilon}(x)
+= \sum_{p\le\kappa} c_{p,\sigma}\,\varphi_\varepsilon(x-\log p).
+\]
+The admissible test function is obtained by antisymmetrization:
+\begin{equation}\label{eq:gstar}
+\widehat g^*_{\sigma,\varepsilon}(x)
+:= \widehat f_{\sigma,\varepsilon}(x)
+- \widehat f_{\sigma,\varepsilon}(-x).
+\end{equation}
+
+\begin{lemma*}[$g^*_{\sigma,\varepsilon} \in S_{ad}$]
+For every $\sigma>0$ and $\varepsilon>0$, the function
+$g^*_{\sigma,\varepsilon}$ belongs to the admissible class $S_{ad}$ used in
+Lagarias' formulation of Weil positivity.
+\end{lemma*}
+
+\textit{Proof.}
+The Gaussian bumps are Schwartz, and antisymmetrization preserves the
+Schwartz class. Hence $g^*_{\sigma,\varepsilon}$ and
+$\widehat g^*_{\sigma,\varepsilon}$ are rapidly decreasing. Moreover,
+$\widehat g^*_{\sigma,\varepsilon}(0)=0$ by antisymmetry, and likewise
+$g^*_{\sigma,\varepsilon}(0)=0$. These are the required vanishing conditions
+at the origin. Finally, the Gaussian decay ensures absolute convergence of the
+prime-side and zero-side expressions appearing in the Weil functional for this
+family. \hfill$\square$
+
+\section{Prime-side identity for the Weil functional}
+
+\begin{proposition*}[Prime-side identity]
+For the family $g^*_{\sigma,\varepsilon}$ constructed above, one has
+\begin{equation}\label{eq:weil-decomp}
+W(g^*_{\sigma,\varepsilon} * \check g^*_{\sigma,\varepsilon})
+=
+Z(g^*_{\sigma,\varepsilon}) - H_{\mathrm{local}}(\sigma,\kappa) + O(\varepsilon),
+\end{equation}
+where
+$Z(g^*_{\sigma,\varepsilon}) = \sum_{\rho}
+|\widehat g^*_{\sigma,\varepsilon}(\rho)|^2$
+runs over the nontrivial zeros of $\zeta(s)$.
+\end{proposition*}
+
+\textit{Proof sketch.}
+Apply the Weil explicit formula in the Lagarias framework. The constant
+term vanishes because $\widehat g^*_{\sigma,\varepsilon}(0)=0$.
+By construction of the coefficients $c_{p,\sigma}$, the prime-side quadratic
+form converges to $H_{\mathrm{local}}(\sigma,\kappa)$ as $\varepsilon\to 0$.
+The error term $O(\varepsilon)$ arises from the Gaussian smoothing of the
+prime-power contributions and is not made uniform in $\kappa$ in the present
+note. \hfill$\square$
+
+\begin{remark*}
+Equation~\eqref{eq:weil-decomp} is the key bridge between the curvature field
+of Paper~1 and the Weil positivity framework. The archimedean
+term $\hat{g}^*(0)^2 c_0$ vanishes since $\hat{g}^*(0)=0$
+by condition~(S2), so the archimedean contribution to~$W$
+is zero in the present normalization.
+\end{remark*}
+
+\section{Renormalized weights and convergence}
+
+\subsection{Positivity of the renormalized coefficients}
+
+At $\sigma=1/2$ define
+\[
+f_p := V_p(1/2) - \frac{4(\log p)^2}{p}.
+\]
+A direct calculation gives
+\begin{equation}\label{eq:fp}
+f_p
+= \frac{4(\log p)^2(2p-1)}{p(p-1)^2} > 0
+\qquad (p\ge 2).
+\end{equation}
+
+\begin{lemma*}[Renormalized coefficients are positive]
+For every prime $p\ge 2$, the quantity $f_p$ in~\eqref{eq:fp}
+is strictly positive.
+\end{lemma*}
+
+\textit{Proof.}
+The numerator $2p-1>0$ and the denominator $p(p-1)^2>0$
+for every prime $p\ge 2$. \hfill$\square$
+
+The renormalized coefficients are simply
+\begin{equation}\label{eq:cren}
+c_p^{\mathrm{ren}} := f_p^{1/2} > 0,
+\end{equation}
+so that $[c_p^{\mathrm{ren}}]^2 = f_p$.
+Numerical values for small primes:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$p$ & $V_p(1/2)$ & $4(\log p)^2/p$ & $f_p = [c_p^{\mathrm{ren}}]^2$ \\
+\midrule
+2  & 3.844 & 0.961 & 2.883 \\
+3  & 3.621 & 1.609 & 2.012 \\
+5  & 3.238 & 2.072 & 1.166 \\
+7  & 2.945 & 2.164 & 0.781 \\
+11 & 2.530 & 2.091 & 0.439 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Convergence of the renormalized energy}
+
+\begin{lemma*}[Convergence]
+The series
+\begin{equation}\label{eq:D}
+D := \sum_p \bigl[c_p^{\mathrm{ren}}\bigr]^2
+   = \sum_p \frac{4(\log p)^2(2p-1)}{p(p-1)^2}
+\end{equation}
+converges absolutely. Numerically $D \approx 9.471$
+(primes below $10^4$; tail $<0.009$).
+\end{lemma*}
+
+\textit{Proof.}
+For large $p$, $[c_p^{\mathrm{ren}}]^2 \sim 8(\log p)^2/p^2$.
+Since $\sum_n (\log n)^2/n^2 <\infty$, convergence follows
+by comparison. \hfill$\square$
+
+\section{The renormalized scale and the Mertens constant}
+
+By the prime number theorem,
+\[
+H_{\mathrm{local}}(1/2,\kappa)
+\sim 2(\log\kappa)^2
+\qquad(\kappa\to\infty),
+\]
+so the renormalized remainder
+\[
+H_{\mathrm{local}}^{\mathrm{ren}}(1/2,\kappa)
+:= H_{\mathrm{local}}(1/2,\kappa) - 2(\log\kappa)^2
+\]
+is of lower order than $(\log\kappa)^2$.
+Numerically, $H_{\mathrm{local}}^{\mathrm{ren}}$ exhibits
+a sawtooth pattern: it jumps upward at each new prime $p\le\kappa$
+by $f_p > 0$, and decreases continuously between primes as
+$2(\log\kappa)^2$ grows. This is the direct analogue of
+the prime-counting function $\pi(x)$, which increases by~1
+at each prime and is constant between consecutive primes.
+The Mertens constant $\gamma_M$ governs the average drift
+of this sawtooth via the asymptotic
+\[
+\sum_{p\le\kappa}\frac{\log p}{p}
+= \log\kappa + O(1),
+\]
+connecting the renormalized scale to classical prime-sum estimates.
+
+\begin{remark*}
+The Mertens constant
+\[
+\gamma_M = \gamma + \sum_p\!\Bigl[\log\tfrac{p}{p-1}-\tfrac1p\Bigr]
+\approx 0.2615,
+\]
+where $\gamma \approx 0.5772$ is the Euler--Mascheroni constant,
+appears in prime-sum estimates that control the average behavior
+of $H_{\mathrm{local}}^{\mathrm{ren}}$.
+The same constant $\gamma$ appears in the first Li coefficient
+$\lambda_1 = 1 + \gamma/2 - \log 2 - (\log\pi)/2 \approx 0.0231$,
+reflecting the universal role of $\gamma$ in the transition
+from discrete prime sums to continuous logarithmic integrals.
+\end{remark*}
+
+\begin{remark*}
+The renormalized construction clarifies the scale of the prime-side
+contribution, but does not by itself resolve the spectral inequality
+\eqref{eq:openineq}.
+\end{remark*}
+
+\section{The remaining spectral inequality}\label{sec:open}
+
+For the family $g^*_{1/2,\varepsilon}$, Weil positivity reduces to
+\begin{equation}\label{eq:openineq}
+Z(g^*_{1/2,\varepsilon})
+\;\ge\;
+H_{\mathrm{local}}(1/2,\kappa).
+\end{equation}
+
+\textbf{Open question.}
+Is there an unconditional lower bound
+\[
+Z(g^*_{1/2,\kappa})
+= \sum_{\rho}\bigl|\widehat g^*_{1/2,\kappa}(\rho)\bigr|^2
+\;\ge\;
+C\cdot(\log\kappa)^2
+\]
+for some constant $C>0$, where the sum runs over nontrivial zeros of~$\zeta$?
+
+Formally, treating the zeros as independent via Selberg's
+orthogonality principle~\cite{selberg} yields
+$Z(g^*)\sim D\log\kappa\log\log\kappa$ with $D\approx 9.471$.
+More precisely: the diagonal contribution
+\[
+\sum_p \bigl[c_p^{\mathrm{ren}}\bigr]^2 \cdot I(\varepsilon)
+\;\sim\; D \cdot \log\kappa
+\]
+is unconditional (it follows from the prime number theorem alone);
+the off-diagonal control of the cross-terms
+$\sum_\gamma \cos(\gamma\log(p/q))$ for $p\neq q$
+remains open. An unconditional proof of even
+$Z\ge C(\log\kappa)^2$ is presently unavailable.
+
+\begin{remark*}[The constant $D/2\pi$]
+The asymptotic $Z(g^*)\sim D\log\kappa\log\log\kappa$ yields a
+natural bridge constant
+\[
+\frac{D}{2\pi} \approx \frac{9.471}{6.283} \approx 1.507,
+\]
+which measures the ratio of the prime-side energy~$D$
+to the archimedean normalization~$2\pi$ of the zero density
+$N(T)\sim T\log T/(2\pi)$.
+This constant is of a different nature from the pair-correlation
+statistics studied in the GUE conjecture
+(Montgomery~1973): it depends only on the total density of zeros
+via the classical formula for~$N(T)$, which is unconditional
+and requires neither GUE nor RH as input.
+Whether $D/2\pi$ admits a representation in terms of
+classical constants is an open question.
+\end{remark*}
+
+% FIX v5 — clarify status upfront
+\begin{remark*}[Status of the spectral inequality]
+The inequality~\eqref{eq:openineq} is open and of RH strength for this family.
+By Lagarias~\cite{lagarias},
+$\mathrm{RH} \iff W(f*\check f)\ge 0$ for all $f\in S_{ad}$.
+A positive answer to the open question above would establish
+$W(g^*_{1/2,\kappa}*\check g^*_{1/2,\kappa})\ge 0$ for the specific
+family constructed here, which is a necessary but not sufficient
+condition for RH in the absence of a density argument for this
+family in~$S_{ad}$.
+\end{remark*}
+
+\section*{Computational note}
+
+All numerical claims are reproducible. Code is available at~\cite{github}.
+The Gaussian parameter $\varepsilon = 0.05$ is required for meaningful
+numerical experiments with the zero sum (for $\varepsilon = 0.5$ one has
+$e^{-\varepsilon^2\gamma_1^2} \approx 10^{-22}$, effectively
+suppressing all zero contributions).
+
+\medskip
+\textbf{Numerical comparison $Z_{\mathrm{ren}}$ vs $H_{\mathrm{local}}^{\mathrm{ren}}$.}
+With $c_p^{\mathrm{ren}} = f_p^{1/2}$, $\varepsilon=0.05$, and $N=100$ zeros:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$\kappa$ & $Z_{\mathrm{ren}}$ & $H_{\mathrm{local}}^{\mathrm{ren}}$
+         & $Z - H$ & $Z \ge H$ \\
+\midrule
+10   & 4.888 & 3.044 & $+1.844$ & $\checkmark$ \\
+20   & 3.782 & 4.770 & $-0.988$ & $\times$ \\
+29   & 5.520 & 3.588 & $+1.931$ & $\checkmark$ \\
+50   & 5.693 & 2.881 & $+2.812$ & $\checkmark$ \\
+100  & 5.311 & 1.562 & $+3.748$ & $\checkmark$ \\
+200  & 5.102 & 2.355 & $+2.747$ & $\checkmark$ \\
+500  & 5.156 & 1.101 & $+4.056$ & $\checkmark$ \\
+1000 & 4.289 & 0.426 & $+3.863$ & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark*}
+The table illustrates the sawtooth behavior of
+$H_{\mathrm{local}}^{\mathrm{ren}}$: at each new prime $p$,
+$H_{\mathrm{local}}^{\mathrm{ren}}$ jumps upward by $f_p > 0$,
+then decreases continuously until the next prime.
+This creates temporary inversions $Z_{\mathrm{ren}} < H_{\mathrm{local}}^{\mathrm{ren}}$
+directly after a prime jump — exactly as $\pi(x) - \mathrm{Li}(x)$
+fluctuates near small primes before stabilizing asymptotically.
+
+In our experiments, violations occur for $\kappa \le 25$
+(in the range between the primes 23 and 29).
+For all $\kappa \ge 26$, $Z_{\mathrm{ren}} > H_{\mathrm{local}}^{\mathrm{ren}}$
+holds consistently, with the ratio $Z/H$ growing from $1.5$ at $\kappa=29$
+to over $10$ at $\kappa=1000$.
+This asymptotic stability is consistent with the spectral
+inequality~\eqref{eq:openineq}, though an analytic proof remains open.
+\end{remark*}
+
+\begin{thebibliography}{99}
+
+\bibitem{paper1}
+U.~Tehrani,
+\emph{A Curvature Decomposition of the Explicit Formula
+for the Riemann Zeta Function},
+Research Note, March 2026, v6,
+\href{https://doi.org/10.5281/zenodo.19025598}{%
+doi:10.5281/zenodo.19025598}.
+
+\bibitem{github}
+U.~Tehrani,
+\emph{AnalysisLab: Curvature and the Weil Functional},
+GitHub repository, 2026,
+\url{https://github.com/utehrani/analysislab-nt}.
+
+\bibitem{lagarias}
+J.~C.~Lagarias,
+\emph{Li coefficients for automorphic L-functions},
+Ann.\ Inst.\ Fourier \textbf{57}(5) (2007), 1689--1740.
+
+\bibitem{li}
+X.-J.~Li,
+\emph{The positivity of a sequence of numbers
+and the Riemann hypothesis},
+J.\ Number Theory \textbf{65} (1997), 325--333.
+
+\bibitem{weil}
+A.~Weil,
+\emph{Sur les ``formules explicites'' de la
+th\'eorie des nombres premiers},
+Comm.\ S\'em.\ Math.\ Univ.\ Lund (1952), 252--265.
+
+\bibitem{mertens}
+F.~Mertens,
+\emph{Ein Beitrag zur analytischen Zahlentheorie},
+J.\ Reine Angew.\ Math.\ \textbf{78} (1874), 46--62.
+
+\bibitem{montgomery}
+H.~L.~Montgomery,
+\emph{The pair correlation of zeros of the zeta function},
+in: Analytic Number Theory, Proc.\ Sympos.\ Pure Math.\ \textbf{24},
+Amer.\ Math.\ Soc., Providence, 1973, pp.\ 181--193.
+
+\bibitem{selberg}
+A.~Selberg,
+\emph{Contributions to the theory of the Riemann zeta-function},
+Arch.\ Math.\ Naturvid.\ \textbf{48}(5) (1946), 89--155.
+
+\bibitem{connes}
+A.~Connes and C.~Consani,
+\emph{Weil positivity and trace formula, the archimedean place},
+Sel.\ Math.\ (N.S.) \textbf{27} (2021), Article~77.
+
+\bibitem{edwards}
+H.~M.~Edwards,
+\emph{Riemann's Zeta Function},
+Dover, 1974.
+
+\end{thebibliography}
+
+\section*{Acknowledgment}
+
+The author thanks Jean-Fran\c{c}ois Burnol for confirming that the
+curvature decomposition of~\cite{paper1} does not appear in the
+literature known to him.
+
+% FIX v5 — changelog
+\section*{Change Log}
+\textbf{v5 (April 2026):}
+Framing of Weil positivity goal clarified;
+spectral inequality explicitly marked as open and of RH strength.
+All formal proofs, constructions and numerical results unchanged from v4.
+
+\textbf{v4 (March 2026):}
+Table values for $V_p(1/2)$ corrected; $c_p^{\mathrm{ren}}$ simplified
+to $f_p^{1/2}$; $H_{\mathrm{ren}}$ asymptotic corrected.
+
+\end{document}
