@@ -17,7 +17,7 @@ operator T̃ = ΦΦ*.
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
-**File:** [`papers/paper1/curvature_note_v7.pdf`](papers/paper1/)  
+**File:** [`papers/paper1/curvature_note_v8.pdf`](papers/paper1/)  
 **Scripts:** [`code/paper1/`](code/paper1/)
 
 **What it proves:**  
@@ -48,7 +48,7 @@ python code/paper1/verify_v6.py
 
 ### Paper 2 — From Local Curvature to the Weil Functional
 **DOI:** [10.5281/zenodo.19106992](https://doi.org/10.5281/zenodo.19106992)  
-**File:** [`papers/paper2/weil_v5.pdf`](papers/paper2/)  
+**File:** [`papers/paper2/weil_v4.pdf`](papers/paper2/)  
 **Scripts:** [`code/paper2/`](code/paper2/)
 
 **Imports from Paper 1:** `H_local` divergence (R1)
@@ -209,9 +209,9 @@ analysislab-nt/
 │
 ├── papers/
 │   ├── paper1/
-│   │   └── curvature_note_v7.tex   LaTeX source, Paper 1 v7
+│   │   └── curvature_note_v8.tex   LaTeX source, Paper 1 v8
 │   ├── paper2/
-│   │   └── weil_v5.tex             LaTeX source, Paper 2 v5
+│   │   └── weil_v4.tex             LaTeX source, Paper 2 v4
 │   ├── paper3/
 │   │   ├── paper3_v2.tex           LaTeX source, Paper 3 v2
 │   │   └── paper3_v2.pdf           Compiled PDF
@@ -329,4 +329,4 @@ https://doi.org/10.5281/zenodo.19364703
 
 ---
 
-*v4/v2/v5 (April 2026) — Paper 4 v4 + Paper 3 v2 + Paper 2 v5: Weil framing clarified · MIT License*
+*v4/v2/v5/v8 (April 2026) — All four papers corrected: Paper 4 v4, Paper 3 v2, Paper 2 v5, Paper 1 v8 · MIT License*
