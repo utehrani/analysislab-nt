@@ -1,19 +1,21 @@
 # AnalysisLab: Curvature, Energy and the Riemann Zeta Function
 
-Four papers on ζ(s): curvature decomposition, Weil functional, a
-Hilbert-space model for prime–zero energy structure, and the Tehrani
-operator T̃ = ΦΦ*.
+Five papers on ζ(s): curvature decomposition, Weil functional, a
+Hilbert-space model for prime–zero energy structure, the Tehrani
+operator T̃ = ΦΦ*, and a spectral trace formula with smoothed zero sums.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
-**DOIs:** [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
+**DOIs:** 
+[Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
 [Paper 3](https://doi.org/10.5281/zenodo.19307989) ·
-[Paper 4](https://doi.org/10.5281/zenodo.19364703)
+[Paper 4](https://doi.org/10.5281/zenodo.19364703) ·
+[Paper 5](https://doi.org/10.5281/zenodo.19508547)
 
 ---
 
-## The Four Papers
+## The Five Papers
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
@@ -80,8 +82,6 @@ python code/paper2/verify_paper2.py
 **File:** [`papers/paper3/paper3_v2.pdf`](papers/paper3/)  
 **Scripts:** [`code/paper3/`](code/paper3/)
 
-**Formal core (§§2–5) is self-contained.**
-
 **What it constructs:**  
 Two finite-dimensional real Hilbert spaces connected by a linear map and
 a self-adjoint loop operator:
@@ -113,8 +113,8 @@ python code/paper3/eta_inf_analysis.py
 
 ---
 
-### Paper 4 — A Dual Operator for Prime–Zero Coupling and a Conditional Proof of Energy Asymmetry (The Tehrani Operator)
-**DOI:** [10.5281/zenodo.19364703](https://doi.org/10.5281/zenodo.19364703)
+### Paper 4 — A Dual Operator for Prime–Zero Coupling and a Conditional Proof of Energy Asymmetry
+**DOI:** [10.5281/zenodo.19364703](https://doi.org/10.5281/zenodo.19364703)  
 **File:** [`papers/paper4/paper4_v4.pdf`](papers/paper4/)  
 **Scripts:** [`code/paper4/`](code/paper4/)
 
@@ -137,27 +137,48 @@ T̃_{kl} = sum_{p≤kappa} (a_p)_k * (a_p)_l
 | Lemma M3 (Abel Summation Principle) | **PROVED** |
 | Theorem EXPLICIT: M_k(κ) = O(π(κ)/γ_k) | **PROVED** (PNT only, no RH) |
 | μ_j ~ C_T/γ_{k(j)}, r₁ = 0.950 | **NUMERICAL** |
-| Eigenvector localization 0.45–0.99 | **NUMERICAL** |
 | η_orig > 0 for κ ≤ 1009 | **NUMERICAL** |
-| Δ_Burst ≈ 4.81 > 0, κ-invariant | **NUMERICAL** |
-| Theorem 5.3: η_orig(κ) → η∞ > 0 | **CONDITIONAL** (OF-EXPLICIT-1') |
-
-**Two arithmetic constants (distinct — never confuse):**
-
-```
-C_η ≈ 0.39  — λ_max,ren / π(κ)  [κ-independent]
-C_T ≈ 2π(κ) — OLS slope μ_j ~ C_T/γ_{k(j)}  [grows with κ]
-```
-
-**Open problem OF-EXPLICIT-1' — genuine open content (b):**  
-Joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p) mod 2π}.  
-Via Weyl's criterion: (1/π(κ)) Σ_{p≤κ} e^{inγ_k log p} → 0 as κ→∞.  
-Concerns Re(s)=1, not Re(s)=½. Not RH.  
-*(Note: part (a) ζ(1+inγ_k)≠0 is settled by Hadamard 1896 — corrected in v4)*
+| Theorem 5.3: η_orig(κ) → η∞ > 0 | **CONDITIONAL** (Weyl equidistribution) |
 
 **Reproduce:**
 ```bash
 python code/paper4/verify_paper4.py
+```
+
+---
+
+### Paper 5 — Spectral Trace Formula and Smoothed Zero Sums: A Prime–Zero Duality Framework
+**DOI:** [10.5281/zenodo.19508547](https://doi.org/10.5281/zenodo.19508547)  
+**File:** [`papers/paper5/paper5_v1_1.pdf`](papers/paper5/)  
+**Scripts:** [`code/paper5/`](code/paper5/)
+
+**What it introduces:**  
+A σ-dependent operator family T̃(σ) = Φ(σ)∘Φ(σ)* and an exact algebraic
+trace formula. The smoothed zero-sum theory exposes a structural negative
+bias at σ=½ via the Bias Conjecture.
+
+```
+T̃(σ) = Phi(σ) ∘ Phi(σ)* : H_null → H_null
+Phi(σ)_{k,p} = exp(-eps²*gamma_k²/2) * sin(sigma * gamma_k * log p)
+Tr(T̃(σ)) = D_SEL − O(σ)   [proved algebraically]
+```
+
+| Result | Status |
+|--------|--------|
+| Trace formula: `Tr(T̃(σ)) = D_SEL − O(σ)` | **PROVED** (algebraic) |
+| `D_SEL = (1/2) · A(ε,N) · π(κ) = 10.985` | **PROVED** |
+| Decomposition: `B = Σ_p (log p)² Re(Z_p)` | **PROVED** |
+| Structural Reduction: dominant term of Z̃_p(ε) | **STRUCTURAL** |
+| Sign transfer: `Re(Z̃_p) < 0 → B < 0` | **CONDITIONAL** (Assumptions A+B) |
+| `B = −19342.5 < 0` (κ=53, ε=0.05, N=100) | **NUMERICAL** |
+| `Re(Z_p) < 0` for 14 of 16 primes p ≤ 53 | **NUMERICAL** |
+| `η_orig(κ=53) = 0.66927`, η_∞ ≈ 0.81 | **NUMERICAL** |
+| Three spectral signatures at σ=½ | **NUMERICAL** |
+| Bias Conjecture: `Re(Z̃_p(ε)) < 0` for all p | **OPEN** |
+
+**Reproduce:**
+```bash
+python code/paper5/verify_paper5.py
 ```
 
 ---
@@ -174,20 +195,29 @@ H_xi = H_local       W(g*,g*) =           T = Phi*Phi          T̃ = Phi Phi*
 H_local(1/2,k)  ──R1──>  Weil bridge  ──R2──>  Geometry      ──R3──>  Conditional
   ~ 2(log k)²                                   H_str,H_null           η_orig > 0
                                                                          → η∞ > 0
+                                                                              │
+                                                                              ▼
+                                                                         Paper 5
+                                                                    ─────────────────
+                                                                    T̃(σ) family
+                                                                    Tr = D_SEL − O(σ)
+                                                                    Bias Conjecture
+                                                                    [OPEN → Paper 6]
 ```
 
 **Mathematical thread:**  
 Local curvature divergence at σ=½ (Paper 1) motivates σ=½ as distinguished
 origin in H_null (Paper 3). The Weil identity (Paper 2) provides the outer
 framework. The Tehrani operator T̃ (Paper 4) encodes the prime-mediated
-coupling between zero ordinates and yields a conditional analytic proof
-that energy asymmetry persists in the limit κ→∞.
+coupling between zero ordinates. Paper 5 introduces the σ-dependent family
+T̃(σ), proves the exact trace formula Tr(T̃(σ)) = D_SEL − O(σ), and opens
+the smoothed zero-sum route toward the Bias Conjecture.
 
 ---
 
-## Normative Parameters
+## Reference Parameters
 
-All results use these normative parameters unless stated otherwise:
+All results use these reference parameters unless stated otherwise:
 
 | Parameter | Value | Meaning |
 |-----------|-------|---------|
@@ -215,9 +245,12 @@ analysislab-nt/
 │   ├── paper3/
 │   │   ├── paper3_v2.tex           LaTeX source, Paper 3 v2
 │   │   └── paper3_v2.pdf           Compiled PDF
-│   └── paper4/
-│       ├── paper4_v4.tex           LaTeX source, Paper 4 v4
-│       └── paper4_v4.pdf           Compiled PDF
+│   ├── paper4/
+│   │   ├── paper4_v4.tex           LaTeX source, Paper 4 v4
+│   │   └── paper4_v4.pdf           Compiled PDF
+│   └── paper5/
+│       ├── paper5_v1_1.tex         LaTeX source, Paper 5 v1.1
+│       └── paper5_v1_1.pdf         Compiled PDF
 │
 ├── code/
 │   ├── paper1/
@@ -228,15 +261,19 @@ analysislab-nt/
 │   │   ├── eta_verification.py     η_orig energy identity (main result)
 │   │   ├── ttilde_analysis.py      T̃ = ΦΦ*, eigenvector localization
 │   │   └── eta_inf_analysis.py     convergence κ→∞, λ_max scaling
-│   └── paper4/
-│       └── verify_paper4.py        spectral identity, η_orig, HP test,
-│                                   generates figures/paper4/fig_hp_main.png
+│   ├── paper4/
+│   │   └── verify_paper4.py        spectral identity, η_orig, HP test,
+│   │                               generates figures/paper4/fig_hp_main.png
+│   └── paper5/
+│       └── verify_paper5.py        trace formula, B-decomposition,
+│                                   η_orig, Re(Z_p), 3 signatures,
+│                                   generates figures/paper5/fig_paper5_main.png
 │
 ├── data/
 │   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k
 │   ├── zeros_200.csv               First 200 Riemann zeta zero ordinates γ_k
 │   └── results/                    Script outputs (CSV, intermediate data)
-│       ├── eta_table_kappa53.csv   η_orig(σ) normative table
+│       ├── eta_table_kappa53.csv   η_orig(σ) reference table
 │       └── ttilde_spectrum.csv     T̃ eigenvalues and localization data
 │
 └── figures/
@@ -250,8 +287,11 @@ analysislab-nt/
     │   ├── fig4_eta_spectrum.png          η_orig(σ) profile
     │   ├── fig5_ttilde_localization.png   T̃ eigenvector localization
     │   └── fig6_mu_vs_gamma.png           μ_j vs γ_{k(j)} correlation
-    └── paper4/
-        └── fig_hp_main.png               T̃ spectral structure and HP test
+    ├── paper4/
+    │   └── fig_hp_main.png               T̃ spectral structure and HP test
+    └── paper5/
+        └── fig_paper5_main.png           trace formula, Re(Z_p),
+                                          η_orig convergence, 3 signatures
 ```
 
 ---
@@ -269,21 +309,22 @@ python code/paper3/eta_verification.py
 python code/paper3/ttilde_analysis.py
 python code/paper3/eta_inf_analysis.py
 python code/paper4/verify_paper4.py
+python code/paper5/verify_paper5.py
 ```
 
 **Notes:**
-- `verify_paper4.py` accepts an optional argument for the number of zero ordinates:
+- All scripts accept an optional argument for the number of zero ordinates:
   ```bash
-  python code/paper4/verify_paper4.py        # N=100 (default, uses zeros_100.csv)
-  python code/paper4/verify_paper4.py 200    # N=200 (uses zeros_200.csv)
+  python code/paper5/verify_paper5.py        # N=100 (default, uses zeros_100.csv)
+  python code/paper5/verify_paper5.py 200    # N=200 (uses zeros_200.csv)
   ```
   Loads from `data/zeros_100.csv` or `data/zeros_200.csv` automatically.
   Falls back to mpmath if the CSV is missing.
 - All scripts write figures to `figures/paperN/` and data to `data/results/`.
-- Run from the repository root so that relative paths resolve correctly.
+- **Run from the repository root** so that relative paths resolve correctly.
 
 **Requirements:** Python 3.x, NumPy ≥ 1.24, mpmath ≥ 1.3,
-matplotlib ≥ 3.5, sympy ≥ 1.11
+matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 
 ---
 
@@ -291,19 +332,16 @@ matplotlib ≥ 3.5, sympy ≥ 1.11
 
 | Problem | Statement | Paper |
 |---------|-----------|-------|
-| **OF-EXPLICIT-1'(b)** | Joint equidistribution of {(γ_{k₁}log p, γ_{k₂}log p) mod 2π} — the genuine open condition (Weyl criterion) | Paper 4 |
-| **OP 6.2** | Prove η_orig > 0 analytically without equidistribution assumption | Paper 4 |
-| **OF-HP-3** | Does e^{-ε·γ_k} damping (instead of Gaussian) yield r₂→1? | Paper 4 |
-| **L6** | Transfer σ=½ → σ≠½ on Γ-curvature level (the RH step) | Series |
+| **Bias Conjecture** | `Re(Z̃_p(ε)) < 0` for all primes p | Paper 5 |
+| **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
+| **OF-EXPLICIT-1'(b)** | Weyl equidistribution of {γ_k log p mod 2π} | Paper 4 |
+| **OP 6.2** | Prove η_orig > 0 analytically without equidistribution | Paper 4 |
+| **σ=½ Selection** | Close L6A + L6B → RH via Weil positivity | Series |
 
-**Closed / Settled:**  
-- **OF-EXPLICIT-1'(a)** `ζ(1+inγ_k) ≠ 0 for all n≥1, k≤N`: **SETTLED** —
-  follows directly from Hadamard–de la Vallée Poussin (1896),
-  which establishes ζ(1+it) ≠ 0 for all real t ≠ 0.
-  The values t = nγ_k are real and positive; no further proof needed.
-  *(Corrected in v4, April 2026)*  
-- Conjecture §31 `λ_max(D^{-1/2}TD^{-1/2}) < 1` universally: **FALSIFIED**  
-- HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂→0.16, structural failure)
+**Closed / Settled:**
+- **OF-EXPLICIT-1'(a)** `ζ(1+inγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
+- Conjecture §31 `λ_max < 1` universally: **FALSIFIED**
+- HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂→0.16)
 
 ---
 
@@ -327,6 +365,11 @@ Tehrani, U. (2026). A Dual Operator for Prime–Zero Coupling
 and a Conditional Proof of Energy Asymmetry. Zenodo.
 https://doi.org/10.5281/zenodo.19364703
 
+**Paper 5:**  
+Tehrani, U. (2026). Spectral Trace Formula and Smoothed Zero Sums:
+A Prime–Zero Duality Framework. Zenodo.
+https://doi.org/10.5281/zenodo.19508547
+
 ---
 
-*v4/v2/v5/v8 (April 2026) — All four papers corrected: Paper 4 v4, Paper 3 v2, Paper 2 v5, Paper 1 v8 · MIT License*
+*v3.1.0 (April 2026) — Papers 1–5 · MIT License*

@@ -1,0 +1,919 @@
+% ============================================================
+% AnalysisLab_L1_L5 — Paper 5
+% Spectral Trace Formula and Smoothed Zero Sums:
+% A Prime–Zero Duality Framework
+%
+% Based on: paper5_v0_4.md
+% Template:  series_template.tex (normative)
+% Review:    Review_Paper5_v0.4.md (all H-priority items addressed)
+% April 2026 — v1.0
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+% --------------------------------------------------------
+% Theorem environments (numbered within section)
+% --------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{remark}{Remark}
+\newtheorem*{openproblem}{Open Problem}
+
+% Heuristic environment (clearly marked, never used in proofs)
+\newenvironment{heuristic}[1]{%
+  \par\smallskip\noindent\textit{[Heuristic: #1]}\quad}{%
+  \par\smallskip}
+
+% --------------------------------------------------------
+% Convention box — clean ruled box, no mdframed
+% --------------------------------------------------------
+\newenvironment{conventionbox}{%
+  \medskip
+  \noindent\rule{\linewidth}{0.4pt}\smallskip\par\noindent
+}{%
+  \par\smallskip\noindent\rule{\linewidth}{0.4pt}
+  \medskip
+}
+
+% --------------------------------------------------------
+% Series-wide macros
+% --------------------------------------------------------
+\newcommand{\Hstr}{H_{\mathrm{str}}}
+\newcommand{\Hnull}{H_{\mathrm{null}}}
+\newcommand{\Estr}{E_{\mathrm{str}}}
+\newcommand{\Espec}{E_{\mathrm{spec}}}
+\newcommand{\etaorig}{\eta_{\mathrm{orig}}}
+\newcommand{\Tren}{T_{\mathrm{ren}}}
+\newcommand{\Tt}{\widetilde{T}}
+\newcommand{\Gun}{G^{\mathrm{un}}}
+\newcommand{\Hlocal}{H_{\mathrm{local}}}
+
+% Smoothed zero sums and trace objects
+\newcommand{\Zt}{\widetilde{Z}}
+\newcommand{\DSEL}{D_{\mathrm{SEL}}}
+\newcommand{\Ediag}{E_{\mathrm{diag}}}
+
+% Constants (always use subscript — never plain C)
+\newcommand{\Ceta}{C_{\eta}}
+\newcommand{\CT}{C_{T}}
+
+% --------------------------------------------------------
+% Title
+% --------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries Spectral Trace Formula and Smoothed Zero Sums:\\[0.4em]
+\large A Prime--Zero Duality Framework}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ April 2026
+      \textperiodcentered\ v1.0}
+
+% ============================================================
+\begin{document}
+\maketitle
+% ============================================================
+
+\begin{abstract}
+We study a one-parameter family of finite-rank operators $\Tt(\sigma)$
+acting on a finite-dimensional Hilbert space $\Hnull$ over the imaginary
+parts of the non-trivial zeros of $\zeta(s)$.
+The operators arise from an explicit coupling map
+$\Phi(\sigma)\colon\Hstr\to\Hnull$ encoding prime--zero resonance
+via $\sin(\sigma\gamma_k\log p)$.
+No hypothetical input is used: no Riemann Hypothesis, no Hilbert--P\'olya
+postulate, no GUE conjecture.
+
+\textbf{What is proved.}
+We establish an exact trace formula
+$\mathrm{Tr}(\Tt(\sigma)) = \DSEL - O(\sigma)$
+algebraically, for all $\sigma\in\mathbb{R}$, by a two-line
+trigonometric computation (Theorem~\ref{thm:trace}).
+The decomposition $B = \sum_{p\leq\kappa}(\log p)^2\,\mathrm{Re}(Z_p)$
+is proved from first principles (Proposition~\ref{prop:decomp}).
+These results require no analytic assumptions.
+
+\textbf{What is numerical.}
+The limiting energy asymmetry satisfies
+$\eta_\infty := \lim_{\kappa\to\infty}\etaorig(\kappa)\approx 0.81$,
+established numerically for $\kappa\leq 1009$ [Numerical,
+Observation~\ref{obs:etainf}].
+Three spectral signatures at $\sigma=\tfrac{1}{2}$ --- a trace spike
+of $+47\%$, a dominant-eigenvalue maximum, and a spectral-gap minimum
+--- are observed numerically [Numerical, \S\,\ref{sec:ops}].
+The curvature-bias quantity satisfies $B = -19342.5 < 0$
+at $\kappa=53$, $\varepsilon=0.05$, $N=100$ [Numerical].
+
+\textbf{What remains open.}
+The Bias Conjecture $\mathrm{Re}(\Zt_p(\varepsilon))<0$
+for all primes $p$ is the central open problem (Conjecture~\ref{conj:bias}).
+Its proof would close the $\sigma=\tfrac{1}{2}$ Curvature Bias argument
+via the structural reduction established here,
+subject to the auxiliary truncation-error condition of
+Proposition~\ref{prop:sign}.
+The algebraic identity $\eta_\infty = 1 - m_1(\infty)$ is a motivated
+open conjecture [Open, \S\,\ref{sec:asymp}].
+
+\textbf{Structure.}
+The formal core is self-contained in \S\S\,\ref{sec:ops}--\ref{sec:smoothed}.
+No use of the Riemann Hypothesis, the GUE conjecture,
+the Montgomery pair correlation conjecture, or the Hilbert--P\'olya
+postulate is made anywhere in \S\S\,\ref{sec:ops}--\ref{sec:smoothed}.
+\end{abstract}
+
+% -------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Background and Motivation}
+
+This paper is the fifth in a series developing an operator-theoretic
+framework for studying the distribution of the non-trivial zeros of the
+Riemann zeta function $\zeta(s)$. The series is built around a
+finite-dimensional Hilbert-space model in which prime numbers
+mediate coupling between zeros, encoded in an explicit operator family.
+
+\textbf{Paper~1}~\cite{Paper1} introduced the local curvature function
+$\Hlocal(\sigma,\kappa) := \sum_{p\leq\kappa}V_p(\sigma)$,
+where each summand $V_p(\sigma)>0$ is a per-prime contribution.
+A key finding was the divergence
+$\Hlocal(\tfrac{1}{2},\kappa)\sim 8(\log\kappa)^2\to\infty$,
+contrasted with convergence $\Hlocal(\sigma,\kappa)\to C(\sigma)<\infty$
+for all $\sigma>\tfrac{1}{2}$, identifying the critical line as a phase
+boundary observed, not postulated.
+
+\textbf{Paper~2}~\cite{Paper2} connected this divergence to the Weil
+explicit functional, constructing admissible test functions $g^*$
+satisfying $W(g^*,\tilde{g}^*)= Z(g^*)-\Hlocal+O(\varepsilon)$,
+so that the curvature divergence becomes a structural feature of
+the energy in the Weil functional.
+
+\textbf{Paper~3}~\cite{Paper3} made the geometric structure explicit:
+two finite-dimensional Hilbert spaces $\Hstr$ (over primes) and
+$\Hnull$ (over zeros) connected by a linear map $\Phi$, with loop
+operator $T=\Phi^*\circ\Phi$.
+The energy asymmetry $\etaorig>0$ was established numerically, and
+the structural energy $\Estr$ shown to converge as $\kappa\to\infty$,
+by absolute convergence of $\sum_p(\log p)^2/p^2$.
+
+\textbf{Paper~4}~\cite{Paper4} introduced the dual operator
+$\Tt=\Phi\circ\Phi^*$, acting on $\Hnull$, and established a
+conditional analytic proof that $\etaorig>0$ under an equidistribution
+assumption on $\{\gamma_k\log p\bmod 2\pi\}$.
+Non-vanishing on $\mathrm{Re}(s)=1$ is settled unconditionally by
+Hadamard and de la Vall\'ee Poussin (1896); the genuinely open
+condition is the Weyl equidistribution of the prime log-phases.
+
+The present paper takes a different route.
+Rather than pursuing the equidistribution condition of Paper~4,
+we establish an exact trace formula for $\Tt(\sigma)$ --- purely
+algebraic, requiring no analytic assumptions --- and introduce
+the smoothed zero-sum theory that exposes a structural negative
+bias at $\sigma=\tfrac{1}{2}$.
+The central open problem is the \textbf{Bias Conjecture}:
+$\mathrm{Re}(\Zt_p(\varepsilon))<0$ for all primes~$p$.
+Its proof would complete the $\sigma=\tfrac{1}{2}$ Curvature Bias
+argument via the Reduction Lemma, subject to the stated auxiliary
+conditions.
+\textbf{We do not prove the Bias Conjecture in this paper.}
+
+\subsection{Main Results}
+
+The paper contains three main components.
+
+The first is Theorem~\ref{thm:trace}, an exact trace formula
+$\mathrm{Tr}(\Tt(\sigma)) = \DSEL - O(\sigma)$,
+proved algebraically for all $\sigma\in\mathbb{R}$.
+Here $\DSEL$ is an explicit $\sigma$-independent constant and
+$O(\sigma)$ is a finite oscillatory sum over primes and zeros;
+the entire $\sigma$-dependence of the trace resides in $O(\sigma)$.
+
+The second is a numerical observation (Observation~\ref{obs:etainf})
+that $\eta_\infty\approx 0.81$, motivating the identity
+$\eta_\infty = 1-m_1(\infty)$, where $m_1(\infty)$ is the first
+moment of a limiting spectral measure $\nu_\infty$.
+The numerical content is robust for $\kappa\leq 1009$;
+the algebraic identity remains an open problem.
+
+The third is the smoothed zero-sum framework of \S\,\ref{sec:smoothed}.
+Proposition~\ref{prop:decomp} identifies
+$B = \sum_p(\log p)^2\mathrm{Re}(Z_p)$,
+and the Structural Reduction (\S\,\ref{ssec:reduction}) formally isolates
+the candidate main term $-(\log p)/(2\sqrt{\pi}\,\varepsilon\sqrt{p})<0$
+via the Guinand--Weil explicit formula.
+The Bias Conjecture (Conjecture~\ref{conj:bias}) is stated as the
+central open problem, and Proposition~\ref{prop:sign} records the
+conditional sign transfer.
+
+% -------------------------------------------------------
+\section{The Operator Family \texorpdfstring{$\Tt(\sigma)$}{T-tilde(sigma)}}
+\label{sec:ops}
+
+\subsection{Hilbert Spaces and Coupling Map}
+
+Let $\kappa>1$ be a prime cutoff and $N\geq 1$ a zero cutoff.
+Write $\{p_1<p_2<\cdots<p_P\}$ for the primes up to $\kappa$,
+and $\gamma_1<\gamma_2<\cdots<\gamma_N$ for the imaginary parts
+of the first $N$ non-trivial zeros of $\zeta(s)$, listed in
+increasing order and taken as fixed numerical input parameters.
+The normative parameters used throughout are
+$\kappa=53$, $\varepsilon=0.05$, $N=100$, $\sigma_0=\tfrac{1}{2}$.
+
+\begin{definition}[Hilbert spaces]
+\label{def:spaces}
+Set $\Hstr := \ell^2(\{p\text{ prime}: p\leq\kappa\})$
+(of dimension~$P$) and $\Hnull := \ell^2(\{\gamma_k: k=1,\ldots,N\})$
+(of dimension~$N$), each equipped with the standard inner product.
+\end{definition}
+
+\begin{remark}
+The values $\gamma_k$ are used as numerical inputs throughout.
+No property of their distribution --- in particular, no assertion
+that $\mathrm{Re}(\rho_k)=\tfrac{1}{2}$ for the corresponding
+zeros $\rho_k$ --- is assumed or used in any proof.
+\end{remark}
+
+\begin{definition}[Coupling map and operator family]
+\label{def:coupling}
+Let $\varepsilon>0$.
+Define $\Phi(\sigma)\colon\Hstr\to\Hnull$ by
+\[
+\Phi(\sigma)_{k,p} := e^{-\varepsilon^2\gamma_k^2/2}\sin(\sigma\gamma_k\log p),
+\]
+and set
+\[
+\Tt(\sigma) := \Phi(\sigma)\circ\Phi(\sigma)^*\colon\Hnull\to\Hnull.
+\]
+Explicitly,
+$\Tt(\sigma)_{kl}
+  = \sum_{p\leq\kappa} e^{-\varepsilon^2(\gamma_k^2+\gamma_l^2)/2}
+    \sin(\sigma\gamma_k\log p)\sin(\sigma\gamma_l\log p)$.
+The normative reference operator is $\Tt := \Tt(\tfrac{1}{2})$.
+\end{definition}
+
+The operator $\Tt(\sigma)$ is self-adjoint and positive semi-definite
+for all $\sigma$, since it is of the form $\Phi\Phi^*$.
+Its rank is at most $P$.
+We write $\mu_1(\sigma)\geq\mu_2(\sigma)\geq\cdots\geq\mu_N(\sigma)\geq 0$
+for its eigenvalues in non-increasing order.
+
+\subsection{Spectral Properties}
+\label{ssec:spectral}
+
+\textbf{$\Tt$ is not a Hilbert--P\'olya operator.}
+The Hilbert--P\'olya conjecture postulates a self-adjoint operator
+whose eigenvalues are precisely the imaginary parts $\gamma_k$ of the
+non-trivial zeros.
+$\Tt$ is not such an operator.
+Numerical computation ($\kappa=53$, $\varepsilon=0.05$, $N=100$) gives
+$\mu_j\sim\CT/\gamma_{k(j)}$ with $\CT\approx 2\pi(\kappa)$
+and Pearson correlation $r_1=0.950$,
+where $k(j)$ denotes the dominant zero-index of eigenmode~$j$.
+This inverse decay $\mu_j\to 0$ as $j\to\infty$ is structurally
+incompatible with the Hilbert--P\'olya requirement $\mu_j=\gamma_j\to\infty$.
+$\Tt$ is a resonance operator: $\Tt_{kl}$ measures the prime-mediated
+coupling between zeros $\gamma_k$ and $\gamma_l$.
+
+The constant $\CT\approx 2\pi(\kappa)$ governing the eigenvalue decay
+is distinct from $\Ceta\approx 0.39$, which governs the growth of the
+maximum eigenvalue of the renormalized operator
+$\lambda_{\max}(T_{\mathrm{ren}})\approx\Ceta\cdot\pi(\kappa)$
+(established in Paper~4~\cite{Paper4}).
+These two constants must not be confused.
+
+\textbf{Three numerical signatures at $\sigma=\tfrac{1}{2}$.}
+The following spectral features are observed numerically at
+$\sigma=\tfrac{1}{2}$ ($\kappa=53$, $\varepsilon=0.05$, $N=100$).
+First, the trace satisfies $\mathrm{Tr}(\Tt(\tfrac{1}{2}))=14.624$,
+approximately $47\%$ above the global minimum of
+$\sigma\mapsto\mathrm{Tr}(\Tt(\sigma))$.
+Second, the dominant eigenvalue $\mu_1(\sigma)$ attains its maximum
+$\mu_1(\tfrac{1}{2})=6.835$ at $\sigma=\tfrac{1}{2}$.
+Third, the spectral gap $|\mu_8(\tfrac{1}{2})-\mu_9(\tfrac{1}{2})|=0.0019$
+attains its minimum at $\sigma=\tfrac{1}{2}$.
+These are numerical observations, not theorems.
+
+% -------------------------------------------------------
+\section{The Trace Formula}
+\label{sec:trace}
+
+\begin{theorem}[Trace Formula, proved algebraically]
+\label{thm:trace}
+For all $\sigma\in\mathbb{R}$,
+\[
+\mathrm{Tr}\bigl(\Tt(\sigma)\bigr)
+  = \sum_{j=1}^N \mu_j(\sigma)
+  = \DSEL - O(\sigma),
+\]
+where
+\[
+\DSEL   := \tfrac{1}{2}\,A(\varepsilon,N)\cdot\pi(\kappa),\qquad
+A(\varepsilon,N) := \sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2},
+\]
+\[
+O(\sigma) := \tfrac{1}{2}\sum_{k=1}^N\sum_{p\leq\kappa}
+             e^{-\varepsilon^2\gamma_k^2}\cos(2\sigma\gamma_k\log p).
+\]
+The quantity $\DSEL$ is $\sigma$-independent.
+The entire $\sigma$-dependence of the trace resides in $O(\sigma)$.
+\end{theorem}
+
+\begin{proof}
+From Definition~\ref{def:coupling},
+\[
+\mathrm{Tr}\bigl(\Tt(\sigma)\bigr)
+  = \sum_{k=1}^N \Tt(\sigma)_{kk}
+  = \sum_{k=1}^N\sum_{p\leq\kappa}
+    e^{-\varepsilon^2\gamma_k^2}\sin^2(\sigma\gamma_k\log p).
+\]
+Applying $\sin^2(x)=(1-\cos 2x)/2$ to each term:
+\[
+= \tfrac{1}{2}\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}
+  - \tfrac{1}{2}\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\cos(2\sigma\gamma_k\log p)
+  = \DSEL - O(\sigma). \qedhere
+\]
+\end{proof}
+
+The proof is purely algebraic: no analytic assumptions, no asymptotic
+arguments, no input from the Riemann Hypothesis.
+The formula is exact for any finite $\kappa$, $N$, $\varepsilon$, $\sigma$.
+
+Numerical verification ($\kappa=53$, $\varepsilon=0.05$, $N=100$,
+$\sigma$-grid) gives
+$\max_\sigma|\mathrm{Tr}_{\mathrm{spec}}(\sigma)-(\DSEL-O(\sigma))|<10^{-14}$,
+confirming the identity at floating-point precision.
+The normative values are:
+$A(\varepsilon,N)=0.41530$; $\pi(53)=16$;
+$\DSEL = 10.9845$; $O(\tfrac{1}{2})=-3.6391$;
+$\mathrm{Tr}(\Tt(\tfrac{1}{2}))=14.624$.
+
+\begin{corollary}
+\label{cor:extrema}
+The functions $\sigma\mapsto\mathrm{Tr}(\Tt(\sigma))$ and
+$\sigma\mapsto O(\sigma)$ differ by the constant $\DSEL$.
+In particular, extrema of $\mathrm{Tr}(\Tt(\sigma))$ coincide
+with extrema of $O(\sigma)$.
+\end{corollary}
+
+Numerically, $\sigma=\tfrac{1}{2}$ is a local maximum of
+$\mathrm{Tr}(\Tt(\sigma))$, equivalently a local minimum of $O(\sigma)$.
+This is a numerical observation.
+
+\begin{remark}
+The decomposition $\mathrm{Tr}(\Tt(\sigma))=\DSEL-O(\sigma)$
+has a structural parallel to the Selberg trace formula,
+in which a spectral sum equals a sum of geometric data:
+$\DSEL$ plays the role of the constant geometric term and
+$O(\sigma)$ plays the role of the oscillatory prime-geodesic sum.
+This analogy is motivational; no formal connection to the
+Selberg trace formula is claimed.
+
+Three further points deserve emphasis.
+Theorem~\ref{thm:trace} makes no assertion about $\sigma=\tfrac{1}{2}$
+specifically; the trace formula is uniform in $\sigma$.
+No connection to the Riemann Hypothesis follows from
+Theorem~\ref{thm:trace} alone.
+Finally, $\mathrm{Tr}(\Tt(\sigma))\neq\Gamma_\kappa(\sigma)$ in general:
+the Pearson correlation is $+0.9915$ (numerical), but the ratio is not
+constant (coefficient of variation $54.76\%$), owing to a $(\log p)^2$
+discrepancy in the definitions, since $\Tt$ uses $\sin(\sigma\gamma_k\log p)$
+while $\Gamma_\kappa$ involves $(\log p)^2$ factors explicitly.
+
+The symbol $\DSEL$ carries a mandatory subscript to distinguish it
+from the diagonal energy $\Ediag := \langle c,D_{\mathrm{diag}}c\rangle
+\approx 9.471$; these two quantities are unrelated.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Asymptotic Spectral Measure}
+\label{sec:asymp}
+
+We recall the energy asymmetry from Papers~3 and~4.
+For prime cutoff $\kappa$,
+\[
+\etaorig(\kappa) := 1 - \frac{c^T \Gun c}{\Estr(\kappa)},
+\]
+where $c=(c_p)_{p\leq\kappa}$ is the normative weight vector with
+$c_p := \sqrt{4(\log p)^2(2p-1)/(p(p-1)^2)}$;
+$\Gun$ is the off-diagonal interaction matrix (entries of $T=\Phi^*\circ\Phi$
+minus its diagonal);
+and $\Estr(\kappa):=\sum_{p\leq\kappa}c_p^2\,\|a_p\|^2$, with
+$\|a_p\|^2:=\sum_k e^{-\varepsilon^2\gamma_k^2}\sin^2(\gamma_k\log p)$.
+The normative value is $\etaorig(53)=0.66927$, and the numerical range
+for $\kappa\leq 1009$ is $\etaorig\in[0.598,0.704]$.
+The convergence $\Estr(\kappa)\to\Estr(\infty)\approx 6.1$ follows from
+absolute convergence of $\sum_p(\log p)^2/p^2<\infty$.
+
+\begin{definition}[Empirical spectral measure]
+\label{def:meas}
+Let $\nu_\kappa := (1/N)\sum_j\delta_{\mu_j(\kappa)}$ be the empirical
+spectral measure of $\Tt(\kappa)$.
+Define $\nu_\infty$ as the weak limit of $\nu_\kappa$ as $\kappa\to\infty$,
+if it exists, and set $m_1(\infty):=\int\mu\,d\nu_\infty(\mu)$.
+\end{definition}
+
+Existence of $\nu_\infty$ is numerically observed to be convergent
+but has not been proved formally.
+
+\begin{observation}[Numerical]
+\label{obs:etainf}
+For $\kappa\leq 1009$, $\varepsilon=0.05$, $N=100$, the sequence
+$\etaorig(\kappa)$ is numerically convergent, with limiting value
+\[
+\eta_\infty := \lim_{\kappa\to\infty}\etaorig(\kappa)\approx 0.81.
+\]
+This motivates the conjectural algebraic identity
+$\eta_\infty = 1 - m_1(\infty)$.
+\end{observation}
+
+\begin{remark}
+Three points about the scope of Observation~\ref{obs:etainf}.
+The identity $\eta_\infty = 1 - m_1(\infty)$ is an open algebraic
+problem, not a theorem of this paper.
+The empirical measure $\nu_\kappa = (1/N)\sum_j\delta_{\mu_j}$ gives
+$m_1(\nu_\kappa)=(1/N)\mathrm{Tr}(\Tt(\kappa))$,
+which is a normalized trace not identifiable with
+$c^T\Gun c/\Estr$; the two objects differ in their weighting.
+The algebraic identity $\etaorig(\kappa)=1-m_1^{(w)}(\nu_\kappa)$ at
+finite $\kappa$ would require a weighted spectral measure adapted to
+$c_p$ and $\Estr$ that we do not construct here
+(see Open Problem~\ref{op:measure}).
+Furthermore, $\eta_\infty$ is not identified with any classical constant:
+$\eta_\infty\neq\pi^2/6$, $\eta_\infty\neq\gamma_E$
+(the Euler--Mascheroni constant).
+$\eta_\infty$ is a functional of the spectral measure $\nu_\infty$,
+whose value depends on the arithmetic structure of the prime--zero coupling.
+\end{remark}
+
+The rank-1 structure of the limit deserves comment.
+Each step $\kappa\to\kappa'$ (adding the next prime $p'$) takes the form
+\[
+\Tt(\kappa') = \Tt(\kappa) + \Phi_{p'}\otimes\Phi_{p'}^T,
+\]
+where $\Phi_{p'} := (e^{-\varepsilon^2\gamma_k^2/2}\sin(\gamma_k\log p'))_{k=1}^N$
+is the column of $\Phi$ associated with $p'$.
+This rank-1 perturbation structure provides a tractable framework for
+studying the $\kappa\to\infty$ limit.
+
+% -------------------------------------------------------
+\section{Smoothed Zero Sums and the Bias Conjecture}
+\label{sec:smoothed}
+
+\subsection{Objects and Decomposition}
+\label{ssec:objects}
+
+We introduce two analytically distinct objects and establish their
+relationship to the curvature-bias quantity.
+
+\begin{definition}[Finite truncation]
+\label{def:Zp}
+For a prime $p\leq\kappa$, set
+\[
+Z_p := \sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2}\,p^{i\gamma_k}\in\mathbb{C},
+\qquad
+\mathrm{Re}(Z_p) = \sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2}\cos(\gamma_k\log p).
+\]
+\end{definition}
+
+\begin{definition}[Guinand--Weil object]
+\label{def:Ztilde}
+For a prime $p$ and $\varepsilon>0$, set
+\[
+\Zt_p(\varepsilon) := \sum_\rho h^{\mathrm{even}}_{p,\varepsilon}\!\left(\tfrac{\rho-\frac12}{i}\right),
+\]
+where the sum ranges over all non-trivial zeros $\rho$ of $\zeta(s)$,
+and the test function and its Fourier transform are
+\[
+h^{\mathrm{even}}_{p,\varepsilon}(u) := e^{-\varepsilon^2 u^2}\cos(u\log p),
+\qquad
+\hat{h}_{p,\varepsilon}(x) := \frac{\sqrt{\pi}}{\varepsilon}\,
+  \exp\!\left(-\frac{(\log p - 2\pi x)^2}{4\varepsilon^2}\right).
+\]
+\end{definition}
+
+The objects $\Zt_p(\varepsilon)$ and $Z_p$ are numerically close for
+large $N$ and small $\varepsilon$, but analytically distinct:
+$\Zt_p(\varepsilon)$ is the complete Guinand--Weil sum over all zeros,
+while $Z_p$ is the finite truncation to the first $N$.
+This distinction is maintained throughout all subsequent arguments.
+
+The curvature-bias quantity is defined as
+\[
+B := \sum_{k=1}^N\sum_{p\leq\kappa}
+     e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2\cos(\gamma_k\log p).
+\]
+
+\begin{proposition}[Decomposition, proved]
+\label{prop:decomp}
+\[
+B = \sum_{p\leq\kappa}(\log p)^2\,\mathrm{Re}(Z_p).
+\]
+\end{proposition}
+
+\begin{proof}
+Expand $\mathrm{Re}(Z_p) = \sum_k e^{-\varepsilon^2\gamma_k^2}\cos(\gamma_k\log p)$,
+multiply by $(\log p)^2$, and exchange the order of summation.
+\end{proof}
+
+The normative value is $B=-19342.5$ ($\kappa=53$, $\varepsilon=0.05$,
+$N=100$, numerical).
+Numerically, $\mathrm{Re}(Z_p)<0$ holds for $14$ of the $16$ primes
+$p\leq 53$; the two exceptions occur for the smallest primes, where
+finite-$N$ oscillation competes with the main term.
+
+\subsection{Structural Reduction}
+\label{ssec:reduction}
+
+We apply the Guinand--Weil explicit formula to $h^{\mathrm{even}}_{p,\varepsilon}$
+to formally identify the candidate main term in $\Zt_p(\varepsilon)$.
+
+\begin{conventionbox}
+\textbf{Convention (Guinand--Weil normalization).}
+We use the explicit formula in the following form.
+For an admissible even test function $h$ with Fourier transform
+$\hat{h}(x) := \int_{-\infty}^\infty h(u)e^{-2\pi i ux}\,du$,
+the Guinand--Weil formula reads
+\[
+\sum_\rho h\!\left(\tfrac{\rho-\frac12}{i}\right)
+  = -\frac{1}{2\pi}\sum_{n\geq 2}\frac{\Lambda(n)}{\sqrt{n}}
+    \bigl[\hat{h}({\textstyle\frac{\log n}{2\pi}})
+          + \hat{h}({-\textstyle\frac{\log n}{2\pi}})\bigr]
+  + (\Gamma\text{-terms}) + (\text{constant terms}).
+\]
+The factor $1/(2\pi)$ in front of the prime-power sum reflects
+the chosen Fourier-transform normalization.
+This convention is consistent with Weil~\cite{Weil} and
+Guinand~\cite{Guinand}.
+\end{conventionbox}
+
+\textit{Structural Reduction~\ref{ssec:reduction}
+(proved: formal isolation of candidate main term; dominance open).}
+
+\medskip
+
+\textit{Step~1 --- Explicit formula template.}
+Applying the convention above to $h=h^{\mathrm{even}}_{p,\varepsilon}$:
+\[
+\Zt_p(\varepsilon)
+  = -\frac{1}{2\pi}\sum_{n\geq 2}\frac{\Lambda(n)}{\sqrt{n}}
+    \bigl[\hat{h}_{p,\varepsilon}({\textstyle\tfrac{\log n}{2\pi}})
+    + \hat{h}_{p,\varepsilon}({-\textstyle\tfrac{\log n}{2\pi}})\bigr]
+  + (\Gamma\text{-terms}) + (\text{constant terms}).
+\]
+
+\textit{Step~2 --- Fourier transform.}
+For $h^{\mathrm{even}}_{p,\varepsilon}(u)=e^{-\varepsilon^2 u^2}\cos(u\log p)$,
+the Fourier transform from Definition~\ref{def:Ztilde} is
+a Gaussian of width $\varepsilon/(2\pi)$ centred at $x=(\log p)/(2\pi)$.
+
+\textit{Step~3 --- Prime-power localization.}
+For small $\varepsilon$, the Gaussian $\hat{h}_{p,\varepsilon}$ is
+sharply concentrated near $x=(\log p)/(2\pi)$.
+In the prime-power sum $\sum_{n\geq 2}(\Lambda(n)/\sqrt{n})\hat{h}(\log n/2\pi)$,
+the contribution from $n=p$ (with $\Lambda(p)=\log p$) is the
+\textit{formally isolated peak contribution}: all other prime powers lie
+at distance at least $\log p$ from the peak, and their contributions
+are exponentially suppressed for small $\varepsilon$.
+The quantitative dominance of this term over the remainder is
+\textit{not established here}; this is the content of the
+Bias Conjecture.
+
+\textit{Step~4 --- Candidate main term.}
+The $n=p$ contribution, using the convention above, is
+\begin{align*}
+-\frac{1}{2\pi}\cdot\frac{\log p}{\sqrt{p}}\cdot\hat{h}_{p,\varepsilon}
+  \!\left(\tfrac{\log p}{2\pi}\right)
+&= -\frac{1}{2\pi}\cdot\frac{\log p}{\sqrt{p}}\cdot\frac{\sqrt{\pi}}{\varepsilon}
+   \cdot e^0 \\
+&= -\frac{(\log p)\sqrt{\pi}}{2\pi\,\varepsilon\sqrt{p}}
+ = -\frac{\log p}{2\sqrt{\pi}\,\varepsilon\sqrt{p}}.
+\end{align*}
+The cancellation $\sqrt{\pi}/(2\pi)=1/(2\sqrt{\pi})$ is elementary.
+This candidate main term is strictly negative for all primes $p>1$.
+
+\textit{Step~5 --- Remainder.}
+All remaining contributions --- prime powers $n=p^k$ with $k\geq 2$,
+other primes, $\Gamma$-factor terms involving $(\Gamma'/\Gamma)(s)$
+at $s=\tfrac{1}{2}\pm\varepsilon$, and trivial zeros --- are grouped into
+the $(\Gamma\text{-terms})$ and correction terms.
+These are real-valued.
+Their combined magnitude relative to the candidate main term
+is not controlled quantitatively here.
+
+In summary, the Structural Reduction formally identifies
+\[
+\Zt_p(\varepsilon)
+  = -\frac{\log p}{2\sqrt{\pi}\,\varepsilon\sqrt{p}}
+    + (\Gamma\text{-terms}) + (\text{correction terms}).
+\]
+The candidate main term is strictly negative.
+Whether it dominates quantitatively is the content of the
+Bias Conjecture (Conjecture~\ref{conj:bias}).
+
+\begin{remark}
+The $\Gamma$-terms and correction terms in the Structural Reduction
+are real-valued. Their magnitude relative to the candidate main term
+$-(\log p)/(2\sqrt{\pi}\,\varepsilon\sqrt{p})$ is not controlled
+quantitatively in this paper. Establishing this control is precisely
+the content of the Bias Conjecture.
+\end{remark}
+
+The following lemma records a formally trivial but logically
+useful reduction.
+
+\begin{lemma}[Reduction Lemma, proved]
+\label{lem:reduction}
+If $B = -M + E$ with $M>0$ and $|E|<M$, then $B<0$.
+\end{lemma}
+
+This lemma reduces the Curvature Bias problem to a single question:
+is the negative candidate main term quantitatively dominant over the
+remainder?
+The non-trivial content lies entirely in establishing that dominance.
+
+\subsection{Sign Transfer and the Bias Conjecture}
+\label{ssec:sign}
+
+\begin{definition}[Truncation error]
+\label{def:trunc}
+Set $R_{p,N}(\varepsilon) := Z_p - \Zt_p(\varepsilon)$.
+Under standard zero-counting estimates,
+\[
+|R_{p,N}(\varepsilon)| \leq \int_{\gamma_N}^\infty e^{-\varepsilon^2 t^2}\,dN(t),
+\]
+where $N(t)$ is the zero-counting function.
+This bound decays rapidly for $\gamma_N\gg 1/\varepsilon$.
+Since $\mathrm{Re}(R_{p,N}(\varepsilon))$ is the real part of $R_{p,N}(\varepsilon)$,
+we have $|\mathrm{Re}(R_{p,N}(\varepsilon))|\leq|R_{p,N}(\varepsilon)|$,
+so the above bound also controls the real-part error required
+in assumption~(B) of Proposition~\ref{prop:sign}.
+\end{definition}
+
+\begin{conjecture}[Bias Conjecture, open]
+\label{conj:bias}
+For each fixed prime cutoff $\kappa$ and damping parameter $\varepsilon>0$,
+\[
+\mathrm{Re}\bigl(\Zt_p(\varepsilon)\bigr) < 0
+\quad\text{for all primes }p\leq\kappa.
+\]
+\end{conjecture}
+
+The evidence for Conjecture~\ref{conj:bias} is threefold.
+Structurally, the Structural Reduction of \S\,\ref{ssec:reduction}
+formally identifies the candidate main term
+$-(\log p)/(2\sqrt{\pi}\,\varepsilon\sqrt{p})<0$.
+Numerically, $\mathrm{Re}(Z_p)<0$ holds for $14$ of $16$ primes
+$p\leq 53$ [Numerical].
+As a structural precedent, Mazhouda~\cite{Mazhouda} derived
+Gaussian-smoothed asymptotic formulas for sums over zeros of
+$L$-functions in the Selberg class: for $m\geq 2$,
+\[
+\sum_\rho e^{u\rho^2+(\log m)\rho}
+  = -\frac{\Lambda(m)}{\sqrt{4\pi u}} + O_m(1), \quad u\to 0^+,
+\]
+showing that Gaussian smoothing isolates prime-power contributions
+and produces an explicit negative main term.
+This provides a structural precedent for the negative bias in smoothed
+zero sums at prime scales.
+The test functions differ from those used here; a direct application
+to $\mathrm{Re}(\Zt_p(\varepsilon))$ requires showing that the present
+kernel falls within Mazhouda's framework.
+
+The conjecture remains open because the quantitative dominance of the
+candidate main term over all $\Gamma$-terms and correction terms is
+not formally established.
+
+\begin{proposition}[Conditional sign transfer]
+\label{prop:sign}
+Assume:
+\begin{enumerate}[label=\textup{(\Alph*)}]
+\item $\mathrm{Re}(\Zt_p(\varepsilon))<0$ for all primes $p\leq\kappa$
+  \textup{(Bias Conjecture)};
+\item $|\mathrm{Re}(R_{p,N}(\varepsilon))|<|\mathrm{Re}(\Zt_p(\varepsilon))|$
+  for all primes $p\leq\kappa$
+  \textup{(truncation error strictly dominated by main term)}.
+\end{enumerate}
+Then $\mathrm{Re}(Z_p)<0$ for all $p\leq\kappa$,
+and consequently $B<0$.
+\end{proposition}
+
+\begin{proof}
+Write $\mathrm{Re}(Z_p) = \mathrm{Re}(\Zt_p) + \mathrm{Re}(R_{p,N})$.
+By~(A), $\mathrm{Re}(\Zt_p)<0$.
+By~(B), $|\mathrm{Re}(R_{p,N})|<|\mathrm{Re}(\Zt_p)|$.
+Hence $\mathrm{Re}(Z_p)<0$.
+Then $B=\sum_{p\leq\kappa}(\log p)^2\mathrm{Re}(Z_p)<0$
+by Proposition~\ref{prop:decomp}.
+\end{proof}
+
+Assumption~(A) is the Bias Conjecture (Open Problem~\ref{op:bias}).
+Assumption~(B) requires quantitative truncation-error control via
+the bound of Definition~\ref{def:trunc}, which is not established here.
+Neither condition is verified in this paper.
+
+The logical chain from Conjecture~\ref{conj:bias} to the Curvature Bias
+at $\sigma=\tfrac{1}{2}$ proceeds in three steps, all conditional.
+Under the Bias Conjecture and the truncation control of~(B),
+Proposition~\ref{prop:sign} gives $B<0$.
+By Reduction Lemma~\ref{lem:reduction}, this establishes the
+negative curvature bias.
+Complementing this with analytic control of the stationarity condition
+$|O'(\tfrac{1}{2})|\ll W\cdot P$ (Open Problem~\ref{op:stat})
+would then complete the $\sigma=\tfrac{1}{2}$ Curvature Bias argument,
+subject to all stated auxiliary conditions.
+
+% -------------------------------------------------------
+\section{Open Problems}
+\label{sec:open}
+
+We list three open problems in decreasing order of centrality
+to the program of this series.
+
+\begin{openproblem}[Bias Conjecture]
+\label{op:bias}
+For each fixed $(\kappa,\varepsilon)$,
+$\mathrm{Re}(\Zt_p(\varepsilon))<0$ for all primes $p\leq\kappa$.
+This is the decisive open problem of this paper and of the series.
+Its proof via quantitative estimates on the Guinand--Weil explicit
+formula --- controlling $\Gamma$-terms and correction terms relative
+to the candidate main term $-(\log p)/(2\sqrt{\pi}\,\varepsilon\sqrt{p})$
+--- would, in conjunction with the truncation control of
+Proposition~\ref{prop:sign}(B) and the Stationarity condition below,
+complete the $\sigma=\tfrac{1}{2}$ Curvature Bias argument.
+\end{openproblem}
+
+\begin{openproblem}[Stationarity]
+\label{op:stat}
+Establish analytically that $|O'(\tfrac{1}{2})|\ll W\cdot P$,
+where $W:=\sum_k e^{-\varepsilon^2\gamma_k^2}$ and $P=\pi(\kappa)$.
+Numerically, $O'(\tfrac{1}{2})=-2.475$, approximately $11\%$ of $W\cdot P$
+[Numerical].
+An analytic proof of approximate stationarity of $O$ at $\sigma=\tfrac{1}{2}$
+would complement the Bias Conjecture.
+\end{openproblem}
+
+\begin{openproblem}[Weighted spectral measure]
+\label{op:measure}
+Construct a weighted spectral measure $\nu^{(w)}_\kappa$ adapted to
+$c_p$ and $\Estr$ such that
+$\etaorig(\kappa) = 1 - m_1^{(w)}(\nu^{(w)}_\kappa)$
+holds algebraically at finite $\kappa$.
+The plain empirical measure $\nu_\kappa=(1/N)\sum_j\delta_{\mu_j}$ gives
+$m_1(\nu_\kappa)=(1/N)\mathrm{Tr}(\Tt)$, which is a normalized trace
+not identifiable with $c^T\Gun c/\Estr$.
+The construction of an appropriate weighted version,
+and its $\kappa\to\infty$ limit, remain open.
+\end{openproblem}
+
+% -------------------------------------------------------
+\section{Non-Circularity}
+\label{sec:nocirc}
+
+We document explicitly that the results of this paper do not rely
+on the objects they are directed toward.
+
+\textbf{No RH as input.}
+At no point is the Riemann Hypothesis assumed.
+The ordinates $\gamma_k$ are used as numerically specified inputs.
+No property of their distribution requiring RH is assumed or used.
+
+\textbf{No GUE, Montgomery, or Hilbert--P\'olya hypothesis.}
+The operator $\Tt(\sigma)$ is constructed explicitly from the coupling
+map $\Phi(\sigma)$ (Definition~\ref{def:coupling}).
+No random matrix hypothesis, no GUE pair-correlation conjecture,
+and no Hilbert--P\'olya postulate enters the construction or the proofs.
+
+\textbf{$\Tt(\sigma)$ is not postulated.}
+It is derived as $\Phi(\sigma)\circ\Phi(\sigma)^*$ from an explicit matrix.
+It is not a hypothetical object.
+
+\textbf{$\Tt$ is not a Hilbert--P\'olya operator.}
+As established in \S\,\ref{ssec:spectral}, the eigenvalues satisfy
+$\mu_j\sim\CT/\gamma_{k(j)}\to 0$, which is incompatible with the
+Hilbert--P\'olya requirement that eigenvalues grow like the zeros.
+
+\textbf{Theorem~\ref{thm:trace} is purely algebraic.}
+The trace formula is proved by a two-line trigonometric manipulation.
+No asymptotic analysis and no analytic number theory are used.
+
+\textbf{The Bias Conjecture is open.}
+Conjecture~\ref{conj:bias} is clearly marked as an open problem.
+No theorem in this paper implies it.
+
+\textbf{$\gamma_k$ as inputs, not conclusions.}
+The ordinates appear as numerically specified inputs to the model.
+The claim $\mathrm{Re}(\rho_k)=\tfrac{1}{2}$ is not used anywhere;
+the reference point $\sigma_0=\tfrac{1}{2}$ is chosen as the object
+of study, not assumed to be the unique zero location.
+
+% -------------------------------------------------------
+\section*{Acknowledgments}
+
+The author thanks the project's structured review and verification
+workflow for systematic error detection across draft versions.
+
+\emph{Pauca sed matura.} --- C.F.~Gauss
+
+% -------------------------------------------------------
+\section*{Call for Feedback}
+
+This paper is part of the ongoing \textit{AnalysisLab\_L1--L5} project,
+an open research initiative toward the Riemann Hypothesis.
+All papers are freely available on Zenodo under CC~BY~4.0,
+and the accompanying verification code is hosted on GitHub.
+
+The author welcomes critical feedback, corrections, and collaboration:
+Zenodo (\url{https://zenodo.org/search?q=Ulrich+Tehrani})
+and GitHub (\url{https://github.com/utehrani/analysislab-nt}).
+
+Topics of particular interest include: analytical approaches to the
+Bias Conjecture via Guinand--Weil estimates; connections to existing
+results on exponential sums over primes and zeros; and any errors or
+gaps in the present arguments.
+
+\noindent\textit{Pauca sed matura.} (C.F.\ Gauss)
+
+% -------------------------------------------------------
+\begin{thebibliography}{99}
+
+\bibitem{Paper1}
+U.~Tehrani,
+``A Curvature Decomposition of the Explicit Formula'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19025598},
+April 2026, v8.
+
+\bibitem{Paper2}
+U.~Tehrani,
+``From Local Curvature to the Weil Functional'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19106992},
+April 2026, v5.
+
+\bibitem{Paper3}
+U.~Tehrani,
+``A Finite-Cutoff Hilbert-Space Model
+for Prime--Zero Energy Structure'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19307989},
+April 2026, v2.
+
+\bibitem{Paper4}
+U.~Tehrani,
+``A Dual Operator for Prime--Zero Coupling
+and a Conditional Proof of Energy Asymmetry'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19364703},
+April 2026, v4.
+
+\bibitem{Code}
+U.~Tehrani,
+\emph{AnalysisLab\_L1\_L5 --- Verification Scripts},
+GitHub, \url{https://github.com/utehrani/analysislab-nt}.
+
+\bibitem{Guinand}
+A.~P.~Guinand,
+``Fourier reciprocities and the Riemann zeta-function'',
+\emph{Proc.\ London Math.\ Soc.}\ (2) \textbf{51} (1950), 401--414.
+
+\bibitem{Weil}
+A.~Weil,
+``Sur les `formules explicites' de la th\'eorie des nombres premiers'',
+\emph{Comm.\ S\'em.\ Math.\ Univ.\ Lund}, 1952, 252--265.
+
+\bibitem{Mazhouda}
+K.~Mazhouda,
+``New asymptotic formulas for sums over zeros of functions
+from the Selberg class'',
+\emph{Ann.\ Sci.\ Math.\ Qu\'ebec}, 2019.
+arXiv:1505.01544v2~[math.NT].
+
+\end{thebibliography}
+
+% -------------------------------------------------------
+\bigskip\noindent\rule{\linewidth}{0.4pt}\smallskip
+\noindent\small
+\emph{Paper~5 v1.0 \textperiodcentered\ April~2026}\\
+\emph{v1.0: LaTeX from v0.4 MD; review fixes H1/H2 applied;
+editorial softening per external review}\\
+\emph{Pauca sed matura}
+
+\end{document}
