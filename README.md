@@ -2,12 +2,12 @@
 
 Five papers on ζ(s): curvature decomposition, Weil functional, a
 Hilbert-space model for prime–zero energy structure, the Tehrani
-operator T̃ = ΦΦ*, and a spectral trace formula with smoothed zero sums.
+operator T̃(σ) = Φ(σ)Φ(σ)*, and a spectral trace formula with
+smoothed zero sums and the Bias Conjecture.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
-**DOIs:** 
-[Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
+**DOIs:** [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
 [Paper 3](https://doi.org/10.5281/zenodo.19307989) ·
 [Paper 4](https://doi.org/10.5281/zenodo.19364703) ·
