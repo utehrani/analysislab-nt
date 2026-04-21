@@ -1,9 +1,9 @@
 # AnalysisLab: Curvature, Energy and the Riemann Zeta Function
 
-Five papers on ζ(s): curvature decomposition, Weil functional, a
+Six papers on ζ(s): curvature decomposition, Weil functional, a
 Hilbert-space model for prime–zero energy structure, the Tehrani
-operator T̃(σ) = Φ(σ)Φ(σ)*, and a spectral trace formula with
-smoothed zero sums and the Bias Conjecture.
+operator T̃(σ) = Φ(σ)Φ(σ)*, a spectral trace formula with smoothed
+zero sums, and the positive-curvature statement at the critical line.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
@@ -11,11 +11,12 @@ smoothed zero sums and the Bias Conjecture.
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
 [Paper 3](https://doi.org/10.5281/zenodo.19307989) ·
 [Paper 4](https://doi.org/10.5281/zenodo.19364703) ·
-[Paper 5](https://doi.org/10.5281/zenodo.19508547)
+[Paper 5](https://doi.org/10.5281/zenodo.19508547) ·
+[Paper 6](https://doi.org/10.5281/zenodo.19665790)
 
 ---
 
-## The Five Papers
+## The Six Papers
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
@@ -183,6 +184,46 @@ python code/paper5/verify_paper5.py
 
 ---
 
+### Paper 6 — Positive Curvature of the Spectral Trace at the Critical Line
+**DOI:** [10.5281/zenodo.19665790](https://doi.org/10.5281/zenodo.19665790)  
+**File:** [`papers/paper6/paper6_v1_0.pdf`](papers/paper6/)  
+**Scripts:** [`code/paper6/`](code/paper6/)
+
+**Imports from Paper 5:** trace formula Tr(T̃(σ)) = D_SEL − O(σ),
+B-decomposition, B = −19342.5 at reference parameters.
+
+**What it proves:**  
+Starting from the trace formula of Paper 5, Paper 6 establishes a
+four-term Guinand–Weil decomposition of the smoothed zero sum Z̃_p(ε)
+with quantitative control of each component. The algebraic identity
+O″(½) = −2B connects the second derivative of the oscillatory trace
+component to the direct curvature sum. At the reference parameters,
+O″(½) > 0 follows from B = −19342.5 < 0.
+
+| Result | Status |
+|--------|--------|
+| Main term negativity: `Main_p(ε) < 0` for all p, all ε>0 | **PROVED** |
+| Other-prime error: `Err_other ≤ 0` | **PROVED** |
+| Truncation error: `|R_{p,100}|/|Main_p| ~ 3×10⁻⁶¹` | **PROVED** |
+| Curvature–bias identity: `O''(½) = −2B` | **PROVED** |
+| Gamma term subleading: `|Γ_p(ε)|/|Main_p(ε)| ~ ε` | **NUMERICAL** |
+| Ratio bound: `r_p ∈ [0.75, 0.80]` for all p ≤ 53 | **NUMERICAL** |
+| Sign-crossover localised in (0.020, 0.025) | **NUMERICAL** |
+| Integrated bias: `B_int(0.05) = −42.21 < 0` | **NUMERICAL** |
+| Positive curvature: `O''(½) = +38685 > 0` | **NUMERICAL** |
+| Strict local minimum of O at σ=½ (under stationarity) | **CONDITIONAL** |
+
+**Five open problems** frame the completion path: analytic stationarity bound,
+asymptotic pointwise bias, uniformity of positive curvature, integrated-to-
+direct transfer, and the bridge to Weil positivity.
+
+**Reproduce:**
+```bash
+python code/paper6/verify_paper6.py
+```
+
+---
+
 ## How the Papers Connect
 
 ```
@@ -202,7 +243,13 @@ H_local(1/2,k)  ──R1──>  Weil bridge  ──R2──>  Geometry      ─
                                                                     T̃(σ) family
                                                                     Tr = D_SEL − O(σ)
                                                                     Bias Conjecture
-                                                                    [OPEN → Paper 6]
+                                                                         │
+                                                                         ▼
+                                                                    Paper 6
+                                                                ─────────────────
+                                                                O''(½) = −2B
+                                                                O''(½) > 0 at ref.
+                                                                [5 open problems]
 ```
 
 **Mathematical thread:**  
@@ -212,6 +259,9 @@ framework. The Tehrani operator T̃ (Paper 4) encodes the prime-mediated
 coupling between zero ordinates. Paper 5 introduces the σ-dependent family
 T̃(σ), proves the exact trace formula Tr(T̃(σ)) = D_SEL − O(σ), and opens
 the smoothed zero-sum route toward the Bias Conjecture.
+Paper 6 uses the trace formula of Paper 5 to establish the positive-curvature
+statement O''(½) > 0 at reference parameters (numerical) via the algebraic
+identity O''(½) = -2B (proved).
 
 ---
 
@@ -248,9 +298,12 @@ analysislab-nt/
 │   ├── paper4/
 │   │   ├── paper4_v4.tex           LaTeX source, Paper 4 v4
 │   │   └── paper4_v4.pdf           Compiled PDF
-│   └── paper5/
-│       ├── paper5_v1_1.tex         LaTeX source, Paper 5 v1.1
-│       └── paper5_v1_1.pdf         Compiled PDF
+│   ├── paper5/
+│   │   ├── paper5_v1_1.tex         LaTeX source, Paper 5 v1.1
+│   │   └── paper5_v1_1.pdf         Compiled PDF
+│   └── paper6/
+│       ├── paper6_v1_0.tex         LaTeX source, Paper 6 v1.0
+│       └── paper6_v1_0.pdf         Compiled PDF
 │
 ├── code/
 │   ├── paper1/
@@ -264,10 +317,14 @@ analysislab-nt/
 │   ├── paper4/
 │   │   └── verify_paper4.py        spectral identity, η_orig, HP test,
 │   │                               generates figures/paper4/fig_hp_main.png
-│   └── paper5/
-│       └── verify_paper5.py        trace formula, B-decomposition,
-│                                   η_orig, Re(Z_p), 3 signatures,
-│                                   generates figures/paper5/fig_paper5_main.png
+│   ├── paper5/
+│   │   └── verify_paper5.py        trace formula, B-decomposition,
+│   │                               η_orig, Re(Z_p), 3 signatures,
+│   │                               generates figures/paper5/fig_paper5_main.png
+│   └── paper6/
+│       └── verify_paper6.py        curvature identity, B, B_int,
+│                                   r_p ratio, sign-crossover localisation,
+│                                   generates figures/paper6/fig_paper6_main.png
 │
 ├── data/
 │   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k
@@ -289,9 +346,12 @@ analysislab-nt/
     │   └── fig6_mu_vs_gamma.png           μ_j vs γ_{k(j)} correlation
     ├── paper4/
     │   └── fig_hp_main.png               T̃ spectral structure and HP test
-    └── paper5/
-        └── fig_paper5_main.png           trace formula, Re(Z_p),
-                                          η_orig convergence, 3 signatures
+    ├── paper5/
+    │   └── fig_paper5_main.png           trace formula, Re(Z_p),
+    │                                      η_orig convergence, 3 signatures
+    └── paper6/
+        └── fig_paper6_main.png           r_p(ε) grid, sign-crossover,
+                                          B_int vs ε, B vs κ scaling
 ```
 
 ---
@@ -310,13 +370,14 @@ python code/paper3/ttilde_analysis.py
 python code/paper3/eta_inf_analysis.py
 python code/paper4/verify_paper4.py
 python code/paper5/verify_paper5.py
+python code/paper6/verify_paper6.py
 ```
 
 **Notes:**
 - All scripts accept an optional argument for the number of zero ordinates:
   ```bash
-  python code/paper5/verify_paper5.py        # N=100 (default, uses zeros_100.csv)
-  python code/paper5/verify_paper5.py 200    # N=200 (uses zeros_200.csv)
+  python code/paper6/verify_paper6.py        # N=100 (default, uses zeros_100.csv)
+  python code/paper6/verify_paper6.py 200    # N=200 (uses zeros_200.csv)
   ```
   Loads from `data/zeros_100.csv` or `data/zeros_200.csv` automatically.
   Falls back to mpmath if the CSV is missing.
@@ -337,6 +398,11 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 | **OF-EXPLICIT-1'(b)** | Weyl equidistribution of {γ_k log p mod 2π} | Paper 4 |
 | **OP 6.2** | Prove η_orig > 0 analytically without equidistribution | Paper 4 |
 | **σ=½ Selection** | Close L6A + L6B → RH via Weil positivity | Series |
+| **Stationarity (L6A)** | `|O'(½)| << W·π(κ)` analytically | Paper 6 |
+| **Asymptotic pointwise bias** | `Re(Z̃_p(ε)) < 0` all p ≤ κ analytically | Paper 6 |
+| **Uniformity of positive curvature** | `O''(½) > 0` beyond reference params | Paper 6 |
+| **Integrated-to-direct transfer** | bias⇒B negativity structurally | Paper 6 |
+| **Lagarias–Weil bridge** | curvature→Weil positivity framework | Paper 6 |
 
 **Closed / Settled:**
 - **OF-EXPLICIT-1'(a)** `ζ(1+inγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
@@ -370,6 +436,11 @@ Tehrani, U. (2026). Spectral Trace Formula and Smoothed Zero Sums:
 A Prime–Zero Duality Framework. Zenodo.
 https://doi.org/10.5281/zenodo.19508547
 
+**Paper 6:**  
+Tehrani, U. (2026). Positive Curvature of the Spectral Trace at
+the Critical Line. Zenodo.
+https://doi.org/10.5281/zenodo.19665790
+
 ---
 
-*v3.1.0 (April 2026) — Papers 1–5 · MIT License*
+*v3.2.0 (April 2026) — Papers 1–6 · MIT License*
