@@ -204,9 +204,9 @@ O″(½) > 0 follows from B = −19342.5 < 0.
 |--------|--------|
 | Main term negativity: `Main_p(ε) < 0` for all p, all ε>0 | **PROVED** |
 | Other-prime error: `Err_other ≤ 0` | **PROVED** |
-| Truncation error: `|R_{p,100}|/|Main_p| ~ 3×10⁻⁶¹` | **PROVED** |
+| Truncation error: `\|R_{p,100}\|/\|Main_p\| ~ 3×10⁻⁶¹` | **PROVED** |
 | Curvature–bias identity: `O''(½) = −2B` | **PROVED** |
-| Gamma term subleading: `|Γ_p(ε)|/|Main_p(ε)| ~ ε` | **NUMERICAL** |
+| Gamma term subleading: `\|Γ_p(ε)\|/\|Main_p(ε)\| ~ ε` | **NUMERICAL** |
 | Ratio bound: `r_p ∈ [0.75, 0.80]` for all p ≤ 53 | **NUMERICAL** |
 | Sign-crossover localised in (0.020, 0.025) | **NUMERICAL** |
 | Integrated bias: `B_int(0.05) = −42.21 < 0` | **NUMERICAL** |
@@ -398,7 +398,7 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 | **OF-EXPLICIT-1'(b)** | Weyl equidistribution of {γ_k log p mod 2π} | Paper 4 |
 | **OP 6.2** | Prove η_orig > 0 analytically without equidistribution | Paper 4 |
 | **σ=½ Selection** | Close L6A + L6B → RH via Weil positivity | Series |
-| **Stationarity (L6A)** | `|O'(½)| << W·π(κ)` analytically | Paper 6 |
+| **Stationarity (L6A)** | `\|O'(½)\| << W·π(κ)` analytically | Paper 6 |
 | **Asymptotic pointwise bias** | `Re(Z̃_p(ε)) < 0` all p ≤ κ analytically | Paper 6 |
 | **Uniformity of positive curvature** | `O''(½) > 0` beyond reference params | Paper 6 |
 | **Integrated-to-direct transfer** | bias⇒B negativity structurally | Paper 6 |
