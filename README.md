@@ -7,7 +7,8 @@ zero sums, and the positive-curvature statement at the critical line.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
-**DOIs:** [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
+**DOIs:** 
+[Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
 [Paper 3](https://doi.org/10.5281/zenodo.19307989) ·
 [Paper 4](https://doi.org/10.5281/zenodo.19364703) ·
@@ -186,7 +187,7 @@ python code/paper5/verify_paper5.py
 
 ### Paper 6 — Positive Curvature of the Spectral Trace at the Critical Line
 **DOI:** [10.5281/zenodo.19665790](https://doi.org/10.5281/zenodo.19665790)  
-**File:** [`papers/paper6/paper6_v1_0.pdf`](papers/paper6/)  
+**File:** [`papers/paper6/paper6_v1_1.pdf`](papers/paper6/)  
 **Scripts:** [`code/paper6/`](code/paper6/)
 
 **Imports from Paper 5:** trace formula Tr(T̃(σ)) = D_SEL − O(σ),
@@ -302,8 +303,8 @@ analysislab-nt/
 │   │   ├── paper5_v1_1.tex         LaTeX source, Paper 5 v1.1
 │   │   └── paper5_v1_1.pdf         Compiled PDF
 │   └── paper6/
-│       ├── paper6_v1_0.tex         LaTeX source, Paper 6 v1.0
-│       └── paper6_v1_0.pdf         Compiled PDF
+│       ├── paper6_v1_1.tex         LaTeX source, Paper 6 v1.1
+│       └── paper6_v1_1.pdf         Compiled PDF
 │
 ├── code/
 │   ├── paper1/
@@ -443,4 +444,4 @@ https://doi.org/10.5281/zenodo.19665790
 
 ---
 
-*v3.2.0 (April 2026) — Papers 1–6 · MIT License*
+*v3.3.0 (April 2026) — Papers 1–6 · MIT License*
