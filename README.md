@@ -168,7 +168,7 @@ Tr(T̃(σ)) = D_SEL − O(σ)   [proved algebraically]
 |--------|--------|
 | Trace formula: `Tr(T̃(σ)) = D_SEL − O(σ)` | **PROVED** (algebraic) |
 | `D_SEL = (1/2) · A(ε,N) · π(κ) = 10.985` | **PROVED** |
-| Decomposition: `B = Σ_p (log p)² Re(Z_p)` | **PROVED** |
+| Decomposition: `B = Σ_p (log p)² Re(Z_p^{(2)})` | **PROVED** |
 | Structural Reduction: dominant term of Z̃_p(ε) | **STRUCTURAL** |
 | Sign transfer: `Re(Z̃_p) < 0 → B < 0` | **CONDITIONAL** (Assumptions A+B) |
 | `B = −19342.5 < 0` (κ=53, ε=0.05, N=100) | **NUMERICAL** |
