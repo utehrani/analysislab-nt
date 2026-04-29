@@ -20,7 +20,7 @@ zero sums, and the positive-curvature statement at the critical line.
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
-**File:** [`papers/paper1/curvature_note_v8.pdf`](papers/paper1/)  
+**File:** [`papers/paper1/`](papers/paper1/)  
 **Scripts:** [`code/paper1/`](code/paper1/)
 
 **What it proves:**  
@@ -51,7 +51,7 @@ python code/paper1/verify_v6.py
 
 ### Paper 2 — From Local Curvature to the Weil Functional
 **DOI:** [10.5281/zenodo.19106992](https://doi.org/10.5281/zenodo.19106992)  
-**File:** [`papers/paper2/weil_v5.pdf`](papers/paper2/)  
+**File:** [`papers/paper2/`](papers/paper2/)  
 **Scripts:** [`code/paper2/`](code/paper2/)
 
 **Imports from Paper 1:** `H_local` divergence (R1)
@@ -80,7 +80,7 @@ python code/paper2/verify_paper2.py
 
 ### Paper 3 — A Finite-Cutoff Hilbert-Space Model for Prime–Zero Energy Structure
 **DOI:** [10.5281/zenodo.19307989](https://doi.org/10.5281/zenodo.19307989)  
-**File:** [`papers/paper3/paper3_v2.pdf`](papers/paper3/)  
+**File:** [`papers/paper3/`](papers/paper3/)  
 **Scripts:** [`code/paper3/`](code/paper3/)
 
 **What it constructs:**  
@@ -116,7 +116,7 @@ python code/paper3/eta_inf_analysis.py
 
 ### Paper 4 — A Dual Operator for Prime–Zero Coupling and a Conditional Proof of Energy Asymmetry
 **DOI:** [10.5281/zenodo.19364703](https://doi.org/10.5281/zenodo.19364703)  
-**File:** [`papers/paper4/paper4_v5.pdf`](papers/paper4/)  
+**File:** [`papers/paper4/`](papers/paper4/)  
 **Scripts:** [`code/paper4/`](code/paper4/)
 
 **What it introduces:**  
@@ -150,7 +150,7 @@ python code/paper4/verify_paper4.py
 
 ### Paper 5 — Spectral Trace Formula and Smoothed Zero Sums: A Prime–Zero Duality Framework
 **DOI:** [10.5281/zenodo.19508547](https://doi.org/10.5281/zenodo.19508547)  
-**File:** [`papers/paper5/paper5_v1_2.pdf`](papers/paper5/)  
+**File:** [`papers/paper5/`](papers/paper5/)  
 **Scripts:** [`code/paper5/`](code/paper5/)
 
 **What it introduces:**  
@@ -170,7 +170,7 @@ Tr(T̃(σ)) = D_SEL − O(σ)   [proved algebraically]
 | `D_SEL = (1/2) · A(ε,N) · π(κ) = 10.985` | **PROVED** |
 | Decomposition: `B = Σ_p (log p)² Re(Z_p^{(2)})` | **PROVED** |
 | Structural Reduction: dominant term of Z̃_p(ε) | **STRUCTURAL** |
-| Sign transfer: `Re(Z̃_p) < 0 → B < 0` | **CONDITIONAL** (Assumptions A+B) |
+| Sign transfer: `Re(Z̃_p) < 0 → B_int < 0` | **CONDITIONAL** |
 | `B = −19342.5 < 0` (κ=53, ε=0.05, N=100) | **NUMERICAL** |
 | `Re(Z_p) < 0` for 14 of 16 primes p ≤ 53 | **NUMERICAL** |
 | `η_orig(κ=53) = 0.66927`, η_∞ ≈ 0.81 | **NUMERICAL** |
@@ -186,7 +186,7 @@ python code/paper5/verify_paper5.py
 
 ### Paper 6 — Positive Curvature of the Spectral Trace at the Critical Line
 **DOI:** [10.5281/zenodo.19665790](https://doi.org/10.5281/zenodo.19665790)  
-**File:** [`papers/paper6/paper6_v1_4.pdf`](papers/paper6/)  
+**File:** [`papers/paper6/`](papers/paper6/)  
 **Scripts:** [`code/paper6/`](code/paper6/)
 
 **Imports from Paper 5:** trace formula Tr(T̃(σ)) = D_SEL − O(σ),
@@ -288,22 +288,12 @@ analysislab-nt/
 ├── LICENSE                         MIT
 │
 ├── papers/
-│   ├── paper1/
-│   │   └── curvature_note_v8.tex   LaTeX source, Paper 1 v8
+│   ├── paper1/                     LaTeX source + PDF
 │   ├── paper2/
-│   │   └── weil_v5.tex             LaTeX source, Paper 2 v5
 │   ├── paper3/
-│   │   ├── paper3_v2.tex           LaTeX source, Paper 3 v2
-│   │   └── paper3_v2.pdf           Compiled PDF
 │   ├── paper4/
-│   │   ├── paper4_v5.tex           LaTeX source, Paper 4 v5
-│   │   └── paper4_v5.pdf           Compiled PDF
 │   ├── paper5/
-│   │   ├── paper5_v1_2.tex         LaTeX source, Paper 5 v1.2
-│   │   └── paper5_v1_2.pdf         Compiled PDF
 │   └── paper6/
-│       ├── paper6_v1_4.tex         LaTeX source, Paper 6 v1.4
-│       └── paper6_v1_4.pdf         Compiled PDF
 │
 ├── code/
 │   ├── paper1/
@@ -443,4 +433,4 @@ https://doi.org/10.5281/zenodo.19665790
 
 ---
 
-*v3.5.0 (April 2026) — Papers 1–6 · MIT License*
+*Papers 1–6 · MIT License*
