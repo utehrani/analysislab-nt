@@ -150,7 +150,7 @@ python code/paper4/verify_paper4.py
 
 ### Paper 5 — Spectral Trace Formula and Smoothed Zero Sums: A Prime–Zero Duality Framework
 **DOI:** [10.5281/zenodo.19508547](https://doi.org/10.5281/zenodo.19508547)  
-**File:** [`papers/paper5/paper5_v1_1.pdf`](papers/paper5/)  
+**File:** [`papers/paper5/paper5_v1_2.pdf`](papers/paper5/)  
 **Scripts:** [`code/paper5/`](code/paper5/)
 
 **What it introduces:**  
@@ -299,8 +299,8 @@ analysislab-nt/
 │   │   ├── paper4_v5.tex           LaTeX source, Paper 4 v5
 │   │   └── paper4_v5.pdf           Compiled PDF
 │   ├── paper5/
-│   │   ├── paper5_v1_1.tex         LaTeX source, Paper 5 v1.1
-│   │   └── paper5_v1_1.pdf         Compiled PDF
+│   │   ├── paper5_v1_2.tex         LaTeX source, Paper 5 v1.2
+│   │   └── paper5_v1_2.pdf         Compiled PDF
 │   └── paper6/
 │       ├── paper6_v1_4.tex         LaTeX source, Paper 6 v1.4
 │       └── paper6_v1_4.pdf         Compiled PDF
