@@ -2,18 +2,19 @@
 verify_paper2.py -- Paper 2 Verification
 ==========================================
 From Local Curvature to the Weil Functional: An Explicit Construction
-Ulrich Tehrani - Zenodo doi:10.5281/zenodo.19106992 - v4 - March 2026
+Ulrich Tehrani - Zenodo doi:10.5281/zenodo.19106992
 
 Reproduces all numerical results in Paper 2:
-  c_p^ren = f_p^{1/2}       renormalized prime weights    [eq. after Lemma]
-  D = sum_p (c_p^ren)^2     renormalized energy ~ 9.471   [Lemma: Convergence]
-  H_local^ren sawtooth      Mertens-scale remainder        [Section 4]
-  D/2pi ~ 1.507             bridge constant                [Remark]
-  Weil equation             W(g*,g*) = Z(g*) - H_local    [Theorem 3.1]
+  c_p^ren = f_p^{1/2}       renormalized prime weights    [Lemma 4.1; proved]
+  D = sum_p (c_p^ren)^2     convergence                   [Lemma 4.2; proved]
+  D ~ 9.471                 diagonal energy value          [Observation 4.3; numerical]
+  H_local^ren sawtooth      Mertens-scale remainder        [§5]
+  D/2pi ~ 1.507             bridge constant                [§5 Remark]
+  Weil equation             W(g*,g*) = Z(g*) - H_local    [Proposition 3.1; conditional]
 
-Connection to Paper 1: imports H_local divergence result (R1)
-Connection to Paper 3: c_p^ren vs c_p disambiguation;
-                       D ~ 9.471 appears in normalization discussion (sec 10.2)
+Series connections:
+  <-- Paper 1: imports H_local divergence
+  --> Paper 3: c_p^ren vs c_p disambiguation; D ~ 9.471 context
 """
 
 import numpy as np
@@ -192,12 +193,13 @@ if sawtooth_computed:
     print("  figures/paper2/fig4_sawtooth_Hren.png   [Mertens sawtooth]")
 
 print("\n=== Paper 2 verification complete -- PASS ===")
-print("\nKey proven results:")
-print("  (1) c_p^ren = f_p^{1/2} > 0                         [explicit]")
-print("  (2) D = sum_p (c_p^ren)^2 ~ 9.471 < inf             [Lemma: Convergence]")
-print("  (3) W(g*,g*) = Z(g*) - H_local(sigma,k) + O(eps)    [Theorem 3.1]")
-print("  (4) H_local^ren has Mertens-scale sawtooth structure  [Section 4]")
-print("  (5) Bridge constant D/(2*pi) ~ 1.507                  [Remark]")
-print("\nFeed-forward connections:")
-print("  <-- Paper 1: imports H_local divergence (R1)")
-print("  --> Paper 3: D~9.471 context in §10.2; c_p^ren vs c_p disambiguation")
+print("\nKey results:")
+print("  (1) c_p^ren = f_p^{1/2} > 0                         [Lemma 4.1; proved]")
+print("  (2) D = sum_p (c_p^ren)^2 converges                  [Lemma 4.2; proved]")
+print("  (3) D ~ 9.471 at reference parameters                [Observation 4.3; numerical]")
+print("  (4) W(g*,g*) = Z(g*) - H_local(sigma,k) + O(eps)    [Proposition 3.1; conditional]")
+print("  (5) Finite-grid stability of Z - H_local             [Observation 6.1; numerical]")
+print("  (6) Bridge constant D/(2*pi) ~ 1.507                  [§5 Remark]")
+print("\nSeries connections:")
+print("  <-- Paper 1: imports H_local divergence")
+print("  --> Paper 3: D~9.471 context; c_p^ren vs c_p disambiguation")

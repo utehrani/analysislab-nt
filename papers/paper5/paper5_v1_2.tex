@@ -277,10 +277,9 @@ for all $\sigma>\tfrac{1}{2}$, identifying the critical line as a phase
 boundary observed, not postulated.
 
 \textbf{Paper~2}~\cite{Paper2} connected this divergence to the Weil
-explicit functional, constructing admissible test functions $g^*$
-satisfying $W(g^*,\tilde{g}^*)= Z(g^*)-\Hlocal+O(\varepsilon)$,
-so that the curvature divergence becomes a structural feature of
-the energy in the Weil functional.
+explicit functional, constructing admissible test functions
+for which the curvature divergence becomes a structural feature of
+the Weil energy.
 
 \textbf{Paper~3}~\cite{Paper3} made the geometric structure explicit:
 two finite-dimensional Hilbert spaces $\Hstr$ (over primes) and
@@ -339,6 +338,29 @@ via the Guinand--Weil explicit formula.
 The Bias Conjecture (Conjecture~\ref{conj:bias}) is stated as the
 central open problem, and Proposition~\ref{prop:sign} records the
 conditional sign transfer.
+
+\subsection{Reader Contract}
+
+This paper \emph{proves} the exact trace formula
+$\mathrm{Tr}(\Tt(\sigma)) = \DSEL - O(\sigma)$ (Theorem~\ref{thm:trace}),
+the curvature decomposition
+$B = \sum_p(\log p)^2\mathrm{Re}(Z_p^{(2)})$
+(Proposition~\ref{prop:decomp}),
+and the conditional sign transfer from the Bias Conjecture to
+positive curvature (Proposition~\ref{prop:sign}).
+These are unconditional mathematical statements.
+
+This paper \emph{establishes numerically} that
+$\eta_\infty\approx 0.81$ for $\kappa\leq 1009$
+(Observation~\ref{obs:etainf}),
+that $\mathrm{Re}(\Zt_p(\varepsilon))<0$ for all $p\leq 53$
+at $\varepsilon=0.05$, and that
+$B_{\mathrm{int}} = -42.21 < 0$ at reference parameters.
+
+This paper \emph{leaves open} the Bias Conjecture
+(Conjecture~\ref{conj:bias}), the algebraic identity
+$\eta_\infty = 1-m_1(\infty)$, and the analytical control
+of the $\Gamma$-term in the Guinand--Weil decomposition.
 
 % -------------------------------------------------------
 \section{The Operator Family \texorpdfstring{$\Tt(\sigma)$}{T-tilde(sigma)}}
@@ -710,7 +732,7 @@ We apply the Guinand--Weil explicit formula to $h^{\mathrm{even}}_{p,\varepsilon
 to formally identify the candidate main term in $\Zt_p(\varepsilon)$.
 
 \begin{conventionbox}
-\textbf{Convention (Guinand--Weil normalization).}
+\emph{Convention} (Guinand--Weil normalization).
 We use the explicit formula in the following form.
 For an admissible even test function $h$ with Fourier transform
 $\hat{h}(x) := \int_{-\infty}^\infty h(u)e^{-2\pi i ux}\,du$,
@@ -936,7 +958,7 @@ subject to all stated auxiliary conditions.
 We list three open problems in decreasing order of centrality
 to the program of this series.
 
-\begin{openproblem}[Bias Conjecture]
+\begin{openproblem}[Bias Conjecture]\label{op:bias}
 \label{op:bias}
 For each fixed $(\kappa,\varepsilon)$,
 $\mathrm{Re}(\Zt_p(\varepsilon))<0$ for all primes $p\leq\kappa$.
@@ -949,7 +971,7 @@ Proposition~\ref{prop:sign}(B) and the Stationarity condition below,
 complete the $\sigma=\tfrac{1}{2}$ Curvature Bias argument.
 \end{openproblem}
 
-\begin{openproblem}[Stationarity]
+\begin{openproblem}[Stationarity]\label{op:stat}
 \label{op:stat}
 Establish analytically that $|O'(\tfrac{1}{2})|\ll W\cdot P$,
 where $W:=\sum_k e^{-\varepsilon^2\gamma_k^2}$ and $P=\pi(\kappa)$.
@@ -959,7 +981,7 @@ An analytic proof of approximate stationarity of $O$ at $\sigma=\tfrac{1}{2}$
 would complement the Bias Conjecture.
 \end{openproblem}
 
-\begin{openproblem}[Weighted spectral measure]
+\begin{openproblem}[Weighted spectral measure]\label{op:measure}
 \label{op:measure}
 Construct a weighted spectral measure $\nu^{(w)}_\kappa$ adapted to
 $c_p$ and $\Estr$ such that
@@ -1039,6 +1061,7 @@ results on exponential sums over primes and zeros; and any errors or
 gaps in the present arguments.
 
 % -------------------------------------------------------
+\newpage
 \begin{thebibliography}{99}
 
 \bibitem{Paper1}

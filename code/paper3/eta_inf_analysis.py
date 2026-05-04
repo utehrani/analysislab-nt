@@ -13,13 +13,13 @@ Expected results (from Sprint Report η∞, März 2026):
   - λ_max(T_ren) ≈ 0.39 · π(κ)     [grows with κ — Conjecture §31 FALSIFIED]
   - η∞ (asymptote) ≈ 0.79–0.82 for κ ≥ 199
 
-IMPORTANT NOTE (SSOT Rev22 §31):
+IMPORTANT NOTE (SSOT §31):
   Conjecture §31: λ_max(D^{-1/2} T D^{-1/2}) < 1 is NUMERICALLY FALSIFIED.
   λ_max grows as ≈ 0.39·π(κ) and exceeds 1 for all tested κ.
   η_orig > 0 holds for normative c_p (not all c), hence the conjecture
   as stated is too strong. Status: OPEN (revised formulation needed).
 
-Reference: Paper 3, §5 and Open Problem 2
+Reference: Paper 3, §5 and Open Problems section
 """
 
 import numpy as np
@@ -44,7 +44,7 @@ def primes_up_to(kappa):
 
 
 def c_p(p):
-    """Normative weights from SSOT Rev22 §28."""
+    """Normative weights from SSOT §28."""
     return np.sqrt(4 * (np.log(p))**2 * (2 * p - 1) / (p * (p - 1)**2))
 
 

@@ -1,0 +1,1151 @@
+% ============================================================
+% Paper 2 - From Local Curvature to the Weil Functional:
+%           An Explicit Construction
+%
+% Author:   Ulrich Tehrani
+% Date:     May 2026
+% Version:  10
+% Zenodo:   https://doi.org/10.5281/zenodo.19106992
+% License:  CC BY 4.0
+%
+% Changelog
+% ---------
+% v1--v4 (March 2026): see project history
+%
+% v5 (April 2026)
+%   - Introduction framing softened: only the prime-side
+%     construction is claimed; spectral inequality marked open.
+%   - Abstract clarified: spectral inequality is RH-strength.
+%   - Status remark added before the open inequality.
+%
+% v10 (May 2026)
+%   - Reader Contract verification description corrected:
+%     "Both numerical statements are verified on a finite grid
+%     and are labelled [numerical] in their theorem headings"
+%     applied "verified on a finite grid" to both observations,
+%     but Observation 4.3 (D approx 9.471) is a finite prime-
+%     truncation plus tail-bound computation, not a grid check;
+%     only Observation 6.1 is a grid check. Replaced with
+%     "Both numerical statements are finite computations from
+%     the stated parameters and are labelled [numerical] in
+%     their theorem headings". The §6 setup phrase
+%     "renormalised local curvature on a finite grid in kappa"
+%     is correct as section context and is left unchanged.
+%   - No changes to numerical values, theorem statements, or
+%     proofs. The §5 prose is unchanged.
+%
+% v9 (May 2026)
+%   - Two consistency edits:
+%     (a) Abstract "Structure" paragraph: the closing sentence
+%         in v8 said "non-circular and proof-complete". Since
+%         §3 contains the conditional Proposition 3.1, the
+%         "proof-complete" attribution overstated the status of
+%         §§2-5. Replaced by "non-circular, with proved and
+%         conditional components explicitly separated". (The §8
+%         Non-Circularity section was already paragraph-by-
+%         paragraph specific and did not use "proof-complete"
+%         phrasing; no change needed there.)
+%     (b) Numerical-label discipline in Lemma 4.2: in v8 the
+%         lemma "Convergence of the diagonal energy; proved"
+%         contained the numerical sentence
+%         "Numerically, D approx 9.471 ... tail bound below
+%         0.009", mixing a proved statement with a numerical
+%         observation under the same "; proved" label. Lemma
+%         4.2 now contains only the convergence claim. The
+%         numerical evaluation moves into a new Observation 4.3
+%         "Diagonal energy value; numerical" with label
+%         obs:D-value, immediately following Lemma 4.2. Reader
+%         Contract updated to point at the new observation.
+%         The Reader Contract no longer lists the sawtooth
+%         behaviour as a numerical bullet, since the sawtooth
+%         statement lives in §5 prose, not in a labelled
+%         theorem environment; the §5 prose itself is unchanged.
+%   - No changes to numerical values, theorem statements
+%     (other than the Lemma 4.2 / new Observation 4.3 split
+%     and the abstract-closing wording), or proofs.
+%
+% v8 (May 2026)
+%   - Five edits, all in the prime-side identity area:
+%     (a) Proposition 3.1 (prime-side identity): status
+%         changed from 'proved' to 'conditional', with the
+%         named assumption being the standard remainder
+%         bookkeeping for the Weil explicit formula applied
+%         to antisymmetric Schwartz test functions at fixed
+%         (sigma, kappa) as epsilon -> 0. Rationale: the
+%         theorem heading carried '; proved' while the proof
+%         body was a 'Sketch', which is incoherent under the
+%         strict series labelling discipline.
+%     (b) Bookkeeping wording in the Proposition 3.1 sketch
+%         corrected: the apparent self-contradiction between
+%         "the archimedean contribution to W is zero" and
+%         "the archimedean piece gives psi_1(sigma)" was the
+%         result of conflating two distinct objects in the
+%         Lagarias decomposition. The constant term
+%         (proportional to hat g^*(0)^2 and vanishing by
+%         antisymmetry) and the archimedean integral
+%         (contributing psi_1(sigma)) are now distinguished
+%         explicitly.
+%     (c) Abstract reorganised: a new "What is conditional"
+%         category collects the prime-side identity; "What is
+%         proved" retains only the three lemmas (Admissibility,
+%         f_p positivity, D convergence). Reader Contract
+%         follows the same reorganisation.
+%     (d) Observation 6.1 narrowed to a strictly finite-grid
+%         statement: title changed from "Asymptotic stability
+%         of the comparison" to "Finite-grid stability of the
+%         comparison". The earlier claim that violations occur
+%         "only on the small-kappa window kappa <= 25 (in the
+%         prime gap between 23 and 29)" is withdrawn, since
+%         the only tested point with kappa < 26 is kappa = 20,
+%         which is not in [24, 28]. The observation now states
+%         only that kappa = 20 is the single grid violation.
+%         Surrounding text in §6 and Open Problem 7.1 updated
+%         accordingly.
+%     (e) Mertens-constant formula in the §5 remark corrected.
+%         The v7 expression
+%           gamma_M = gamma + sum_p [log(p/(p-1)) - 1/p]
+%         has the wrong sign for the quoted value 0.2615.
+%         Replaced by the standard Meissel-Mertens formula
+%           gamma_M = gamma + sum_p [log(1 - 1/p) + 1/p] ~ 0.2615.
+%   - No changes to numerical values, theorem statements
+%     (other than the Proposition 3.1 status label and the
+%     Observation 6.1 title and statement narrowing), or
+%     proofs.
+%
+% v7 (April 2026)
+%   - Bibliographic and positioning revision pass:
+%     (a) Edwards bibitem: publisher corrected from Dover to
+%         Academic Press (New York, 1974).
+%     (b) Connes reference replaced: Connes-Consani 2021
+%         "Weil positivity and trace formula" -> Connes 1999
+%         "Trace Formula in Noncommutative Geometry and the
+%         Zeros of the Riemann Zeta Function". The 1999 paper
+%         is the canonical operator-theoretic reference for
+%         the Hilbert-Polya/noncommutative-spectral-
+%         interpretation programme that the present
+%         construction must be distinguished from; Paper 6 of
+%         the series cites the same source for the same
+%         purpose.
+%     (c) Three positioning bibitems added (Berry-Keating,
+%         de Branges, Burnol), matching Paper 6's positioning
+%         cluster.
+%     (d) §1.1 positioning paragraph added: explicit
+%         distinction of the construction from operator-
+%         theoretic programmes (Connes, Berry-Keating,
+%         de Branges, Burnol), and classical-dictionary
+%         translation of "local curvature" as the truncated
+%         prime-sum side of the Weil explicit formula together
+%         with the archimedean term, citing Edwards as the
+%         standard source.
+%     (e) Selberg cited at the formal asymptotic
+%         Z(g^*) ~ D log kappa log log kappa in Open
+%         Problem 2; removes orphan-bibitem status.
+%   - No changes to mathematical content, proofs, or numerical
+%     values. All 20 mathematical statements of v5/v6 retained.
+%
+% v6 (April 2026)
+%   - Series template v2.0 compliance sweep:
+%     (a) Notation and Conventions section added between
+%         Abstract and Introduction (template invariant).
+%     (b) PDF Unicode hygiene: \usepackage{cmap} added before
+%         \usepackage[T1]{fontenc}; \emergencystretch=1em set.
+%     (c) Source hygiene: internal project codename removed
+%         from the GitHub bibliography entry.
+%     (d) Document structure aligned with template v2.0:
+%         Introduction has three subsections (Background and
+%         Motivation, Main Results, Reader Contract).
+%         Open Problems section added with stable labels.
+%         Non-Circularity is an own section after Open Problems.
+%         Acknowledgments and Call for Feedback as unnumbered
+%         sections. \newpage before References.
+%     (e) Bibliography reformatted to Concept-DOI style:
+%         no version numbers in series bibitems; quotation-mark
+%         titles for consistency across the series.
+%     (f) Theorem environments numbered within section;
+%         theorem titles use sentence-case "; proved" style.
+%     (g) Footer carries motto "Pauca sed matura" exactly once.
+%     (h) Change Log section removed from PDF body
+%         (changelog kept in source comments only).
+%   - No changes to mathematical content, proofs, or numerical
+%     values. All 20 mathematical statements of v5 retained.
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+\emergencystretch=1em
+
+% --------------------------------------------------------
+% Theorem environments (numbered within section)
+% --------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{remark}{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+% --------------------------------------------------------
+% Series-wide macros
+% --------------------------------------------------------
+\newcommand{\Hlocal}{H_{\mathrm{local}}}
+\newcommand{\Hren}{H_{\mathrm{local}}^{\mathrm{ren}}}
+\newcommand{\Sad}{S_{\mathrm{ad}}}
+\newcommand{\cren}{c_p^{\mathrm{ren}}}
+\newcommand{\Zren}{Z_{\mathrm{ren}}}
+
+% --------------------------------------------------------
+% Title
+% --------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries
+From Local Curvature to the Weil Functional:\\[0.4em]
+\large An Explicit Construction}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ May 2026
+      \textperiodcentered\ v10}
+
+% ============================================================
+\begin{document}
+\maketitle
+% ============================================================
+
+\begin{abstract}
+Building on the curvature decomposition established
+in~\cite{Paper1}, we construct an explicit family of admissible
+test functions $g^*_{\sigma,\varepsilon}\in\Sad$ for the Weil
+explicit formula and identify the corresponding prime-side
+contribution with the local curvature
+$\Hlocal(\sigma,\kappa)$ studied in~\cite{Paper1}.
+A renormalised family of prime weights
+$\cren=f_p^{1/2}>0$ is introduced, and the associated diagonal
+energy $D=\sum_p (\cren)^2\approx 9.471$ is shown to converge.
+The renormalised local curvature is shown to be of lower order
+than $(\log\kappa)^2$ and to exhibit a sawtooth structure governed,
+on average, by the Mertens constant.
+No hypothetical input is used: no Riemann Hypothesis, no
+Hilbert--P\'olya postulate, no GUE conjecture.
+
+\textbf{What is proved.}
+The antisymmetrised Gaussian family $g^*_{\sigma,\varepsilon}$
+belongs to the admissible class $\Sad$ used in
+Lagarias~\cite{Lagarias} (Lemma~\ref{lem:admissible}).
+The renormalised prime weight
+$\cren := \bigl(V_p(\tfrac12)-\tfrac{4(\log p)^2}{p}\bigr)^{1/2}$
+is strictly positive (Lemma~\ref{lem:fp-pos}), and the diagonal
+energy series $D=\sum_p (\cren)^2$ converges absolutely
+(Lemma~\ref{lem:D-conv}).
+
+\textbf{What is conditional.}
+The prime-side identity
+\[
+W(g^*_{\sigma,\varepsilon}*\check g^*_{\sigma,\varepsilon})
+\;=\; Z(g^*_{\sigma,\varepsilon})\;-\;\Hlocal(\sigma,\kappa)
+\;+\; R(\sigma,\varepsilon,\kappa)
+\]
+holds with $R(\sigma,\varepsilon,\kappa)\to 0$ as
+$\varepsilon\to 0$ at fixed $(\sigma,\kappa)$
+(Proposition~\ref{prop:prime-side}), conditional on the standard
+remainder bookkeeping for the Weil explicit formula applied to
+antisymmetric Schwartz test functions.
+The remainder is not made uniform in $\kappa$.
+
+\textbf{What is numerical.}
+At reference parameters $(\varepsilon,N)=(0.05,100)$, the
+diagonal energy evaluates to $D\approx 9.471$ on primes
+below~$10^4$, with tail bound $<0.009$.
+Direct grid evaluation of the renormalised quantities at
+$\kappa\in\{10,20,29,50,100,200,500,1000\}$ shows that
+$\Zren\ge\Hren$ holds at every tested point except $\kappa=20$,
+where $\Zren-\Hren=-0.988$, with the ratio $\Zren/\Hren$ growing
+from $1.5$ at $\kappa=29$ to over $10$ at $\kappa=1000$.
+No claim is made about $\kappa$ outside the eight tested points.
+
+\textbf{What remains open.}
+Two questions separate the present construction from a full
+prime-side derivation of Weil positivity for this family
+(\S\,\ref{sec:open}).
+Problem~\ref{op:spectral-ineq} (\emph{Spectral inequality})
+asks whether $Z(g^*_{1/2,\varepsilon})\ge\Hlocal(\tfrac12,\kappa)$
+holds unconditionally; an unconditional proof for this family
+alone is necessary, but not sufficient, for the Riemann
+Hypothesis in the absence of a density argument
+in~$\Sad$.
+Problem~\ref{op:offdiag} (\emph{Off-diagonal control}) asks for
+an unconditional bound on the cross-terms
+$\sum_\gamma\cos(\gamma\log(p/q))$ for $p\ne q$, which would
+upgrade the formal asymptotic
+$Z(g^*)\sim D\log\kappa\log\log\kappa$ to a proved statement.
+
+\textbf{Structure.}
+The formal core in \S\S\,\ref{sec:construct}--\ref{sec:scale} is
+non-circular, with proved and conditional components explicitly
+separated.
+No use of the Riemann Hypothesis, the GUE conjecture, or the
+Hilbert--P\'olya postulate is made anywhere in
+\S\S\,\ref{sec:construct}--\ref{sec:scale}.
+\end{abstract}
+
+\vspace{2em}
+
+% --------------------------------------------------------
+% Notation and Conventions
+% --------------------------------------------------------
+\section*{Notation and Conventions}
+\label{sec:notation}
+
+\emph{Critical line.}
+Throughout, the critical line means $\Re(s)=\tfrac12$.
+The construction parameter $\sigma>0$ is evaluated at
+$\sigma=\tfrac12$ in the renormalised analysis unless stated
+otherwise.
+
+\medskip
+\emph{Global parameters.}
+The reference values are $\kappa\ge 2$ (prime cutoff,
+varied across the comparison grid),
+$\varepsilon=0.05$ (Gaussian smoothing parameter), and
+$N=100$ (number of Riemann ordinates $\gamma_k$ used in the
+zero-sum evaluations of~\S\,\ref{sec:numerical}).
+Values are fixed within each statement and explicitly varied
+otherwise.
+
+\medskip
+\emph{Main objects.}
+The local curvature, imported from~\cite{Paper1}, is
+\[
+\Hlocal(\sigma,\kappa) \;=\; \psi_1(\sigma)
+\;+\; \sum_{p\le\kappa} V_p(\sigma),
+\qquad
+V_p(\sigma) \;=\; 4(\log p)^2\,
+\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^2}.
+\]
+The Gaussian bump is $\varphi_\varepsilon(x)=
+(\varepsilon\sqrt{2\pi})^{-1} e^{-x^2/(2\varepsilon^2)}$.
+The raw weight at level $\sigma$ is
+$c_{p,\sigma} = V_p(\sigma)^{1/2}\cdot p^{1/4}/(\log p)^{1/2}$,
+and the antisymmetrised admissible test function
+$g^*_{\sigma,\varepsilon}\in\Sad$ is constructed
+in~\S\,\ref{sec:construct}.
+The Weil quadratic functional is denoted $W$, and
+$Z(g)=\sum_\rho |\widehat g(\rho)|^2$ is the corresponding
+zero-side sum over the non-trivial zeros of $\zeta$.
+At $\sigma=\tfrac12$ the renormalised prime weight is
+$\cren = f_p^{1/2}$, where
+$f_p = V_p(\tfrac12)-4(\log p)^2/p$, and the diagonal
+energy is $D=\sum_p (\cren)^2$.
+The renormalised local curvature is
+$\Hren(\tfrac12,\kappa)=\Hlocal(\tfrac12,\kappa)-2(\log\kappa)^2$.
+
+\medskip
+\emph{Not to be confused with.}
+The diagonal energy $D\approx 9.471$ defined here, characteristic
+of the renormalised prime-side construction of this paper, must
+not be confused with the trace-formula diagonal $D_{\mathrm{SEL}}$
+appearing in later work in the series, which is defined in a
+different operator context and takes a different numerical value.
+The renormalised weight $\cren=f_p^{1/2}$ used in the Weil
+functional differs in normalisation from the unrenormalised
+weight $c_{p,\sigma}$ used in the construction of
+$g^*_{\sigma,\varepsilon}$.
+
+\newpage
+
+% --------------------------------------------------------
+% §1 Introduction
+% --------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Background and Motivation}
+
+This paper is the second in a series developing an
+operator-theoretic framework for studying the distribution of
+the non-trivial zeros of the Riemann zeta function $\zeta(s)$.
+The central organising principle of the series is that prime
+numbers mediate coupling between zero ordinates, and that
+explicit finite-cutoff constructions on the prime side carry
+arithmetic information accessible by classical means.
+
+\textbf{Paper~1}~\cite{Paper1} introduced the curvature field
+\[
+H_\xi(\sigma,t) \;:=\; \frac{d^2}{d\sigma^2}\,
+\log|\xi(\sigma+it)|^2
+\;=\; \Hlocal(\sigma,\kappa) \;+\; H_{\mathrm{dual}}(\sigma,t,\kappa),
+\]
+where $H_{\mathrm{dual}}=H_\xi-\Hlocal$ is the spectral
+remainder encoding zero contributions, and where the truncated
+local curvature
+\[
+\Hlocal(\sigma,\kappa) \;=\; \psi_1(\sigma)
+\;+\; \sum_{p\le\kappa} V_p(\sigma)
+\]
+contains the archimedean term and the finite-place
+contributions.
+The prime-side pieces satisfy $V_p(\sigma)\ge 0$, and on the
+critical line one has $\Hlocal(\tfrac12,\kappa)\asymp
+(\log\kappa)^2$.
+
+\textbf{The present paper} addresses a concrete part of the
+central question raised in~\cite[\S\,7]{Paper1}: whether the
+local positivity and critical divergence of $\Hlocal$ can be
+organised into an explicit admissible test-function construction
+whose prime-side term in the Weil functional matches the local
+curvature.
+We answer this in the affirmative on the prime side by
+constructing an explicit family $g^*_{\sigma,\varepsilon}\in\Sad$
+and identifying the corresponding prime-side contribution with
+$\Hlocal(\sigma,\kappa)$ up to a smoothing remainder that
+vanishes as $\varepsilon\to 0$.
+The remaining open step --- the spectral (zero-side) inequality
+on the critical line --- is then isolated as a single
+RH-strength question in~\S\,\ref{sec:open}.
+
+The construction $g^*_{\sigma,\varepsilon}\in\Sad$ developed here
+should be distinguished from the established operator-theoretic
+programmes addressing the Riemann Hypothesis.
+It is not a Hilbert--P\'olya spectral realisation in the sense of
+Connes~\cite{Connes} or Berry--Keating~\cite{BerryKeating}, nor a
+de~Branges structure-function construction~\cite{deBranges}; it
+is an explicit antisymmetrised Gaussian smearing of prime delta
+masses with arithmetic weights, closest in spirit to Hilbert-space
+reformulations of the explicit formula such as those of
+Burnol~\cite{Burnol}.
+The local curvature $\Hlocal(\sigma,\kappa)$ is, in the classical
+dictionary of analytic number theory~\cite{Edwards}, the truncated
+prime-sum side of the Weil explicit formula together with the
+archimedean term $\psi_1(\sigma)$; the curvature label reflects the
+second-derivative origin of $V_p(\sigma)$ in $\log|\xi|^2$
+identified in~\cite{Paper1} and is not used in any further
+geometric sense.
+The terms ``prime--zero coupling'' and ``curvature field'' used
+informally in the series are translations of the explicit-formula
+duality and of $\partial_\sigma^2\log|\xi|^2$ respectively, not
+new mathematical structures.
+
+The construction is set within the Lagarias formulation of Weil
+positivity~\cite{Lagarias}, which characterises the Riemann
+Hypothesis as positivity of the Weil functional $W(f*\check f)$
+on a suitable class of test functions, building on the Weil
+explicit formula~\cite{Weil} and the Li positivity
+criterion~\cite{Li}.
+The renormalised diagonal scale $D=\sum_p(\cren)^2$ encountered
+in~\S\,\ref{sec:renorm} is closely related, via the prime number
+theorem and Mertens' classical estimates~\cite{Mertens}, to the
+average behaviour of the local curvature; this connection is
+made precise in~\S\,\ref{sec:scale}.
+
+\subsection{Main Results}
+
+The paper contains three main components.
+
+The first is the explicit construction of the test family
+$g^*_{\sigma,\varepsilon}$ and the proof that it lies in the
+admissible class $\Sad$ used by Lagarias~\cite{Lagarias}.
+The construction proceeds in two steps: a Gaussian smearing of
+delta masses at $\log p$ with weights $c_{p,\sigma}$, followed
+by antisymmetrisation enforcing the vanishing condition at the
+origin (\S\,\ref{sec:construct}).
+The admissibility lemma (Lemma~\ref{lem:admissible}) is a
+direct verification.
+
+The second is the prime-side identity
+(Proposition~\ref{prop:prime-side}), established conditionally
+on the standard remainder bookkeeping for the Weil explicit
+formula applied to antisymmetric Schwartz test functions:
+\[
+W(g^*_{\sigma,\varepsilon}*\check g^*_{\sigma,\varepsilon})
+\;=\; Z(g^*_{\sigma,\varepsilon})\;-\;\Hlocal(\sigma,\kappa)
+\;+\; R(\sigma,\varepsilon,\kappa),
+\qquad R\to 0\text{ as }\varepsilon\to 0
+\text{ at fixed }(\sigma,\kappa).
+\]
+The remainder $R$ collects the smoothing-induced off-diagonal
+cross-terms ($p\ne q$) together with the higher prime-power
+contributions; it is not made uniform in $\kappa$ in the
+present note.
+The constant term in the explicit formula vanishes by the
+antisymmetry of $g^*$.
+
+The third is the renormalised analysis at the critical line
+(\S\S\,\ref{sec:renorm}--\ref{sec:scale}).
+At $\sigma=\tfrac12$ the auxiliary quantity
+$f_p=V_p(\tfrac12)-4(\log p)^2/p$ is shown to satisfy the
+closed form
+\[
+f_p \;=\; \frac{4(\log p)^2(2p-1)}{p(p-1)^2} \;>\; 0
+\qquad (p\ge 2)
+\]
+(Lemma~\ref{lem:fp-pos}), so that $\cren=f_p^{1/2}$ is real
+and strictly positive.
+The diagonal energy $D=\sum_p(\cren)^2$ converges absolutely by
+comparison with $\sum_n (\log n)^2/n^2$ (Lemma~\ref{lem:D-conv})
+and evaluates to $D\approx 9.471$.
+The renormalised local curvature
+$\Hren(\tfrac12,\kappa)=\Hlocal(\tfrac12,\kappa)-2(\log\kappa)^2$
+is of lower order than $(\log\kappa)^2$ and exhibits a sawtooth
+structure: a positive jump $f_p$ at each new prime
+$p\le\kappa$, decreasing continuously between primes.
+The Mertens constant $\gamma_M$ governs the average drift of
+this sawtooth via the classical estimate
+$\sum_{p\le\kappa}(\log p)/p=\log\kappa+O(1)$.
+
+The numerical comparison of~\S\,\ref{sec:numerical} establishes
+that $\Zren\ge\Hren$ holds at every point of the eight-point
+test grid except $\kappa=20$, with the ratio growing from $1.5$
+at $\kappa=29$ to over $10$ at $\kappa=1000$.
+Two open problems remain:
+the unconditional spectral inequality
+$Z(g^*_{1/2,\varepsilon})\ge\Hlocal(\tfrac12,\kappa)$
+(Problem~\ref{op:spectral-ineq}) and
+the off-diagonal control of the cross-terms in the zero sum
+(Problem~\ref{op:offdiag}).
+
+\subsection{Reader Contract}
+
+This paper \emph{proves}, by direct construction and classical
+identities, the admissibility of the test family
+(Lemma~\ref{lem:admissible}), the strict positivity
+of the renormalised weight $\cren=f_p^{1/2}>0$
+(Lemma~\ref{lem:fp-pos}), and the absolute convergence of the
+diagonal energy series $D=\sum_p(\cren)^2$
+(Lemma~\ref{lem:D-conv}).
+These are unconditional mathematical statements.
+
+This paper \emph{establishes conditionally}, conditional on the
+standard remainder bookkeeping for the Weil explicit formula
+applied to antisymmetric Schwartz test functions, the prime-side
+identity for the Weil functional at fixed $(\sigma,\kappa)$ as
+$\varepsilon\to 0$ (Proposition~\ref{prop:prime-side}).
+The remainder is not made uniform in $\kappa$ in the present
+note; the off-diagonal control needed for a uniform statement is
+the subject of Problem~\ref{op:offdiag}.
+
+This paper \emph{establishes numerically}, at reference
+parameters, the diagonal energy value $D\approx 9.471$
+(Observation~\ref{obs:D-value}) and the finite-grid comparison
+$\Zren\ge\Hren$ on the eight-point grid
+$\kappa\in\{10,20,29,50,100,200,500,1000\}$ at every tested
+point except $\kappa=20$ (Observation~\ref{obs:Z-vs-H}).
+Both numerical statements are finite computations from the
+stated parameters and are labelled [numerical] in their theorem
+headings.
+
+This paper \emph{leaves open} two well-posed questions named in
+\S\,\ref{sec:open}:
+Problem~\ref{op:spectral-ineq} (Spectral inequality) and
+Problem~\ref{op:offdiag} (Off-diagonal control).
+Both are formulated entirely within classical analytic number
+theory.
+
+% ============================================================
+% §2 Construction
+% ============================================================
+\section{Construction of the admissible test family}
+\label{sec:construct}
+
+Recall from~\cite[Eq.~(3)]{Paper1} that
+\[
+V_p(\sigma)
+\;=\; 4(\log p)^2\,\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^2}.
+\]
+Define the raw weight
+\[
+c_{p,\sigma}
+\;:=\; V_p(\sigma)^{1/2}
+\cdot \frac{p^{1/4}}{(\log p)^{1/2}},
+\]
+and let
+\[
+\varphi_\varepsilon(x)
+\;=\; \frac{1}{\varepsilon\sqrt{2\pi}}\,e^{-x^2/(2\varepsilon^2)}
+\]
+be the standard Gaussian bump.
+For fixed $\kappa$ set
+\[
+\widehat f_{\sigma,\varepsilon}(x)
+\;=\; \sum_{p\le\kappa} c_{p,\sigma}\,
+       \varphi_\varepsilon(x-\log p).
+\]
+The admissible test function is obtained by antisymmetrisation:
+\begin{equation}\label{eq:gstar}
+\widehat g^*_{\sigma,\varepsilon}(x)
+\;:=\; \widehat f_{\sigma,\varepsilon}(x)
+       \;-\; \widehat f_{\sigma,\varepsilon}(-x).
+\end{equation}
+
+\begin{lemma}[Admissibility; proved]\label{lem:admissible}
+For every $\sigma>0$ and $\varepsilon>0$, the function
+$g^*_{\sigma,\varepsilon}$ belongs to the admissible class $\Sad$
+used by Lagarias~\cite{Lagarias} in the formulation of Weil
+positivity.
+\end{lemma}
+
+\begin{proof}
+The Gaussian bumps $\varphi_\varepsilon$ are Schwartz, and a
+finite linear combination of translated Schwartz functions is
+again Schwartz; antisymmetrisation preserves the Schwartz class.
+Hence $g^*_{\sigma,\varepsilon}$ and
+$\widehat g^*_{\sigma,\varepsilon}$ are rapidly decreasing.
+By antisymmetry, $\widehat g^*_{\sigma,\varepsilon}(0)=0$ and
+$g^*_{\sigma,\varepsilon}(0)=0$, providing the vanishing
+conditions at the origin required for admissibility.
+The Gaussian decay ensures absolute convergence of the
+prime-side and zero-side expressions appearing in the Weil
+functional for this family.
+\end{proof}
+
+% ============================================================
+% §3 Prime-side identity
+% ============================================================
+\section{The prime-side identity}
+\label{sec:prime-side}
+
+\begin{proposition}[Prime-side identity; conditional]\label{prop:prime-side}
+For the family $g^*_{\sigma,\varepsilon}$ constructed
+in~\S\,\ref{sec:construct},
+\begin{equation}\label{eq:weil-decomp}
+W(g^*_{\sigma,\varepsilon}*\check g^*_{\sigma,\varepsilon})
+\;=\; Z(g^*_{\sigma,\varepsilon})\;-\;\Hlocal(\sigma,\kappa)
+\;+\; R(\sigma,\varepsilon,\kappa),
+\end{equation}
+where $Z(g^*_{\sigma,\varepsilon})=\sum_\rho
+|\widehat g^*_{\sigma,\varepsilon}(\rho)|^2$ runs over the
+non-trivial zeros $\rho$ of $\zeta(s)$, and the remainder
+$R(\sigma,\varepsilon,\kappa)$ tends to zero as $\varepsilon\to 0$
+at fixed $(\sigma,\kappa)$.
+\end{proposition}
+
+\begin{proof}[Sketch]
+The argument rests on the standard remainder bookkeeping for
+the Weil explicit formula applied to antisymmetric Schwartz test
+functions at fixed $(\sigma,\kappa)$ as $\varepsilon\to 0$, which
+is the assumption under which the proposition is stated.
+
+The Weil quadratic functional decomposes, in the Lagarias
+normalisation~\cite{Lagarias}, into four pieces: a constant
+term, an archimedean integral, a prime sum, and a zero sum.
+The constant term, proportional to
+$\widehat g^*_{\sigma,\varepsilon}(0)^2$, vanishes by
+$\widehat g^*_{\sigma,\varepsilon}(0)=0$
+(Lemma~\ref{lem:admissible}).
+The archimedean integral, an integral against the
+$\Gamma$-factor of $\xi$, contributes $\psi_1(\sigma)$ in the
+limit $\varepsilon\to 0$ at fixed $\sigma$.
+The zero-side sum is $Z(g^*_{\sigma,\varepsilon})$ by definition.
+The prime-side quadratic form, expanded against the
+double sum in the convolution
+$g^*_{\sigma,\varepsilon}*\check g^*_{\sigma,\varepsilon}$,
+contributes
+\[
+\sum_{p,q\le\kappa} c_{p,\sigma} c_{q,\sigma}
+\bigl[\varphi_\varepsilon*\check\varphi_\varepsilon\bigr](\log p-\log q)
+\cdot p^{-1/2} q^{-1/2}
+\]
+together with prime-power terms of higher arithmetic order.
+By construction of the weights $c_{p,\sigma}$, the diagonal
+$p=q$ contribution converges to
+$\sum_{p\le\kappa}V_p(\sigma)$ as $\varepsilon\to 0$.
+The limit of the prime-side together with the archimedean
+integral therefore equals $\Hlocal(\sigma,\kappa)$.
+The remainder $R(\sigma,\varepsilon,\kappa)$
+collects the smoothing-induced off-diagonal cross-terms
+($p\ne q$) together with the higher prime-power contributions;
+both vanish as $\varepsilon\to 0$ at fixed $(\sigma,\kappa)$ by
+Gaussian decay of $\varphi_\varepsilon*\check\varphi_\varepsilon$
+at non-zero argument.
+The remainder is not made uniform in $\kappa$ in the present
+note; the off-diagonal control needed for a uniform statement
+is the subject of Problem~\ref{op:offdiag} of~\S\,\ref{sec:open}.
+\end{proof}
+
+\begin{remark}
+Equation~\eqref{eq:weil-decomp} is the bridge between the
+curvature field of~\cite{Paper1} and the Weil-positivity
+framework of~\cite{Lagarias}.
+The vanishing of the constant term, by condition (S2) on the
+admissible class, is the structural reason that the right-hand
+side of~\eqref{eq:weil-decomp} carries no free additive term:
+the archimedean integral does not vanish but contributes
+$\psi_1(\sigma)$, which is then absorbed into
+$\Hlocal(\sigma,\kappa)$.
+\end{remark}
+
+% ============================================================
+% §4 Renormalised weights and convergence
+% ============================================================
+\section{Renormalised weights and convergence}
+\label{sec:renorm}
+
+At $\sigma=\tfrac12$ define
+\[
+f_p \;:=\; V_p(\tfrac12) \;-\; \frac{4(\log p)^2}{p}.
+\]
+A direct calculation gives
+\begin{equation}\label{eq:fp}
+f_p \;=\; \frac{4(\log p)^2(2p-1)}{p(p-1)^2} \;>\; 0
+\qquad (p\ge 2).
+\end{equation}
+
+\begin{lemma}[Positivity of the renormalised weight; proved]\label{lem:fp-pos}
+For every prime $p\ge 2$, the quantity $f_p$
+in~\eqref{eq:fp} is strictly positive.
+\end{lemma}
+
+\begin{proof}
+The numerator $2p-1>0$ and the denominator $p(p-1)^2>0$ for
+every prime $p\ge 2$.
+\end{proof}
+
+The renormalised weight is then simply
+\begin{equation}\label{eq:cren}
+\cren \;:=\; f_p^{1/2} \;>\; 0,
+\end{equation}
+so that $(\cren)^2 = f_p$ exactly.
+Numerical values for small primes:
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$p$ & $V_p(\tfrac12)$ & $4(\log p)^2/p$ & $f_p = (\cren)^2$ \\
+\midrule
+2  & 3.844 & 0.961 & 2.883 \\
+3  & 3.621 & 1.609 & 2.012 \\
+5  & 3.238 & 2.072 & 1.166 \\
+7  & 2.945 & 2.164 & 0.781 \\
+11 & 2.530 & 2.091 & 0.439 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{lemma}[Convergence of the diagonal energy; proved]\label{lem:D-conv}
+The series
+\begin{equation}\label{eq:D}
+D \;:=\; \sum_p (\cren)^2
+\;=\; \sum_p \frac{4(\log p)^2(2p-1)}{p(p-1)^2}
+\end{equation}
+converges absolutely.
+\end{lemma}
+
+\begin{proof}
+For large $p$, $(\cren)^2 \sim 8(\log p)^2/p^2$.
+Since $\sum_n (\log n)^2/n^2 < \infty$, absolute convergence
+follows by comparison with this dominating series.
+\end{proof}
+
+\begin{observation}[Diagonal energy value; numerical]\label{obs:D-value}
+Numerically, $D\approx 9.471$ when summed over primes below
+$10^4$, with tail bound below $0.009$.
+\end{observation}
+
+% ============================================================
+% §5 Renormalised scale and Mertens constant
+% ============================================================
+\section{The renormalised scale and the Mertens constant}
+\label{sec:scale}
+
+By the prime number theorem,
+\[
+\Hlocal(\tfrac12,\kappa) \;\sim\; 2(\log\kappa)^2
+\qquad (\kappa\to\infty),
+\]
+so the renormalised remainder
+\[
+\Hren(\tfrac12,\kappa) \;:=\;
+\Hlocal(\tfrac12,\kappa) \;-\; 2(\log\kappa)^2
+\]
+is of lower order than $(\log\kappa)^2$.
+Numerically, $\Hren$ exhibits a sawtooth pattern: at each new
+prime $p\le\kappa$ it jumps upward by $f_p>0$, and decreases
+continuously between primes as $2(\log\kappa)^2$ grows.
+This is the direct analogue of the prime-counting function
+$\pi(x)$, which increases by~$1$ at each prime and is constant
+between consecutive primes.
+The Mertens constant $\gamma_M$ governs the average drift of
+this sawtooth via the classical estimate
+\[
+\sum_{p\le\kappa}\frac{\log p}{p} \;=\; \log\kappa + O(1)
+\qquad (\kappa\to\infty),
+\]
+connecting the renormalised scale to classical prime-sum
+estimates~\cite{Mertens}.
+
+\begin{remark}
+The Mertens constant
+\[
+\gamma_M \;=\; \gamma + \sum_p\Bigl[\log\bigl(1-\tfrac1p\bigr)+\tfrac1p\Bigr]
+\;\approx\; 0.2615,
+\]
+where $\gamma\approx 0.5772$ is the Euler--Mascheroni constant,
+appears in prime-sum estimates that control the average
+behaviour of $\Hren$.
+The same constant $\gamma$ enters the first Li
+coefficient~\cite{Li}
+\[
+\lambda_1 \;=\; 1 + \tfrac{\gamma}{2} - \log 2
+- \tfrac{\log\pi}{2} \;\approx\; 0.0231,
+\]
+reflecting the universal role of $\gamma$ in the transition
+from discrete prime sums to continuous logarithmic integrals.
+\end{remark}
+
+\begin{remark}
+The renormalised construction clarifies the scale of the
+prime-side contribution but does not by itself resolve the
+spectral inequality of Problem~\ref{op:spectral-ineq}.
+\end{remark}
+
+% ============================================================
+% §6 Numerical comparison
+% ============================================================
+\section{Numerical comparison of zero and prime sides}
+\label{sec:numerical}
+
+We compare the renormalised zero sum $\Zren$ with the
+renormalised local curvature $\Hren$ on a finite grid in
+$\kappa$.
+The smoothing parameter $\varepsilon=0.05$ is required for
+meaningful numerical experiments with the zero sum: for
+$\varepsilon=0.5$ one has $e^{-\varepsilon^2\gamma_1^2}\approx
+10^{-22}$, effectively suppressing all zero contributions, so
+that no observable signal remains.
+With $\cren=f_p^{1/2}$, $\varepsilon=0.05$, and $N=100$ zeros:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$\kappa$ & $\Zren$ & $\Hren$
+         & $\Zren-\Hren$ & $\Zren\ge\Hren$ \\
+\midrule
+10   & 4.888 & 3.044 & $+1.844$ & $\checkmark$ \\
+20   & 3.782 & 4.770 & $-0.988$ & $\times$ \\
+29   & 5.520 & 3.588 & $+1.931$ & $\checkmark$ \\
+50   & 5.693 & 2.881 & $+2.812$ & $\checkmark$ \\
+100  & 5.311 & 1.562 & $+3.748$ & $\checkmark$ \\
+200  & 5.102 & 2.355 & $+2.747$ & $\checkmark$ \\
+500  & 5.156 & 1.101 & $+4.056$ & $\checkmark$ \\
+1000 & 4.289 & 0.426 & $+3.863$ & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{observation}[Finite-grid stability of the comparison; numerical]\label{obs:Z-vs-H}
+On the eight-point grid
+$\kappa\in\{10,20,29,50,100,200,500,1000\}$, the inequality
+$\Zren\ge\Hren$ holds at every tested point except $\kappa=20$,
+where $\Zren-\Hren=-0.988$.
+The ratio $\Zren/\Hren$ grows from $1.5$ at $\kappa=29$ to
+over $10$ at $\kappa=1000$.
+No claim is made about $\kappa$ outside the eight tested points.
+\end{observation}
+
+The single grid violation $\Zren<\Hren$ at $\kappa=20$ illustrates
+the sawtooth behaviour of $\Hren$: directly after a prime jump
+$\Hren$ rises by $f_p$, then decreases continuously until the
+next prime, exactly as $\pi(x)-\mathrm{Li}(x)$ fluctuates near
+small primes before stabilising asymptotically.
+The pattern observed on the grid for $\kappa\ge 29$ is consistent
+with the spectral inequality of Problem~\ref{op:spectral-ineq},
+but does not prove it: the underlying object is the unconditional
+positivity of the zero-side quadratic form for an admissible
+test function in $\Sad$, which is not implied by finite-grid
+evaluations.
+
+\begin{remark}[The constant $D/2\pi$]
+The formal asymptotic
+$Z(g^*)\sim D\log\kappa\log\log\kappa$, derivable under
+unconditional control of the off-diagonal cross-terms
+(Problem~\ref{op:offdiag}), yields a natural bridge constant
+\[
+\frac{D}{2\pi} \;\approx\;
+\frac{9.471}{6.283} \;\approx\; 1.507,
+\]
+measuring the ratio of the prime-side diagonal energy $D$ to
+the archimedean normalisation $2\pi$ of the zero-counting
+density $N(T)\sim T\log T/(2\pi)$.
+This constant is of a different nature from the pair-correlation
+statistics studied in the GUE conjecture~\cite{Montgomery}: it
+depends only on the total density of zeros via the classical
+formula for $N(T)$, which is unconditional and requires neither
+GUE nor RH as input.
+Whether $D/2\pi$ admits a representation in terms of classical
+constants is left open.
+\end{remark}
+
+All numerical claims of this section are reproducible from the
+verification scripts in the GitHub repository~\cite{Code}.
+
+% ============================================================
+% §7 Open Problems
+% ============================================================
+\section{Open Problems}
+\label{sec:open}
+
+The present work reduces the question of prime-side derivation
+of Weil positivity for the family $g^*_{\sigma,\varepsilon}$ to
+two well-posed subproblems.
+We name each and indicate the tools we expect to be relevant.
+
+\begin{openproblem}[Spectral inequality on the critical line]\label{op:spectral-ineq}
+Prove that for every cutoff $\kappa$ and every sufficiently
+small $\varepsilon>0$,
+\begin{equation}\label{eq:openineq}
+Z(g^*_{1/2,\varepsilon}) \;\ge\; \Hlocal(\tfrac12,\kappa).
+\end{equation}
+This inequality is of RH strength.
+By Lagarias~\cite{Lagarias}, the equivalence
+$\mathrm{RH}\iff W(f*\check f)\ge 0$ holds for all
+$f\in\Sad$.
+A positive answer to~\eqref{eq:openineq} establishes
+$W(g^*_{1/2,\varepsilon}*\check g^*_{1/2,\varepsilon})\ge 0$ for
+the specific family constructed in~\S\,\ref{sec:construct},
+which is necessary, but not sufficient, for RH in the absence
+of a density argument for this family in $\Sad$.
+The expected tools are: explicit lower bounds on the zero-side
+quadratic form by the unconditional zero-counting density;
+control of the cross-terms in the zero sum
+(Problem~\ref{op:offdiag}).
+On the tested grid the inequality $\Zren\ge\Hren$ holds at every
+tested point except $\kappa=20$ (Observation~\ref{obs:Z-vs-H}),
+consistent with~\eqref{eq:openineq} but not establishing it
+analytically.
+\end{openproblem}
+
+\begin{openproblem}[Off-diagonal control of the zero sum]\label{op:offdiag}
+Prove unconditionally that the off-diagonal contribution
+\[
+\sum_{p\ne q}^{p,q\le\kappa} \cren \, c_q^{\mathrm{ren}}
+\sum_{\rho} \widehat g^*_{1/2,\varepsilon}(\rho)\,
+            \overline{\widehat g^*_{1/2,\varepsilon}(\rho)}
+\,\Big|_{p\ne q\text{ part}}
+\]
+is asymptotically negligible compared with the diagonal
+contribution
+\[
+\sum_p (\cren)^2 \cdot I(\varepsilon)
+\;\sim\; D\,\log\kappa,
+\]
+so that, combined with the unconditional density
+$N(T)\sim T\log T/(2\pi)$, the formal asymptotic
+$Z(g^*)\sim D\log\kappa\log\log\kappa$, expected on the
+Selberg-orthogonality heuristic for independent zero
+contributions~\cite{Selberg}, becomes a proved
+statement.
+The diagonal part is unconditional: it follows from the prime
+number theorem and the absolute convergence
+of~\eqref{eq:D}.
+The expected tools are: analytic continuation of
+$\sum_\gamma\cos(\gamma\log(p/q))$ for $p\ne q$ via classical
+explicit-formula techniques; cancellation by oscillation, with
+the $(\log\kappa)^{-1}$-decay of the diagonal entering as a
+size constraint.
+This problem is formulated entirely within classical analytic
+number theory.
+\end{openproblem}
+
+% ============================================================
+% §8 Non-Circularity
+% ============================================================
+\section{Non-Circularity}
+\label{sec:nocirc}
+
+We document explicitly that the results of this paper do not
+rely on the objects they are directed toward.
+
+\textbf{No RH as input.}
+At no point is the Riemann Hypothesis assumed.
+The non-trivial zeros $\rho$ enter the construction only through
+the classical zero-counting density $N(T)\sim T\log T/(2\pi)$,
+which is unconditional, and through finite Gaussian-smoothed
+sums for which the symmetric pairing $\rho\leftrightarrow\bar\rho$
+is used without further hypothesis.
+The reference point $\sigma=\tfrac12$ is chosen as the object
+of study, not assumed to be the unique zero location.
+
+\textbf{No GUE, Montgomery, or Hilbert--P\'olya hypothesis.}
+The construction of $g^*_{\sigma,\varepsilon}$ uses only
+Schwartz-class smoothing and antisymmetrisation; it makes no
+reference to random-matrix statistics, pair-correlation
+conjectures, or any postulated spectral realisation of the
+zeros.
+The bridge constant $D/2\pi$ identified in~\S\,\ref{sec:numerical}
+depends only on the total density of zeros via the classical
+formula for $N(T)$ and is structurally independent of GUE.
+
+\textbf{The Weil explicit formula is classical.}
+Proposition~\ref{prop:prime-side} applies the Weil explicit
+formula~\cite{Weil} in the Lagarias admissible
+formulation~\cite{Lagarias}; both are valid for every
+sufficiently regular test function and require no positivity
+hypothesis beyond the classical ones used in the derivation of
+the explicit formula itself.
+
+\textbf{Numerical results are clearly marked.}
+The diagonal energy value $D\approx 9.471$ and the
+comparison-grid statements of~\S\,\ref{sec:numerical} rely on
+direct computation; each statement is labelled [numerical] in
+its heading.
+
+\textbf{Open problems are named, not used as hypotheses.}
+Problems~\ref{op:spectral-ineq} and~\ref{op:offdiag} are stated
+openly in~\S\,\ref{sec:open}.
+No claim of this paper is conditional on a positive answer to
+either problem.
+
+% ============================================================
+% Acknowledgments
+% ============================================================
+\section*{Acknowledgments}
+
+The author thanks Jean-Fran\c{c}ois Burnol for confirming that
+the curvature decomposition of~\cite{Paper1} does not appear in
+the literature known to him, and the readers who provided
+feedback on earlier versions of this paper.
+
+% ============================================================
+% Call for Feedback
+% ============================================================
+\section*{Call for Feedback}
+
+This paper is part of an ongoing open research initiative
+toward the Riemann Hypothesis.
+All papers in the series are freely available on Zenodo under
+CC~BY~4.0, and the accompanying verification code is hosted on
+GitHub.
+
+The author welcomes critical feedback, corrections, and
+collaboration:
+{\sloppy
+Zenodo (\url{https://zenodo.org/search?q=Ulrich+Tehrani}) and
+GitHub (\url{https://github.com/utehrani/analysislab-nt}).
+\par}
+
+Topics of particular interest include: analytical approaches to
+the spectral inequality of Problem~\ref{op:spectral-ineq};
+unconditional control of the off-diagonal cross-terms of
+Problem~\ref{op:offdiag}; and the relation between the bridge
+constant $D/2\pi$ identified in~\S\,\ref{sec:numerical} and
+classical analytic constants attached to the zero-counting
+density.
+
+We particularly welcome expert comment on the following
+question: for the Gaussian-smoothed admissible family
+$g^*_{\sigma,\varepsilon}$ constructed in~\S\,\ref{sec:construct},
+is the comparison $Z(g^*)\sim D\log\kappa\log\log\kappa$, with
+$D$ as in~\eqref{eq:D}, accessible by classical sieve or
+explicit-formula techniques without recourse to random-matrix
+statistics?
+
+% ============================================================
+% References
+% ============================================================
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{Paper1}
+U.~Tehrani,
+``A Curvature Decomposition of the Explicit Formula'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19025598}, 2026.
+
+\bibitem{Code}
+U.~Tehrani,
+\emph{Verification scripts for the prime--zero coupling series},
+GitHub, \url{https://github.com/utehrani/analysislab-nt}.
+
+\bibitem{Lagarias}
+J.C.~Lagarias,
+``On a positivity property of the Riemann $\xi$-function'',
+\emph{Acta Arithmetica} \textbf{89} (1999), 217--234.
+
+\bibitem{Weil}
+A.~Weil,
+``Sur les `formules explicites' de la th\'eorie des nombres
+premiers'',
+\emph{Comm.\ S\'em.\ Math.\ Univ.\ Lund, Suppl.}\ (1952),
+252--265.
+
+\bibitem{Li}
+X.-J.~Li,
+``The positivity of a sequence of numbers and the Riemann
+hypothesis'',
+\emph{J.\ Number Theory} \textbf{65} (1997), 325--333.
+
+\bibitem{Mertens}
+F.~Mertens,
+``Ein Beitrag zur analytischen Zahlentheorie'',
+\emph{J.\ Reine Angew.\ Math.} \textbf{78} (1874), 46--62.
+
+\bibitem{Montgomery}
+H.L.~Montgomery,
+``The pair correlation of zeros of the zeta function'',
+in: \emph{Analytic Number Theory},
+Proc.\ Sympos.\ Pure Math.\ \textbf{24},
+Amer.\ Math.\ Soc., Providence, 1973, pp.~181--193.
+
+\bibitem{Selberg}
+A.~Selberg,
+``Contributions to the theory of the Riemann zeta-function'',
+\emph{Arch.\ Math.\ Naturvid.} \textbf{48}.5 (1946), 89--155.
+
+\bibitem{Connes}
+A.~Connes,
+``Trace Formula in Noncommutative Geometry and the Zeros of the
+Riemann Zeta Function'',
+\emph{Selecta Math.\ (N.S.)} \textbf{5}.1 (1999), 29--106.
+
+\bibitem{BerryKeating}
+M.V.~Berry and J.P.~Keating,
+``The Riemann Zeros and Eigenvalue Asymptotics'',
+\emph{SIAM Review} \textbf{41}.2 (1999), 236--266.
+
+\bibitem{deBranges}
+L.~de~Branges,
+``The Riemann Hypothesis for Hilbert Spaces of Entire Functions'',
+\emph{Bull.\ Amer.\ Math.\ Soc.\ (N.S.)} \textbf{15}.1 (1986),
+1--17.
+
+\bibitem{Burnol}
+J.-F.~Burnol,
+``On Fourier and Zeta(s)'',
+\emph{Forum Math.} \textbf{16}.6 (2004), 789--840.
+
+\bibitem{Edwards}
+H.M.~Edwards,
+\emph{Riemann's Zeta Function},
+Academic Press, New York, 1974.
+
+\end{thebibliography}
+
+% ============================================================
+% Footer — normative format
+% ============================================================
+\enlargethispage{3\baselineskip}
+\vspace*{\fill}
+\begin{minipage}{\linewidth}
+\rule{\linewidth}{0.4pt}\smallskip\\
+\small\emph{Paper~2 v10 \textperiodcentered\ May~2026
+\textperiodcentered\ Pauca sed matura}
+\end{minipage}
+
+\end{document}

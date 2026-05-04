@@ -116,6 +116,7 @@
 \setlength{\parskip}{0.5em}
 \setlength{\parindent}{0pt}
 \onehalfspacing
+\emergencystretch=1em
 
 % --------------------------------------------------------
 % Theorem environments (numbered within section)
@@ -368,7 +369,7 @@ explicit operator family.
 \textbf{Paper~1}~\cite{Paper1} introduced the local curvature function
 $\Hlocal(\sigma,\kappa)=\sum_{p\le\kappa}V_p(\sigma)$, identifying
 $\sigma=\tfrac12$ as a phase boundary through the divergence
-$\Hlocal(\tfrac12,\kappa)\sim 8(\log\kappa)^2$.
+$\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2$.
 
 \textbf{Paper~2}~\cite{Paper2} connected this local curvature to the
 Weil explicit functional, constructing admissible test functions
@@ -856,8 +857,7 @@ $\mathrm{Const}_p\in[2.44,3.93]$ with mean $3.27$ and standard
 deviation $0.46$ (coefficient of variation $14\%$).
 Representative values are listed below.
 
-\begin{table}[h]
-\centering
+\begin{center}
 \begin{tabular}{ccccc}
 \toprule
 $p$ & $\mathrm{Main}_p(0.05)$ & $\Gamma_p(0.05)$
@@ -870,7 +870,7 @@ $37$ & $-3.35$ & $-0.082$ & $3.93$ & $0.796$ \\
 $53$ & $-3.08$ & $-0.069$ & $3.74$ & $0.753$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 At $\varepsilon=0.05$, the pointwise inequality
 $\mathrm{Re}\,\Zt_p(0.05)<0$ holds for $14$ of the $16$ primes
@@ -1111,7 +1111,7 @@ line to five well-posed subproblems.
 We name each and describe the tools we expect to be relevant.
 The problems are listed in order of what we consider tractability.
 
-\begin{openproblem}[Stationarity]
+\begin{openproblem}[Stationarity]\label{op:stat}
 \label{op:stat}
 Prove that $|O'(\tfrac12)|\ll W\cdot P$, where
 $W=\sum_k e^{-\varepsilon^2\gamma_k^2}$ and $P=\pi(\kappa)$ is the
@@ -1132,7 +1132,7 @@ local-minimum statement for $O$ at $\sigma=\tfrac12$ at those
 parameters.
 \end{openproblem}
 
-\begin{openproblem}[Asymptotic pointwise bias]
+\begin{openproblem}[Asymptotic pointwise bias]\label{op:bias}
 \label{op:bias-asymp}
 Prove analytically that $\mathrm{Re}\,\Zt_p(\varepsilon)<0$ for every
 prime $p\le\kappa$ in some explicit range $\varepsilon\in(0,\varepsilon_c)$,
@@ -1155,7 +1155,7 @@ $\mathrm{Const}_p$.
 The problem is formulated entirely within classical analytic number theory.
 \end{openproblem}
 
-\begin{openproblem}[Uniformity of positive curvature]
+\begin{openproblem}[Uniformity of positive curvature]\label{op:uniform}
 \label{op:uniformity}
 Determine whether the inequality $B(\varepsilon,\kappa)<0$, and hence
 $O''(\tfrac12)>0$, persists at parameter points
@@ -1174,7 +1174,7 @@ large $\kappa$; and, if possible, an analytic reduction via the
 primal-to-dual identity $B=\sum_p(\log p)^2\,\mathrm{Re}\,Z_p^{(2)}$.
 \end{openproblem}
 
-\begin{openproblem}[Integrated-to-direct transfer]
+\begin{openproblem}[Integrated-to-direct transfer]\label{op:transfer}
 \label{op:transfer}
 Establish or disprove the implication
 \[
@@ -1209,7 +1209,7 @@ $B_{\mathrm{int}}$ in place of $B$.
 The problem is formulated entirely within classical analytic number theory.
 \end{openproblem}
 
-\begin{openproblem}[Lagarias--Weil bridge]
+\begin{openproblem}[Lagarias--Weil bridge]\label{op:weil}
 \label{op:weil-bridge}
 The present result introduces a finite-cutoff curvature observable
 for Gaussian-smoothed explicit-formula data; it should be compared
@@ -1329,6 +1329,7 @@ finite~$\varepsilon$ carries arithmetic information, or is positivity
 only meaningful in the distributional limit?
 
 % -------------------------------------------------------
+\newpage
 \begin{thebibliography}{99}
 
 \bibitem{Paper1}

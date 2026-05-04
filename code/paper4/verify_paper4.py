@@ -10,7 +10,7 @@
 #   4. Eigenvector localization
 #   5. Two arithmetic constants C_η ≈ 0.39, C_T
 #   6. η_orig > 0 for normative κ ≤ 1009
-#   7. Δ_Burst ≈ 4.81 (κ-invariant)
+#   7. Δ_Burst > 0 (κ-invariant lower bound)
 #   8. Rayleigh identity ⟨T_ren c̃, c̃⟩ = 1 − η_orig (machine precision)
 #
 # Usage: python verify_paper4.py

@@ -13,10 +13,10 @@ primes_53  = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53]
 primes_101 = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101]
 primes_199 = [p for p in range(2,200) if all(p%d!=0 for d in range(2,int(p**0.5)+1))]
 
-# ── Normative Definitionen (SSOT Rev20 §28/§29) ────────────────────────────
+# ── Normative Definitionen (SSOT §28/§29) ────────────────────────────
 
 def c_p(p):
-    """Normative η-Gewichte aus SSOT Rev20 §28"""
+    """Normative η-Gewichte aus SSOT §28"""
     return np.sqrt(4 * (np.log(p))**2 * (2*p - 1) / (p * (p-1)**2))
 
 def a_p_vec(p, gammas, epsilon):
@@ -128,7 +128,7 @@ for kap, plist in zip(kappas, primes_k):
     row = [eta_orig(plist, gammas, eps, 0.5)[0] for eps in epsilons]
     print(f"{kap:>6} | {row[0]:>10.6f} | {row[1]:>10.6f} | {row[2]:>10.6f}")
 
-print(f"\nSSO Rev20 §30 Referenz: η ∈ [0.61, 0.70]")
+print(f"\nSSOT §30 Referenz: η ∈ [0.61, 0.70]")
 
 # ════════════════════════════════════════════════════════════════════════════
 # ZUSATZ: Sprint AC Werte rekonstruieren (0.792, 0.741, 0.688)

@@ -1,0 +1,1049 @@
+% ============================================================
+% Paper 1 - A Curvature Decomposition of the Explicit Formula
+%           for the Riemann Zeta Function
+%
+% Author:   Ulrich Tehrani
+% Date:     May 2026
+% Version:  13
+% Zenodo:   https://doi.org/10.5281/zenodo.19025598
+% License:  CC BY 4.0
+%
+% Changelog (internal only -- not in filename)
+% ---------------------------------------------
+% v1--v7 (early 2026): see project history
+%
+% v8 (April 2026)
+%   - Abstract framing of Li-proximity clarified;
+%     Open Question conclusion softened to reflect that a
+%     positive answer connects to Weil framework but does not
+%     automatically yield the Riemann Hypothesis.
+%
+% v9 (May 2026): Series template v2.0 compliance sweep
+%   (notation section; three §1 subsections; open problem
+%   with stable label; non-circularity as own section;
+%   acknowledgments and call for feedback unnumbered;
+%   bibliography reformatted; theorem environments numbered
+%   within section; cmap; emergencystretch; \newpage before
+%   §1 and references; motto in footer; forward "Note added"
+%   removed; kappa/K notation unified; Lagarias bibitem
+%   corrected to 1999 Acta Arithm. on admissible test
+%   functions). No mathematical changes.
+%
+% v10 (May 2026): bibliographic and positioning revision
+%   (Burnol bibitem corrected to CRAS 2000; explicit
+%   Mertens-type estimate with Montgomery--Vaughan reference
+%   in Lemma 4.1 proof; §1.1 positioning paragraph extended
+%   with Burnol uniformity and Connes--Consani archimedean
+%   trace-formula citation; §3 motivation sentence after
+%   Corollary 3.2; §5 closing tying observations to
+%   Lemma 3.1; §8 explicit RH-equivalence acknowledgment
+%   with Weil 1952 and Bombieri--Lagarias 1999 added;
+%   Artin reference for Bohr--Mollerup added).
+%
+% v11 (May 2026): structural correction
+%   (Hadamard formula corrected: (log xi)''(s) = -sum_rho
+%   (s-rho)^{-2} with no archimedean/trivial-zero terms;
+%   H_local described as separately constructed in the Tate
+%   framework; H_dual := H_xi - H_local introduced as a
+%   bookkeeping difference; observation 5.2 retitled with
+%   explicit rounded ordinates and stated offsets; §1.1
+%   and §2 marked formally/distributionally; §5 closing
+%   replaced by non-causal observational formulation;
+%   §6 informational status sentence added).
+%
+% v12 (May 2026): numerical precision and consistency sweep
+%   (a) Observation 5.2 numerical values updated by direct
+%       high-precision evaluation of H_xi(sigma, t) =
+%       d^2/dsigma^2 log|xi(sigma+it)|^2 at the stated
+%       rounded ordinates t_1 = 14.13, t_2 = 21.02. The
+%       corrected values are
+%         H_xi(0.3,  14.13) ~ -49.78,
+%         H_xi(1/2,  14.13) ~ +89,577.92,
+%         H_xi(1/2,  21.02) ~ +480,754.91.
+%       Earlier values (+89,558 and +480,178) were close but
+%       not reproducible from the stated parameters at the
+%       stated precision. The off-critical value
+%       H_xi(0.3, 14.13) ~ -50 is preserved at one
+%       significant figure; the on-critical values are
+%       now stated to two decimals as directly evaluated.
+%       The Abstract paragraph is updated correspondingly.
+%   (b) §3 closing prose: "where it produces the singular
+%       peaks of H_xi" replaced by the non-causal
+%       "where H_xi exhibits singular peaks". Same paragraph,
+%       "cancellation performed by the bookkeeping remainder"
+%       replaced by "cancellation between H_local and the
+%       bookkeeping remainder".
+%   (c) Notational alignment: every use of "spectral
+%       remainder" for H_dual replaced by "bookkeeping
+%       remainder" throughout the body and Abstract, in
+%       line with the v11 conceptual correction (H_dual is
+%       not independently interpreted as a spectral object
+%       in this paper; it is the finite-cutoff bookkeeping
+%       difference).
+%   - No changes to the four core statements
+%     (Lemma 3.1, Corollary 3.2, Lemma 4.1, Lemma 4.2),
+%     to their proofs, or to their assertions of order of
+%     growth and convergence. Observation 5.1 is unchanged.
+%     Observation 5.2 numerical values are now obtained by
+%     direct evaluation at the stated parameters.
+%
+% v13 (May 2026): expository correction
+%   - §5 prose: "The spikes become sharper near higher
+%     zeros, as the Observation 5.2 comparison between
+%     gamma_1 and gamma_2 illustrates." replaced. The
+%     two-point comparison does not support a
+%     "sharper-near-higher-zeros" claim, since the larger
+%     value at t_2 = 21.02 is explained by the smaller
+%     sampling distance |t_2 - gamma_2| ~ 2e-3 versus
+%     |t_1 - gamma_1| ~ 5e-3, together with the
+%     |s-rho|^{-2} kernel singularity. The new sentence
+%     states this distance-based explanation explicitly.
+%   - No other changes. No changes to the four core
+%     statements, to their proofs, or to the numerical
+%     values of Observation 5.1 and 5.2.
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+\emergencystretch=1em
+
+% --------------------------------------------------------
+% Theorem environments (numbered within section)
+% --------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{remark}{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+% --------------------------------------------------------
+% Paper-specific macros
+% --------------------------------------------------------
+\newcommand{\Hxi}{H_{\xi}}
+\newcommand{\Hlocal}{H_{\mathrm{local}}}
+\newcommand{\Hdual}{H_{\mathrm{dual}}}
+\newcommand{\Sad}{S_{\mathrm{ad}}}
+
+% --------------------------------------------------------
+% Title
+% --------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries
+A Curvature Decomposition of the Explicit Formula\\[0.4em]
+\large for the Riemann Zeta Function}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ May~2026
+      \textperiodcentered\ v13}
+
+% ============================================================
+\begin{document}
+\maketitle
+% ============================================================
+
+\begin{abstract}
+We study the second logarithmic derivative of the completed
+Riemann zeta function in the form
+\[
+\Hxi(\sigma,t)\;:=\;\partial_{\sigma}^{2}\log
+\lvert\xi(\sigma+it)\rvert^{2},
+\]
+and interpret it as a second-derivative specialisation of the
+classical explicit formula. This yields a prime-cutoff
+decomposition $\Hxi=\Hlocal+\Hdual$ into local curvature
+contributions from the archimedean place and the finite Euler
+factors, together with a bookkeeping remainder $\Hdual$
+defined as the finite-cutoff difference $\Hxi-\Hlocal$.
+The note also discusses the automorphic Rankin--Selberg
+analogue and a structural comparison of the curvature field
+with Li-type positivity criteria, noting that local positivity
+does not imply global Li positivity.
+
+\textbf{What is proved.}
+Local positivity at every finite place: $V_p(\sigma)\ge 0$ for
+all primes $p$ and all $\sigma>0$ (Lemma~\ref{lem:Vp-pos}).
+Together with the classical archimedean log-convexity
+$\psi_1(\sigma)\ge 0$, this yields non-negativity of the
+truncated local curvature $\Hlocal(\sigma,\kappa)\ge 0$
+(Corollary~\ref{cor:Hlocal-pos}).
+Critical divergence on the line $\sigma=\tfrac12$:
+$\Hlocal(\tfrac12,\kappa)\asymp C(\log\kappa)^{2}$ as
+$\kappa\to\infty$, with constant $C>0$ depending on the
+local-norm normalisation (Lemma~\ref{lem:critical-div}).
+Subcritical convergence: $\Hlocal(\sigma,\kappa)$ tends to a
+finite limit as $\kappa\to\infty$ for every $\sigma>\tfrac12$
+(Lemma~\ref{lem:subcrit-conv}).
+
+\textbf{What is numerical.}
+At a representative off-critical point $(\sigma,t)=(0.3,0)$
+with $\kappa=1300$, $\Hlocal\approx 915$ while
+$\Hxi\approx 0.09$, so the bookkeeping remainder $\Hdual$
+cancels the local curvature to better than $99.99\%$
+(Observation~\ref{obs:cancellation}).
+Direct evaluation at the rounded ordinate $t=14.13$, at
+distance approximately $5\times 10^{-3}$ from the first
+non-trivial zero $\gamma_1\approx 14.1347$, gives
+$\Hxi(\tfrac12,t)\approx +89\,577.92$, illustrating the
+singular kernel $(s-\rho)^{-2}$ that dominates near zeros
+(Observation~\ref{obs:peak}).
+
+\textbf{What remains open.}
+Whether the singular test function implicit in $\Hxi$ ---
+whose Mellin side produces the kernel $(s-\rho)^{-2}$ --- can
+be embedded into, or approximated by, the class of admissible
+test functions for which Weil positivity is equivalent to the
+Riemann Hypothesis (Open Problem~\ref{op:weil-embedding}).
+
+\textbf{Structure.}
+The formal core in
+\S\S\,\ref{sec:field}--\ref{sec:divergence} is non-circular
+and proof-complete.
+No use of the Riemann Hypothesis, the GUE conjecture, or the
+Hilbert--P\'olya postulate is made anywhere in
+\S\S\,\ref{sec:field}--\ref{sec:divergence}.
+\end{abstract}
+
+\vspace{2em}
+
+% --------------------------------------------------------
+% Notation and Conventions
+% --------------------------------------------------------
+\section*{Notation and Conventions}
+\label{sec:notation}
+
+\emph{Critical line.}
+Throughout, $s=\sigma+it$ with $\sigma=\Re(s)$ and $t=\Im(s)$;
+the critical line means $\sigma=\tfrac12$.
+The completed zeta function is
+$\xi(s)=\tfrac12 s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s)$, so that
+$\xi(s)=\xi(1-s)$ on the whole plane.
+
+\medskip
+\emph{Global parameters.}
+The variables of this paper are $\sigma>0$ (a real ordinate
+of evaluation), $t\in\mathbb{R}$ (a real imaginary part), and
+the prime cutoff $\kappa\ge 2$ (varied across the divergence
+and convergence statements).
+The cutoff $\kappa$ runs over integers when summing
+$\sum_{p\le\kappa}$ with $p$ prime; equivalently, $\kappa$
+indexes the prime $p_{\pi(\kappa)}$.
+No further parameters enter the formal core.
+
+\medskip
+\emph{Main objects.}
+The curvature field is
+\[
+\Hxi(\sigma,t)\;:=\;\partial_{\sigma}^{2}\log
+\lvert\xi(\sigma+it)\rvert^{2},
+\]
+and the truncated local curvature at cutoff $\kappa$ is
+\[
+\Hlocal(\sigma,\kappa)\;:=\;\psi_1(\sigma)
+\;+\;\sum_{p\le\kappa}V_p(\sigma),
+\]
+with archimedean contribution
+$\psi_1(\sigma)=\tfrac18\psi^{(1)}(\sigma/2)$
+($\psi^{(1)}$ the trigamma function) and local Euler-factor
+contribution $V_p(\sigma)=4(\log p)^2 p^{-2\sigma}/
+(1-p^{-2\sigma})^2$.
+The bookkeeping remainder is
+$\Hdual(\sigma,t,\kappa):=\Hxi(\sigma,t)-\Hlocal(\sigma,\kappa)$.
+The non-trivial zeros of $\zeta(s)$ are denoted $\rho$; the
+first few imaginary ordinates are $\gamma_1\approx 14.135$,
+$\gamma_2\approx 21.022$.
+
+\medskip
+\emph{Not to be confused with.}
+The truncated local curvature $\Hlocal(\sigma,\kappa)$ used in
+this paper is the prime-side sum of squared local Euler-factor
+contributions associated with the second-derivative
+specialisation of the explicit formula; it is not the
+classical von~Mangoldt prime sum
+$\sum_{p^k\le x}\Lambda(p^k)$ and not the renormalised prime
+weight that appears in admissible-test-function constructions
+for the Weil functional.
+The local positivity $V_p(\sigma)\ge 0$ established below is
+a place-by-place positivity statement and does \emph{not}
+imply Li positivity of the coefficients $\lambda_n$
+(\S\,\ref{sec:li-comparison}).
+
+\newpage
+
+% --------------------------------------------------------
+% §1 Introduction
+% --------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Background and Motivation}
+\label{sec:bg}
+
+This is the first paper in a series developing an explicit,
+finite-cutoff framework for studying the distribution of the
+non-trivial zeros of the Riemann zeta function $\zeta(s)$.
+The organising idea of the series is that prime-side
+quantities at finite cutoff carry arithmetic information
+about the zero geometry that is accessible by classical
+analytic means.
+The present paper introduces the central object of the
+series, the prime-cutoff decomposition of the second
+logarithmic derivative of the completed zeta function $\xi$.
+
+The Hadamard product representation of the entire function
+$\xi$, together with logarithmic differentiation, gives
+\begin{equation}\label{eq:hadamard}
+(\log\xi)''(s)
+\;=\;-\sum_{\rho}\frac{1}{(s-\rho)^{2}},
+\end{equation}
+where the sum runs over the non-trivial zeros $\rho$ of
+$\zeta$.
+The real part of \eqref{eq:hadamard}, evaluated as a function
+of $\sigma$ at fixed $t$, defines the curvature field $\Hxi$.
+On the local (prime and archimedean) side, the present paper
+introduces a separately constructed quantity, the truncated
+local curvature $\Hlocal(\sigma,\kappa)$, built in the Tate
+framework from per-place log-Mellin-norm contributions: an
+archimedean trigamma term $\psi_1(\sigma)$ and a finite
+Euler-factor sum $\sum_{p\le\kappa}V_p(\sigma)$ with closed
+forms specified in~\S\,\ref{sec:field}.
+The bookkeeping remainder is defined by
+$\Hdual(\sigma,t,\kappa)=\Hxi(\sigma,t)-\Hlocal(\sigma,\kappa)$;
+in this paper it serves only as a bookkeeping device for the
+decomposition, and no spectral interpretation is imposed on
+it.
+
+The decomposition
+$\Hxi=\Hlocal+\Hdual$ is not a new identity but a
+reorganisation of the explicit formula in curvature form,
+specialised to the kernel $2\Re(s-\rho)^{-2}$.
+The classical reference for the explicit formula and its
+specialisations is Edwards~\cite{Edwards}.
+Burnol's invariant-analysis approach to the explicit
+formula~\cite{Burnol} treats the local terms uniformly across
+all places, and the Connes--Consani trace-formula work at the
+archimedean place~\cite{ConnesConsani} establishes positivity
+statements there for compactly supported test functions.
+Neither of these isolates the prime-cutoff second-derivative
+decomposition $\Hxi=\Hlocal+\Hdual$ used here, in which, at
+every finite cutoff $\kappa$, the truncated local curvature
+$\Hlocal(\sigma,\kappa)$ is the sum of the archimedean
+trigamma term $\psi_1(\sigma)$ and the explicit closed-form
+Euler-factor contributions $V_p(\sigma)$.
+Equivalently, the decomposition $\Hxi=\Hlocal+\Hdual$ is the
+classical explicit formula~\cite{Edwards} truncated to primes
+$p\le\kappa$ and applied \emph{formally} --- at the level of
+singular test functions and distributions --- to the test
+function whose Mellin side produces the kernel $(s-\rho)^{-2}$.
+Rigorous embedding of this singular test function into the
+admissible class $\Sad$ of the Weil functional is the subject
+of Open Problem~\ref{op:weil-embedding}.
+At the level of the formal identity, $\Hlocal$ is the
+truncated prime-side and $\Hdual$ is the remaining zero-side.
+
+The present construction, whose finite-place positivity is
+the main result of this note, should be distinguished from
+established operator-theoretic programmes for the Riemann
+Hypothesis: it is not a Hilbert--P\'olya spectral realisation
+in the sense of Connes~\cite{Connes}, nor a Berry--Keating
+type quantum-Hamiltonian construction, nor a de~Branges
+structure-function model.
+The vocabulary of ``curvature'' used here refers solely to the
+second-derivative origin of $V_p(\sigma)$ in
+$\log\lvert\xi(\sigma+it)\rvert^{2}$; no further geometric
+content is asserted.
+To the best of our knowledge, the prime-cutoff curvature
+formulation $\Hxi=\Hlocal+\Hdual$ does not appear explicitly
+in the literature (cf.\ J.-F.~Burnol, personal communication).
+
+\subsection{Main Results}
+\label{sec:main}
+
+The four formal statements of this paper concern the
+prime-side object $\Hlocal(\sigma,\kappa)$ alone.
+First, $V_p(\sigma)\ge 0$ at every prime $p$ and every
+$\sigma>0$ (\S\,\ref{sec:positivity}, Lemma~\ref{lem:Vp-pos}),
+hence $\Hlocal(\sigma,\kappa)\ge 0$ throughout
+(Corollary~\ref{cor:Hlocal-pos}).
+Second, on the critical line, the truncated local curvature
+diverges with order $(\log\kappa)^{2}$ as $\kappa\to\infty$
+(\S\,\ref{sec:divergence}, Lemma~\ref{lem:critical-div}).
+Third, above the critical line the truncated local curvature
+tends to a finite limit
+(Lemma~\ref{lem:subcrit-conv}).
+The critical line is therefore the phase boundary between
+divergence and convergence of the local curvature sum.
+
+The numerical illustrations of \S\,\ref{sec:numerical}
+quantify the cancellation between $\Hlocal$ and $\Hdual$
+off the critical line, and the singular peak of $\Hxi$ near
+non-trivial zeros.
+
+The Rankin--Selberg discussion of \S\,\ref{sec:rs} and the
+Li-coefficient comparison of \S\,\ref{sec:li-comparison} are
+informational only.
+Their role is to place the curvature decomposition within the
+classical analytic-number-theory landscape and to delimit
+explicitly what local positivity does \emph{not} imply.
+
+The single open problem
+(\S\,\ref{sec:open}, Open Problem~\ref{op:weil-embedding})
+asks whether the singular test function implicit in $\Hxi$
+can be embedded into the class of admissible test functions
+for which Weil positivity is equivalent to the Riemann
+Hypothesis.
+
+\subsection{Reader Contract}
+\label{sec:contract}
+
+This paper \emph{proves} four statements about the truncated
+local curvature: place-by-place positivity at finite primes
+(Lemma~\ref{lem:Vp-pos}); non-negativity of the truncated
+sum $\Hlocal(\sigma,\kappa)$ (Corollary~\ref{cor:Hlocal-pos});
+critical divergence of order $(\log\kappa)^{2}$ on
+$\sigma=\tfrac12$ (Lemma~\ref{lem:critical-div}); and
+convergence to a finite limit for $\sigma>\tfrac12$
+(Lemma~\ref{lem:subcrit-conv}).
+These are unconditional mathematical statements.
+
+This paper \emph{establishes numerically} two finite
+computations from the stated parameters
+(Observations~\ref{obs:cancellation}--\ref{obs:peak}):
+the off-critical compensation between $\Hlocal$ and $\Hdual$
+at $(\sigma,t,\kappa)=(0.3,0,1300)$, and the singular peak of
+$\Hxi$ near $\gamma_1$ on the critical line.
+Both numerical statements are finite computations from the
+stated parameters and are labelled [numerical] in their
+theorem headings.
+
+This paper \emph{leaves open} the embedding of the singular
+test function implicit in $\Hxi$ into the admissible
+test-function class of the Weil functional
+(Open Problem~\ref{op:weil-embedding}, \S\,\ref{sec:open}).
+A positive answer would connect the curvature decomposition
+to the Weil positivity framework; whether such a connection
+extends to a full Weil positivity statement on the relevant
+admissible class is a separate and deeper question.
+
+% ============================================================
+% §2 The Curvature Field
+% ============================================================
+\section{The Curvature Field}
+\label{sec:field}
+
+The Hadamard product representation of the entire function
+$\xi(s)$, together with logarithmic differentiation, yields
+\begin{equation}\label{eq:Hxi}
+\Hxi(\sigma,t)
+\;:=\;\frac{d^2}{d\sigma^2}\log\lvert\xi(\sigma+it)\rvert^2
+\;=\;2\,\Re(\log\xi)''(s)
+\;=\;-2\,\Re\sum_{\rho}\frac{1}{(s-\rho)^2},
+\end{equation}
+where the sum runs over the non-trivial zeros $\rho$ of
+$\zeta(s)$ and $s=\sigma+it$.
+The quantity $\Hxi$ is the spectral (zero) side of an
+explicit-formula identity at second-derivative level: choosing
+a test function whose Mellin transform produces the kernel
+$(s-\rho)^{-2}$ recovers $\Hxi$ as the spectral output.
+
+The local (prime and archimedean) side is constructed
+separately, in the adelic framework of Tate's thesis, as a
+sum of per-place log-Mellin-norm contributions.
+At the archimedean place,
+\begin{equation}\label{eq:psi1-def}
+\psi_1(\sigma)
+\;:=\;\tfrac{1}{4}\,\frac{d^2}{d\sigma^2}
+\log\lvert\Gamma(\sigma/2)\rvert^2.
+\end{equation}
+For real $\sigma$ this coincides with
+$\tfrac{1}{8}\psi^{(1)}(\sigma/2)$, where $\psi^{(1)}$
+denotes the trigamma function; one has
+$\frac{d^2}{d\sigma^2}\log\lvert\Gamma(\sigma/2)\rvert^2
+=\tfrac{1}{2}\psi^{(1)}(\sigma/2)$ by the chain rule, so
+$\psi_1(\sigma)=\tfrac{1}{4}\cdot\tfrac{1}{2}
+\psi^{(1)}(\sigma/2)=\tfrac{1}{8}\psi^{(1)}(\sigma/2)$.
+At each finite place $p$, with $M_s$ the local Mellin
+transform and $f_p$ the standard Tate test function,
+\begin{equation}\label{eq:Vp-def}
+V_p(\sigma)\;:=\;\frac{d^2}{d\sigma^2}
+\log\lVert M_s f_p\rVert^{2}_{L^{2}(\mathbb{Q}_p^{\times})}.
+\end{equation}
+Explicitly, for the unramified local factor,
+$\lVert M_s f_p\rVert^{2}=(1-p^{-1})(1-p^{-2\sigma})^{-1}$,
+so that
+\begin{equation}\label{eq:Vp}
+V_p(\sigma)
+\;=\;4(\log p)^{2}\,
+\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^{2}}.
+\end{equation}
+The truncated local curvature at cutoff $\kappa$ is
+\begin{equation}\label{eq:Hlocal}
+\Hlocal(\sigma,\kappa)
+\;:=\;\psi_1(\sigma)\;+\;\sum_{p\le\kappa}V_p(\sigma),
+\end{equation}
+and the bookkeeping remainder is
+\begin{equation}\label{eq:Hdual}
+\Hdual(\sigma,t,\kappa)
+\;:=\;\Hxi(\sigma,t)\;-\;\Hlocal(\sigma,\kappa).
+\end{equation}
+For $\sigma>\tfrac12$, $\Hlocal(\sigma,\kappa)$ converges as
+$\kappa\to\infty$ (Lemma~\ref{lem:subcrit-conv}) and
+$\Hdual(\sigma,t,\kappa)$ has a well-defined limit in
+$\kappa$.
+At $\sigma=\tfrac12$, $\Hlocal$ diverges
+(Lemma~\ref{lem:critical-div}); the decomposition
+$\Hxi=\Hlocal+\Hdual$ is then interpreted at every finite
+$\kappa$, and $\Hdual$ is treated as a bookkeeping object
+without spectral interpretation.
+
+The decomposition $\Hxi=\Hlocal+\Hdual$ holds at every finite
+cutoff $\kappa$ by the definition of $\Hdual$
+in~\eqref{eq:Hdual}.
+Read as a formal identity, it is the second-derivative
+specialisation of the truncated explicit formula to the
+singular test function whose Mellin side produces
+$(s-\rho)^{-2}$; rigorous treatment of that test function is
+the subject of Open Problem~\ref{op:weil-embedding}.
+It is not a new identity but a reorganisation in this formal
+sense, holding at every finite cutoff $\kappa$.
+
+% ============================================================
+% §3 Local Positivity
+% ============================================================
+\section{Local Positivity}
+\label{sec:positivity}
+
+\begin{lemma}[Local positivity at finite places; proved]
+\label{lem:Vp-pos}
+For every prime $p$ and every $\sigma>0$,
+\[
+V_p(\sigma)\;\ge\;0.
+\]
+\end{lemma}
+
+\emph{Proof.}
+From the explicit expression~\eqref{eq:Vp},
+\[
+V_p(\sigma)\;=\;4(\log p)^{2}\,
+\frac{p^{-2\sigma}}{(1-p^{-2\sigma})^{2}}.
+\]
+For $\sigma>0$ one has $0<p^{-2\sigma}<1$, hence the
+numerator and denominator are both strictly positive, so
+$V_p(\sigma)>0$.
+
+The same conclusion follows from a more general expression
+that is useful as a structural identity.
+With the active local norm at prime cutoff $\kappa$ and
+annulus values
+$S_m=p^{1-m}-p^{-\kappa}$ for $m=1,\dots,\kappa$ and
+$S_0=2-p^{-1}-p^{-\kappa}$, the Mellin norm of the level-$\kappa$
+test function $f_{\kappa,p}$ admits the representation
+\[
+\lVert M_s f_{\kappa,p}\rVert^{2}
+\;=\;(1-p^{-1})\Bigl(\frac{\lvert S_0\rvert^{2}}{1-p^{-2\sigma}}
++\sum_{m=1}^{\kappa}\lvert S_m\rvert^{2}\,p^{2m\sigma}\Bigr),
+\]
+which is a sum of exponentials in $\sigma$ with positive
+coefficients.
+The logarithm of a sum of positive exponentials is convex,
+since its second derivative coincides with the variance of
+the exponential weights against the corresponding probability
+distribution and is therefore non-negative
+(Cauchy--Schwarz).
+\hfill$\square$
+
+\medskip
+The archimedean contribution $\psi_1(\sigma)\ge 0$ is
+classical, following from the log-convexity of the Gamma
+function (Bohr--Mollerup theorem; cf.\ Artin~\cite{Artin}).
+Combining the two place-wise positivities yields the
+following.
+
+\begin{corollary}[Truncated local curvature is non-negative;
+                  proved]
+\label{cor:Hlocal-pos}
+For every $\sigma>0$ and every $\kappa\ge 2$,
+\[
+\Hlocal(\sigma,\kappa)\;\ge\;0.
+\]
+\end{corollary}
+
+\medskip
+Place-by-place positivity does not by itself approach the
+Riemann Hypothesis (cf.\ \S\,\ref{sec:li-comparison}); its
+role in this paper is to make the prime-side mass of $\Hxi$
+explicit, so that the cancellation between $\Hlocal$ and the
+bookkeeping remainder $\Hdual$ becomes visible at every finite
+cutoff.
+The numerical observations of \S\,\ref{sec:numerical}
+quantify this cancellation off the critical line, where it is
+near-total, and on the critical line, where $\Hxi$ exhibits
+singular peaks near the non-trivial zeros.
+
+% ============================================================
+% §4 Divergence and Convergence
+% ============================================================
+\section{Divergence and Convergence}
+\label{sec:divergence}
+
+The behaviour of the truncated local curvature as
+$\kappa\to\infty$ separates the half-plane into two regimes.
+On the critical line, $\Hlocal$ diverges with order
+$(\log\kappa)^{2}$; for every $\sigma>\tfrac12$, $\Hlocal$
+tends to a finite limit.
+
+\begin{lemma}[Critical divergence; proved]
+\label{lem:critical-div}
+As $\kappa\to\infty$,
+\[
+\Hlocal(\tfrac12,\kappa)
+\;\asymp\;C\,(\log\kappa)^{2}
+\]
+for a constant $C>0$ depending on the local-norm
+normalisation.
+\end{lemma}
+
+\emph{Proof.}
+From~\eqref{eq:Vp},
+$V_p(\tfrac12)=4(\log p)^{2}p^{-1}(1-p^{-1})^{-2}$, so for
+large $p$,
+\[
+V_p(\tfrac12)\;=\;4(\log p)^{2}\,p^{-1}\,(1+o(1)).
+\]
+Partial summation against the prime number theorem
+$\pi(x)\sim x/\log x$ yields the standard Mertens-type
+estimate
+\[
+\sum_{p\le\kappa}\frac{(\log p)^{2}}{p}
+\;=\;\tfrac{1}{2}(\log\kappa)^{2}\;+\;O(\log\kappa)
+\qquad(\kappa\to\infty)
+\]
+(Montgomery--Vaughan~\cite{MontgomeryVaughan}, \S\,2.2),
+hence
+$\sum_{p\le\kappa}V_p(\tfrac12)\asymp C(\log\kappa)^{2}$
+for a constant $C>0$ depending on the local-norm convention.
+The archimedean contribution $\psi_1(\tfrac12)$ is bounded,
+so $\Hlocal(\tfrac12,\kappa)\asymp C(\log\kappa)^{2}$.
+The leading constant is conventional; numerically one
+observes $C\approx 2$ for the standard Tate test functions
+with $V_p$ as in~\eqref{eq:Vp}.
+The proof asserts only the order of growth.
+\hfill$\square$
+
+\begin{lemma}[Subcritical convergence; proved]
+\label{lem:subcrit-conv}
+For every $\sigma>\tfrac12$,
+\[
+\Hlocal(\sigma,\kappa)
+\;\to\;\Hlocal(\sigma,\infty)\;<\;\infty
+\qquad(\kappa\to\infty).
+\]
+\end{lemma}
+
+\emph{Proof.}
+From~\eqref{eq:Vp},
+$V_p(\sigma)=O((\log p)^{2}p^{-2\sigma})$.
+For $\sigma>\tfrac12$ one has $2\sigma>1$, hence the series
+$\sum_{p}(\log p)^{2}p^{-2\sigma}$ converges absolutely, by
+comparison with $\sum_p p^{-2\sigma+\delta}$ for any
+$\delta\in(0,2\sigma-1)$.
+The archimedean contribution $\psi_1(\sigma)$ is finite for
+$\sigma>0$.
+The result follows.
+\hfill$\square$
+
+\medskip
+The critical line is therefore the phase boundary between
+divergence and convergence of the local curvature sum.
+
+% ============================================================
+% §5 Numerical Illustration
+% ============================================================
+\section{Numerical Illustration}
+\label{sec:numerical}
+
+The two observations of this section quantify the
+cancellation between $\Hlocal$ and $\Hdual$ at a
+representative off-critical point and the singular peak of
+$\Hxi$ near a non-trivial zero on the critical line.
+
+\begin{observation}[Off-critical compensation; numerical]
+\label{obs:cancellation}
+At $(\sigma,t)=(0.3,0)$ with $\kappa=1300$,
+\[
+\Hlocal\;\approx\;915,
+\qquad
+\Hxi\;\approx\;0.09.
+\]
+The bookkeeping remainder $\Hdual$ therefore cancels $\Hlocal$
+to better than $99.99\%$.
+\end{observation}
+
+\begin{observation}[Sampled values near zeros; numerical]
+\label{obs:peak}
+Take the rounded ordinates $t_1=14.13$, at distance
+approximately $5\times 10^{-3}$ from the first non-trivial
+zero $\gamma_1\approx 14.1347$, and $t_2=21.02$, at distance
+approximately $2\times 10^{-3}$ from the second non-trivial
+zero $\gamma_2\approx 21.0220$.
+Direct evaluation of
+$\Hxi(\sigma,t):=\partial_\sigma^{2}\log\lvert\xi(\sigma+it)\rvert^{2}$
+at these ordinates gives
+\[
+\Hxi(0.3,t_1)\;\approx\;-49.78,
+\qquad
+\Hxi(\tfrac12,t_1)\;\approx\;+89\,577.92,
+\]
+and on the critical line near the second zero,
+$\Hxi(\tfrac12,t_2)\approx +480\,754.91$.
+\end{observation}
+
+The spike at $\sigma=\tfrac12$ arises because the kernel
+$2\Re(s-\rho)^{-2}$ in~\eqref{eq:Hxi} has a double pole at
+$s=\rho$; near a zero this term dominates the spectral side,
+producing the large values observed.
+The larger value at $t_2$ in
+Observation~\ref{obs:peak} reflects the smaller sampling
+distance $\lvert t_2-\gamma_2\rvert\approx 2\times 10^{-3}$
+to $\gamma_2$, compared with
+$\lvert t_1-\gamma_1\rvert\approx 5\times 10^{-3}$ to
+$\gamma_1$, together with the $\lvert s-\rho\rvert^{-2}$
+singularity of the kernel.
+The functional-equation symmetry
+$\Hxi(\sigma,t)=\Hxi(1-\sigma,t)$, which follows from
+$\xi(s)=\xi(1-s)$, holds to machine precision in all numerical
+evaluations performed.
+
+Together, Observations~\ref{obs:cancellation}
+and~\ref{obs:peak} quantify the cancellation between the
+place-by-place non-negative $\Hlocal$
+(Lemma~\ref{lem:Vp-pos}, Corollary~\ref{cor:Hlocal-pos})
+and the bookkeeping remainder $\Hdual$: numerically, the
+cancellation reaches better than $99.99\%$ off the critical
+line, while on the critical line $\Hxi$ takes large positive
+values when $(\sigma,t)$ is sampled close to a non-trivial
+zero, consistent with the singular kernel $(s-\rho)^{-2}$.
+The relationship is observational at finite cutoff and is
+not asserted as a theorem.
+
+% ============================================================
+% §6 Rankin-Selberg Universality
+% ============================================================
+\section{Rankin--Selberg Universality}
+\label{sec:rs}
+
+\emph{This section is informational.
+The statement below is not used in any proof of this paper,
+and the universality claim relies on standard inputs from
+Rankin--Selberg theory cited inline; no theorem is asserted.}
+
+The divergence at $\sigma=\tfrac12$ established in
+Lemma~\ref{lem:critical-div} is not specific to $\zeta(s)$.
+For a cuspidal automorphic representation $\pi$ on
+$\mathrm{GL}(n)/\mathbb{Q}$ with Satake parameters
+$\alpha_{\pi,j}(p)$, the diagonal curvature sum
+\[
+\sum_{p\le\kappa}\Bigl(\sum_{j=1}^{n}
+\lvert\alpha_{\pi,j}(p)\rvert^{2}\Bigr)\,
+\frac{(\log p)^{2}}{p}
+\]
+grows of order $C_{\pi}(\log\kappa)^{2}$ with $C_{\pi}>0$.
+This follows from the simple pole of the Rankin--Selberg
+$L$-function $L(s,\pi\times\widetilde{\pi})$ at $s=1$,
+combined with a Tauberian argument; the precise asymptotic
+coefficient depends on normalisation conventions
+(cf.\ Kowalski--Michel~\cite{KowalskiMichel} for related
+prime sums in the Rankin--Selberg context).
+The curvature decomposition and the critical divergence are
+therefore universal phenomena for automorphic $L$-functions
+with Euler product and functional equation, on the line
+where the Rankin--Selberg $L$-function has its simple pole.
+
+% ============================================================
+% §7 Connection to Li Coefficients
+% ============================================================
+\section{Connection to Li Coefficients}
+\label{sec:li-comparison}
+
+The Li coefficients $\lambda_n$, defined via
+\[
+g(z)\;:=\;\log\xi\!\left(\frac{1}{1-z}\right),
+\qquad
+g'(z)\;=\;\sum_{n\ge 1}\lambda_n\,z^{n-1},
+\]
+satisfy Li's criterion~\cite{Li}:
+\[
+\mathrm{RH}\;\Longleftrightarrow\;
+\lambda_n\ge 0\quad\text{for all }n\ge 1.
+\]
+Differentiating once more,
+\begin{equation}\label{eq:gpp}
+g''(z)\;=\;(\log\xi)''\!\left(\frac{1}{1-z}\right)(1-z)^{-4}
+\;+\;2(\log\xi)'\!\left(\frac{1}{1-z}\right)(1-z)^{-3},
+\end{equation}
+so that the term $(\log\xi)''(s)$ appearing in~\eqref{eq:gpp}
+is exactly the core of the curvature field
+$\Hxi(s)=2\Re(\log\xi)''(s)$.
+The present curvature quantities are therefore structurally
+close to Li-type positivity criteria: both are built from
+logarithmic derivatives of $\xi$.
+The difference is that $\Hxi$ is a continuous pointwise
+second-derivative field, whereas the Li coefficients package
+the same logarithmic data into a discrete sequence after the
+M\"obius reparametrisation around $s=1$.
+
+\begin{remark}
+The local positivity $V_p(\sigma)\ge 0$ at each finite place
+established in Lemma~\ref{lem:Vp-pos} does \emph{not} imply
+$\lambda_n\ge 0$.
+Li positivity is a global statement mixing all places, the
+functional equation, the complete zero geometry, and a
+specific test-function structure on the disc parametrisation.
+Place-by-place positivity is a necessary ingredient but not
+sufficient for Li positivity, and the gap between the two is
+of Riemann-Hypothesis strength.
+\end{remark}
+
+% ============================================================
+% §8 Open Problems
+% ============================================================
+\section{Open Problems}
+\label{sec:open}
+
+The central open problem arising from the curvature
+decomposition of this paper is the following.
+
+\begin{openproblem}[Embedding into the Weil framework]\label{op:weil-embedding}
+Does there exist a global packaging --- a summation
+procedure, test-function class, or regularisation --- that
+transfers the local positivity
+\[
+V_p(\sigma)\ge 0\;(\forall\,p\,\text{prime}),
+\qquad
+\psi_1(\sigma)\ge 0,
+\]
+together with the critical divergence
+$\Hlocal(\tfrac12,\kappa)\to\infty$, into a global
+Li- or Weil-type positivity statement?
+
+More precisely: can the singular test function implicit in
+$\Hxi$ --- whose Mellin side produces the kernel
+$(s-\rho)^{-2}$ --- be embedded in, or approximated by, the
+class $\Sad$ of admissible test functions for which Weil
+positivity $W(f*\check f)\ge 0$ is equivalent to the Riemann
+Hypothesis?
+\end{openproblem}
+
+A positive answer to Open Problem~\ref{op:weil-embedding}
+would connect the curvature decomposition to the Weil
+positivity framework
+(Weil~\cite{Weil1952}; Lagarias~\cite{Lagarias};
+Connes--Consani~\cite{ConnesConsani}).
+Achieving full Weil positivity for the resulting admissible
+test function on the class $\Sad$ would, by Weil's criterion
+(Weil~\cite{Weil1952}; Bombieri--Lagarias~\cite{BombieriLagarias}),
+be equivalent to the Riemann Hypothesis itself.
+The present Open Problem is therefore the prior step of
+fitting $\Hlocal(\sigma,\kappa)$ into the admissible
+framework, and is not the positivity step itself; the latter
+remains a separate and deeper open question, and is not
+addressed here.
+
+% ============================================================
+% §9 Non-Circularity
+% ============================================================
+\section{Non-Circularity}
+\label{sec:nocirc}
+
+We document explicitly that the results of this paper do not
+rely on the objects they are directed toward.
+
+\textbf{No RH as input.}
+The Riemann Hypothesis is not assumed at any point.
+The non-trivial zeros $\rho$ enter the curvature field $\Hxi$
+through the Hadamard product representation of $\xi$, which
+is unconditional; no property of the location of the zeros is
+used in the formal core
+\S\S\,\ref{sec:field}--\ref{sec:divergence}.
+
+\textbf{No GUE, Montgomery, or Hilbert--P\'olya hypothesis.}
+No correlation statistic of the zeros and no postulated
+spectral realisation of the zeros is assumed or used.
+The terminology of ``curvature'' refers solely to the
+second-derivative origin of $V_p(\sigma)$ in
+$\log\lvert\xi(\sigma+it)\rvert^{2}$ and is not used as a
+geometric or operator-theoretic input.
+
+\textbf{No Li positivity as input.}
+The Li criterion of \S\,\ref{sec:li-comparison} is cited only
+as a comparison object; positivity of the coefficients
+$\lambda_n$ is not assumed and not used in any proof of this
+paper.
+The Remark in \S\,\ref{sec:li-comparison} explicitly states
+that local positivity does not imply Li positivity.
+
+\textbf{No Weil positivity as input.}
+The Weil functional $W(f*\check f)$ and the admissible class
+$\Sad$ enter only in the formulation of
+Open Problem~\ref{op:weil-embedding}.
+No positivity statement on $W$ is assumed in any of
+Lemmas~\ref{lem:Vp-pos}, \ref{lem:critical-div},
+\ref{lem:subcrit-conv}, or in
+Corollary~\ref{cor:Hlocal-pos}.
+
+\textbf{Inputs from classical analytic number theory.}
+The formal core of the paper uses only standard inputs:
+the Hadamard product for $\xi$, log-convexity of the Gamma
+function (Bohr--Mollerup), the prime number theorem
+$\pi(x)\sim x/\log x$, and elementary partial summation.
+The Rankin--Selberg discussion in \S\,\ref{sec:rs} relies
+additionally on the simple pole of
+$L(s,\pi\times\widetilde{\pi})$ at $s=1$ and a Tauberian
+argument; this section is informational and not used in the
+formal core.
+
+% ============================================================
+% Acknowledgments
+% ============================================================
+\section*{Acknowledgments}
+
+The author thanks Jean-Fran\c{c}ois Burnol for confirming
+that the prime-cutoff curvature formulation does not appear
+in the literature known to him, and for suggesting connections
+to the noncommutative-geometry programme of Connes and to the
+Langlands framework.
+The author also thanks the readers who provided feedback on
+earlier versions of this note.
+
+% ============================================================
+% Call for Feedback
+% ============================================================
+\section*{Call for Feedback}
+
+This paper is part of an ongoing open research initiative
+toward the Riemann Hypothesis.
+All papers in the series are freely available on Zenodo under
+CC~BY~4.0, and the accompanying verification code is hosted
+on GitHub.
+
+{\sloppy
+Zenodo (\url{https://zenodo.org/search?q=Ulrich+Tehrani})
+and GitHub
+(\url{https://github.com/utehrani/analysislab-nt}).
+\par}
+
+Topics of particular interest for diagnostic feedback on this
+note include:
+(i) whether the singular kernel $(s-\rho)^{-2}$ underlying
+$\Hxi$ admits a natural regularisation or limit construction
+in $\Sad$, in the sense of
+Open Problem~\ref{op:weil-embedding}; and
+(ii) whether the Rankin--Selberg analogue
+(\S\,\ref{sec:rs}) admits a refined asymptotic with explicit
+leading constant under standard conventions.
+
+% ============================================================
+% References
+% ============================================================
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{Connes}
+A.~Connes,
+``Trace formula in noncommutative geometry and the zeros of
+the Riemann zeta function'',
+Sel.\ Math.\ (N.S.) \textbf{5}(1), 29--106 (1999).
+
+\bibitem{ConnesConsani}
+A.~Connes and C.~Consani,
+``Weil positivity and trace formula, the archimedean place'',
+Sel.\ Math.\ (N.S.) \textbf{27}, 77 (2021).
+
+\bibitem{Weil1952}
+A.~Weil,
+``Sur les `formules explicites' de la th\'eorie des nombres
+premiers'',
+Comm.\ S\'em.\ Math.\ Univ.\ Lund [Medd.\ Lunds Univ.\ Mat.\ Sem.],
+Tome Suppl\'ementaire (1952), 252--265.
+
+\bibitem{Lagarias}
+J.~C.~Lagarias,
+``On the explicit formula and admissible test functions
+for the Weil zeros'',
+Acta Arithm. \textbf{89}(2), 205--220 (1999).
+
+\bibitem{BombieriLagarias}
+E.~Bombieri and J.~C.~Lagarias,
+``Complements to Li's criterion for the Riemann hypothesis'',
+J. Number Theory \textbf{77}(2), 274--287 (1999).
+
+\bibitem{Li}
+X.-J.~Li,
+``The positivity of a sequence of numbers and the Riemann
+hypothesis'',
+J. Number Theory \textbf{65}, 325--333 (1997).
+
+\bibitem{Burnol}
+J.-F.~Burnol,
+``Sur les formules explicites I: analyse invariante'',
+C.\ R.\ Acad.\ Sci.\ Paris S\'er.\ I Math.\ \textbf{331}(6),
+423--428 (2000).
+
+\bibitem{KowalskiMichel}
+E.~Kowalski and P.~Michel,
+``Zeros of families of automorphic $L$-functions close to 1'',
+Pacific J.\ Math. \textbf{207}(2), 411--431 (2002).
+
+\bibitem{Artin}
+E.~Artin,
+\emph{The Gamma Function},
+Holt, Rinehart and Winston, New York, 1964
+(translation by M.~Butler of \emph{Einf\"uhrung in die Theorie
+der Gammafunktion}, Teubner, Leipzig, 1931).
+
+\bibitem{MontgomeryVaughan}
+H.~L.~Montgomery and R.~C.~Vaughan,
+\emph{Multiplicative Number Theory I: Classical Theory},
+Cambridge Studies in Advanced Mathematics \textbf{97},
+Cambridge University Press, 2007.
+
+\bibitem{Edwards}
+H.~M.~Edwards,
+\emph{Riemann's Zeta Function},
+Academic Press, New York, 1974.
+
+\end{thebibliography}
+
+% ============================================================
+% Footer -- normative format
+% ============================================================
+\enlargethispage{3\baselineskip}
+\vspace*{\fill}
+\begin{minipage}{\linewidth}
+\rule{\linewidth}{0.4pt}\smallskip\\
+\small\emph{Paper~1 v13 \textperiodcentered\ May~2026
+\textperiodcentered\ Pauca sed matura}
+\end{minipage}
+
+\end{document}

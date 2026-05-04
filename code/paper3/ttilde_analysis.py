@@ -31,7 +31,7 @@ gammas = np.array([float(zetazero(k).imag) for k in range(1, N + 1)])
 print(f"γ_1 = {gammas[0]:.6f}, γ_100 = {gammas[99]:.6f}")
 
 
-# ── Core definitions (SSOT Rev22 §28) ───────────────────────────────────────
+# ── Core definitions (SSOT §28) ───────────────────────────────────────
 
 def a_p_vec(p, gammas, epsilon):
     """Option B: a_p[k] = exp(-ε²γ_k²/2) · sin(γ_k · log p)"""

@@ -35,9 +35,9 @@ contributions. Three key results:
 
 | Result | Status |
 |--------|--------|
-| `V_p(sigma) >= 0` for all primes p, sigma > 0 | **PROVED** (Lemma 1) |
-| `H_local(1/2, kappa) ~ 2*(log kappa)^2 → ∞` | **PROVED** (Lemma 2) |
-| `H_local(sigma, kappa) → C(sigma) < ∞` for sigma > 1/2 | **PROVED** (Lemma 3) |
+| `V_p(sigma) >= 0` for all primes p, sigma > 0 | **PROVED** |
+| `H_local(1/2, kappa) ~ 2*(log kappa)^2 → ∞` | **PROVED** |
+| `H_local(sigma, kappa) → C(sigma) < ∞` for sigma > 1/2 | **PROVED** |
 
 The critical line `sigma = 1/2` is the unique phase boundary: divergence below,
 convergence above.
@@ -54,22 +54,20 @@ python code/paper1/verify_v6.py
 **File:** [`papers/paper2/`](papers/paper2/)  
 **Scripts:** [`code/paper2/`](code/paper2/)
 
-**Imports from Paper 1:** `H_local` divergence (R1)
+**Imports from Paper 1:** `H_local` divergence
 
 **What it proves:**  
 Explicit admissible test functions `g*_{sigma,eps}` for the Weil explicit
-formula satisfy
-
-```
-W(g* * g̃*) = Z(g*) - H_local(sigma, kappa) + O(eps)
-```
+formula, with renormalized prime weights and convergent diagonal energy.
 
 | Result | Status |
 |--------|--------|
+| Admissibility of `g*` in `S_ad` | **PROVED** |
 | `c_p^ren = f_p^{1/2} > 0` (renormalized weights) | **PROVED** |
-| `D = sum_p (c_p^ren)^2 ≈ 9.471 < ∞` | **PROVED** (Convergence Lemma) |
-| `W(g*,g*) = Z(g*) - H_local + O(eps)` | **PROVED** (Theorem 3.1) |
-| Bridge constant `D/(2*pi) ≈ 1.507` | **NUMERICAL** |
+| `D = sum_p (c_p^ren)^2` converges | **PROVED** |
+| Prime-side identity `W = Z - H_local + O(eps)` | **CONDITIONAL** |
+| `D ≈ 9.471` at reference parameters | **NUMERICAL** |
+| Finite-grid stability of `Z - H_local` | **NUMERICAL** |
 
 **Reproduce:**
 ```bash
@@ -139,7 +137,7 @@ T̃_{kl} = sum_{p≤kappa} (a_p)_k * (a_p)_l
 | Theorem EXPLICIT: M_k(κ) = O(π(κ)/γ_k) | **PROVED** (PNT only, no RH) |
 | μ_j ~ C_T/γ_{k(j)}, r₁ = 0.950 | **NUMERICAL** |
 | η_orig > 0 for κ ≤ 1009 | **NUMERICAL** |
-| Theorem 5.3: η_orig(κ) → η∞ > 0 | **CONDITIONAL** (Weyl equidistribution) |
+| η_orig(κ) → η∞ > 0 under Weyl equidistribution | **CONDITIONAL** |
 
 **Reproduce:**
 ```bash
@@ -325,7 +323,7 @@ analysislab-nt/
 │
 └── figures/
     ├── paper1/
-    │   ├── fig1_H_local_divergence.png   Lemma 2 divergence at σ=½
+    │   ├── fig1_H_local_divergence.png   H_local divergence at σ=½
     │   └── fig2_sigma_profile.png        Phase boundary σ=½
     ├── paper2/
     │   ├── fig3_Weil_decomposition.png   D convergence, f_p weights
@@ -379,25 +377,25 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 
 ---
 
-## Open Problems (as of April 2026)
+## Open Problems (as of May 2026)
 
 | Problem | Statement | Paper |
 |---------|-----------|-------|
 | **Bias Conjecture** | `Re(Z̃_p(ε)) < 0` for all primes p | Paper 5 |
 | **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
-| **OF-EXPLICIT-1'(b)** | Weyl equidistribution of {γ_k log p mod 2π} | Paper 4 |
-| **OP 6.2** | Prove η_orig > 0 analytically without equidistribution | Paper 4 |
-| **σ=½ Selection** | Close L6A + L6B → RH via Weil positivity | Series |
-| **Stationarity (L6A)** | `\|O'(½)\| << W·π(κ)` analytically | Paper 6 |
+| **Weyl equidistribution** | {γ_k log p mod 2π} equidistributed | Paper 4 |
+| **Analytic positivity** | Prove η_orig > 0 without equidistribution | Paper 4 |
+| **Stationarity** | \|O'(½)\| ≪ W·π(κ) analytically | Paper 6 |
 | **Asymptotic pointwise bias** | `Re(Z̃_p(ε)) < 0` all p ≤ κ analytically | Paper 6 |
-| **Uniformity of positive curvature** | `O''(½) > 0` beyond reference params | Paper 6 |
-| **Integrated-to-direct transfer** | bias⇒B negativity structurally | Paper 6 |
-| **Lagarias–Weil bridge** | curvature→Weil positivity framework | Paper 6 |
+| **Uniformity** | `O''(½) > 0` beyond reference parameters | Paper 6 |
+| **Integrated-to-direct transfer** | bias ⇒ B negativity structurally | Paper 6 |
+| **Lagarias–Weil bridge** | curvature → Weil positivity framework | Paper 6 |
+| **Selection principle** | Stationarity + Bias → RH via Weil positivity | Series |
 
 **Closed / Settled:**
-- **OF-EXPLICIT-1'(a)** `ζ(1+inγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
-- Conjecture §31 `λ_max < 1` universally: **FALSIFIED**
-- HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂→0.16)
+- `ζ(1+inγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
+- `λ_max < 1` universally: **FALSIFIED**
+- HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂ → 0.16)
 
 ---
 

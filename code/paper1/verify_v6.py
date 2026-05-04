@@ -2,16 +2,16 @@
 verify_v6.py -- Paper 1 Verification
 =====================================
 A Curvature Decomposition of the Explicit Formula for the Riemann Zeta Function
-Ulrich Tehrani - Zenodo doi:10.5281/zenodo.19025598 - v7 - March 2026
+Ulrich Tehrani - Zenodo doi:10.5281/zenodo.19025598
 
 Reproduces all numerical results in Paper 1:
   V_p(sigma)         local curvature at finite primes   [eq. 3]
   psi_1(sigma)       archimedean curvature               [eq. 1]
   H_local(sigma,k)   truncated local curvature           [eq. 4]
-  Lemma 2: H_local(1/2,k) ~ 2*(log k)^2  [divergence]
-  Lemma 3: H_local(sigma,k) -> finite    [sigma > 1/2]
+  H_local(1/2,k) ~ 2*(log k)^2               [divergence; proved]
+  H_local(sigma,k) -> finite                  [sigma > 1/2; proved]
 
-Connection to Paper 2: H_local feeds into Weil functional W(g*,g*)
+Connection to Paper 2: H_local enters the Weil functional (conditional identity)
 Connection to Paper 3: Divergence at sigma=1/2 motivates the
                        distinguished origin of H_null
 """
@@ -59,9 +59,9 @@ for p in [2, 3, 5, 7, 11, 13, 17, 19, 23]:
     print(f"{p:>4} | {vp:>10.4f} | {leading:>12.4f} | {fp:>13.4f}")
 print("(f_p: Paper 2 renormalized weights; sum_p f_p = D ~ 9.471)")
 
-# ── Lemma 2: Divergence at sigma=1/2 ----------------------------------------
+# ── Divergence at sigma=1/2 ----------------------------------------
 
-print("\n-- Lemma 2: H_local(1/2, kappa) ~ 2*(log kappa)^2 [PROVED] --")
+print("\n-- Divergence: H_local(1/2, kappa) ~ 2*(log kappa)^2 [PROVED] --")
 kappas = [10, 23, 53, 101, 199, 503, 1009]
 print(f"{'kappa':>6} | {'H_local(1/2)':>13} | {'2*(logk)^2':>11} | {'ratio':>7}")
 print("-" * 45)
@@ -70,9 +70,9 @@ for k in kappas:
     ref = 2.0 * (np.log(k))**2
     print(f"{k:>6} | {h:>13.4f} | {ref:>11.4f} | {h/ref:>7.4f}")
 
-# ── Lemma 3: Convergence for sigma > 1/2 ------------------------------------
+# ── Convergence for sigma > 1/2 ------------------------------------
 
-print("\n-- Lemma 3: H_local(sigma,kappa) converges for sigma>1/2 [PROVED] --")
+print("\n-- Convergence: H_local(sigma,kappa) converges for sigma>1/2 [PROVED] --")
 print(f"{'sigma':>7} | {'k=199':>9} | {'k=503':>9} | {'k=1009':>10} | {'delta':>8}")
 print("-" * 53)
 for s in [0.51, 0.6, 0.7, 0.8, 1.0]:
@@ -108,17 +108,17 @@ fig, ax = plt.subplots(figsize=(8, 5))
 ax.plot(kappas_plot, h_half, 'b-o', lw=2, ms=5,
         label=r'$H_{\mathrm{local}}(\frac{1}{2}, \kappa)$  [computed]')
 ax.plot(kappas_plot, ref_c, 'r--', lw=1.8,
-        label=r'$2(\log\kappa)^2$  [leading term, Lemma 2]')
+        label=r'$2(\log\kappa)^2$  [leading term]')
 ax.set_xlabel(r'Prime cutoff $\kappa$', fontsize=12)
 ax.set_ylabel(r'$H_{\mathrm{local}}(\frac{1}{2},\kappa)$', fontsize=12)
-ax.set_title(r'Paper 1 — Lemma 2: Divergence $H_{\mathrm{local}}(\frac{1}{2},\kappa) \sim 2(\log\kappa)^2$',
+ax.set_title(r'Paper 1 — Divergence: $H_{\mathrm{local}}(\frac{1}{2},\kappa) \sim 2(\log\kappa)^2$',
              fontsize=11)
 ax.legend(fontsize=11)
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig("figures/paper1/fig1_H_local_divergence.png", dpi=150)
 plt.close()
-print("\n  figures/paper1/fig1_H_local_divergence.png  [Lemma 2]")
+print("\n  figures/paper1/fig1_H_local_divergence.png  [divergence]")
 
 # Fig 2: Phase boundary -- sigma profile
 sigma_fine = np.linspace(0.08, 1.4, 80)
@@ -132,7 +132,7 @@ ax.axvline(x=0.5, color='gray', ls='--', alpha=0.6, lw=1.2,
            label=r'$\sigma=\frac{1}{2}$ (phase boundary)')
 ax.set_xlabel(r'$\sigma$', fontsize=13)
 ax.set_ylabel(r'$H_{\mathrm{local}}(\sigma,\kappa)$  [log scale]', fontsize=12)
-ax.set_title(r'Paper 1 — Lemma 3: Divergence at $\sigma=\frac{1}{2}$, convergence for $\sigma>\frac{1}{2}$',
+ax.set_title(r'Paper 1 — Divergence at $\sigma=\frac{1}{2}$, convergence for $\sigma>\frac{1}{2}$',
              fontsize=11)
 ax.legend(fontsize=10, loc='upper right')
 ax.grid(True, alpha=0.3, which='both')
@@ -140,14 +140,14 @@ ax.set_xlim(0.08, 1.4)
 plt.tight_layout()
 plt.savefig("figures/paper1/fig2_sigma_profile.png", dpi=150)
 plt.close()
-print("  figures/paper1/fig2_sigma_profile.png  [Lemma 3]")
+print("  figures/paper1/fig2_sigma_profile.png  [convergence]")
 
 print("\n=== Paper 1 verification complete -- PASS ===")
 print("\nKey proven results:")
-print("  (1) V_p(sigma) >= 0  for all p, sigma>0         [Lemma 1, local positivity]")
-print("  (2) H_local(1/2,k) ~ 2*(log k)^2 -> inf         [Lemma 2, divergence]")
-print("  (3) H_local(sigma,k) -> C(sigma) < inf           [Lemma 3, convergence]")
+print("  (1) V_p(sigma) >= 0  for all p, sigma>0         [local positivity; proved]")
+print("  (2) H_local(1/2,k) ~ 2*(log k)^2 -> inf         [divergence; proved]")
+print("  (3) H_local(sigma,k) -> C(sigma) < inf           [convergence; proved]")
 print("  Critical line sigma=1/2: unique phase boundary")
 print("\nFeed-forward connections:")
-print("  --> Paper 2: H_local enters W(g*,g*) = Z(g*) - H_local + O(eps)")
+print("  --> Paper 2: H_local enters the Weil functional (conditional identity)")
 print("  --> Paper 3: divergence at sigma=1/2 justifies distinguished origin of H_null")
