@@ -75,12 +75,22 @@ def build_Phi(primes, gammas, eps):
     return Phi  # shape (N, pi_k)
 
 
-# ── Helper: canonical weight vector c_p ─────────────────────────────────────
+# ── Helper: canonical weight vector c_p^eta (HIGH 4 corrected, May 2026) ─────
 def canonical_c(primes, sigma=SIGMA_NORM):
-    """c_p = sqrt(V_p(1/2)) = sqrt(4*(log p)^2*(2p-1)/(p*(p-1)^2))  [exact formula, Paper 1].
-    Formula: sqrt(4*(log p)^2*(2p-1) / (p*(p-1)^2)).
-    Gives normative eta_orig = 0.66926893 at kappa=53.
-    Note: paper §5.2 table uses different c_p values (open inconsistency)."""
+    """Canonical eta-framework weight: c_p^eta(p) = sqrt(f_p), where
+    f_p = V_p(1/2) - 4*(log p)^2/p = 4 (log p)^2 (2p-1) / (p (p-1)^2).
+
+    Numerically equal to Paper 2's c_p^ren = sqrt(f_p); the distinct name
+    reflects the role inside the eta_orig formula. Gives the normative
+    eta_orig = 0.66926893 at kappa=53, eps=0.05, sigma=0.5, N=100.
+
+    HIGH 4 history (Sprint AUDIT, May 2026): the previous docstring claimed
+    'c_p = sqrt(V_p(1/2))' which is incorrect — V_p(1/2) and f_p differ by
+    the leading 4*(log p)^2/p subtraction. The numerical formula below has
+    always computed sqrt(f_p), so all eta values are unchanged.
+
+    Note: Paper 4 §5.2 table uses a different c_p convention (Δ_Burst ≈ 4.81
+    vs ≈ 3.10 here); separate open inconsistency, outside HIGH 4 scope."""
     return np.array([
         np.sqrt(4 * np.log(p)**2 * (2*p - 1) / (p * (p - 1)**2))
         for p in primes
@@ -125,6 +135,30 @@ n_shared = min(len(eig_T_pos), len(eig_Tt_pos))
 max_diff  = np.max(np.abs(eig_T_pos[:n_shared] - eig_Tt_pos[:n_shared]))
 check("Spectral identity: max|λ_j(T) − μ_j(T̃)| < 1e-12",
       max_diff < 1e-12, f"  max_diff={max_diff:.3e}")
+
+# ── TEST 1b: rank(T̃) evidence (HIGH 5 annotation, Sprint AUDIT May 2026) ───
+print("\n[1b] rank(T̃) evidence (κ=53, ε=0.05, N=100)")
+print("    rank(T̃) ≤ π(κ) is unconditional (rank of a product of linear maps).")
+print("    rank(T̃) = π(κ) holds iff {a_p}_{p≤κ} are linearly independent.")
+print("    Independence has not been proved analytically (open problem).")
+
+# Numerical rank: count eigenvalues above noise threshold
+sing_T_tilde = np.sort(eig_Tt)[::-1]    # descending
+threshold    = 1e-12 * sing_T_tilde[0]
+rank_num     = int(np.sum(sing_T_tilde > threshold))
+gap_above    = sing_T_tilde[len(primes_53)-1]
+gap_below    = sing_T_tilde[len(primes_53)] if len(sing_T_tilde) > len(primes_53) else 0.0
+print(f"    π(κ) = {len(primes_53)},  μ_max = {sing_T_tilde[0]:.6e}")
+print(f"    μ_{len(primes_53)} = {gap_above:.3e}  (last 'large' eigenvalue)")
+print(f"    μ_{len(primes_53)+1} = {gap_below:.3e}  (first 'small'/noise eigenvalue)")
+print(f"    gap ratio = μ_{len(primes_53)+1}/μ_{len(primes_53)} = {gap_below/gap_above:.3e}")
+print(f"    numerical rank (eigenvalues > 1e-12·μ_max): {rank_num}")
+check(f"rank(T̃) ≤ π(κ) = {len(primes_53)}  [unconditional, proved]",
+      rank_num <= len(primes_53),
+      f"  numerical rank = {rank_num}")
+check(f"rank(T̃) = π(κ) = {len(primes_53)}  [NUMERICAL, conjectural]",
+      rank_num == len(primes_53),
+      f"  numerical rank = {rank_num} (matches π(κ) — independence is conjectural)")
 
 # ── TEST 2: η_orig > 0 for all tested κ ──────────────────────────────────────
 print("\n[2] η_orig > 0 for κ ≤ 1009")

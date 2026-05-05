@@ -1,6 +1,6 @@
 """
-verify_v6.py -- Paper 1 Verification
-=====================================
+verify_paper1.py -- Paper 1 Verification
+=========================================
 A Curvature Decomposition of the Explicit Formula for the Riemann Zeta Function
 Ulrich Tehrani - Zenodo doi:10.5281/zenodo.19025598
 
@@ -46,7 +46,7 @@ def H_local(sigma, kappa):
 # ── Table: V_p(1/2) for small primes ----------------------------------------
 
 print("=" * 62)
-print("Paper 1: Local Curvature Decomposition -- verify_v6.py")
+print("Paper 1: Local Curvature Decomposition -- verify_paper1.py")
 print("=" * 62)
 
 print("\n-- V_p(1/2) for small primes [Paper 1 Table / Paper 2 Table] --")

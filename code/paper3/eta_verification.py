@@ -1,3 +1,27 @@
+"""
+eta_verification.py -- Paper 3 Verification (eta_orig main result)
+==================================================================
+A Finite-Cutoff Hilbert-Space Model for Prime-Zero Energy Structure
+Ulrich Tehrani - Zenodo doi:10.5281/zenodo.19307989
+
+Reproduces the eta_orig energy identity at reference parameters
+(kappa=53, eps=0.05, sigma=0.5, N=100) and contrasts four weight
+hypotheses (canonical c_p_eta, c_p_ren, normalized G, AG-guess).
+
+The canonical eta-framework weight is:
+   c_p_eta := sqrt(f_p) = sqrt(4 (log p)^2 (2p-1) / (p (p-1)^2)).
+Numerically equal to Paper 2's c_p_ren; the distinct name reflects
+its distinct role inside the eta_orig formula (see notation.json).
+
+Reference values (kappa=53, eps=0.05, sigma=0.5, N=100):
+   eta_orig = 0.66926873   (Sprint AF reference: 0.66926893)
+   eta range over sigma in [0.10, 0.95]: [0.598029, 0.704420]
+   eta(c_p^ren = log(p)/p): 0.761484 (Sprint AG)
+
+Connection to Paper 4: same weight (c_p_eta = sqrt(f_p)) used in
+the Tehrani operator construction and the rank/spectrum analysis.
+"""
+
 import numpy as np
 from mpmath import zetazero
 
@@ -13,11 +37,20 @@ primes_53  = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53]
 primes_101 = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101]
 primes_199 = [p for p in range(2,200) if all(p%d!=0 for d in range(2,int(p**0.5)+1))]
 
-# ── Normative Definitionen (SSOT §28/§29) ────────────────────────────
+# ── Normative Definitionen (SSOT Rev20 §28/§29) ────────────────────────────
 
-def c_p(p):
-    """Normative η-Gewichte aus SSOT §28"""
+def c_p_eta(p):
+    """Canonical eta-framework weight: c_p_eta(p) = sqrt(f_p), where
+    f_p = V_p(1/2) - 4*(log p)^2/p = 4 (log p)^2 (2p-1) / (p (p-1)^2).
+    Numerically equal to Paper 2's c_p_ren = sqrt(f_p); the distinct
+    name reflects its role inside the eta_orig formula (see HIGH 4
+    in Sprint AUDIT, May 2026)."""
     return np.sqrt(4 * (np.log(p))**2 * (2*p - 1) / (p * (p-1)**2))
+
+
+# Backwards-compatible alias: c_p() is the legacy name (pre-AUDIT).
+# Kept so any out-of-tree callers continue to work; new code uses c_p_eta.
+c_p = c_p_eta
 
 def a_p_vec(p, gammas, epsilon):
     """Option B: a_p = e^{-ε²γ_k²/2} sin(γ_k log p)"""
@@ -128,7 +161,7 @@ for kap, plist in zip(kappas, primes_k):
     row = [eta_orig(plist, gammas, eps, 0.5)[0] for eps in epsilons]
     print(f"{kap:>6} | {row[0]:>10.6f} | {row[1]:>10.6f} | {row[2]:>10.6f}")
 
-print(f"\nSSOT §30 Referenz: η ∈ [0.61, 0.70]")
+print(f"\nSSO Rev20 §30 Referenz: η ∈ [0.61, 0.70]")
 
 # ════════════════════════════════════════════════════════════════════════════
 # ZUSATZ: Sprint AC Werte rekonstruieren (0.792, 0.741, 0.688)

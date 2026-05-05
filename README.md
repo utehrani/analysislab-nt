@@ -44,7 +44,7 @@ convergence above.
 
 **Reproduce:**
 ```bash
-python code/paper1/verify_v6.py
+python code/paper1/verify_paper1.py
 ```
 
 ---
@@ -295,7 +295,7 @@ analysislab-nt/
 │
 ├── code/
 │   ├── paper1/
-│   │   └── verify_v6.py            H_local divergence, sigma profile
+│   │   └── verify_paper1.py            H_local divergence, sigma profile
 │   ├── paper2/
 │   │   └── verify_paper2.py        D=9.471, sawtooth, bridge constant
 │   ├── paper3/
@@ -351,7 +351,7 @@ analysislab-nt/
 pip install -r requirements.txt
 
 # Run all verifications (from repo root)
-python code/paper1/verify_v6.py
+python code/paper1/verify_paper1.py
 python code/paper2/verify_paper2.py
 python code/paper3/eta_verification.py
 python code/paper3/ttilde_analysis.py
