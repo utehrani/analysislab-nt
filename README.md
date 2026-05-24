@@ -319,7 +319,6 @@ analysislab-nt/
 │   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k
 │   ├── zeros_200.csv               First 200 Riemann zeta zero ordinates γ_k
 │   └── results/                    Script outputs (CSV, intermediate data)
-│       ├── eta_table_kappa53.csv   η_orig(σ) reference table
 │       └── ttilde_spectrum.csv     T̃ eigenvalues and localization data
 │
 └── figures/
