@@ -11,7 +11,7 @@ Reproduces all numerical results in Paper 1:
   H_local(1/2,k) ~ 2*(log k)^2               [divergence; proved]
   H_local(sigma,k) -> finite                  [sigma > 1/2; proved]
 
-Connection to Paper 2: H_local enters the Weil functional (conditional identity)
+Connection to Paper 2: H_local enters the Weil functional (Observation 3.2; proved)
 Connection to Paper 3: Divergence at sigma=1/2 motivates the
                        distinguished origin of H_null
 """
@@ -57,7 +57,7 @@ for p in [2, 3, 5, 7, 11, 13, 17, 19, 23]:
     leading = 4.0 * (np.log(p))**2 / p
     fp      = vp - leading
     print(f"{p:>4} | {vp:>10.4f} | {leading:>12.4f} | {fp:>13.4f}")
-print("(f_p: Paper 2 renormalized weights; sum_p f_p = D ~ 9.471)")
+print("(f_p: Paper 2 renormalized weights; sum_p f_p = D ~ 9.470)")
 
 # ── Divergence at sigma=1/2 ----------------------------------------
 
@@ -143,11 +143,38 @@ plt.close()
 print("  figures/paper1/fig2_sigma_profile.png  [convergence]")
 
 print("\n=== Paper 1 verification complete -- PASS ===")
+
+# ── Formal check: leading constant = 2 (v23, analytically proved) ──
+print("\n-- CHECK: H_local(1/2,kappa) / (2*(log kappa)^2) → 1 [PROVED v23] --")
+checks_passed = True
+ratio_prev = float('inf')
+for k in [53, 199, 503, 1009]:
+    h = H_local(0.5, k)
+    ref = 2.0 * (np.log(k))**2
+    ratio = h / ref
+    # Leading constant 2 is proved: ratio must converge to 1 from above
+    # At finite kappa, O(log kappa) corrections keep ratio > 1
+    ok_bounds = (0.95 < ratio < 1.20)
+    ok_mono   = (ratio < ratio_prev)
+    ok = ok_bounds and ok_mono
+    status = "PASS" if ok else "FAIL"
+    if not ok:
+        checks_passed = False
+    print(f"  kappa={k:>5}: ratio={ratio:.4f}  bounds_ok={ok_bounds}  "
+          f"monotone={ok_mono}  [{status}]")
+    ratio_prev = ratio
+
+if not checks_passed:
+    print("FAIL: Leading constant check failed")
+    raise SystemExit(1)
+else:
+    print("PASS: Leading constant 2*(log kappa)^2 confirmed (ratio → 1) ✓")
+
 print("\nKey proven results:")
 print("  (1) V_p(sigma) >= 0  for all p, sigma>0         [local positivity; proved]")
 print("  (2) H_local(1/2,k) ~ 2*(log k)^2 -> inf         [divergence; proved]")
 print("  (3) H_local(sigma,k) -> C(sigma) < inf           [convergence; proved]")
 print("  Critical line sigma=1/2: unique phase boundary")
 print("\nFeed-forward connections:")
-print("  --> Paper 2: H_local enters the Weil functional (conditional identity)")
+print("  --> Paper 2: H_local enters the Weil functional (Observation 3.2; proved)")
 print("  --> Paper 3: divergence at sigma=1/2 justifies distinguished origin of H_null")

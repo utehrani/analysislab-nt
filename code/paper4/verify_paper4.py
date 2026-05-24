@@ -1,5 +1,5 @@
 # verify_paper4.py
-# Paper 4: A Dual Operator for Prime–Zero Coupling · April 2026
+# Paper 4: A Dual Operator for Prime–Zero Coupling · May 2026
 # All normative parameters: kappa=53, eps=0.05, N=100, sigma=0.5
 #
 # Verification script for Paper 4: "A Dual Operator for Prime–Zero Coupling"
@@ -9,9 +9,9 @@
 #   3. Eigenvalue correlation r1 = corr(μ_j, 1/γ_{k(j)})
 #   4. Eigenvector localization
 #   5. Two arithmetic constants C_η ≈ 0.39, C_T
-#   6. η_orig > 0 for normative κ ≤ 1009
+#   6. η_ren > 0 for normative κ ≤ 1009
 #   7. Δ_Burst > 0 (κ-invariant lower bound)
-#   8. Rayleigh identity ⟨T_ren c̃, c̃⟩ = 1 − η_orig (machine precision)
+#   8. Rayleigh identity ⟨T_ren c̃, c̃⟩ = 1 − η_ren (machine precision)
 #
 # Usage: python verify_paper4.py
 # Requires: numpy, mpmath, sympy
@@ -81,10 +81,10 @@ def canonical_c(primes, sigma=SIGMA_NORM):
     f_p = V_p(1/2) - 4*(log p)^2/p = 4 (log p)^2 (2p-1) / (p (p-1)^2).
 
     Numerically equal to Paper 2's c_p^ren = sqrt(f_p); the distinct name
-    reflects the role inside the eta_orig formula. Gives the normative
-    eta_orig = 0.66926893 at kappa=53, eps=0.05, sigma=0.5, N=100.
+    reflects the role inside the eta_ren formula. Gives the normative
+    eta_ren = 0.66926893 at kappa=53, eps=0.05, sigma=0.5, N=100.
 
-    HIGH 4 history (Sprint AUDIT, May 2026): the previous docstring claimed
+    Disambiguation note (May 2026): the previous docstring claimed
     'c_p = sqrt(V_p(1/2))' which is incorrect — V_p(1/2) and f_p differ by
     the leading 4*(log p)^2/p subtraction. The numerical formula below has
     always computed sqrt(f_p), so all eta values are unchanged.
@@ -111,7 +111,7 @@ def energy(Phi, c):
 
 # ═══════════════════════════════════════════════════════════════════════════════
 print("=" * 65)
-print("verify_paper4.py  ·  Paper 4  ·  April 2026")
+print("verify_paper4.py  ·  Paper 4  ·  May 2026")
 print("Paper 4: A Dual Operator for Prime–Zero Coupling")
 print(f"N = {N_NORM} zero ordinates  ·  κ={KAPPA_NORM}  ·  ε={EPS_NORM}")
 print("=" * 65)
@@ -136,7 +136,7 @@ max_diff  = np.max(np.abs(eig_T_pos[:n_shared] - eig_Tt_pos[:n_shared]))
 check("Spectral identity: max|λ_j(T) − μ_j(T̃)| < 1e-12",
       max_diff < 1e-12, f"  max_diff={max_diff:.3e}")
 
-# ── TEST 1b: rank(T̃) evidence (HIGH 5 annotation, Sprint AUDIT May 2026) ───
+# ── TEST 1b: rank(T̃) evidence ─────────────────────────────────────────────
 print("\n[1b] rank(T̃) evidence (κ=53, ε=0.05, N=100)")
 print("    rank(T̃) ≤ π(κ) is unconditional (rank of a product of linear maps).")
 print("    rank(T̃) = π(κ) holds iff {a_p}_{p≤κ} are linearly independent.")
@@ -160,17 +160,17 @@ check(f"rank(T̃) = π(κ) = {len(primes_53)}  [NUMERICAL, conjectural]",
       rank_num == len(primes_53),
       f"  numerical rank = {rank_num} (matches π(κ) — independence is conjectural)")
 
-# ── TEST 2: η_orig > 0 for all tested κ ──────────────────────────────────────
-print("\n[2] η_orig > 0 for κ ≤ 1009")
+# ── TEST 2: η_ren > 0 for all tested κ ──────────────────────────────────────
+print("\n[2] η_ren > 0 on the tested grid κ∈{23,53,101,199,503,1009}")
 for kap in KAPPAS_TEST:
     primes_k = list(primerange(2, kap + 1))
     Phi_k    = build_Phi(primes_k, gammas_full, EPS_NORM)
     c_k      = canonical_c(primes_k)
     E_str, E_spec, Delta, eta, D_diag = energy(Phi_k, c_k)
-    check(f"η_orig > 0  (κ={kap:4d}, η={eta:.5f})", eta > 0)
+    check(f"η_ren > 0  (κ={kap:4d}, η={eta:.5f})", eta > 0)
 
 # ── TEST 3: Rayleigh identity ⟨T_ren c̃, c̃⟩ = 1 − η ─────────────────────
-print("\n[3] Rayleigh identity ⟨T_ren c̃, c̃⟩ = 1 − η_orig (machine precision)")
+print("\n[3] Rayleigh identity ⟨T_ren c̃, c̃⟩ = 1 − η_ren (machine precision)")
 primes_53 = list(primerange(2, KAPPA_NORM + 1))
 Phi_53    = build_Phi(primes_53, gammas_full, EPS_NORM)
 c_53      = canonical_c(primes_53)
@@ -251,6 +251,55 @@ omega_j2 = C_T_ols / mu_j
 r2 = np.corrcoef(omega_j2, gamma_kdom)[0, 1]
 check(f"r2 at κ=53: {r2:.3f}  (should be < 0.55, > 0.30)", 0.20 < r2 < 0.60)
 
+# ── CHECK 6b: (E_rem) — rho_max < 0.65 on tested grid {23,53,101,199,503,1009} ──
+print("\n[6b] (E_rem): |Δ_Cross+Δ_Stream| ≤ ρ·Δ_Burst, ρ_max < 0.65")
+
+def S_func(r, gammas, eps_val):
+    return sum(np.exp(-eps_val**2*g**2)*np.cos(g*np.log(float(r)))
+               for g in gammas)
+
+def f_p_exact(p):
+    return 4.0*np.log(p)**2*(2*p-1)/(p*(p-1)**2)
+
+def c_p_exact(p):
+    return np.sqrt(f_p_exact(p))
+
+small_primes_rem = [2, 3, 5, 7]
+gammas_np = [float(g) for g in gammas_full][:N_NORM]
+
+# Δ_Burst (κ-invariant)
+Dburst = 0.0
+for i, p in enumerate(small_primes_rem):
+    for q in small_primes_rem[i+1:]:
+        Spq = S_func(p*q, gammas_np, EPS_NORM)
+        Spq_r = S_func(p/q, gammas_np, EPS_NORM)
+        Dburst += c_p_exact(p)*c_p_exact(q)*(Spq - Spq_r)
+
+rho_vals = []
+for kap_rem in [23, 53, 101, 199, 503, 1009]:
+    import sympy as _sp
+    ps_rem = list(_sp.primerange(2, kap_rem+1))
+    large_rem = [p for p in ps_rem if p > 7]
+    cross_rem = 0.0
+    for p in small_primes_rem:
+        for q in large_rem:
+            cross_rem += c_p_exact(p)*c_p_exact(q)*(
+                S_func(p*q, gammas_np, EPS_NORM) -
+                S_func(p/q, gammas_np, EPS_NORM))
+    stream_rem = 0.0
+    for i, p in enumerate(large_rem):
+        for q in large_rem[i+1:]:
+            stream_rem += c_p_exact(p)*c_p_exact(q)*(
+                S_func(p*q, gammas_np, EPS_NORM) -
+                S_func(p/q, gammas_np, EPS_NORM))
+    rho_k = abs(cross_rem + stream_rem) / Dburst
+    rho_vals.append(rho_k)
+    print(f"    κ={kap_rem:4d}: ρ = {rho_k:.4f}")
+
+rho_max = max(rho_vals)
+check(f"(E_rem) rho_max = {rho_max:.3f} < 0.65 on tested grid {{23,53,101,199,503,1009}}",
+      rho_max < 0.65)
+
 # ── SUMMARY ──────────────────────────────────────────────────────────────────
 print("\n" + "=" * 65)
 print(f"SUMMARY: {PASS_COUNT} PASS, {FAIL_COUNT} FAIL")
@@ -261,7 +310,7 @@ else:
     print(f"WARNING: {FAIL_COUNT} check(s) failed.")
 print("=" * 65)
 print(f"Normative: κ={KAPPA_NORM}, ε={EPS_NORM}, N={N_NORM}, σ={SIGMA_NORM}")
-print("Paper 4: A Dual Operator for Prime–Zero Coupling · April 2026")
+print("Paper 4: A Dual Operator for Prime–Zero Coupling · May 2026")
 
 # ── FIGURE: fig_hp_main.png ──────────────────────────────────────────────────
 print("\nGenerating fig_hp_main.png ...")

@@ -7,7 +7,7 @@ Verifies the algebraic identity λ_j(T) = μ_j(T̃) (nonzero part)
 and analyzes eigenvector localization on zero ordinates.
 
 Normative parameters: κ=53, ε=0.05, N=100
-Expected results (from Sprint Report Ttilde, März 2026):
+Expected results (Paper 3, Notation and Conventions):
   - Max |λ_j − μ_j| for j=1..16: < 1e-14  (machine precision)
   - Localization loc_j = max|v_j|/‖v_j‖ ≥ 0.45 for all j ≤ 16
   - Correlation μ_j ~ 1/γ_{k(j)}: r ≥ 0.95
@@ -31,7 +31,7 @@ gammas = np.array([float(zetazero(k).imag) for k in range(1, N + 1)])
 print(f"γ_1 = {gammas[0]:.6f}, γ_100 = {gammas[99]:.6f}")
 
 
-# ── Core definitions (SSOT §28) ───────────────────────────────────────
+# ── Core definitions ───────────────────────────────────────────────────
 
 def a_p_vec(p, gammas, epsilon):
     """Option B: a_p[k] = exp(-ε²γ_k²/2) · sin(γ_k · log p)"""
@@ -56,7 +56,7 @@ def compute_T_tilde(primes, gammas, epsilon):
 
 
 # ── Main computation ─────────────────────────────────────────────────────────
-print("\n=== Sprint T̃: Dual Loop Operator ===")
+print("\n=== T̃: Dual Loop Operator (Paper 3) ===")
 
 T, A = compute_T(primes_53, gammas, epsilon)
 T_tilde, _ = compute_T_tilde(primes_53, gammas, epsilon)

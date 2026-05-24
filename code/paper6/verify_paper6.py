@@ -2,21 +2,24 @@
 # Paper 6: Positive Curvature of the Spectral Trace at the Critical Line
 # All normative parameters: kappa=53, eps=0.05, N=100, sigma=0.5
 #
-# Verification script for Paper 6:
+# Verification script for Paper 6 v1.24 (K7f consolidated, May 2026):
 # "Positive Curvature of the Spectral Trace at the Critical Line"
 #
-# Checks:
-#   1. Curvature-bias identity (Proposition 6.1):  O''(½) = −2B
-#   2. B-value (Corollary 7.1):                     B = −19342.5 ± 1
-#   3. Main term negativity (Theorem 3.1):          Main_p(ε) < 0, all p ≤ 53, all ε>0
-#   4. Gamma term subleading (Theorem 4.1):         |Γ_p|/|Main_p| ~ ε (slope ≈ 1)
-#   5. Ratio bound (Theorem 5.1a):                  r_p ∈ [0.70, 0.85] for all p ≤ 53
-#   6. Sign-crossover localisation (Theorem 5.1b):  Re(Z̃_p(0.020)) < 0 ∀p;
-#                                                    Re(Z̃_p(0.025)) ≥ 0 for ≥ 1 p
-#   7. Integrated bias (Theorem 6.1):               B_int(0.05) = −42.21 ± 0.5
-#   8. Pointwise exceptions (Remark §5):            Re(Z̃_{37}(0.05)) > 0,
-#                                                    Re(Z̃_{53}(0.05)) > 0
-#   9. Truncation error (Theorem 4.3):              |R_{p,100}|/|Main_p| < 10⁻⁵⁰
+# Checks (12 main checks, 23 assertions total):
+#   1.   Curvature-bias identity (Prop. 6.1):    O''(½) = −2B
+#   1.5  First derivative (SSOT anchor):          O'(½) = +2.475
+#   2.   B-value (Cor. 7.1):                     B = −19342.5 ± 1
+#   3.   Main term negativity (Thm 3.1):         Main_p(ε) < 0 ∀p ≤ 53
+#   4.   Gamma term subleading (Thm 4.1):        |Γ_p|/|Main_p| ~ ε, slope ≈ 1
+#   5.   Ratio bound (Thm 5.1a):                 r^+_{p,N} ∈ [0.70, 0.85] at ε=0.002
+#   6.   Sign-crossover (Thm 5.1b):              ε=0.020 all neg; ε=0.025 p=53 pos
+#   7.  Integrated bias (Thm 6.1):              B_int^+(0.05,100) = −42.21 ± 0.5
+#   8.  Pointwise exceptions (§5):              Z̃_{37}(0.05)>0, Z̃_{53}(0.05)>0
+#   9.  Truncation error (Thm 4.3):             |R_{p,100}|/|Main_p| < 10⁻⁵⁰
+#   10. Spectral entropy (SSOT §49):            S^val, S^vec, E_str, G_4
+#   11. Sign-crossover precision (CR18):        Z_{37}^+(0.025)<0; Z_{53}^+(0.025)>0
+#                                               Z_{37}^+(0.030)>0; Z_{53}^+(0.030)>0
+#   12. W_{eps,N}·P(kappa)/log(gamma_1) ≈ 23.3 (CR18 numerical correction)
 #
 # Usage: python verify_paper6.py [N_zeros]
 # Default: N=100. Extended: python verify_paper6.py 200
@@ -152,16 +155,21 @@ def gamma_p(p, eps, limit=80):
 # ── Helper: Z̃_p via GW evaluation over zeros (truncation at N) ──────────────
 def Ztilde_p(p, gammas, eps):
     r"""
-    Z̃_p(ε) = Re-part of the smoothed zero sum  (Definition 2.1, Paper 6).
+    ORDINATE PROXY for the smoothed zero sum (Definition 2.1, Paper 6).
 
-    With the series-wide convention used in Papers 4, 5, 6 — summing over the
-    N tabulated zeros with γ_k > 0 only — the GW representation reduces to
-       Re Z̃_p(ε) = Σ_{k=1}^{N} e^{−ε²γ_k²} cos(γ_k log p),
-    which is the finite-N object studied in \cite{Paper5}.  The conjugate
-    contribution from γ_k < 0 is absorbed by the factor 1/2 implicit in the
-    ρ-sum normalisation (cf. Definition 2.1 and the discussion in §2).
+    This function computes the ORDINATE PROXY Z_p^num, NOT the full
+    Guinand-Weil object Z̃_p^GW = Σ_rho h^even((rho-1/2)/i).
+
+    Computed quantity:
+       Z_p^num(ε) = Σ_{k=1}^{N} e^{−ε²γ_k²} cos(γ_k log p)
+
+    The identity Z̃_p^GW = 2 * Z_p^num holds ONLY if all non-trivial
+    zeros lie on the critical line Re(rho)=1/2 (i.e., assuming RH).
+    WITHOUT this assumption, Z̃_p^GW = 2*Z_p^num + E_{off-line}.
+    The GW bridge between Z̃_p^GW and Z_p^num is an open problem.
+
     All numerical targets in Paper 6 (r_p, sign-crossover, B_int = −42.21,
-    exceptions Re(Z̃_{37,53}) ≈ +0.50, +0.59) use this convention.
+    exceptions Re(Z̃_{37,53}) ≈ +0.50, +0.59) use the ordinate proxy.
     """
     gammas = np.array(gammas)
     lp     = np.log(p)
@@ -291,7 +299,7 @@ def E_str_thermo(primes, gammas, eps, sigma):
 
 # ═══════════════════════════════════════════════════════════════════════════════
 print("=" * 72)
-print("verify_paper6.py  ·  Paper 6  ·  April 2026")
+print("verify_paper6.py  ·  Paper 6 v1.24  ·  K7f consolidated  ·  May 2026")
 print("Paper 6: Positive Curvature of the Spectral Trace at the Critical Line")
 print(f"N = {N} zero ordinates  ·  κ={KAPPA}  ·  ε={EPS}  ·  σ={SIGMA}")
 print("=" * 72)
@@ -326,6 +334,17 @@ print(f"    |Δ|/|B|                                 = {rel_err:.2e}")
 check("O''(½) = −2B  (relative error < 1e-4, algebraic identity tested "
       "via 5-point numerical 2nd derivative)", rel_err < 1e-4,
       f"rel_err={rel_err:.2e}")
+
+# ── CHECK 1.5: First derivative O'(½) = +2.475  (SSOT anchor fingerprint) ────
+print("\n[1.5] First derivative: O'(½) = +2.4751  (SSOT anchor)")
+# 5-point stencil for O'(σ) — reuses O_m2, O_m1, O_p1, O_p2 from CHECK 1
+#   O'(σ) ≈ (O(σ−2h) − 8·O(σ−h) + 8·O(σ+h) − O(σ+2h)) / (12 h)
+O_prime = (O_m2 - 8*O_m1 + 8*O_p1 - O_p2) / (12 * h_diff)
+print(f"    O'(½) numerical (5-pt stencil, h={h_diff}) = {O_prime:+.4f}")
+print(f"    SSOT anchor value                           = +2.4751")
+check("O'(½) ∈ [+2.40, +2.55]  (SSOT anchor fingerprint: +2.4751)",
+      2.40 <= O_prime <= 2.55,
+      f"value={O_prime:+.4f}")
 
 # ── CHECK 2: B-value at reference parameters ─────────────────────────────────
 print(f"\n[2] B-value at (κ,ε,N) = ({KAPPA}, {EPS}, {N})  (Corollary 7.1)")
@@ -393,12 +412,11 @@ check(f"Ratio |Γ_p|/|Main_p| decreases as ε decreases  (p={p_rep}, grid {EPS_G
       mono, f"ratios={[f'{r:.3f}' for r in ratios]}")
 
 # ── CHECK 5: Ratio bound r_p ∈ [0.70, 0.85]  (limiting ε → 0) ────────────────
-print("\n[5] Ratio bound: r_p = lim_{ε→0} |Const_p|/|Main_p|   (Theorem 5.1a)")
-print("    Paper 6 Tab. (§5): r_p(ε→0) ∈ [0.75, 0.80].")
-print("    Ratio r(ε) is unimodal with max near ε≈0.045–0.060; the limit")
-print("    ε → 0 is approached from below for ε ≲ 0.005 and from above for")
-print("    ε ≳ 0.010. We evaluate at ε = 0.002, which sits on the limiting")
-print("    plateau (Γ_p and Err_{p^k} are already negligible there).")
+print("\n[5] Ratio bound: r_p at small ε  (Theorem 5.1a / rem:rpinf)")
+print("    Evaluating at ε=0.002 (weak Gaussian suppression, near finite-N plateau).")
+print("    Empirically observed range at ε=0.002, N=100: r ∈ [0.70, 0.85].")
+print("    (Asymptotic limit r_p^∞ = ½ is proved analytically (forthcoming, Paper 7),")
+print("     but is not reached at finite N=100 due to truncation effects.)")
 eps_small = 0.002
 rps       = []
 for p in primes_53:
@@ -417,7 +435,8 @@ print(f"    r_p range over {P} primes at ε={eps_small}: "
 print(f"    Paper 6 Tab. reference: r_2=0.766, r_7=0.759, r_23=0.754, "
       f"r_37=0.796, r_53=0.753")
 all_in_band = all(0.70 <= r <= 0.85 for r in rps)
-check("r_p ∈ [0.70, 0.85] for all p ≤ 53  (paper asserts [0.75, 0.80])",
+check("r_p(ε=0.002) ∈ [0.70, 0.85] for all p ≤ 53  "
+      "(empirical at finite N=100; asymptotic limit r_p^∞=½, forthcoming Paper 7)",
       all_in_band,
       f"range [{rps_min:.3f}, {rps_max:.3f}]")
 
@@ -537,6 +556,48 @@ check("THERMO: G_4(σ) has minimum at σ=½  (positive σ=½ signature)",
       G4_sweep[half_idx] == G4_sweep.min(),
       f"argmin at σ={sigma_grid[G4_sweep.argmin()]}")
 
+
+# ── CHECK 11: Sign-crossover precision (CR18 numerical correction) ────────────
+# Paper v1.24 corrects: at ε=0.025 only p=53 fails (p=37 remains negative).
+# At ε=0.030 both p=37 and p=53 are exceptions.
+print("\n[11] Sign-crossover precision (CR18 correction):")
+print("     ε=0.025: p=37 should be negative, p=53 should be positive")
+print("     ε=0.030: both p=37 and p=53 should be positive")
+
+Zt_37_025 = Ztilde_p(37, gammas, 0.025)
+Zt_53_025 = Ztilde_p(53, gammas, 0.025)
+Zt_37_030 = Ztilde_p(37, gammas, 0.030)
+Zt_53_030 = Ztilde_p(53, gammas, 0.030)
+
+print(f"    Z_{{37,N}}^+(0.025) = {Zt_37_025:+.4f}  (paper: −0.356, expected < 0)")
+print(f"    Z_{{53,N}}^+(0.025) = {Zt_53_025:+.4f}  (paper: +0.389, expected > 0)")
+print(f"    Z_{{37,N}}^+(0.030) = {Zt_37_030:+.4f}  (expected > 0)")
+print(f"    Z_{{53,N}}^+(0.030) = {Zt_53_030:+.4f}  (expected > 0)")
+
+check("Z_{{37,N}}^+(0.025) < 0  (p=37 NOT exception at ε=0.025)",
+      Zt_37_025 < 0, f"value={Zt_37_025:+.4f}")
+check("Z_{{53,N}}^+(0.025) > 0  (p=53 IS exception at ε=0.025)",
+      Zt_53_025 > 0, f"value={Zt_53_025:+.4f}")
+check("Z_{{37,N}}^+(0.030) > 0  (p=37 IS exception at ε=0.030)",
+      Zt_37_030 > 0, f"value={Zt_37_030:+.4f}")
+check("Z_{{53,N}}^+(0.030) > 0  (p=53 IS exception at ε=0.030)",
+      Zt_53_030 > 0, f"value={Zt_53_030:+.4f}")
+
+# ── CHECK 12: W_{ε,N}·P(κ)/log γ₁ ≈ 23.3 (CR18 numerical correction) ─────────
+print("\n[12] W_{{ε,N}}·P(κ)/log γ₁ ≈ 23.3  (CR18: corrected from 22.5)")
+import math
+gammas_arr = np.array(gammas)
+W_eps_N = float(np.sum(np.exp(-EPS**2 * gammas_arr**2)))
+P_kappa  = sum(math.log(p) for p in primes_53)
+log_g1   = math.log(gammas[0])
+val_23   = W_eps_N * P_kappa / log_g1
+print(f"    W_{{eps,N}} = {W_eps_N:.5f}")
+print(f"    P(53)     = {P_kappa:.5f}")
+print(f"    log γ₁    = {log_g1:.6f}")
+print(f"    W·P/log γ₁ = {val_23:.3f}  (paper: 23.3)")
+check("W_{{ε,N}}·P(κ)/log γ₁ ∈ [23.0, 23.6]  (paper v1.24: ≈ 23.3)",
+      23.0 <= val_23 <= 23.6, f"value={val_23:.3f}")
+
 # ── SUMMARY ──────────────────────────────────────────────────────────────────
 print("\n" + "=" * 72)
 print(f"SUMMARY: {PASS_COUNT} PASS, {FAIL_COUNT} FAIL")
@@ -548,7 +609,7 @@ else:
 print("=" * 72)
 print(f"Normative: κ={KAPPA}, ε={EPS}, N={N}, σ={SIGMA}")
 print("Paper 6: Positive Curvature of the Spectral Trace at the Critical Line")
-print("April 2026 · DOI: 10.5281/zenodo.19665790")
+print("May 2026 · DOI: 10.5281/zenodo.19665790")
 
 # ── FIGURES ──────────────────────────────────────────────────────────────────
 print("\nGenerating figures/paper6/fig_paper6_main.png ...")
@@ -680,7 +741,7 @@ plt.savefig(out_path, dpi=150, bbox_inches='tight')
 plt.close()
 print(f"✓ fig_paper6_main.png saved → {out_path}")
 
-print("\nDone. verify_paper6.py · Paper 6 · April 2026")
+print("\nDone. verify_paper6.py · Paper 6 · May 2026")
 
 # Exit code: 0 if all pass, 1 otherwise
 sys.exit(0 if FAIL_COUNT == 0 else 1)

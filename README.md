@@ -65,8 +65,8 @@ formula, with renormalized prime weights and convergent diagonal energy.
 | Admissibility of `g*` in `S_ad` | **PROVED** |
 | `c_p^ren = f_p^{1/2} > 0` (renormalized weights) | **PROVED** |
 | `D = sum_p (c_p^ren)^2` converges | **PROVED** |
-| Prime-side identity `W = Z - H_local + O(eps)` | **CONDITIONAL** |
-| `D ≈ 9.471` at reference parameters | **NUMERICAL** |
+| Prime-side localisation `K_ε` targets `V_p(σ)` exactly (Observation 3.2) | **PROVED** |
+| `D ≈ 9.470` at reference parameters | **NUMERICAL** |
 | Finite-grid stability of `Z - H_local` | **NUMERICAL** |
 
 **Reproduce:**
@@ -97,17 +97,17 @@ T = Phi* ∘ Phi : H_str → H_str            T_{pq} = G^un_{pq}
 |--------|--------|
 | `T` self-adjoint, positive semi-definite | **PROVED** |
 | Algebraic identity `Delta = E_str - E_spec` | **PROVED** |
-| `eta_orig ∈ [0.598, 0.704]` for (kappa=53, eps=0.05) | **NUMERICAL** |
-| `eta_orig > 0` for canonical weights, kappa ≤ 1009 | **NUMERICAL** |
+| `eta_orig ∈ [0.650, 0.700]` for (kappa=53, eps=0.05), `c_p^eta = sqrt(V_p(1/2))` | **NUMERICAL** |
+| `eta_orig(1/2) = 0.69078` at reference parameters | **NUMERICAL** |
+| `eta_orig > 0` for kappa ∈ {23,53,101,199,503,1009} | **NUMERICAL** |
 | `lambda_max(T_ren) ≈ 0.39 * pi(kappa)` [grows with kappa] | **NUMERICAL** |
 | Conjecture: `lambda_max < 1` (universal) | **FALSIFIED** (numerically) |
 | `lambda_j(T) = mu_j(T̃)` to machine precision | **PROVED** (algebraic) |
 
 **Reproduce:**
 ```bash
-python code/paper3/eta_verification.py
+python code/paper3/verify_paper3.py
 python code/paper3/ttilde_analysis.py
-python code/paper3/eta_inf_analysis.py
 ```
 
 ---
@@ -131,13 +131,16 @@ T̃_{kl} = sum_{p≤kappa} (a_p)_k * (a_p)_l
 |--------|--------|
 | T̃ self-adjoint, positive semi-definite | **PROVED** |
 | Spectral identity σ(T)\{0} = σ(T̃)\{0} | **PROVED** |
+| `rank(T̃) ≤ min{N, π(κ)}` | **PROVED** |
 | T̃ is NOT a Hilbert–Pólya operator | **NUMERICAL** (negative result) |
 | W₁ = C_T · T̃⁺ self-adjoint | **PROVED** |
+| Δ = Δ_Burst + Δ_Cross + Δ_Stream (exact decomposition) | **PROVED** |
 | Lemma M3 (Abel Summation Principle) | **PROVED** |
-| Theorem EXPLICIT: M_k(κ) = O(π(κ)/γ_k) | **PROVED** (PNT only, no RH) |
-| μ_j ~ C_T/γ_{k(j)}, r₁ = 0.950 | **NUMERICAL** |
-| η_orig > 0 for κ ≤ 1009 | **NUMERICAL** |
-| η_orig(κ) → η∞ > 0 under Weyl equidistribution | **CONDITIONAL** |
+| M_k(κ) = O(π(κ)/γ_k) at fixed γ_k (PNT only, no RH) | **PROVED** |
+| μ_j ≈ C_T/γ_{k(j)}, r₁ = 0.950 (finite-grid OLS) | **NUMERICAL** |
+| `eta_ren > 0` on tested grid κ ∈ {23,53,101,199,503,1009} | **NUMERICAL** |
+| `rho_max = 0.583 < 1` on tested grid | **NUMERICAL** |
+| `eta_ren > 0` under `(E_rem)` and `Delta_Burst > 0` | **CONDITIONAL/NUMERICAL** |
 
 **Reproduce:**
 ```bash
@@ -167,13 +170,13 @@ Tr(T̃(σ)) = D_SEL − O(σ)   [proved algebraically]
 | Trace formula: `Tr(T̃(σ)) = D_SEL − O(σ)` | **PROVED** (algebraic) |
 | `D_SEL = (1/2) · A(ε,N) · π(κ) = 10.985` | **PROVED** |
 | Decomposition: `B = Σ_p (log p)² Re(Z_p^{(2)})` | **PROVED** |
-| Structural Reduction: dominant term of Z̃_p(ε) | **STRUCTURAL** |
-| Sign transfer: `Re(Z̃_p) < 0 → B_int < 0` | **CONDITIONAL** |
+| Structural Reduction: dominant term of Z̃_p^GW(ε) formally identified | **PROVED** |
+| Sign transfer: `Re(Z̃_p^GW) < 0 → B_int < 0` | **CONDITIONAL** |
 | `B = −19342.5 < 0` (κ=53, ε=0.05, N=100) | **NUMERICAL** |
-| `Re(Z_p) < 0` for 14 of 16 primes p ≤ 53 | **NUMERICAL** |
-| `η_orig(κ=53) = 0.66927`, η_∞ ≈ 0.81 | **NUMERICAL** |
+| `Re(Z_p) < 0` for 14 of 16 primes p ≤ 53 at ε=0.05 | **NUMERICAL** |
+| `η_ren(κ=53) = 0.66927`, η_∞ ≈ 0.81 | **NUMERICAL** |
 | Three spectral signatures at σ=½ | **NUMERICAL** |
-| Bias Conjecture: `Re(Z̃_p(ε)) < 0` for all p | **OPEN** |
+| Bias Conjecture: `Z_p^∞(ε) < 0` for each fixed prime p | **OPEN** |
 
 **Reproduce:**
 ```bash
@@ -192,7 +195,7 @@ B-decomposition, B = −19342.5 at reference parameters.
 
 **What it proves:**  
 Starting from the trace formula of Paper 5, Paper 6 establishes a
-four-term Guinand–Weil decomposition of the smoothed zero sum Z̃_p(ε)
+four-term Guinand–Weil decomposition of the smoothed zero sum Z̃_p^GW(ε)
 with quantitative control of each component. The algebraic identity
 O″(½) = −2B connects the second derivative of the oscillatory trace
 component to the direct curvature sum. At the reference parameters,
@@ -202,18 +205,20 @@ O″(½) > 0 follows from B = −19342.5 < 0.
 |--------|--------|
 | Main term negativity: `Main_p(ε) < 0` for all p, all ε>0 | **PROVED** |
 | Other-prime error: `Err_other ≤ 0` | **PROVED** |
-| Truncation error: `\|R_{p,100}\|/\|Main_p\| ~ 3×10⁻⁶¹` | **PROVED** |
+| Truncation error: `|R_{p,100}|/|Main_p| ≤ 3×10⁻⁶¹` | **NUMERICAL** |
 | Curvature–bias identity: `O''(½) = −2B` | **PROVED** |
 | Gamma term subleading: `\|Γ_p(ε)\|/\|Main_p(ε)\| ~ ε` | **NUMERICAL** |
-| Ratio bound: `r_p ∈ [0.75, 0.80]` for all p ≤ 53 | **NUMERICAL** |
+| Proxy ratio consistent with `r_p^∞ ≤ ½` as ε → 0 | **NUMERICAL** |
 | Sign-crossover localised in (0.020, 0.025) | **NUMERICAL** |
-| Integrated bias: `B_int(0.05) = −42.21 < 0` | **NUMERICAL** |
+| Integrated bias: `B_int^+(0.05,100) = −42.21 < 0` | **NUMERICAL** |
 | Positive curvature: `O''(½) = +38685 > 0` | **NUMERICAL** |
 | Strict local minimum of O at σ=½ (under stationarity) | **CONDITIONAL** |
 
-**Five open problems** frame the completion path: analytic stationarity bound,
-asymptotic pointwise bias, uniformity of positive curvature, integrated-to-
-direct transfer, and the bridge to Weil positivity.
+**Five open problems** frame the completion path: (1) analytic first-derivative
+cancellation estimate |S_κ(γ)| ≤ C₀·P(κ)/(γ(log γ)^A) — the trivial bound is
+explicit, the nontrivial logarithmic saving is open; (2) asymptotic pointwise bias
+and r_p^∞ = ½ analytically via GW bridge; (3) uniformity of positive curvature;
+(4) integrated-to-direct transfer; (5) bridge to Weil positivity.
 
 **Reproduce:**
 ```bash
@@ -231,7 +236,7 @@ H_xi = H_local       W(g*,g*) =           T = Phi*Phi          T̃ = Phi Phi*
        + H_dual       Z(g*)-H_local        eta_orig > 0         Resonance operator
                       + O(eps)             [Numerical]          Spectral structure
 
-H_local(1/2,k)  ──R1──>  Weil bridge  ──R2──>  Geometry      ──R3──>  Conditional
+H_local(1/2,k)  ────>  Weil bridge  ────>  Geometry      ────>  Conditional
   ~ 2(log k)²                                   H_str,H_null           η_orig > 0
                                                                          → η∞ > 0
                                                                               │
@@ -273,7 +278,7 @@ All results use these reference parameters unless stated otherwise:
 | `eps` | 0.05 | Gaussian damping |
 | `N` | 100 | zero ordinates used |
 | `sigma` | 0.5 | evaluation point |
-| `c_p` | `sqrt(V_p(1/2))` | canonical weight vector |
+| `c_p` | `sqrt(V_p(½))` (Papers 1–3) / `sqrt(f_p)` (Papers 4–6) | weight convention |
 
 ---
 
@@ -297,22 +302,18 @@ analysislab-nt/
 │   ├── paper1/
 │   │   └── verify_paper1.py            H_local divergence, sigma profile
 │   ├── paper2/
-│   │   └── verify_paper2.py        D=9.471, sawtooth, bridge constant
+│   │   └── verify_paper2.py        D=9.470, sawtooth, diagonal energy
 │   ├── paper3/
-│   │   ├── eta_verification.py     η_orig energy identity (main result)
-│   │   ├── ttilde_analysis.py      T̃ = ΦΦ*, eigenvector localization
-│   │   └── eta_inf_analysis.py     convergence κ→∞, λ_max scaling
+│   │   ├── verify_paper3.py        η_orig, E_str, B-diagnostics, c_p^eta
+│   │   └── ttilde_analysis.py      T̃ = ΦΦ*, eigenvector localization
 │   ├── paper4/
-│   │   └── verify_paper4.py        spectral identity, η_orig, HP test,
-│   │                               generates figures/paper4/fig_hp_main.png
+│   │   └── verify_paper4.py        spectral identity, η_ren, HP test
 │   ├── paper5/
 │   │   └── verify_paper5.py        trace formula, B-decomposition,
-│   │                               η_orig, Re(Z_p), 3 signatures,
-│   │                               generates figures/paper5/fig_paper5_main.png
+│   │                               η_ren, Re(Z_p), 3 signatures
 │   └── paper6/
-│       └── verify_paper6.py        curvature identity, B, B_int,
-│                                   r_p ratio, sign-crossover localisation,
-│                                   generates figures/paper6/fig_paper6_main.png
+│       └── verify_paper6.py        curvature identity, B, B_int^+,
+│                                   r_p ratio, sign-crossover localisation
 │
 ├── data/
 │   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k
@@ -336,7 +337,7 @@ analysislab-nt/
     │   └── fig_hp_main.png               T̃ spectral structure and HP test
     ├── paper5/
     │   └── fig_paper5_main.png           trace formula, Re(Z_p),
-    │                                      η_orig convergence, 3 signatures
+    │                                      η_ren convergence, 3 signatures
     └── paper6/
         └── fig_paper6_main.png           r_p(ε) grid, sign-crossover,
                                           B_int vs ε, B vs κ scaling
@@ -353,9 +354,8 @@ pip install -r requirements.txt
 # Run all verifications (from repo root)
 python code/paper1/verify_paper1.py
 python code/paper2/verify_paper2.py
-python code/paper3/eta_verification.py
+python code/paper3/verify_paper3.py
 python code/paper3/ttilde_analysis.py
-python code/paper3/eta_inf_analysis.py
 python code/paper4/verify_paper4.py
 python code/paper5/verify_paper5.py
 python code/paper6/verify_paper6.py
@@ -381,19 +381,21 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 
 | Problem | Statement | Paper |
 |---------|-----------|-------|
-| **Bias Conjecture** | `Re(Z̃_p(ε)) < 0` for all primes p | Paper 5 |
+| **Bias Conjecture** | `Z_p^∞(ε) < 0` for each fixed prime p, all small ε | Paper 5 |
 | **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
-| **Weyl equidistribution** | {γ_k log p mod 2π} equidistributed | Paper 4 |
-| **Analytic positivity** | Prove η_orig > 0 without equidistribution | Paper 4 |
-| **Stationarity** | \|O'(½)\| ≪ W·π(κ) analytically | Paper 6 |
-| **Asymptotic pointwise bias** | `Re(Z̃_p(ε)) < 0` all p ≤ κ analytically | Paper 6 |
+| **Remainder control** | Prove (E_rem): |Δ_Cross+Δ_Stream| ≤ ρ·Δ_Burst analytically | Paper 4 |
+| **Analytic positivity** | Prove η_ren > 0 without (E_rem) | Paper 4 |
+| **First-derivative cancellation** | `|S_κ(γ_k)| ≤ C₀·P(κ)/(γ(log γ)^A)` analytically (trivial bound explicit; nontrivial cancellation open) | Paper 6 |
+| **Asymptotic pointwise bias** | `Z_p^∞(ε) < 0` all p analytically; finite-N transfer | Paper 6 |
 | **Uniformity** | `O''(½) > 0` beyond reference parameters | Paper 6 |
 | **Integrated-to-direct transfer** | bias ⇒ B negativity structurally | Paper 6 |
 | **Lagarias–Weil bridge** | curvature → Weil positivity framework | Paper 6 |
 | **Selection principle** | Stationarity + Bias → RH via Weil positivity | Series |
+| **r_p^∞ = ½ analytically** | Asymptotic ordinate proxy ratio; formal proof in Paper 7 | Paper 6 OP 8.2 |
+| **rank(T̃) = π(κ)** | Requires linear independence of {a_p} in H_null; only ≤ min{N,π(κ)} proved | Paper 4 |
 
 **Closed / Settled:**
-- `ζ(1+inγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
+- `ζ(1+iγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
 - `λ_max < 1` universally: **FALSIFIED**
 - HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂ → 0.16)
 
@@ -431,4 +433,4 @@ https://doi.org/10.5281/zenodo.19665790
 
 ---
 
-*Papers 1–6 · MIT License*
+*Papers 1–6 · v3.9.0 · May 2026 · MIT License*

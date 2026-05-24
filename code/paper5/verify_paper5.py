@@ -1,5 +1,5 @@
 # verify_paper5.py
-# Paper 5: Spectral Trace Formula and Smoothed Zero Sums · April 2026
+# Paper 5: Spectral Trace Formula and Smoothed Zero Sums · May 2026
 # All normative parameters: kappa=53, eps=0.05, N=100, sigma=0.5
 #
 # Verification script for Paper 5:
@@ -8,11 +8,12 @@
 #
 # Checks:
 #   1. Trace formula: Tr(T̃(σ)) = D_SEL − O(σ)  [algebraically exact]
-#   2. D_SEL value: (1/2) · A(ε,N) · π(κ)
-#   3. O(σ) at σ=½ and σ-profile
-#   4. B-decomposition: B = Σ_{k,p} w_k(γ_k log p)² cos(γ_k log p); B_int = Σ_p(log p)² Re(Z_p)
-#   5. η_orig convergence to η_∞ ≈ 0.81
-#   6. Re(Z_p) < 0 for 14/16 primes p ≤ 53
+#   2. D_SEL value: (1/2) · A(ε,N) · π(κ);  A(ε,N) = 1.37306
+#   3. O(½) and O'(½) = +2.4751 (sign: positive at reference parameters)
+#   4. B-decomposition: B = Σ_{k,p} w_k(γ_k log p)² cos(γ_k log p)
+#      B_int = Σ_p(log p)² Z_{p,N}^+(ε)  [ORDINATE PROXY — not Z̃_p^GW]
+#   5. η_ren convergence: η_ren(κ=53)=0.66927, range [0.669,0.820] (K7e)
+#   6. Z_{p,N}^+ < 0 for 14/16 primes p ≤ 53 at ε=0.05
 #   7. Three spectral signatures at σ=½:
 #      trace spike, μ₁ maximal, spectral gap minimum
 #
@@ -145,7 +146,7 @@ def energy(primes, gammas, eps):
 
 # ═══════════════════════════════════════════════════════════════════════════════
 print("=" * 65)
-print("verify_paper5.py  ·  Paper 5  ·  April 2026")
+print("verify_paper5.py  ·  Paper 5  ·  May 2026")
 print("Paper 5: Spectral Trace Formula and Smoothed Zero Sums")
 print(f"N = {N} zero ordinates  ·  κ={KAPPA}  ·  ε={EPS}  ·  σ={SIGMA}")
 print("=" * 65)
@@ -164,18 +165,20 @@ for sigma_test in [0.3, 0.5, 0.7]:
     check(f"σ={sigma_test}: |Tr − (D_SEL−O)| < 1e-10  (resid={residual:.2e})",
           residual < 1e-10)
 
-# ── TEST 2: D_SEL value ────────────────────────────────────────────────────────
+# ── TEST 2: D_SEL value and A(ε,N) ───────────────────────────────────────────
 print(f"\n[2] D_SEL = (1/2)·A(ε,N)·π(κ)  at κ={KAPPA}, ε={EPS}, N={N}")
 gammas_arr = np.array(gammas)
 w          = np.exp(-EPS**2 * gammas_arr**2)
 A_val      = np.sum(w)
 DSEL_norm  = 0.5 * A_val * len(primes_53)
 print(f"    A(ε,N) = {A_val:.6f},  π(κ) = {len(primes_53)},  D_SEL = {DSEL_norm:.4f}")
+check("A(ε,N) ≈ 1.37306  (paper §4, K7e corrected from 0.41530)",
+      abs(A_val - 1.37306) < 0.005, f"A={A_val:.5f}")
 check("D_SEL ∈ [10.5, 11.5]  (normative ≈ 10.985)",
       10.5 < DSEL_norm < 11.5, f"D_SEL={DSEL_norm:.4f}")
 
-# ── TEST 3: O(½) value and sign ────────────────────────────────────────────────
-print(f"\n[3] O(½) at normative parameters")
+# ── TEST 3: O(½) value and O'(½) sign ────────────────────────────────────────
+print(f"\n[3] O(½) and O'(½) at normative parameters")
 _, O_half = compute_DSEL_O(primes_53, gammas, EPS, 0.5)
 W_times_P  = A_val * len(primes_53)
 ratio      = abs(O_half) / W_times_P * 100
@@ -183,8 +186,20 @@ print(f"    O(½) = {O_half:.4f},  W·P = {W_times_P:.4f},  |O(½)|/(W·P) = {ra
 check("|O(½)| < 0.2 · W·P  (weak stationarity, paper §2.4)",
       abs(O_half) < 0.2 * W_times_P, f"|O(½)|/(WP)={ratio:.1f}%")
 
-# ── TEST 4: B and Re(Z_p) decomposition ──────────────────────────────────────
-print("\n[4] Curvature-bias: B < 0 and B_int = Σ_p (log p)² Re(Z_p) < 0")
+# O'(½) = -Σ_{k,p} w_k · γ_k · log p · sin(γ_k log p)
+# Paper 5 v1.19 §6.2: O'(½) = +2.475  (positive at reference parameters)
+O_prime_half = 0.0
+for k, gam in enumerate(gammas):
+    for p in primes_53:
+        O_prime_half -= w[k] * gam * np.log(p) * np.sin(gam * np.log(p))
+print(f"    O'(½) = {O_prime_half:.4f}  (paper: +2.4751, positive)")
+check("O'(½) > 0  (paper §6.2: sign positive at reference parameters)",
+      O_prime_half > 0, f"O'(½)={O_prime_half:.4f}")
+check("O'(½) ≈ +2.4751  (paper §6.2 numerical value)",
+      abs(O_prime_half - 2.4751) < 0.01, f"O'(½)={O_prime_half:.4f}")
+
+# ── TEST 4: B and Z_{p,N}^+ decomposition ────────────────────────────────────
+print("\n[4] Curvature-bias: B < 0 and B_int = Σ_p (log p)² Z_{p,N}^+(ε) < 0")
 
 # B = Σ_{k,p} w_k · (γ_k log p)² · cos(γ_k log p)  [curvature definition]
 B_direct = 0.0
@@ -192,49 +207,56 @@ for k, gam in enumerate(gammas):
     for p in primes_53:
         B_direct += w[k] * (gam * np.log(p))**2 * np.cos(gam * np.log(p))
 
-# Re(Z_p) and decomposition: Σ_p (log p)² Re(Z_p)
-# Note: Re(Z_p) = Σ_k w_k cos(γ_k log p)  [without γ_k² factor]
-# Proposition 5.3 verifies this algebraic identity self-consistently
+# B_int as ordinate proxy: Σ_p (log p)² Z_{p,N}^+(ε)
+# Z_{p,N}^+(ε) := Re(Z_p) = Σ_k w_k cos(γ_k log p)  [ordinate proxy]
+# Paper 5 v1.19: Z̃_p^GW is formal; GW bridge to Z_p^∞ is open problem (OP-GW).
+# This is what Papers 5+6 actually compute.
 Re_Zp_vals = []
 B_prop = 0.0
 for p in primes_53:
-    Zp   = compute_Zp(p, gammas, EPS)
-    ReZp = Zp.real
-    Re_Zp_vals.append(ReZp)
-    B_prop += np.log(p)**2 * ReZp
+    Zp      = compute_Zp(p, gammas, EPS)
+    ZpN_pos = Zp.real          # Z_{p,N}^+(ε) = Re(Z_p)
+    Re_Zp_vals.append(ZpN_pos)
+    B_prop += np.log(p)**2 * ZpN_pos
 
 # Self-consistency: B_prop should equal Σ_p (log p)² Re(Z_p) by construction
 check(f"B < 0  (NUMERICAL: B={B_direct:.1f})",
       B_direct < 0, f"B={B_direct:.4f}")
-check(f"B_int = Σ_p(log p)²Re(Z_p) < 0  (B_int={B_prop:.1f})",
+check(f"B_int = Σ_p(log p)²Z_{{p,N}}^+(ε) < 0  (B_int={B_prop:.1f})",
       B_prop < 0, f"B_int={B_prop:.4f}")
 print(f"    B (curvature) = {B_direct:.4f}  [includes γ_k² weights → B = −19342.5]")
 print(f"    B_int         = {B_prop:.4f}  [without γ_k² weights → B_int = −42.21]")
 
-# ── TEST 5: Re(Z_p) < 0 for 14/16 primes p ≤ 53 ─────────────────────────────
-print("\n[5] Re(Z_p) < 0 for majority of primes p ≤ 53")
+# ── TEST 5: Z_{p,N}^+(ε) < 0 for 14/16 primes p ≤ 53 ───────────────────────
+print("\n[5] Z_{p,N}^+(ε) < 0 for majority of primes p ≤ 53")
 n_neg = sum(1 for r in Re_Zp_vals if r < 0)
 n_tot = len(Re_Zp_vals)
-print(f"    Re(Z_p) < 0 for {n_neg} of {n_tot} primes ≤ {KAPPA}")
-check(f"Re(Z_p) < 0 for at least 12 of {n_tot} primes (paper: 14/16)",
+print(f"    Z_{{p,N}}^+ < 0 for {n_neg} of {n_tot} primes ≤ {KAPPA}")
+check(f"Z_{{p,N}}^+ < 0 for at least 12 of {n_tot} primes (paper: 14/16 at ε=0.05)",
       n_neg >= 12, f"{n_neg}/{n_tot}")
 
-# ── TEST 6: η_∞ convergence to ≈ 0.81 ────────────────────────────────────────
-print("\n[6] η_orig → η_∞ ≈ 0.81 as κ → ∞")
+# ── TEST 6: η_ren convergence (Paper 5 uses c_p^ren = √f_p convention) ───────
+print("\n[6] η_ren → η_∞ ≈ 0.81 as κ → ∞  (paper §4, K7e: η_ren not η_orig)")
 eta_vals = []
 for kap in KAPPAS_ETA:
     primes_k = list(primerange(2, kap + 1))
     eta_k, _, _ = energy(primes_k, gammas, EPS)
     eta_vals.append(eta_k)
-    print(f"    κ={kap:4d}:  η_orig = {eta_k:.5f}")
+    print(f"    κ={kap:4d}:  η_ren = {eta_k:.5f}")
 
 eta_53 = eta_vals[KAPPAS_ETA.index(53)]
-check(f"η_orig(κ=53) ≈ 0.669  (paper: 0.66927)",
-      abs(eta_53 - 0.66927) < 0.002, f"η={eta_53:.5f}")
-check("η_orig > 0 for all tested κ",
+check(f"η_ren(κ=53) ≈ 0.669  (paper §4: 0.66927)",
+      abs(eta_53 - 0.66927) < 0.002, f"η_ren={eta_53:.5f}")
+check("η_ren > 0 for all tested κ",
       all(e > 0 for e in eta_vals))
-check("η_orig(κ=1009) > η_orig(κ=53)  (convergence toward η_∞)",
-      eta_vals[-1] > eta_53, f"η(1009)={eta_vals[-1]:.4f}, η(53)={eta_53:.4f}")
+check("η_ren(κ=1009) > η_ren(κ=53)  (convergence toward η_∞ ≈ 0.81)",
+      eta_vals[-1] > eta_53, f"η_ren(1009)={eta_vals[-1]:.4f}, η_ren(53)={eta_53:.4f}")
+# Paper 5 v1.19 §4: η_ren ∈ [0.669, 0.820] on tested grid
+eta_min = min(eta_vals)
+eta_max = max(eta_vals)
+check(f"η_ren range ⊂ [0.65, 0.85]  (paper: [0.669, 0.820])",
+      0.65 < eta_min and eta_max < 0.85,
+      f"range=[{eta_min:.3f},{eta_max:.3f}]")
 
 # ── TEST 7: Three spectral signatures at σ=½ ─────────────────────────────────
 print("\n[7] Three spectral signatures at σ=½")
@@ -290,7 +312,7 @@ else:
     print(f"WARNING: {FAIL_COUNT} check(s) failed.")
 print("=" * 65)
 print(f"Normative: κ={KAPPA}, ε={EPS}, N={N}, σ={SIGMA}")
-print("Paper 5: Spectral Trace Formula and Smoothed Zero Sums · April 2026")
+print("Paper 5: Spectral Trace Formula and Smoothed Zero Sums · May 2026")
 
 # ── FIGURES ───────────────────────────────────────────────────────────────────
 print("\nGenerating figures/paper5/ ...")
@@ -340,14 +362,14 @@ ax.text(0.97, 0.05, f'B = {B_direct:.0f}', transform=ax.transAxes,
         bbox=dict(boxstyle='round', fc='white', alpha=0.7))
 ax.grid(True, alpha=0.2, axis='y')
 
-# ── Panel C: η_orig vs κ ──────────────────────────────────────────────────────
+# ── Panel C: η_ren vs κ ───────────────────────────────────────────────────────
 ax = axes[1, 0]
 ax.plot(KAPPAS_ETA, eta_vals, 'o-', color='steelblue', lw=2, ms=7)
 ax.axhline(0.81, color='crimson', ls='--', lw=1.5,
            label=r'$\eta_\infty \approx 0.81$')
 ax.set_xlabel(r'$\kappa$', fontsize=11)
-ax.set_ylabel(r'$\eta_{\mathrm{orig}}(\kappa)$', fontsize=11)
-ax.set_title(r'Convergence $\eta_{\mathrm{orig}}(\kappa) \to \eta_\infty \approx 0.81$',
+ax.set_ylabel(r'$\eta_{\mathrm{ren}}(\kappa)$', fontsize=11)
+ax.set_title(r'Convergence $\eta_{\mathrm{ren}}(\kappa) \to \eta_\infty \approx 0.81$',
              fontsize=10)
 ax.legend(fontsize=9)
 ax.grid(True, alpha=0.3)
@@ -391,4 +413,4 @@ plt.savefig(out_path, dpi=150, bbox_inches='tight')
 plt.close()
 print(f"✓ fig_paper5_main.png saved → {out_path}")
 
-print("\nDone. verify_paper5.py · Paper 5 · April 2026")
+print("\nDone. verify_paper5.py · Paper 5 · May 2026")
