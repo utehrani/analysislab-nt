@@ -327,10 +327,9 @@ analysislab-nt/
     │   ├── fig1_H_local_divergence.png   H_local divergence at σ=½
     │   └── fig2_sigma_profile.png        Phase boundary σ=½
     ├── paper2/
-    │   ├── fig3_Weil_decomposition.png   D convergence, f_p weights
-    │   └── fig4_sawtooth_Hren.png        Mertens sawtooth
+    │   └── fig3_Weil_decomposition.png   D convergence, f_p weights
     ├── paper3/
-    │   ├── fig4_eta_spectrum.png          η_orig(σ) profile
+    │   ├── fig_paper3_main.png            η_orig(σ) profile, E_str, B-diagnostics
     │   ├── fig5_ttilde_localization.png   T̃ eigenvector localization
     │   └── fig6_mu_vs_gamma.png           μ_j vs γ_{k(j)} correlation
     ├── paper4/
