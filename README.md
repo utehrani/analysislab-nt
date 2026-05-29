@@ -1,9 +1,10 @@
 # AnalysisLab: Curvature, Energy and the Riemann Zeta Function
 
-Six papers on ζ(s): curvature decomposition, Weil functional, a
+Seven papers on ζ(s): curvature decomposition, Weil functional, a
 Hilbert-space model for prime–zero energy structure, the Tehrani
 operator T̃(σ) = Φ(σ)Φ(σ)*, a spectral trace formula with smoothed
-zero sums, and the positive-curvature statement at the critical line.
+zero sums, positive curvature at the critical line, and a conditional
+selection principle identifying σ = ½ as a near-minimum.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
@@ -12,11 +13,12 @@ zero sums, and the positive-curvature statement at the critical line.
 [Paper 3](https://doi.org/10.5281/zenodo.19307989) ·
 [Paper 4](https://doi.org/10.5281/zenodo.19364703) ·
 [Paper 5](https://doi.org/10.5281/zenodo.19508547) ·
-[Paper 6](https://doi.org/10.5281/zenodo.19665790)
+[Paper 6](https://doi.org/10.5281/zenodo.19665790) ·
+[Paper 7](https://doi.org/10.5281/zenodo.20440671)
 
 ---
 
-## The Six Papers
+## The Seven Papers
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
@@ -227,6 +229,50 @@ python code/paper6/verify_paper6.py
 
 ---
 
+### Paper 7 — Conditional Stationarity and Positive Curvature of the Spectral Trace at the Critical Line
+**DOI:** [10.5281/zenodo.20440671](https://doi.org/10.5281/zenodo.20440671)  
+**File:** [`papers/paper7/`](papers/paper7/)  
+**Scripts:** [`code/paper7/`](code/paper7/)
+
+**Imports from Papers 5–6:** trace formula Tr(T̃(σ)) = D_SEL − O(σ),
+curvature identity O″(½) = −2B, Guinand–Weil decomposition.
+
+**What it proves:**  
+Under two explicit hypotheses (subleading archimedean + proxy-transfer,
+both weaker than RH), Paper 7 proves that the asymptotic constant-term
+ratio r_p^∞ = ½ for every prime p, and that the integrated bias
+B_int^∞(κ,ε) < 0 for all sufficiently small ε. An unconditional
+three-term decomposition of O′(½) is introduced, and antisymmetry
+A(½+δ) = −A(½−δ) is proved. Under an additional logarithmic-saving
+hypothesis on prime exponential sums (Cancellation Hypothesis A**),
+a conditional derivative bound on |O′(½)| is established. The full
+conditional selection — strict local minimum of O at σ = ½ — requires
+B < 0 and exact stationarity O′(½) = 0 as additional inputs.
+
+| Result | Status |
+|--------|--------|
+| Asymptotic ratio: `r_p^∞ = ½` for every prime p | **CONDITIONAL** (SAA+PT) |
+| Integrated bias: `B_int^∞ < 0` for small ε | **CONDITIONAL** (SAA+PT) |
+| Sign: `Z_{p,∞}^+(ε) < 0` for small ε, all p | **CONDITIONAL** (SAA+PT) |
+| Three-term decomposition of O′(½) | **DEFINITION** |
+| Antisymmetry: `A(½+δ) = −A(½−δ)` | **PROVED** |
+| Derivative bound: `|O′(½)| ≤ C·W·P` | **CONDITIONAL** (A**) |
+| Local minimum at σ=½ | **CONDITIONAL** (B<0 + O′=0) |
+| O′(½) = +2.4751 ≠ 0, σ* ≈ 0.4999 | **NUMERICAL** |
+| Cancellation ratio: `|O′|/(W·P) ≈ 0.00194` | **NUMERICAL** |
+
+**Six open problems:** (1) Weighted Bias Bridge; (2) Cancellation
+Hypothesis analytically; (3) GW bridge with off-critical control;
+(4) scaling of ε_int(κ); (5) near-minimum behaviour; (6) Weil-transfer
+operator and positivity.
+
+**Reproduce:**
+```bash
+python code/paper7/verify_paper7.py
+```
+
+---
+
 ## How the Papers Connect
 
 ```
@@ -253,6 +299,14 @@ H_local(1/2,k)  ────>  Weil bridge  ────>  Geometry      ──�
                                                                 O''(½) = −2B
                                                                 O''(½) > 0 at ref.
                                                                 [5 open problems]
+                                                                     │
+                                                                     ▼
+                                                                Paper 7
+                                                            ─────────────────
+                                                            r_p^∞ = ½ (COND.)
+                                                            O'(½) = +2.4751
+                                                            Selection hierarchy
+                                                            [6 open problems]
 ```
 
 **Mathematical thread:**  
@@ -265,6 +319,9 @@ the smoothed zero-sum route toward the Bias Conjecture.
 Paper 6 uses the trace formula of Paper 5 to establish the positive-curvature
 statement O''(½) > 0 at reference parameters (numerical) via the algebraic
 identity O''(½) = -2B (proved).
+Paper 7 addresses two open problems of Paper 6: it proves r_p^∞ = ½
+conditionally and establishes a three-layer selection hierarchy
+(SAA+PT → A** → B<0+O′=0) for σ = ½ as a local minimum.
 
 ---
 
@@ -296,7 +353,8 @@ analysislab-nt/
 │   ├── paper3/
 │   ├── paper4/
 │   ├── paper5/
-│   └── paper6/
+│   ├── paper6/
+│   └── paper7/
 │
 ├── code/
 │   ├── paper1/
@@ -311,9 +369,12 @@ analysislab-nt/
 │   ├── paper5/
 │   │   └── verify_paper5.py        trace formula, B-decomposition,
 │   │                               η_ren, Re(Z_p), 3 signatures
-│   └── paper6/
-│       └── verify_paper6.py        curvature identity, B, B_int^+,
-│                                   r_p ratio, sign-crossover localisation
+│   ├── paper6/
+│   │   └── verify_paper6.py        curvature identity, B, B_int^+,
+│   │                                   r_p ratio, sign-crossover localisation
+│   └── paper7/
+│       └── verify_paper7.py        r_p^∞ convergence, O'/O'' sign checks,
+│                                   three-term decomposition, near-minimum σ*
 │
 ├── data/
 │   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k
@@ -357,6 +418,7 @@ python code/paper3/ttilde_analysis.py
 python code/paper4/verify_paper4.py
 python code/paper5/verify_paper5.py
 python code/paper6/verify_paper6.py
+python code/paper7/verify_paper7.py
 ```
 
 **Notes:**
@@ -383,19 +445,26 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 | **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
 | **Remainder control** | Prove (E_rem): |Δ_Cross+Δ_Stream| ≤ ρ·Δ_Burst analytically | Paper 4 |
 | **Analytic positivity** | Prove η_ren > 0 without (E_rem) | Paper 4 |
-| **First-derivative cancellation** | `|S_κ(γ_k)| ≤ C₀·P(κ)/(γ(log γ)^A)` analytically (trivial bound explicit; nontrivial cancellation open) | Paper 6 |
-| **Asymptotic pointwise bias** | `Z_p^∞(ε) < 0` all p analytically; finite-N transfer | Paper 6 |
+| **Weighted Bias Bridge** | B_int^∞ < 0 → B < 0 via γ_k²-weighted transfer + finite-N truncation | Paper 7 OP 9.1 |
+| **Cancellation Hypothesis (A**)** | \|M_k(κ)\| ≤ C₀·P(κ)/(log γ_k)^A analytically; Vinogradov–Korobov class | Paper 7 OP 9.2 |
+| **GW bridge + off-critical control** | Bound E_p^off without RH; unconditional proxy transfer | Paper 7 OP 9.3 |
+| **Scaling of ε_int(κ)** | Asymptotic behaviour as κ→∞; is inf_κ ε_int(κ) > 0? | Paper 7 OP 9.4 |
+| **Near-minimum behaviour** | Under what stationarity condition does σ=½ become exact minimum? | Paper 7 OP 9.5 |
+| **Weil-transfer operator** | Finite-dim Weil form W^Weil_{κ,ε}; connection to Lagarias framework | Paper 7 OP 9.6 |
 | **Uniformity** | `O''(½) > 0` beyond reference parameters | Paper 6 |
-| **Integrated-to-direct transfer** | bias ⇒ B negativity structurally | Paper 6 |
-| **Lagarias–Weil bridge** | curvature → Weil positivity framework | Paper 6 |
-| **Selection principle** | Stationarity + Bias → RH via Weil positivity | Series |
-| **r_p^∞ = ½ analytically** | Asymptotic ordinate proxy ratio; formal proof in Paper 7 | Paper 6 OP 8.2 |
 | **rank(T̃) = π(κ)** | Requires linear independence of {a_p} in H_null; only ≤ min{N,π(κ)} proved | Paper 4 |
+| **Remainder control** | Prove (E_rem): \|Δ_Cross+Δ_Stream\| ≤ ρ·Δ_Burst analytically | Paper 4 |
+| **Analytic positivity** | Prove η_ren > 0 without (E_rem) | Paper 4 |
+| **Bias Conjecture** | `Z_p^∞(ε) < 0` for each fixed prime p, all small ε | Paper 5 |
+| **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
 
 **Closed / Settled:**
 - `ζ(1+iγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
 - `λ_max < 1` universally: **FALSIFIED**
 - HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂ → 0.16)
+- `r_p^∞ = ½` for every prime: **CONDITIONAL** (Paper 7 Thm 3.1 under SAA+PT)
+- First-derivative cancellation bound: **CONDITIONAL** (Paper 7 Prop 7.1 under A**)
+- Asymptotic pointwise bias `Z_{p,∞}^+ < 0`: **CONDITIONAL** (Paper 7 Cor 3.7 under SAA+PT)
 
 ---
 
@@ -429,6 +498,11 @@ Tehrani, U. (2026). Positive Curvature of the Spectral Trace at
 the Critical Line. Zenodo.
 https://doi.org/10.5281/zenodo.19665790
 
+**Paper 7:**  
+Tehrani, U. (2026). Conditional Stationarity and Positive Curvature
+of the Spectral Trace at the Critical Line. Zenodo.
+https://doi.org/10.5281/zenodo.20440671
+
 ---
 
-*Papers 1–6 · v3.9.0 · May 2026 · MIT License*
+*Papers 1–7 · v4.0.0 · May 2026 · MIT License*
