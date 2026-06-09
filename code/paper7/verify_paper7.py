@@ -3,7 +3,7 @@
 #           Spectral Trace at the Critical Line
 # All normative parameters: kappa=53, eps=0.05, N=100, sigma=0.5
 #
-# Verification script for Paper 7 v0.14 (May 2026).
+# Verification script for Paper 7 v0.15 (June 2026).
 #
 # Checks (12 main checks, ~30 assertions):
 #   1.  Anchor values: B, O''(½), O'(½), W^γ, P(53), T_pol, T_main, T_res
@@ -464,16 +464,23 @@ check("11b  |T_pol+T_main|/|O'| ≈ 15.7 ± 0.5",
 print()
 
 # ── CHECK 12: κ=101 diagnostic ───────────────────────────────────────────────
+# NOTE (v0.15): the inner sum Σ_p log(p) sin(γ_k log p) is the Paper 7
+# cancellation object S_k(κ) (renamed from M_k in v0.15 to avoid collision
+# with Paper 4's partial-sum maximum). Here we compute it for κ=101 and
+# combine with weights w_k γ_k to get O'(½;101).
 print("CHECK 12: κ=101 diagnostic — O'(½;101,0.05,100)")
 
 primes_101 = np.array(list(primerange(2, 102)))
 log_primes_101 = np.log(primes_101)
 
+# S_k(101) = Σ_{p≤101} log(p) sin(γ_k log p)  (Paper 7 v0.15 symbol)
+# O'(½;101) = -Σ_k w_k γ_k S_k(101)
 O_p_101 = 0.0
 for k in range(N):
+    S_k_101 = 0.0
     for j in range(len(primes_101)):
-        O_p_101 += w[k] * gammas[k] * log_primes_101[j] * \
-                   np.sin(gammas[k] * log_primes_101[j])
+        S_k_101 += log_primes_101[j] * np.sin(gammas[k] * log_primes_101[j])
+    O_p_101 += w[k] * gammas[k] * S_k_101
 O_p_101 = -O_p_101  # MINUS sign!
 
 check("12a  O'(½;101,0.05,100) ≈ -137.6 ± 1",
@@ -488,7 +495,7 @@ print()
 
 # ── SUMMARY ──────────────────────────────────────────────────────────────────
 print("=" * 60)
-print(f"  verify_paper7.py · Paper 7 v0.14 · May 2026")
+print(f"  verify_paper7.py · Paper 7 v0.15 · June 2026")
 print(f"  {PASS_COUNT} PASS, {FAIL_COUNT} FAIL out of {PASS_COUNT + FAIL_COUNT}")
 if FAIL_COUNT == 0:
     print("  ✓ ALL CHECKS PASSED")
