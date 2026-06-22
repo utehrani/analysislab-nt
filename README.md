@@ -1,10 +1,12 @@
 # AnalysisLab: Curvature, Energy and the Riemann Zeta Function
 
-Seven papers on ζ(s): curvature decomposition, Weil functional, a
+Eight papers on ζ(s): curvature decomposition, Weil functional, a
 Hilbert-space model for prime–zero energy structure, the Tehrani
 operator T̃(σ) = Φ(σ)Φ(σ)*, a spectral trace formula with smoothed
-zero sums, positive curvature at the critical line, and a conditional
-selection principle identifying σ = ½ as a near-minimum.
+zero sums, positive curvature at the critical line, a conditional
+selection principle identifying σ = ½ as a near-minimum, and an
+unconditional proof that the full Guinand–Weil second-moment bias is
+negative, with certified off-line robustness.
 
 **Author:** Ulrich Tehrani  
 **License:** MIT  
@@ -14,11 +16,12 @@ selection principle identifying σ = ½ as a near-minimum.
 [Paper 4](https://doi.org/10.5281/zenodo.19364703) ·
 [Paper 5](https://doi.org/10.5281/zenodo.19508547) ·
 [Paper 6](https://doi.org/10.5281/zenodo.19665790) ·
-[Paper 7](https://doi.org/10.5281/zenodo.20440671)
+[Paper 7](https://doi.org/10.5281/zenodo.20440671) ·
+[Paper 8](https://doi.org/10.5281/zenodo.20792123)
 
 ---
 
-## The Seven Papers
+## The Eight Papers
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
@@ -273,6 +276,65 @@ python code/paper7/verify_paper7.py
 
 ---
 
+### Paper 8 — Unconditional Negativity of the Second-Moment Bias and Off-Line Robustness
+**DOI:** [10.5281/zenodo.20792123](https://doi.org/10.5281/zenodo.20792123)  
+**File:** [`papers/paper8/`](papers/paper8/)  
+**Scripts:** [`code/paper8/`](code/paper8/)
+
+**Imports from Papers 5–6:** trace formula Tr(T̃(σ)) = D_SEL − O(σ),
+curvature identity O″(½) = −2B.
+
+**What it proves:**  
+Paper 8 addresses two open problems of Paper 7 unconditionally, by
+bypassing the Weighted Bias Bridge rather than proving it. It
+distinguishes the full Guinand–Weil second-moment object B_GW^∞ (over
+all non-trivial zeros, free of any zero-location hypothesis) from the
+on-line ordinate proxy B_line^∞ that carries the operator curvature
+O″(½) = −2B_line^∞. Differentiating the Gaussian explicit-formula
+identity in the smoothing parameter yields a second-moment identity in
+which the negative diagonal prime self-interaction dominates; from it
+B_GW^∞(53,ε) < 0 is proved for all 0 < ε ≤ 0.05 (closed-form for
+ε ≤ 0.004, Arb-certified to the reference width ε = 0.05), together with
+a uniform statement B_GW^∞(κ,ε) < 0 for every κ ≥ 202 and
+0 < ε ≤ ε₀(κ) = 1/(4eκ√log κ). A β-uniform off-line magnitude estimate,
+combined with the Platt–Trudgian verified height H₀ = 3·10¹², bounds the
+off-line correction below the certified margin, transferring the sign to
+B_line^∞ and giving O″(½) > 0 for ε_off ≤ ε ≤ 0.05. The archimedean
+term is controlled by an explicit bound I₄ ≤ 3561.1 (four-fold
+integration by parts), recertified in Arb ball arithmetic. No RH, GUE,
+Montgomery, or Hilbert–Pólya input is used; the off-line bound rests on
+a finite-height verification, not on RH.
+
+| Result | Status |
+|--------|--------|
+| Second-moment explicit-formula identity | **PROVED** |
+| Archimedean bound: `Γ_p^(2) = O(1)`, `I₄ ≤ 3561.1` | **PROVED / CERTIFIED** |
+| Eigenterm extraction + cross-prime control | **PROVED** |
+| Reference negativity: `B_GW^∞(53,ε) < 0`, `0 < ε ≤ 0.05` | **PROVED / CERTIFIED** |
+| Uniform negativity: `B_GW^∞(κ,ε) < 0`, `κ ≥ 202` | **PROVED** |
+| Off-line robustness (magnitude form) | **PROVED** |
+| Operator curvature: `O″(½) = −2B_line^∞ > 0`, `ε_off ≤ ε ≤ 0.05` | **PROVED** |
+| `B(53,0.05,100) = −19 342.5`, `O″(½) = +38 685.1` | **NUMERICAL** |
+| Off-critical defect coefficient `C₂(γ) = −½G″(γ)` sign-indefinite | **PROVED (scope)** |
+
+**Scope:** the negativity B_GW^∞ < 0 is a second-moment bias / curvature
+statement, **not** an RH criterion: the off-critical continuation of the
+curvature test function yields a sign-indefinite δ²-defect, so the
+curvature sign alone does not furnish a Weil-positivity / RH criterion.
+
+**Five open problems:** (1) Cancellation Hypothesis A** analytically;
+(2) Weighted Bias Bridge (bypassed here, not proved); (3) exact
+stationarity O′(½) = 0; (4) Weil-transfer operator and positivity;
+(5) scaling of the negativity window.
+
+**Reproduce:**
+```bash
+python code/paper8/cert_paper8.py     # Arb interval certificate
+python code/paper8/verify_paper8.py   # numerical gate (30/0)
+```
+
+---
+
 ## How the Papers Connect
 
 ```
@@ -307,6 +369,15 @@ H_local(1/2,k)  ────>  Weil bridge  ────>  Geometry      ──�
                                                             O'(½) = +2.4751
                                                             Selection hierarchy
                                                             [6 open problems]
+                                                                 │
+                                                                 ▼
+                                                            Paper 8
+                                                            ─────────────────
+                                                            B_GW^∞ < 0 (PROVED)
+                                                            Arb-certified
+                                                            off-line robustness
+                                                            O″(½) > 0 (transfer)
+                                                            [not an RH criterion]
 ```
 
 **Mathematical thread:**  
@@ -322,6 +393,12 @@ identity O''(½) = -2B (proved).
 Paper 7 addresses two open problems of Paper 6: it proves r_p^∞ = ½
 conditionally and establishes a three-layer selection hierarchy
 (SAA+PT → A** → B<0+O′=0) for σ = ½ as a local minimum.
+Paper 8 addresses two open problems of Paper 7 unconditionally: it
+bypasses the Weighted Bias Bridge by proving the full Guinand–Weil
+second-moment negativity B_GW^∞ < 0 directly (closed-form + Arb-certified),
+and controls hypothetical off-critical zeros by a finite-height magnitude
+estimate, transferring the sign to the operator curvature O″(½) > 0. The
+curvature sign is explicitly **not** claimed as an RH criterion.
 
 ---
 
@@ -354,7 +431,8 @@ analysislab-nt/
 │   ├── paper4/
 │   ├── paper5/
 │   ├── paper6/
-│   └── paper7/
+│   ├── paper7/
+│   └── paper8/
 │
 ├── code/
 │   ├── paper1/
@@ -372,13 +450,18 @@ analysislab-nt/
 │   ├── paper6/
 │   │   └── verify_paper6.py        curvature identity, B, B_int^+,
 │   │                                   r_p ratio, sign-crossover localisation
-│   └── paper7/
-│       └── verify_paper7.py        r_p^∞ convergence, O'/O'' sign checks,
-│                                   three-term decomposition, near-minimum σ*
+│   ├── paper7/
+│   │   └── verify_paper7.py        r_p^∞ convergence, O'/O'' sign checks,
+│   │                               three-term decomposition, near-minimum σ*
+│   └── paper8/
+│       ├── cert_paper8.py          Arb interval certificate, B_GW^∞ < 0
+│       └── verify_paper8.py        second-moment identity, I₄ bound,
+│                                   eigenterm, off-line transfer (30/0)
 │
 ├── data/
-│   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k
-│   ├── zeros_200.csv               First 200 Riemann zeta zero ordinates γ_k
+│   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k (all papers, N=100)
+│   ├── zeros_200.csv               First 200 Riemann zeta zero ordinates γ_k (Papers 5–7, N>100)
+│   ├── zeros_650.csv               First 650 Riemann zeta zero ordinates γ_k (Paper 8, N>100)
 │   └── results/                    Script outputs (CSV, intermediate data)
 │       └── ttilde_spectrum.csv     T̃ eigenvalues and localization data
 │
@@ -397,9 +480,16 @@ analysislab-nt/
     ├── paper5/
     │   └── fig_paper5_main.png           trace formula, Re(Z_p),
     │                                      η_ren convergence, 3 signatures
-    └── paper6/
-        └── fig_paper6_main.png           r_p(ε) grid, sign-crossover,
-                                          B_int vs ε, B vs κ scaling
+    ├── paper6/
+    │   └── fig_paper6_main.png           r_p(ε) grid, sign-crossover,
+    │                                     B_int vs ε, B vs κ scaling
+    └── paper8/
+        └── fig_paper8_main.png           B_line(ε) proxy, B_line<0 with
+                                          margins, O''(½)>0, |B_line| vs κ
+
+    (Paper 7 generates no figure; its verify script is purely numerical.
+     The Paper 8 figure is produced by verify_paper8.py for the repository
+     but is intentionally not embedded in the paper PDF.)
 ```
 
 ---
@@ -419,6 +509,8 @@ python code/paper4/verify_paper4.py
 python code/paper5/verify_paper5.py
 python code/paper6/verify_paper6.py
 python code/paper7/verify_paper7.py
+python code/paper8/cert_paper8.py      # Arb interval certificate (needs python-flint)
+python code/paper8/verify_paper8.py
 ```
 
 **Notes:**
@@ -426,9 +518,19 @@ python code/paper7/verify_paper7.py
   ```bash
   python code/paper6/verify_paper6.py        # N=100 (default, uses zeros_100.csv)
   python code/paper6/verify_paper6.py 200    # N=200 (uses zeros_200.csv)
+  python code/paper8/verify_paper8.py        # N=100 (default, uses zeros_100.csv)
+  python code/paper8/verify_paper8.py 650    # N=650 (uses zeros_650.csv)
   ```
-  Loads from `data/zeros_100.csv` or `data/zeros_200.csv` automatically.
-  Falls back to mpmath if the CSV is missing.
+  Papers 5–7 load `data/zeros_100.csv` or `data/zeros_200.csv`; Paper 8 loads
+  `data/zeros_100.csv` or `data/zeros_650.csv`. All fall back to mpmath if the
+  CSV is missing.
+- The `verify_paperN.py` scripts are numerical gates (mpmath; candidate values,
+  not certificates). `cert_paper8.py` is different: it is a rigorous interval
+  certificate that **proves** Theorem 6.2 in Arb ball arithmetic (midpoint–radius
+  with directed rounding, proven Gaussian tail bounds). It requires
+  `python-flint` (FLINT 3 / Arb layer) — listed in `requirements.txt` — and on
+  success prints `CERTIFICATE VALID` together with the parameter-hash and the
+  certificate source-hash recorded in the paper.
 - All scripts write figures to `figures/paperN/` and data to `data/results/`.
 - **Run from the repository root** so that relative paths resolve correctly.
 
@@ -437,7 +539,7 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 
 ---
 
-## Open Problems (as of May 2026)
+## Open Problems (as of June 2026, after Paper 8)
 
 | Problem | Statement | Paper |
 |---------|-----------|-------|
@@ -465,6 +567,9 @@ matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
 - `r_p^∞ = ½` for every prime: **CONDITIONAL** (Paper 7 Thm 3.1 under SAA+PT)
 - First-derivative cancellation bound: **CONDITIONAL** (Paper 7 Prop 7.1 under A**)
 - Asymptotic pointwise bias `Z_{p,∞}^+ < 0`: **CONDITIONAL** (Paper 7 Cor 3.7 under SAA+PT)
+- Direct second-moment negativity `B_GW^∞ < 0` (κ=53, 0<ε≤0.05; uniform κ≥202): **PROVED / CERTIFIED** (Paper 8 Thm 6.2, 7.3)
+- Off-line robustness of the curvature sign: **PROVED** (Paper 8 Thm 8.2, magnitude form, via Platt–Trudgian H₀)
+- Weighted Bias Bridge as an implication: **OPEN** — Paper 8 bypasses it (proves B_GW^∞ < 0 directly) rather than establishing B_int^∞ < 0 ⇒ B_GW^∞ < 0
 
 ---
 
@@ -503,6 +608,11 @@ Tehrani, U. (2026). Conditional Stationarity and Positive Curvature
 of the Spectral Trace at the Critical Line. Zenodo.
 https://doi.org/10.5281/zenodo.20440671
 
+**Paper 8:**  
+Tehrani, U. (2026). Unconditional Negativity of the Second-Moment Bias
+and Off-Line Robustness. Zenodo.
+https://doi.org/10.5281/zenodo.20792123
+
 ---
 
-*Papers 1–7 · v4.0.0 · May 2026 · MIT License*
+*Papers 1–8 · June 2026 · MIT License*

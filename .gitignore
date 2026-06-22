@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+companion/
 develop-eggs/
 dist/
 downloads/
@@ -143,6 +144,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+pyvenv.cfg
 
 # Spyder project settings
 .spyderproject
@@ -220,4 +222,4 @@ __marimo__/
 *.run.xml
 *.nav
 *.snm
-*.vrb
+*.vrbpyvenv.cfg
