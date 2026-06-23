@@ -615,4 +615,4 @@ https://doi.org/10.5281/zenodo.20792123
 
 ---
 
-*Papers 1–8 · June 2026 · MIT License*
+*Papers 1–8 · v5.0.0 · June 2026 · MIT License*
