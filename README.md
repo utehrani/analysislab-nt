@@ -284,7 +284,8 @@ python code/paper6/verify_paper6.py
 curvature identity O″(½) = −2B, Guinand–Weil decomposition.
 
 **What it proves:**  
-Under two explicit hypotheses (subleading archimedean + proxy-transfer;
+Under two explicit hypotheses (Assumption 3.2, subleading archimedean
+terms, and Assumption 3.3, proxy transfer;
 the proxy-transfer hypothesis is implied by RH and formally weaker in
 content, the subleading one is not known to follow from RH), Paper 7
 proves that the asymptotic constant-term
@@ -299,15 +300,15 @@ B < 0 and exact stationarity O′(½) = 0 as additional inputs.
 
 | Result | Status |
 |--------|--------|
-| Asymptotic ratio: `r_p^∞ = ½` for every prime p | **CONDITIONAL** (SAA+PT) |
-| Integrated bias: `B_int^∞ < 0` for small ε | **CONDITIONAL** (SAA+PT) |
-| Sign: `Z_{p,∞}^+(ε) < 0` for small ε, all p | **CONDITIONAL** (SAA+PT) |
+| Asymptotic ratio: `r_p^∞ = ½` for every prime p | **CONDITIONAL** (Assumptions 3.2, 3.3) |
+| Integrated bias: `B_int^∞ < 0` for small ε | **CONDITIONAL** (Assumptions 3.2, 3.3) |
+| Sign: `Z_{p,∞}^+(ε) < 0` for small ε, all p | **CONDITIONAL** (Assumptions 3.2, 3.3) |
 | Three-term decomposition of O′(½) | **DEFINITION** |
 | Antisymmetry: `A(½+δ) = −A(½−δ)` | **PROVED** |
-| Derivative bound: `|O′(½)| ≤ C·W·P` | **CONDITIONAL** (A**) |
-| Local minimum at σ=½ | **CONDITIONAL** (B<0 + O′=0) |
+| Derivative bound: `\|O′(½)\| ≤ C·W·P` | **CONDITIONAL** (Cancellation Hypothesis A\*\*) |
+| Local minimum at σ=½ | **CONDITIONAL** (A\*\* and B < 0 and O′(½) = 0) |
 | O′(½) = +2.4751 ≠ 0, σ* ≈ 0.4999 | **NUMERICAL** |
-| Cancellation ratio: `|O′|/(W·P) ≈ 0.00194` | **NUMERICAL** |
+| Cancellation ratio: `\|O′\|/(W·P) ≈ 0.00194` | **NUMERICAL** |
 
 **Six open problems:** (1) Weighted Bias Bridge; (2) Cancellation
 Hypothesis analytically; (3) GW bridge with off-critical control;
@@ -360,7 +361,7 @@ a finite-height verification, not on RH.
 | Off-line robustness (magnitude form) | **PROVED** |
 | Operator curvature: `O″(½) = −2B_line^∞ > 0`, `ε_off ≤ ε ≤ 0.05` | **PROVED** |
 | `B(53,0.05,100) = −19 342.5`, `O″(½) = +38 685.1` | **NUMERICAL** |
-| Off-critical defect coefficient `C₂(γ) = −½G″(γ)` sign-indefinite | **PROVED (scope)** |
+| Off-critical defect coefficient `C₂(γ) = −½G″(γ)` sign-indefinite | **PROVED** (scope statement) |
 
 **Scope:** the negativity B_GW^∞ < 0 is a second-moment bias / curvature
 statement, **not** an RH criterion: the off-critical continuation of the
@@ -519,7 +520,8 @@ statement O''(½) > 0 at reference parameters (numerical) via the algebraic
 identity O''(½) = -2B (proved).
 Paper 7 addresses two open problems of Paper 6: it proves r_p^∞ = ½
 conditionally and establishes a three-layer selection hierarchy
-(SAA+PT → A** → B<0+O′=0) for σ = ½ as a local minimum.
+(Assumptions 3.2/3.3 → Cancellation Hypothesis A\*\* → B < 0 together with
+exact stationarity) for σ = ½ as a local minimum.
 Paper 8 addresses two open problems of Paper 7 unconditionally: it
 bypasses the Weighted Bias Bridge by proving the full Guinand–Weil
 second-moment negativity B_GW^∞ < 0 directly (closed-form + Arb-certified),
