@@ -12,7 +12,7 @@
 #   3. O(½) and O'(½) = +2.4751 (sign: positive at reference parameters)
 #   4. B-decomposition: B = Σ_{k,p} w_k(γ_k log p)² cos(γ_k log p)
 #      B_int = Σ_p(log p)² Z_{p,N}^+(ε)  [ORDINATE PROXY — not Z̃_p^GW]
-#   5. η_ren convergence: η_ren(κ=53)=0.66927, range [0.669,0.820] (K7e)
+#   5. η_ren convergence: η_ren(κ=53)=0.66927, range [0.669,0.820]
 #   6. Z_{p,N}^+ < 0 for 14/16 primes p ≤ 53 at ε=0.05
 #   7. Three spectral signatures at σ=½:
 #      trace spike, μ₁ maximal, spectral gap minimum
@@ -172,7 +172,7 @@ w          = np.exp(-EPS**2 * gammas_arr**2)
 A_val      = np.sum(w)
 DSEL_norm  = 0.5 * A_val * len(primes_53)
 print(f"    A(ε,N) = {A_val:.6f},  π(κ) = {len(primes_53)},  D_SEL = {DSEL_norm:.4f}")
-check("A(ε,N) ≈ 1.37306  (paper §4, K7e corrected from 0.41530)",
+check("A(ε,N) ≈ 1.37306  (paper §4, corrected from 0.41530 in review)",
       abs(A_val - 1.37306) < 0.005, f"A={A_val:.5f}")
 check("D_SEL ∈ [10.5, 11.5]  (normative ≈ 10.985)",
       10.5 < DSEL_norm < 11.5, f"D_SEL={DSEL_norm:.4f}")
@@ -236,7 +236,7 @@ check(f"Z_{{p,N}}^+ < 0 for at least 12 of {n_tot} primes (paper: 14/16 at ε=0.
       n_neg >= 12, f"{n_neg}/{n_tot}")
 
 # ── TEST 6: η_ren convergence (Paper 5 uses c_p^ren = √f_p convention) ───────
-print("\n[6] η_ren → η_∞ ≈ 0.81 as κ → ∞  (paper §4, K7e: η_ren not η_orig)")
+print("\n[6] η_ren → η_∞ ≈ 0.81 as κ → ∞  (paper §4: η_ren, not η_orig)")
 eta_vals = []
 for kap in KAPPAS_ETA:
     primes_k = list(primerange(2, kap + 1))

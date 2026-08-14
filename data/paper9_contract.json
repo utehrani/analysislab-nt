@@ -1,0 +1,199 @@
+{
+  "_meta": {
+    "purpose": "Pattern subset of the notation contract, read by verify_paper9.py.",
+    "derivation": "Generated from the working notation contract; only the forbidden-pattern list is exported.",
+    "note": "The patterns necessarily quote the internal labels they prohibit — that is the mechanism of the check, not a violation of it. No other field of the working contract is published."
+  },
+  "forbidden_patterns": [
+    {
+      "pattern": "\\\\zeta\\s*(?:\\\\,\\s*)?e\\^\\{i",
+      "reason": "Unimodular constant must be \\omega_0, never \\zeta (clash with zeta(s)); kanon_lemma v1.1+.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "\\b(INVARIANT|KANON|RENORM|SMOOTH-A|G2)\\b|UNI-\\u039b",
+      "reason": "Internal sprint/program names never appear in papers (Terminologie-Mapping, Paper9_Konzeptnotiz).",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "(?<![A-Za-z_])B(?!_)\\s*[:=]\\s*\\sum[^$]{0,100}\\(\\\\log p\\)\\^2[^$]{0,50}(?:\\\\Re|\\\\mathrm\\{Re\\}).*?Z_p(?!\\^\\{\\(2\\))",
+      "reason": "B = sum (log p)^2 Re(Z_p) is WRONG. Must be Re(Z_p^{(2)}). (Pattern sharpened in review cycle to avoid false positives on B_int.)",
+      "severity": "CRITICAL"
+    },
+    {
+      "pattern": "\\\\epsilon",
+      "reason": "Use \\varepsilon, never \\epsilon.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "AnalysisLab|Sprint K|Sprint L|K18|K19|K20|L1--L6|SSOT|MPI",
+      "reason": "Internal project labels must not appear in papers.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "\\bSAA\\b",
+      "reason": "SAA (Subleading Archimedean Assumption) is an internal project abbreviation. Use 'Assumption~\\ref{ass:subleading}' or 'a subleading archimedean condition' in published papers.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "\\bPT\\b",
+      "reason": "PT (Proxy Transfer) is an internal project abbreviation. Use 'Assumption~\\ref{ass:proxy}' or 'a proxy-transfer condition' in published papers.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "self-contained",
+      "reason": "Use 'non-circular and proof-complete' instead.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "= O\\(\\varepsilon\\)",
+      "reason": "Big-O in NUMERICAL theorems is overclaim. Use 'consistent with linear scaling'.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "converges to a finite limit",
+      "reason": "In NUMERICAL context, use 'appears to converge (numerical extrapolation)'.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "r_p\\^?\\{?\\?infty\\}?\\s*[~=≈]\\s*0\\.[5-9]",
+      "reason": "r_p^infty = 1/2 universally (review cycle). Values 0.5, 0.6, 0.75, 0.8 etc. are finite-eps artifacts. Use exactly 1/2 in analytic statements.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "h\\(\\s*[+-]?i/2\\s*\\)\\s*\\+\\s*h\\(\\s*[-+]?i/2\\s*\\)\\s*=\\s*[^c]*\\\\cos",
+      "reason": "Pole contribution h(i/2)+h(-i/2) = 2 e^{eps^2/4} cosh(log p/2). Use cosh, never cos.",
+      "severity": "CRITICAL"
+    },
+    {
+      "pattern": "\\\\hat\\s*g\\(u\\)\\s*=\\s*\\\\int.*?e\\^\\{-iut\\}.*?dt(?!.*1/\\(2\\\\pi\\))",
+      "reason": "GW convention requires hat g(u) = (1/(2pi)) int h(t) e^{-iut} dt (Iwaniec-Kowalski form, established review cycle).",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "O'\\(\\s*(?:1/2|½)\\s*\\)\\s*=\\s*-\\s*2\\.475",
+      "reason": "Sign convention error: O'(1/2) = +2.4751 at reference parameters (kappa=53, eps=0.05, N=100). The historical value -2.475 was a sign artifact (review cycle May 2026 correction). Magnitudes identical, sign positive with O(sigma) = (1/2) sum exp(-eps^2 gamma_k^2) cos(2 sigma gamma_k log p).",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "\\b(L1|L2|L3|L4|L5|L6)\\b(?!\\s*(?:cache|norm|^2|_|distance))",
+      "reason": "Internal lemma labels L1..L6 must not appear as standalone tokens in published papers. Use neutral mathematical labels (e.g., 'Lemma A', 'Theorem 4.1').",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "OF-(?:EXPLICIT|HP|CONST|BIAS)-\\d",
+      "reason": "Internal open-finding labels (OF-EXPLICIT-1, OF-CONST-1, etc.) are sprint-internal. Use neutral references in papers.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "\\\\mathrm\\{rank\\}\\([^)]+\\)\\s*=\\s*[^=]+=\\s*\\\\pi\\(\\\\kappa\\)(?![^.]*?(?:independence|linear|Lemma|at[\\s-]+most|conjectur|numerical|machine\\s+precision|open\\s+problem|\\\\label\\{op:|openproblem))",
+      "reason": "rank(T_tilde) = ... = pi(kappa) chains an unproven equality (rank(Phi) = pi(kappa) requires linear independence of {a_p}). Either weaken to 'at most pi(kappa)' or cite an independence lemma. (HIGH 5 catch.)",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "\\\\mathrm\\{rank\\}\\([^)]+\\)\\s*=\\s*\\\\pi\\(\\\\kappa\\)(?![^.]*?(?:independence|linear|Lemma|at[\\s-]+most|conjectur|numerical|machine\\s+precision|open\\s+problem|\\\\label\\{op:|openproblem))",
+      "reason": "rank(...) = pi(kappa) without an independence lemma is HIGH 5. Use 'at most pi(kappa)' or cite independence.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "c_p\\s*(?::?=)\\s*\\sqrt\\{\\s*V_p\\s*\\(",
+      "reason": "Bare c_p is ambiguous and is forbidden here. In the eta framework use c_p^eta := sqrt(V_p(1/2)) (Paper 3); in the Weil-renormalised framework use c_p^ren := sqrt(f_p) (Paper 4, Paper 9). The two weights are distinct and must never be identified. V_p(1/2) = f_p + 4(log p)^2/p.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "A\\^?\\*\\*[^.]{0,100}equivalent to RH",
+      "reason": "A** asks only for a logarithmic saving in the ordinate aspect relative to the trivial P(kappa) bound; that compares demanded cancellation strength (log-saving vs sqrt-saving), it is NOT a logical implication. A** is neither equivalent to RH nor known to follow from RH (Paper 7 v0.17, Non-Circularity). Equivalence claim is FALSE. review cycle Stat-II (May 2026).",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "C_0\\s*\\\\pi\\(\\\\kappa\\)\\s*/\\s*\\(?\\\\log\\s*\\\\gamma\\)?\\^[A1]",
+      "reason": "A** must use P(kappa) (Chebyshev theta), NOT pi(kappa). review cycle Stat-II (May 2026) corrected this from the original startprompt: |M_k|/pi grows with kappa, |M_k|/P stays bounded.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "Theorem Stat-II[^.]{0,50}UNCONDITIONAL",
+      "reason": "Theorem Stat-II is CONDITIONAL under A**, never UNCONDITIONAL. review cycle (FAIL) tried UNCONDITIONAL via Pole-vs-Zero error; review cycle Stat-II strictly CONDITIONAL.",
+      "severity": "CRITICAL"
+    },
+    {
+      "pattern": "O''\\(1/2\\)\\s*>\\s*0[^.]{0,80}universal",
+      "reason": "O''(1/2) > 0 is an ASYMPTOTIC consequence (eps -> 0 at fixed kappa) of B < 0 (OF-CONST-1, internal). NOT uniform for finite (kappa, eps). review cycle (May 2026) documented 7 sign-failures. Universal claim is FALSE.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "O''\\(½\\)\\s*>\\s*0[^.]{0,80}universell",
+      "reason": "O''(½) > 0 ist eine ASYMPTOTISCHE Konsequenz (ε → 0 bei festem κ) aus B < 0 (OF-CONST-1, intern). NICHT uniform für endliche (κ, ε). review cycle (Mai 2026) dokumentiert 7 Sign-Failures. Universal-Aussage ist FALSCH.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "B\\s*<\\s*0[^.]{0,80}(universal|all\\s+\\(kappa|all\\s+\\(\\\\kappa)",
+      "reason": "B < 0 is an ASYMPTOTIC statement (eps -> 0 at fixed kappa, OF-CONST-1 internal). NOT uniform for finite (kappa, eps). review cycle (May 2026) found B > 0 at (kappa in {2003, 5003}, eps >= 0.075). Universal claim is FALSE.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "intrinsic\\s+adele\\s+factorisation|Adelen[\\s-]+im[\\s-]+Operator",
+      "reason": "review cycleπ-II Phase 1A (May 2026, internal): Limes A_∞ probably Type I_∞. The 'intrinsic adele factorisation' / 'Adelen-im-Operator' conjecture (Lesart A: full adele class space structure) is NOT SUPPORTED. Internal terminology should not leak into published papers. Use 'modular structure on B(H)' or similar instead.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "PZRM",
+      "reason": "Internal project document name. Must not appear in published papers.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "feldst[äa]rke|field\\s+strength\\s+(?:parameter\\s+)?sigma|field\\s+strength\\s+\\sigma",
+      "reason": "Heuristic an early internal conjecture language. Use 'spectral parameter sigma' in formal sections.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "resonance\\s+(?:verfestigt|solidif|stabiliz|establishes)",
+      "reason": "Heuristic resonance language. Use precise spectral statements instead.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "self[-\\s]stabili[sz]",
+      "reason": "Heuristic an early internal conjecture language. Not a formal mathematical statement.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "intrinsic\\s+time(?!.*Tomita)",
+      "reason": "Heuristic an early internal conjecture language. Use 'modular time (Tomita-Takesaki)' in Layer B, omit in formal sections.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "progressive\\s+resonance",
+      "reason": "Heuristic an early internal conjecture language. Not a formal mathematical statement.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "burst\\s+(?:struct|behav|pattern|effect)",
+      "reason": "Heuristic language for Delta_Burst. Use the algebraic expression directly in papers.",
+      "severity": "MEDIUM"
+    },
+    {
+      "pattern": "Changelog\\s*\\(internal",
+      "reason": "Version history must not appear in publication source. Use Minimal-Header (series_template v2.3).",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "review.*Cycle [0-9]|Cycle [0-9].*review",
+      "reason": "Review cycle markers are process metadata. Not allowed in publication source comments.",
+      "severity": "NORMAL"
+    },
+    {
+      "pattern": "Papers?\\s+[0-9]--[0-9].*series|Papers?\\s+1--[3-9]",
+      "reason": "Forward reference to later papers in the series. Paper N must not mention Papers M > N.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "\\\\zeta_\\{?A\\}?\\b",
+      "reason": "zeta_A is retired for the smooth control world: Paper 9 Def. 5.1 reserves A for the discrete quadrature world. Use \\zeta_{\\mathrm{sm}} (trace_formula.zeta_sm). Cycle-10 reviewer finding B-N4.",
+      "severity": "HIGH"
+    },
+    {
+      "pattern": "B_j\\b",
+      "reason": "B_j was undefined in Paper 4 and conflicts with series-wide curvature B (Papers 5-6). Use q_j instead (Paper 4 §5.1, K7d CR9 rename). See paper4_local.q_j.",
+      "severity": "HIGH"
+    }
+  ]
+}

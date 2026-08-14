@@ -6,15 +6,16 @@
 #
 # Checks:
 #   1. E_str value at reference parameters (kappa=53, eps=0.05, N=100, sigma=0.5)
-#   2. eta_orig in [0.598, 0.704] across sigma in [0.1, 0.95]
-#   3. eta_orig(0.5) = 0.66926873 (anchor value)
+#   2. eta_orig in [0.650, 0.700] across sigma in [0.1, 0.95]
+#   3. eta_orig(0.5) = 0.69078176 (anchor value)
 #   4. eta_orig is strictly monotone decreasing in sigma
 #   5. Algebraic identity: Delta = E_str - E_spec (verified to <1e-14)
 #   6. T = Phi*Phi is positive semi-definite (all eigenvalues >= 0)
 #   7. B_max(sigma) <= 0.106 < 1 for kappa=53, eps=0.05
 #   8. eta_orig > 0 for kappa in {23, 53, 101, 199, 503, 1009}
-#   9. c_p^eta = sqrt(f_p) numerically equals c_p^ren of Paper 2
-#      (same formula, distinct roles verified as distinct objects)
+#   9. c_p^eta = sqrt(V_p(1/2)) [HIGH 1 correction from review] DIFFERS from
+#      c_p^ren = sqrt(f_p) of Paper 2 (V_p(1/2) = f_p + 4(logp)^2/p)
+#      (different formula AND different values — verified as distinct objects)
 #
 # Non-trivial content: checks 2, 3, 4, 7, 8 depend on arithmetic
 # structure of the primes and zeros — they can FAIL for wrong parameters.
@@ -160,7 +161,7 @@ def main():
           f"got {E_str_ref:.6f}")
     print(f"    E_str = {E_str_ref:.6f} (expected ≈ 21.98 with c_eta=sqrt(Vp))")
 
-    # ── CHECK 2: eta_orig in [0.598, 0.704] across sigma scan ────────────────
+    # ── CHECK 2: eta_orig in [0.650, 0.700] across sigma scan ────────────────
     print("\nCHECK 2 — eta_orig in [0.650, 0.700] across sigma in [0.1, 0.95]")
     eta_vals = []
     for sigma in SIGMAS_SCAN:

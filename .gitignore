@@ -223,3 +223,15 @@ __marimo__/
 *.nav
 *.snm
 *.vrbpyvenv.cfg
+
+companion/
+
+# Run artefacts of the Paper 9 scripts (regenerated on demand, not versioned)
+unfolded_cache.json
+unfolded_tables.md
+unfolded_results.json
+code/paper9/unfolded_cache.json
+code/paper9/unfolded_results.json
+__pycache__/
+*.pyc
+data/results/zeros_100_dps30.csv

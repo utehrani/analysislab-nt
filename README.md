@@ -1,15 +1,24 @@
-# AnalysisLab: Curvature, Energy and the Riemann Zeta Function
+# AnalysisLab: An Explicit Prime–Zero Coupling Operator
 
-Eight papers on ζ(s): curvature decomposition, Weil functional, a
-Hilbert-space model for prime–zero energy structure, the Tehrani
-operator T̃(σ) = Φ(σ)Φ(σ)*, a spectral trace formula with smoothed
-zero sums, positive curvature at the critical line, a conditional
-selection principle identifying σ = ½ as a near-minimum, and an
-unconditional proof that the full Guinand–Weil second-moment bias is
-negative, with certified off-line robustness.
+Nine papers on an operator built explicitly from prime phasors:
+curvature decomposition, Weil functional, a Hilbert-space model for
+prime–zero energy structure, the Tehrani operator T̃(σ) = Φ(σ)Φ(σ)*, a
+spectral trace formula with smoothed zero sums, positive curvature at
+the critical line, a conditional selection principle identifying σ = ½
+as a near-minimum, an unconditional proof that the full Guinand–Weil
+second-moment bias is negative with certified off-line robustness, and
+finally a classification of what this coupling can and cannot hear —
+including a proved symmetry barrier that bounds the reach of the whole
+construction.
+
+The series is complete. It develops an operator-theoretic framework and
+its limits; the Riemann Hypothesis is the historical motivation, not a
+component of the results. No paper in the series claims a proof of it,
+and none uses RH, GUE, Montgomery pair correlation or a Hilbert–Pólya
+postulate as an input.
 
 **Author:** Ulrich Tehrani  
-**License:** MIT  
+**License:** code MIT; papers CC BY 4.0 (as published on Zenodo)  
 **DOIs:** [Paper 1](https://doi.org/10.5281/zenodo.19025598) ·
 [Paper 2](https://doi.org/10.5281/zenodo.19106992) ·
 [Paper 3](https://doi.org/10.5281/zenodo.19307989) ·
@@ -17,16 +26,19 @@ negative, with certified off-line robustness.
 [Paper 5](https://doi.org/10.5281/zenodo.19508547) ·
 [Paper 6](https://doi.org/10.5281/zenodo.19665790) ·
 [Paper 7](https://doi.org/10.5281/zenodo.20440671) ·
-[Paper 8](https://doi.org/10.5281/zenodo.20792123)
+[Paper 8](https://doi.org/10.5281/zenodo.20792123) ·
+[Paper 9](https://doi.org/10.5281/zenodo.21899170)
 
 ---
 
-## The Eight Papers
+## The Nine Papers
 
 ### Paper 1 — A Curvature Decomposition of the Explicit Formula
 **DOI:** [10.5281/zenodo.19025598](https://doi.org/10.5281/zenodo.19025598)  
 **File:** [`papers/paper1/`](papers/paper1/)  
 **Scripts:** [`code/paper1/`](code/paper1/)
+
+**Imports:** none — this is the entry point of the series.
 
 **What it proves:**  
 The second logarithmic derivative of the completed zeta function decomposes as
@@ -41,11 +53,16 @@ contributions. Three key results:
 | Result | Status |
 |--------|--------|
 | `V_p(sigma) >= 0` for all primes p, sigma > 0 | **PROVED** |
-| `H_local(1/2, kappa) ~ 2*(log kappa)^2 → ∞` | **PROVED** |
+| `H_local(1/2, kappa) ≍ (log kappa)^2 → ∞` | **PROVED** |
+| Sharper ratio `H_local(1/2,kappa) / [2(log kappa)^2] → 1` | **NUMERICAL** (verified to kappa = 10⁶) |
 | `H_local(sigma, kappa) → C(sigma) < ∞` for sigma > 1/2 | **PROVED** |
 
 The critical line `sigma = 1/2` is the unique phase boundary: divergence below,
 convergence above.
+
+**One open problem:** whether the singular curvature kernel of this
+formulation embeds into the admissible Weil test-function framework —
+taken up by Paper 2.
 
 **Reproduce:**
 ```bash
@@ -74,6 +91,9 @@ formula, with renormalized prime weights and convergent diagonal energy.
 | `D ≈ 9.470` at reference parameters | **NUMERICAL** |
 | Finite-grid stability of `Z - H_local` | **NUMERICAL** |
 
+**Three open problems:** the Weil-normalised embedding; the spectral
+inequality against H_local(½,κ); off-diagonal control of the zero sum.
+
 **Reproduce:**
 ```bash
 python code/paper2/verify_paper2.py
@@ -85,6 +105,9 @@ python code/paper2/verify_paper2.py
 **DOI:** [10.5281/zenodo.19307989](https://doi.org/10.5281/zenodo.19307989)  
 **File:** [`papers/paper3/`](papers/paper3/)  
 **Scripts:** [`code/paper3/`](code/paper3/)
+
+**Imports from Papers 1–2:** the prime-cutoff curvature decomposition and
+the local weights V_p(σ), f_p.
 
 **What it constructs:**  
 Two finite-dimensional real Hilbert spaces connected by a linear map and
@@ -106,8 +129,13 @@ T = Phi* ∘ Phi : H_str → H_str            T_{pq} = G^un_{pq}
 | `eta_orig(1/2) = 0.69078` at reference parameters | **NUMERICAL** |
 | `eta_orig > 0` for kappa ∈ {23,53,101,199,503,1009} | **NUMERICAL** |
 | `lambda_max(T_ren) ≈ 0.39 * pi(kappa)` [grows with kappa] | **NUMERICAL** |
-| Conjecture: `lambda_max < 1` (universal) | **FALSIFIED** (numerically) |
+| Spectral bound `B_max < 1` on the tested grid; `B^{‖c‖}_max < 0.382` | **NUMERICAL** |
 | `lambda_j(T) = mu_j(T̃)` to machine precision | **PROVED** (algebraic) |
+
+**Five open problems:** analytic proof of η_orig > 0 for the canonical
+weight vector; the spectral bound for canonical weights; the analytical
+cancellation bound; an analytic explanation of B_max; the renormalised
+shell energy.
 
 **Reproduce:**
 ```bash
@@ -121,6 +149,9 @@ python code/paper3/ttilde_analysis.py
 **DOI:** [10.5281/zenodo.19364703](https://doi.org/10.5281/zenodo.19364703)  
 **File:** [`papers/paper4/`](papers/paper4/)  
 **Scripts:** [`code/paper4/`](code/paper4/)
+
+**Imports from Paper 3:** the coupling map Φ, the spaces H_str and H_null,
+and the loop operator T = Φ*∘Φ, of which this paper studies the dual.
 
 **What it introduces:**  
 The Tehrani operator T̃ = ΦΦ*, the dual of T = Φ*Φ, acting on the
@@ -137,7 +168,7 @@ T̃_{kl} = sum_{p≤kappa} (a_p)_k * (a_p)_l
 | T̃ self-adjoint, positive semi-definite | **PROVED** |
 | Spectral identity σ(T)\{0} = σ(T̃)\{0} | **PROVED** |
 | `rank(T̃) ≤ min{N, π(κ)}` | **PROVED** |
-| T̃ is NOT a Hilbert–Pólya operator | **NUMERICAL** (negative result) |
+| No support for a Hilbert–Pólya reading of T̃: `r₂ = corr(ω_j, γ_{k(j)})` falls 0.50 → 0.16 | **NUMERICAL** (diagnostic; no obstruction theorem) |
 | W₁ = C_T · T̃⁺ self-adjoint | **PROVED** |
 | Δ = Δ_Burst + Δ_Cross + Δ_Stream (exact decomposition) | **PROVED** |
 | Lemma M3 (Abel Summation Principle) | **PROVED** |
@@ -146,6 +177,11 @@ T̃_{kl} = sum_{p≤kappa} (a_p)_k * (a_p)_l
 | `eta_ren > 0` on tested grid κ ∈ {23,53,101,199,503,1009} | **NUMERICAL** |
 | `rho_max = 0.583 < 1` on tested grid | **NUMERICAL** |
 | `eta_ren > 0` under `(E_rem)` and `Delta_Burst > 0` | **CONDITIONAL/NUMERICAL** |
+
+**Seven open problems:** rank equality rank(T̃) = π(κ); a proof of
+(E_rem); analytic positivity of η_ren without it; a circularity-free
+spectral function; the arithmetic origin of C_η; asymptotics of C_T; and a
+monotone bound from prime exponential-sum control.
 
 **Reproduce:**
 ```bash
@@ -158,6 +194,9 @@ python code/paper4/verify_paper4.py
 **DOI:** [10.5281/zenodo.19508547](https://doi.org/10.5281/zenodo.19508547)  
 **File:** [`papers/paper5/`](papers/paper5/)  
 **Scripts:** [`code/paper5/`](code/paper5/)
+
+**Imports from Papers 3–4:** the coupling map Φ and the operator pair
+T = Φ*∘Φ, T̃ = ΦΦ*, here extended to the σ-dependent family.
 
 **What it introduces:**  
 A σ-dependent operator family T̃(σ) = Φ(σ)∘Φ(σ)* and an exact algebraic
@@ -182,6 +221,10 @@ Tr(T̃(σ)) = D_SEL − O(σ)   [proved algebraically]
 | `η_ren(κ=53) = 0.66927`, η_∞ ≈ 0.81 | **NUMERICAL** |
 | Three spectral signatures at σ=½ | **NUMERICAL** |
 | Bias Conjecture: `Z_p^∞(ε) < 0` for each fixed prime p | **OPEN** |
+
+**Five open problems:** the Bias Conjecture; stationarity of O′(½); the
+Weighted Bias Bridge; the weighted spectral measure; the Guinand–Weil
+bridge.
 
 **Reproduce:**
 ```bash
@@ -210,7 +253,7 @@ O″(½) > 0 follows from B = −19342.5 < 0.
 |--------|--------|
 | Main term negativity: `Main_p(ε) < 0` for all p, all ε>0 | **PROVED** |
 | Other-prime error: `Err_other ≤ 0` | **PROVED** |
-| Truncation error: `|R_{p,100}|/|Main_p| ≤ 3×10⁻⁶¹` | **NUMERICAL** |
+| Truncation error: `\|R_{p,100}\|/\|Main_p\| ≤ 3×10⁻⁶¹` at the reference parameters | **NUMERICAL** (Thm 4.3, labelled numerical in the paper) |
 | Curvature–bias identity: `O''(½) = −2B` | **PROVED** |
 | Gamma term subleading: `\|Γ_p(ε)\|/\|Main_p(ε)\| ~ ε` | **NUMERICAL** |
 | Proxy ratio consistent with `r_p^∞ ≤ ½` as ε → 0 | **NUMERICAL** |
@@ -241,8 +284,10 @@ python code/paper6/verify_paper6.py
 curvature identity O″(½) = −2B, Guinand–Weil decomposition.
 
 **What it proves:**  
-Under two explicit hypotheses (subleading archimedean + proxy-transfer,
-both weaker than RH), Paper 7 proves that the asymptotic constant-term
+Under two explicit hypotheses (subleading archimedean + proxy-transfer;
+the proxy-transfer hypothesis is implied by RH and formally weaker in
+content, the subleading one is not known to follow from RH), Paper 7
+proves that the asymptotic constant-term
 ratio r_p^∞ = ½ for every prime p, and that the integrated bias
 B_int^∞(κ,ε) < 0 for all sufficiently small ε. An unconditional
 three-term decomposition of O′(½) is introduced, and antisymmetry
@@ -335,6 +380,80 @@ python code/paper8/verify_paper8.py   # numerical gate (30/0)
 
 ---
 
+### Paper 9 — Scaling Laws, Class Invariance, and the Limits of Audibility of an Explicit Prime–Zero Coupling Operator
+**DOI:** [10.5281/zenodo.21899170](https://doi.org/10.5281/zenodo.21899170)  
+**File:** [`papers/paper9/`](papers/paper9/)  
+**Scripts:** [`code/paper9/`](code/paper9/)
+
+**Imports from Papers 3–8:** the coupling map Φ(σ), the trace formula
+Tr(T̃(σ)) = D_SEL − O(σ), the curvature identity O″(½) = −2B, the
+energy-asymmetry weights.
+
+**What it proves:**  
+Paper 9 closes the series by characterising the object rather than
+extending it: what does this coupling hear, and what can it provably not
+hear? The answer is a classification along three axes, and the order
+matters. A symmetry barrier comes first: every symmetric functional of
+the orbit of a zero under the functional equation is even in the signed
+distance δ from the critical line, so the observables of this series are
+blind to the orientation of that displacement — unconditionally, with no
+regularity hypothesis. On the prime side, the weighted point
+configuration separates from three control objects, kept apart
+throughout: a smooth measure whose own zeta function is zero-free, its
+rescaling to the exact prime-count mass, and a discrete equal-mass
+quadrature world; the margins are certified in Arb, and for the discrete
+pair no functional of the counting data with bounded-Lipschitz constant
+below 35.51 can factor the separation. On the prime input side, both
+scaling laws transfer verbatim across the Beurling density class,
+carrying the same limiting function, the same certified separation and
+the same leading profile — a within-class non-distinction, proved, not a
+separation. On the ordinate side, a pre-registered unfolded
+discrimination test over five worlds and five observables finds no
+separation beyond the imposed unit-density skeleton.
+
+| Result | Status |
+|--------|--------|
+| Kernel identity: `T_pq = ½[G(log(p/q)) − G(log(pq))]` | **PROVED** |
+| Canonicity of the phasor kernel (trigonometric class) | **PROVED** |
+| Non-convergence of `r(x)`; separation `Δ₀ ≥ 0.0840112` | **PROVED / CERTIFIED** |
+| Divergence of the energy-asymmetry functional in mean | **PROVED** |
+| Ordinate tail: limit parameters are `(κ,ε)`, not `(κ,N)` | **PROVED** |
+| Class transfer over `D_δ`: same `R`, `Δ₀`, `F`, same band | **PROVED** |
+| Sideband transfer for a smooth oscillating measure | **PROVED** (smooth family) |
+| Curvature margins: `≥ 5343.90` (smooth), `≥ 5416.28` (discrete) | **CERTIFIED** |
+| Bounded-Lipschitz distance `d_BL = 152.529455`, two-sided | **CERTIFIED** |
+| Factorisation barrier: resolution lower bound `L ≥ 35.51` | **PROVED from certified inputs** |
+| Functional-equation symmetry barrier | **PROVED** |
+| Five-world unfolded battery: `max D_i/S_i = 0.630` vs. threshold 3 | **NUMERICAL** |
+
+**Scope:** audible is used relatively throughout — a feature is called
+audible if some observable of the stated class separates the world
+carrying it from the stated comparison worlds. The certified prime-side
+separation identifies the point configuration relative to those
+controls; it does not by itself identify multiplicativity as the cause,
+because the controls vary point geometry and multiplicative structure
+together. The factorisation barrier covers one pair of weighted worlds.
+No inference from any discriminator to the location of a zero is drawn
+anywhere in the paper.
+
+**Seven open problems:** pointwise finality of the divergence; the
+minimal order break that destroys the class laws; the exceptional-set
+measure under intermediate conditions; the family form of the
+factorisation barrier; an identification design for the prime-side
+separation; pair and correlation statistics on the unfolded axis; and
+the combinatorial gap in the canonicity lemma.
+
+**Reproduce:**
+```bash
+python code/paper9/verify_paper9.py                 # 277 checks
+python code/paper9/certify_smooth_controls.py       # Arb: margins, d_BL, ordering
+python code/paper9/cert_paper9_ratio.py             # Arb: two-point separation Δ₀
+python code/paper9/unfolded_discrimination.py       # five-world battery
+python code/paper9/function_side_reconstruction.py  # reconstruction experiment
+```
+
+---
+
 ## How the Papers Connect
 
 ```
@@ -378,6 +497,14 @@ H_local(1/2,k)  ────>  Weil bridge  ────>  Geometry      ──�
                                                             off-line robustness
                                                             O″(½) > 0 (transfer)
                                                             [not an RH criterion]
+                                                                │
+                                                                ▼
+                                                            Paper 9
+                                                        ─────────────────
+                                                        symmetry barrier
+                                                        class invariance
+                                                        certified margins
+                                                        [limits of audibility]
 ```
 
 **Mathematical thread:**  
@@ -399,6 +526,13 @@ second-moment negativity B_GW^∞ < 0 directly (closed-form + Arb-certified),
 and controls hypothetical off-critical zeros by a finite-height magnitude
 estimate, transferring the sign to the operator curvature O″(½) > 0. The
 curvature sign is explicitly **not** claimed as an RH criterion.
+Paper 9 turns the question around and asks what the construction of
+Papers 3–8 can resolve at all. It proves a symmetry barrier that bounds
+the whole class of observables, certifies what the prime side does
+separate, and shows that both scaling laws are invariant across the
+Beurling density class. The series therefore ends not with a criterion
+but with a map of the instrument: the questions are either answered or
+provably unanswerable within it.
 
 ---
 
@@ -412,7 +546,18 @@ All results use these reference parameters unless stated otherwise:
 | `eps` | 0.05 | Gaussian damping |
 | `N` | 100 | zero ordinates used |
 | `sigma` | 0.5 | evaluation point |
-| `c_p` | `sqrt(V_p(½))` (Papers 1–3) / `sqrt(f_p)` (Papers 4–6) | weight convention |
+| `c_p^η` | `sqrt(V_p(½))` | η-framework weight (Papers 1–3; imported by Paper 9 for η_orig) |
+| `c_p^ren` | `sqrt(f_p)` | renormalised Weil weight (Papers 4–6; imported by Paper 9 for η_ren) |
+| `ε` window | `[0.04, 0.07]` | window on which Papers 8–9 state their certified margins |
+| `ε̃` | 0.25 | unfolded scale of the Paper-9 battery; derived, not chosen, from the effective bandwidth at the reference parameters (robustness checked at 0.10) |
+
+The two prime weights are numerically distinct and are never interchanged:
+η_orig(½) = 0.69078176 uses `c_p^η`, η_ren(½) = 0.66926873 uses `c_p^ren`.
+Papers 7–8 work with the curvature sums B and the Guinand–Weil object rather
+than with a weight vector. Paper 9 uses both conventions explicitly and says at
+each point which one is in force; the phasor argument carries no trace parameter
+in the imported η-quantities, that is `sin(γ_k log p)`, which does not coincide
+with `sin(σγ_k log p)` at σ = ½.
 
 ---
 
@@ -432,7 +577,8 @@ analysislab-nt/
 │   ├── paper5/
 │   ├── paper6/
 │   ├── paper7/
-│   └── paper8/
+│   ├── paper8/
+│   └── paper9/
 │
 ├── code/
 │   ├── paper1/
@@ -453,15 +599,26 @@ analysislab-nt/
 │   ├── paper7/
 │   │   └── verify_paper7.py        r_p^∞ convergence, O'/O'' sign checks,
 │   │                               three-term decomposition, near-minimum σ*
-│   └── paper8/
-│       ├── cert_paper8.py          Arb interval certificate, B_GW^∞ < 0
-│       └── verify_paper8.py        second-moment identity, I₄ bound,
-│                                   eigenterm, off-line transfer (30/0)
+│   ├── paper8/
+│   │   ├── cert_paper8.py          Arb interval certificate, B_GW^∞ < 0
+│   │   └── verify_paper8.py        second-moment identity, I₄ bound,
+│   │                               eigenterm, off-line transfer (30/0)
+│   └── paper9/
+│       ├── verify_paper9.py        anchors, profile band, data contracts,
+│       │                           textual anchors (277 checks)
+│       ├── certify_smooth_controls.py  Arb: curvature margins, d_BL,
+│       │                               certified ordering of |E_π|
+│       ├── cert_paper9_ratio.py    Arb: two-point separation Δ₀
+│       ├── unfolded_discrimination.py  five-world battery, completeness
+│       ├── function_side_reconstruction.py  reconstruction experiment
+│       ├── gen_zeros.py            ordinate regeneration protocol
+│       └── ess_gate.py             effective gate size (Kish ESS)
 │
 ├── data/
 │   ├── zeros_100.csv               First 100 Riemann zeta zero ordinates γ_k (all papers, N=100)
 │   ├── zeros_200.csv               First 200 Riemann zeta zero ordinates γ_k (Papers 5–7, N>100)
-│   ├── zeros_650.csv               First 650 Riemann zeta zero ordinates γ_k (Paper 8, N>100)
+│   ├── zeros_650.csv               First 650 Riemann zeta zero ordinates γ_k (Papers 8–9, N>100)
+│   ├── paper9_contract.json        Forbidden-pattern list read by verify_paper9.py
 │   └── results/                    Script outputs (CSV, intermediate data)
 │       └── ttilde_spectrum.csv     T̃ eigenvalues and localization data
 │
@@ -483,9 +640,13 @@ analysislab-nt/
     ├── paper6/
     │   └── fig_paper6_main.png           r_p(ε) grid, sign-crossover,
     │                                     B_int vs ε, B vs κ scaling
-    └── paper8/
-        └── fig_paper8_main.png           B_line(ε) proxy, B_line<0 with
-                                          margins, O''(½)>0, |B_line| vs κ
+    ├── paper8/
+    │   └── fig_paper8_main.png           B_line(ε) proxy, B_line<0 with
+    │                                     margins, O''(½)>0, |B_line| vs κ
+    └── paper9/
+        └── fig_paper9_main.png           certified ordering of |E_π|,
+                                          profile band and exact envelope,
+                                          curvature margins, D_i/S_i matrix
 
     (Paper 7 generates no figure; its verify script is purely numerical.
      The Paper 8 figure is produced by verify_paper8.py for the repository
@@ -511,6 +672,13 @@ python code/paper6/verify_paper6.py
 python code/paper7/verify_paper7.py
 python code/paper8/cert_paper8.py      # Arb interval certificate (needs python-flint)
 python code/paper8/verify_paper8.py
+python code/paper9/verify_paper9.py
+python code/paper9/certify_smooth_controls.py   # Arb (needs python-flint)
+python code/paper9/cert_paper9_ratio.py         # Arb (needs python-flint)
+python code/paper9/unfolded_discrimination.py
+python code/paper9/function_side_reconstruction.py
+python code/paper9/gen_zeros.py
+python code/paper9/ess_gate.py
 ```
 
 **Notes:**
@@ -523,7 +691,11 @@ python code/paper8/verify_paper8.py
   ```
   Papers 5–7 load `data/zeros_100.csv` or `data/zeros_200.csv`; Paper 8 loads
   `data/zeros_100.csv` or `data/zeros_650.csv`. All fall back to mpmath if the
-  CSV is missing.
+  CSV is missing. The Paper-9 scripts do **not** fall back: each enforces the
+  row count its statement rests on (100 for the normative layer, 650 for the
+  extended list) and stops with a message naming the contract if it is not met.
+  An explicitly given `--zeros`, `--tex` or `--contract` path is authoritative
+  and never silently replaced by a copy next to the script.
 - The `verify_paperN.py` scripts are numerical gates (mpmath; candidate values,
   not certificates). `cert_paper8.py` is different: it is a rigorous interval
   certificate that **proves** Theorem 6.2 in Arb ball arithmetic (midpoint–radius
@@ -532,44 +704,70 @@ python code/paper8/verify_paper8.py
   success prints `CERTIFICATE VALID` together with the parameter-hash and the
   certificate source-hash recorded in the paper.
 - All scripts write figures to `figures/paperN/` and data to `data/results/`.
+  `verify_paper9.py` reads its forbidden-pattern list from
+  `data/paper9_contract.json`; the figure block is wrapped so that a missing
+  matplotlib prints a notice and leaves the check count unchanged.
 - **Run from the repository root** so that relative paths resolve correctly.
 
 **Requirements:** Python 3.x, NumPy ≥ 1.24, mpmath ≥ 1.3,
-matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14
+matplotlib ≥ 3.5, scipy ≥ 1.9, sympy ≥ 1.14, python-flint ≥ 0.8
+(the last for the three Arb certificate scripts: `cert_paper8.py`,
+`certify_smooth_controls.py`, `cert_paper9_ratio.py`)
 
 ---
 
-## Open Problems (as of June 2026, after Paper 8)
+## Open Problems (as of August 2026, after Paper 9)
 
-| Problem | Statement | Paper |
-|---------|-----------|-------|
-| **Bias Conjecture** | `Z_p^∞(ε) < 0` for each fixed prime p, all small ε | Paper 5 |
-| **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
-| **Remainder control** | Prove (E_rem): |Δ_Cross+Δ_Stream| ≤ ρ·Δ_Burst analytically | Paper 4 |
-| **Analytic positivity** | Prove η_ren > 0 without (E_rem) | Paper 4 |
-| **Weighted Bias Bridge** | B_int^∞ < 0 → B < 0 via γ_k²-weighted transfer + finite-N truncation | Paper 7 OP 9.1 |
-| **Cancellation Hypothesis (A**)** | \|M_k(κ)\| ≤ C₀·P(κ)/(log γ_k)^A analytically; Vinogradov–Korobov class | Paper 7 OP 9.2 |
-| **GW bridge + off-critical control** | Bound E_p^off without RH; unconditional proxy transfer | Paper 7 OP 9.3 |
-| **Scaling of ε_int(κ)** | Asymptotic behaviour as κ→∞; is inf_κ ε_int(κ) > 0? | Paper 7 OP 9.4 |
-| **Near-minimum behaviour** | Under what stationarity condition does σ=½ become exact minimum? | Paper 7 OP 9.5 |
-| **Weil-transfer operator** | Finite-dim Weil form W^Weil_{κ,ε}; connection to Lagarias framework | Paper 7 OP 9.6 |
-| **Uniformity** | `O''(½) > 0` beyond reference parameters | Paper 6 |
-| **rank(T̃) = π(κ)** | Requires linear independence of {a_p} in H_null; only ≤ min{N,π(κ)} proved | Paper 4 |
+A selection, ordered by the paper that states them; each paper's own list is
+authoritative. None is used as a hypothesis anywhere in the series.
+
+| Problem | Statement | Source |
+|---------|-----------|--------|
 | **Remainder control** | Prove (E_rem): \|Δ_Cross+Δ_Stream\| ≤ ρ·Δ_Burst analytically | Paper 4 |
 | **Analytic positivity** | Prove η_ren > 0 without (E_rem) | Paper 4 |
-| **Bias Conjecture** | `Z_p^∞(ε) < 0` for each fixed prime p, all small ε | Paper 5 |
+| **rank(T̃) = π(κ)** | Requires linear independence of {a_p} in H_null; only ≤ min{N,π(κ)} proved | Paper 4 |
+| **Bias Conjecture** | `Z_p^∞(ε) < 0` for each fixed prime p, all small ε — proved conditionally in Paper 7, bypassed in Paper 8 | Paper 5 |
 | **η_∞ identity** | `η_∞ = 1 − m₁(∞)` algebraically | Paper 5 |
+| **Uniformity at fixed ε** | `O''(½) > 0` for growing κ at the reference width; Paper 8 proves uniformity in the small-ε regime `ε ≤ ε₀(κ)`, not at ε = 0.05 | Paper 6 / Paper 8 OP 9.5 |
+| **Weighted Bias Bridge** | `B_int^∞ < 0 ⇒ B_GW^∞ < 0` — Paper 8 bypasses the implication rather than proving it | Paper 7 OP 9.1 / Paper 8 OP 9.2 |
+| **Cancellation Hypothesis (A\*\*)** | \|M_k(κ)\| ≤ C₀·P(κ)/(log γ_k)^A analytically; Vinogradov–Korobov class. Asks for less cancellation than RH, but is not known to follow from it | Paper 7 OP 9.2 / Paper 8 OP 9.1 |
+| **Exact stationarity** | `O′(½) = 0`; at the reference parameters O′(½) = +2.4751 ≠ 0 | Paper 7 OP 9.5 / Paper 8 OP 9.3 |
+| **Weil-transfer operator** | Finite-dimensional Weil form W^Weil_{κ,ε}; connection to the Lagarias framework | Paper 7 OP 9.6 / Paper 8 OP 9.4 |
+| **Scaling of ε_int(κ)** | Asymptotic behaviour as κ→∞; is inf_κ ε_int(κ) > 0? | Paper 7 OP 9.4 |
+| **Pointwise divergence** | Does `η_orig(κ) → −∞` without averaging? | Paper 9 OP 9.1 |
+| **Minimal order break** | Smallest deviation from `ϑ_𝔅(x) ∼ x` that destroys the class laws | Paper 9 OP 9.2 |
+| **Exceptional measure** | Any exceptional-set control under `D_δ`, and of what strength | Paper 9 OP 9.3 |
+| **Family factorisation barrier** | Barrier uniform over a family of control worlds | Paper 9 OP 9.4 |
+| **Pair statistics** | Do pair or higher correlations of unfolded ordinates separate arithmetic worlds under a pre-registered criterion? | Paper 9 OP 9.5 |
+| **Identification design** | Controls matched in multiplicative structure while varying point geometry, or conversely | Paper 9 OP 9.6 |
+| **Canonicity beyond finite spectra** | Do (H1)–(H2) force a single frequency for countable spectra? | Paper 9 OP 9.7 |
 
-**Closed / Settled:**
-- `ζ(1+iγ_k) ≠ 0`: **SETTLED** (Hadamard 1896)
-- `λ_max < 1` universally: **FALSIFIED**
-- HP-question for W₁ = C_T·T̃⁺: **CLOSED** (r₂ → 0.16)
-- `r_p^∞ = ½` for every prime: **CONDITIONAL** (Paper 7 Thm 3.1 under SAA+PT)
-- First-derivative cancellation bound: **CONDITIONAL** (Paper 7 Prop 7.1 under A**)
-- Asymptotic pointwise bias `Z_{p,∞}^+ < 0`: **CONDITIONAL** (Paper 7 Cor 3.7 under SAA+PT)
-- Direct second-moment negativity `B_GW^∞ < 0` (κ=53, 0<ε≤0.05; uniform κ≥202): **PROVED / CERTIFIED** (Paper 8 Thm 6.2, 7.3)
-- Off-line robustness of the curvature sign: **PROVED** (Paper 8 Thm 8.2, magnitude form, via Platt–Trudgian H₀)
-- Weighted Bias Bridge as an implication: **OPEN** — Paper 8 bypasses it (proves B_GW^∞ < 0 directly) rather than establishing B_int^∞ < 0 ⇒ B_GW^∞ < 0
+**Settled during the series.** Questions that were open at some point and are now
+decided, with the status they carry:
+
+- Asymptotic constant-term ratio `r_p^∞ = ½` for every prime: **CONDITIONAL**
+  (Paper 7 Thm 3.1, under the subleading and proxy-transfer assumptions)
+- Asymptotic pointwise bias `Z_{p,∞}^+ < 0`: **CONDITIONAL** (Paper 7 Cor 3.7,
+  same assumptions)
+- First-derivative cancellation bound: **CONDITIONAL** (Paper 7 Prop 7.1, under A\*\*)
+- Direct second-moment negativity `B_GW^∞ < 0` (κ = 53, 0 < ε ≤ 0.05; uniform for
+  κ ≥ 202 and ε ≤ ε₀(κ)): **PROVED / CERTIFIED** (Paper 8 Thm 6.2, 7.3)
+- Off-critical control of `E_p^off` and transfer of the curvature sign — Paper 7's
+  GW-bridge problem: **PROVED** (Paper 8 Thm 8.2 in magnitude form, via the
+  Platt–Trudgian verified height; Cor 8.3 for the transfer)
+- Hilbert–Pólya reading of W₁ = C_T·T̃⁺: **NUMERICAL** — the tested diagnostics give
+  no support for it (r₂ → 0.16 as the cutoff grows); no structural obstruction
+  theorem is proved (Paper 4)
+- Class invariance of both scaling laws over the Beurling class `D_δ`: **PROVED**
+  (Paper 9 Thm 4.2) — a within-class non-distinction, not a separation
+- Separation of the prime configuration from the three stated controls:
+  **CERTIFIED** (Paper 9 Thm 5.4, margins ≥ 5343.90 and ≥ 5416.28)
+- Orientation of an off-critical displacement: **PROVED UNHEARABLE** for symmetric
+  functionals of the zero orbit (Paper 9 Thm 6.1) — a boundary of the construction,
+  not a gap in it
+- Separation of arithmetic worlds on the unfolded ordinate axis by the registered
+  battery: **NOT FOUND** (Paper 9 § 6, max D_i/S_i = 0.630 against a threshold of 3)
+  — a measurement with declared scope, not a no-go theorem
 
 ---
 
@@ -613,6 +811,11 @@ Tehrani, U. (2026). Unconditional Negativity of the Second-Moment Bias
 and Off-Line Robustness. Zenodo.
 https://doi.org/10.5281/zenodo.20792123
 
+**Paper 9:**  
+Tehrani, U. (2026). Scaling Laws, Class Invariance, and the Limits of
+Audibility of an Explicit Prime–Zero Coupling Operator. Zenodo.
+https://doi.org/10.5281/zenodo.21899170
+
 ---
 
-*Papers 1–8 · v5.0.0 · June 2026 · MIT License*
+*Papers 1–9 · v6.0.0 · August 2026 · code MIT · papers CC BY 4.0*

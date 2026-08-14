@@ -2,12 +2,12 @@
 # Paper 6: Positive Curvature of the Spectral Trace at the Critical Line
 # All normative parameters: kappa=53, eps=0.05, N=100, sigma=0.5
 #
-# Verification script for Paper 6 v1.24 (K7f consolidated, May 2026):
+# Verification script for Paper 6 v1.24 (consolidated, May 2026):
 # "Positive Curvature of the Spectral Trace at the Critical Line"
 #
 # Checks (12 main checks, 23 assertions total):
 #   1.   Curvature-bias identity (Prop. 6.1):    O''(½) = −2B
-#   1.5  First derivative (SSOT anchor):          O'(½) = +2.475
+#   1.5  First derivative (registered anchor):          O'(½) = +2.475
 #   2.   B-value (Cor. 7.1):                     B = −19342.5 ± 1
 #   3.   Main term negativity (Thm 3.1):         Main_p(ε) < 0 ∀p ≤ 53
 #   4.   Gamma term subleading (Thm 4.1):        |Γ_p|/|Main_p| ~ ε, slope ≈ 1
@@ -16,10 +16,10 @@
 #   7.  Integrated bias (Thm 6.1):              B_int^+(0.05,100) = −42.21 ± 0.5
 #   8.  Pointwise exceptions (§5):              Z̃_{37}(0.05)>0, Z̃_{53}(0.05)>0
 #   9.  Truncation error (Thm 4.3):             |R_{p,100}|/|Main_p| < 10⁻⁵⁰
-#   10. Spectral entropy (SSOT §49):            S^val, S^vec, E_str, G_4
-#   11. Sign-crossover precision (CR18):        Z_{37}^+(0.025)<0; Z_{53}^+(0.025)>0
+#   10. Spectral entropy (the registered reference values):            S^val, S^vec, E_str, G_4
+#   11. Sign-crossover precision (review):       Z_{37}^+(0.025)<0; Z_{53}^+(0.025)>0
 #                                               Z_{37}^+(0.030)>0; Z_{53}^+(0.030)>0
-#   12. W_{eps,N}·P(kappa)/log(gamma_1) ≈ 23.3 (CR18 numerical correction)
+#   12. W_{eps,N}·P(kappa)/log(gamma_1) ≈ 23.3 (numerical correction from review)
 #
 # Usage: python verify_paper6.py [N_zeros]
 # Default: N=100. Extended: python verify_paper6.py 200
@@ -180,7 +180,7 @@ def Ztilde_p(p, gammas, eps):
 def R_pN_geometric_bound(gamma_N, eps):
     """Geometric-series bound on the truncation tail |R_{p,N}|.
 
-    Sprint AUDIT (May 2026, HIGH 3): the previous implementation returned
+    Review cycle (May 2026, HIGH 3): the previous implementation returned
     2·e^{−ε²γ_N²}, the single-term × 2 estimate. That is a heuristic, not a
     valid upper bound on the infinite tail. The geometric-series argument
     below makes the proof rigorous.
@@ -227,14 +227,14 @@ def R_pN(p, gammas, eps):
     return bound
 
 
-# ── Helpers: spectral entropy (THERMO integration, Sprint AUDIT May 2026) ────
-# Ported from sprint_thermo.py and sprint_thermo2.py to reproduce SSOT §49
+# ── Helpers: spectral entropy (integrated May 2026) ──────────────────────────
+# Consolidated here from two exploratory scripts so that the registered
 # reference values inside the public verification script. Reference values:
 #   S^val(½, κ=53, ε=0.05, N=100) = 1.4202   (Von Neumann entropy of eigenvalues)
 #   S^vec(½, κ=53, ε=0.05, N=100) = 2.4271   (eigenvector projection entropy)
 #   G_4 (½, κ=53, ε=0.05, N=100) = 0.1509    (S^val / E_str)
 #   E_str(½, κ=53, ε=0.05, N=100) = 9.4108
-# After this integration, sprint_thermo*.py become archivable (audit O6).
+# After this integration, those scripts become archivable (that consolidation).
 
 def phi_matrix_thermo(primes, gammas, eps, sigma):
     """Φ(σ)_{p,k} = e^{-ε²γ_k²/2} sin(σ γ_k log p), shape (P, N)."""
@@ -299,7 +299,7 @@ def E_str_thermo(primes, gammas, eps, sigma):
 
 # ═══════════════════════════════════════════════════════════════════════════════
 print("=" * 72)
-print("verify_paper6.py  ·  Paper 6 v1.24  ·  K7f consolidated  ·  May 2026")
+print("verify_paper6.py  ·  Paper 6 v1.24  ·  consolidated  ·  May 2026")
 print("Paper 6: Positive Curvature of the Spectral Trace at the Critical Line")
 print(f"N = {N} zero ordinates  ·  κ={KAPPA}  ·  ε={EPS}  ·  σ={SIGMA}")
 print("=" * 72)
@@ -335,14 +335,14 @@ check("O''(½) = −2B  (relative error < 1e-4, algebraic identity tested "
       "via 5-point numerical 2nd derivative)", rel_err < 1e-4,
       f"rel_err={rel_err:.2e}")
 
-# ── CHECK 1.5: First derivative O'(½) = +2.475  (SSOT anchor fingerprint) ────
-print("\n[1.5] First derivative: O'(½) = +2.4751  (SSOT anchor)")
+# ── CHECK 1.5: First derivative O'(½) = +2.475  (registered anchor fingerprint) ────
+print("\n[1.5] First derivative: O'(½) = +2.4751  (registered anchor)")
 # 5-point stencil for O'(σ) — reuses O_m2, O_m1, O_p1, O_p2 from CHECK 1
 #   O'(σ) ≈ (O(σ−2h) − 8·O(σ−h) + 8·O(σ+h) − O(σ+2h)) / (12 h)
 O_prime = (O_m2 - 8*O_m1 + 8*O_p1 - O_p2) / (12 * h_diff)
 print(f"    O'(½) numerical (5-pt stencil, h={h_diff}) = {O_prime:+.4f}")
-print(f"    SSOT anchor value                           = +2.4751")
-check("O'(½) ∈ [+2.40, +2.55]  (SSOT anchor fingerprint: +2.4751)",
+print(f"    registered anchor value                           = +2.4751")
+check("O'(½) ∈ [+2.40, +2.55]  (registered anchor fingerprint: +2.4751)",
       2.40 <= O_prime <= 2.55,
       f"value={O_prime:+.4f}")
 
@@ -377,7 +377,7 @@ check("Main_p(ε) < 0 for all p ≤ 53, ε ∈ {0.005, 0.010, 0.020, 0.050}",
 # ── CHECK 4: Gamma term subleading  (Theorem 4.1 / 4.2) ──────────────────────
 print("\n[4] Gamma term subleading: |Γ_p(ε)| < |Main_p(ε)|  (Theorem 4.1)")
 # Paper 6 proves: Γ_p(ε) is subleading to Main_p(ε) — the ratio |Γ_p|/|Main_p|
-# is bounded by a constant times ε on the tested grid (Sprint Gamma), and the
+# is bounded by a constant times ε on the tested grid (earlier review cycle), and the
 # strong statement used in the proof of Corollary 4.3 is pointwise domination
 # at reference parameters.  We verify the latter directly and record the
 # ratios for the documentation.
@@ -492,7 +492,7 @@ print(f"    max_p |R_{{p,{N}}}|/|Main_p| = {max_ratio:.2e}")
 check(f"max ratio < 1e-50", max_ratio < 1e-50,
       f"max_ratio={max_ratio:.2e}")
 
-# Geometric-series bound diagnostic (HIGH 3 corrected, Sprint AUDIT May 2026):
+# Geometric-series bound diagnostic (HIGH 3 corrected, review cycle May 2026):
 # expose all intermediate quantities so the proof structure is auditable.
 _, geom_info = R_pN_geometric_bound(gammas[-1], EPS)
 print(f"    geometric-bound diagnostics:")
@@ -503,11 +503,11 @@ print(f"      naive single-term × 2 = {geom_info['single_term_x2']:.3e}")
 print(f"      geometric majorant   = naive × 1/(1−r) "
       f"(factor {geom_info['ratio_to_naive']:.3f})")
 
-# ── CHECK 10: Spectral entropy (THERMO integration, SSOT §49) ────────────────
-# Ported from sprint_thermo.py and sprint_thermo2.py to reproduce SSOT §49
+# ── CHECK 10: Spectral entropy (entropy integration) ────────────────
+# Ported from two exploratory scripts to reproduce the registered reference values
 # reference values directly within the Paper-6 verification. After this
-# integration the sprint_thermo*.py scripts are archivable (audit O6).
-print("\n[10] Spectral entropy at σ=½  (THERMO integration, SSOT §49)")
+# integration the those scripts scripts are archivable (that consolidation).
+print("\n[10] Spectral entropy at σ=½  (entropy integration)")
 
 mu_half, _      = Ttilde_eig(primes_53, gammas, EPS, SIGMA)
 mu_pos_half     = mu_half[mu_half > 1e-14]
@@ -516,27 +516,27 @@ S_vec_half      = eigenvec_entropy(primes_53, gammas, EPS, SIGMA)
 E_str_half      = E_str_thermo(primes_53, gammas, EPS, SIGMA)
 G_4_half        = S_val_half / E_str_half if E_str_half > 0 else float("nan")
 
-print(f"    S^val(½)  = {S_val_half:.4f}    [SSOT §49: 1.4202]")
-print(f"    S^vec(½)  = {S_vec_half:.4f}    [SSOT §49: 2.4271]")
-print(f"    E_str(½)  = {E_str_half:.4f}   [SSOT §49: 9.4108]")
-print(f"    G_4(½)    = {G_4_half:.6f}  [SSOT §49: 0.150906]")
+print(f"    S^val(½)  = {S_val_half:.4f}    [reference: 1.4202]")
+print(f"    S^vec(½)  = {S_vec_half:.4f}    [reference: 2.4271]")
+print(f"    E_str(½)  = {E_str_half:.4f}   [reference: 9.4108]")
+print(f"    G_4(½)    = {G_4_half:.6f}  [reference: 0.150906]")
 
-check("THERMO: S^val(½) ≈ 1.4202",
+check("entropy: S^val(½) ≈ 1.4202",
       abs(S_val_half - 1.4202) < 0.005,
       f"|Δ| = {abs(S_val_half - 1.4202):.4f}")
-check("THERMO: S^vec(½) ≈ 2.4271",
+check("entropy: S^vec(½) ≈ 2.4271",
       abs(S_vec_half - 2.4271) < 0.01,
       f"|Δ| = {abs(S_vec_half - 2.4271):.4f}")
-check("THERMO: E_str(½) ≈ 9.4108",
+check("entropy: E_str(½) ≈ 9.4108",
       abs(E_str_half - 9.4108) < 0.01,
       f"|Δ| = {abs(E_str_half - 9.4108):.4f}")
-check("THERMO: G_4(½) ≈ 0.150906",
+check("entropy: G_4(½) ≈ 0.150906",
       abs(G_4_half - 0.150906) < 0.001,
       f"|Δ| = {abs(G_4_half - 0.150906):.6f}")
 
 # σ-extremum signatures (qualitative): S^vec maximum at σ=½, G_4 minimum at σ=½.
 # Verify by a coarse 5-point sweep — the σ=½ value must be the extremum.
-print(f"    σ-sweep around ½ (qualitative signatures from SSOT §49):")
+print(f"    σ-sweep around ½ (qualitative signatures from the registered reference values):")
 sigma_grid     = np.array([0.40, 0.45, 0.50, 0.55, 0.60])
 Svec_sweep     = np.array([eigenvec_entropy(primes_53, gammas, EPS, s) for s in sigma_grid])
 Estr_sweep     = np.array([E_str_thermo(primes_53, gammas, EPS, s) for s in sigma_grid])
@@ -549,18 +549,18 @@ half_idx       = 2  # σ=0.50
 print(f"      σ:        {'  '.join(f'{s:.2f}' for s in sigma_grid)}")
 print(f"      S^vec:    {'  '.join(f'{v:.4f}' for v in Svec_sweep)}")
 print(f"      G_4:      {'  '.join(f'{g:.4f}' for g in G4_sweep)}")
-check("THERMO: S^vec(σ) has maximum at σ=½  (positive σ=½ signature)",
+check("entropy: S^vec(σ) has maximum at σ=½  (positive σ=½ signature)",
       Svec_sweep[half_idx] == Svec_sweep.max(),
       f"argmax at σ={sigma_grid[Svec_sweep.argmax()]}")
-check("THERMO: G_4(σ) has minimum at σ=½  (positive σ=½ signature)",
+check("entropy: G_4(σ) has minimum at σ=½  (positive σ=½ signature)",
       G4_sweep[half_idx] == G4_sweep.min(),
       f"argmin at σ={sigma_grid[G4_sweep.argmin()]}")
 
 
-# ── CHECK 11: Sign-crossover precision (CR18 numerical correction) ────────────
+# ── CHECK 11: Sign-crossover precision (numerical correction from review) ─────
 # Paper v1.24 corrects: at ε=0.025 only p=53 fails (p=37 remains negative).
 # At ε=0.030 both p=37 and p=53 are exceptions.
-print("\n[11] Sign-crossover precision (CR18 correction):")
+print("\n[11] Sign-crossover precision (review correction):")
 print("     ε=0.025: p=37 should be negative, p=53 should be positive")
 print("     ε=0.030: both p=37 and p=53 should be positive")
 
@@ -583,8 +583,8 @@ check("Z_{{37,N}}^+(0.030) > 0  (p=37 IS exception at ε=0.030)",
 check("Z_{{53,N}}^+(0.030) > 0  (p=53 IS exception at ε=0.030)",
       Zt_53_030 > 0, f"value={Zt_53_030:+.4f}")
 
-# ── CHECK 12: W_{ε,N}·P(κ)/log γ₁ ≈ 23.3 (CR18 numerical correction) ─────────
-print("\n[12] W_{{ε,N}}·P(κ)/log γ₁ ≈ 23.3  (CR18: corrected from 22.5)")
+# ── CHECK 12: W_{ε,N}·P(κ)/log γ₁ ≈ 23.3 (numerical correction) ──────────────
+print("\n[12] W_{{ε,N}}·P(κ)/log γ₁ ≈ 23.3  (corrected from 22.5 in review)")
 import math
 gammas_arr = np.array(gammas)
 W_eps_N = float(np.sum(np.exp(-EPS**2 * gammas_arr**2)))

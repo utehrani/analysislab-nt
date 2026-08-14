@@ -1,0 +1,2729 @@
+% ============================================================
+% Scaling Laws, Class Invariance, and the Limits of Audibility
+% of an Explicit Prime-Zero Coupling Operator
+%
+% Author:   Ulrich Tehrani
+% Date:     August 2026
+% Version:  v0.31
+% Zenodo:   10.5281/zenodo.21899170
+% License:  CC BY 4.0
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Scaling Laws, Class Invariance, and the Limits of Audibility
+            of an Explicit Prime-Zero Coupling Operator},
+  pdfauthor={Ulrich Tehrani}}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+\emergencystretch=1em
+
+% --------------------------------------------------------
+% Theorem environments (numbered within section)
+% --------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{remark}{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+% --------------------------------------------------------
+% Series-wide macros
+% --------------------------------------------------------
+\newcommand{\Hstr}{H_{\mathrm{str}}}
+\newcommand{\Hnull}{H_{\mathrm{null}}}
+\newcommand{\Tt}{\widetilde{T}}
+\newcommand{\DSEL}{D_{\mathrm{SEL}}}
+
+% --------------------------------------------------------
+% Paper-specific macros
+% --------------------------------------------------------
+\newcommand{\Dclass}{\mathcal{D}_\delta}        % Beurling density class
+\newcommand{\dBL}{d_{\mathrm{BL}}}              % bounded-Lipschitz distance
+\newcommand{\Ddisc}{\Delta_{\mathrm{disc}}}     % certified discrimination margin
+\newcommand{\WeN}{W_{\varepsilon,N}}
+\newcommand{\Bsm}{B_{\mathrm{sm}}}              % curvature of the smooth control world
+
+% --------------------------------------------------------
+% Title
+% --------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries Scaling Laws, Class Invariance, and the
+Limits of Audibility\\[0.4em]
+\large of an Explicit Prime--Zero Coupling Operator}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ August~2026
+      \textperiodcentered\ v0.31}
+
+% ============================================================
+\begin{document}
+\maketitle
+% ============================================================
+
+\begin{abstract}
+This paper determines what a prime-indexed coupling operator can and cannot
+hear. The operator $\Tt(\sigma)=\Phi(\sigma)\Phi(\sigma)^*$ of the present
+series is built explicitly from prime phasors; no spectral property is
+postulated. Three questions are settled about it, and the order in which they
+are settled matters. A symmetry barrier comes first: every symmetric
+functional of the orbit of a zero under the functional equation is even in the
+signed distance from the critical line, so the class of observables studied
+here is blind to the left/right orientation of that displacement. Evenness
+needs no regularity; under differentiability the first-order response
+vanishes, and for the curvature sums of this series, whose dependence enters
+through even orbit averages of the entire weighted curvature test kernel, the
+first
+possible non-constant term is quadratic; it is the first surviving term unless the
+aggregate quadratic coefficient cancels. This is a theorem, not a limitation
+of effort. What
+remains is the audible part --- audibility always meaning separation from
+the stated comparison worlds by the stated observable class --- and it splits
+cleanly. On the prime side, what
+is audible is stated exactly as certified: the prime-side weighted point
+configuration is compared with three control objects kept separate
+throughout --- a smooth measure whose own zeta function is zero-free, its
+rescaling to the exact mass of the prime counting measure, and a discrete
+equal-mass quadrature world. Certified separation margins are established
+against the smooth measure and the discrete world; only the rescaling
+matches the prime count exactly;
+and for the discrete pair no functional of the counting data with
+bounded-Lipschitz constant below an explicit threshold factors the
+separation. This identifies the point configuration relative to the stated
+controls, not multiplicativity as its cause: the controls vary point geometry
+and multiplicative structure together. On the prime input side, the scaling laws are invariant across the Beurling
+class: every admissible system carries the same limiting function, the same
+certified separation and the same leading profile with the same numerical
+band --- a within-class non-distinction, proved, not a separation. On the
+ordinate side, a pre-registered unfolded discrimination test over five worlds
+and five observables finds no separation beyond the imposed unit-density
+skeleton, and the scope of that measurement is declared.
+
+\textbf{What is proved.}
+The kernel identity representing the companion prime-space Gram operator
+$T=\Phi^{*}\Phi$ as the damped inverse spectrum evaluated at prime ratios
+and products (Theorem~\ref{thm:kernel});
+canonicity of the phasor kernel within the unimodular trigonometric almost
+periodic class (Lemma~\ref{lem:canonicity},
+Proposition~\ref{prop:resonance});
+non-convergence of the normalised leading spectral ratio at the reference
+data $(100,0.05)$, with a certified two-point separation
+(Theorem~\ref{thm:nonconv});
+divergence of the mean energy-asymmetry functional along a bounded leading profile
+(Theorem~\ref{thm:eta});
+the ordinate tail bound, which shows that the ordinate count is a truncation
+and not a limit parameter (Theorem~\ref{thm:sat});
+transfer of both scaling laws to Beurling systems, carrying the same
+limiting objects and the same leading profile class-independently
+(Theorem~\ref{thm:class}) together with the sideband transfer
+(Theorem~\ref{thm:sideband});
+the summation formula for the smooth measure (Theorem~\ref{thm:inv}), the
+quadrature estimate for the discrete world (Theorem~\ref{thm:quad}) and the
+factorisation barrier (Theorem~\ref{thm:fact});
+and the symmetry barrier (Theorem~\ref{thm:barrier}).
+
+\textbf{What is certified.}
+The two-point separation of the limiting ratio; the discrimination margins in
+curvature against the smooth control world, uniformly on the reference window;
+and the bounded-Lipschitz distance between the two weighted counting measures.
+Each certified statement names its verification protocol where it is first
+stated.
+
+\textbf{What is numerical.}
+The outcome of the pre-registered unfolded discrimination test
+(\S\,\ref{sec:audibility}), reported as a measurement with its design, its
+criterion, its result and its scope; the completeness counts underlying it;
+the embedding of the sideband transfer in an explicit test world; and the
+robustness of the second moment under completion of the mode set to prime
+powers (Remark~\ref{rem:lambda}); and a function-side reconstruction
+experiment, separate from the battery, reported with its design, its
+metrics and its scope.
+
+\textbf{What remains open.}
+Pointwise, as opposed to mean, finality of the divergence
+(\S\,\ref{sec:open}); the minimal order break that destroys the class laws;
+the exceptional-set measure under intermediate conditions; extension of the
+factorisation barrier from one pair of worlds to families; the
+identification design that would attribute the certified prime-side
+separation to a single feature; pair and correlation statistics on the
+unfolded ordinate axis; and the combinatorial gap that separates the
+canonicity lemma from the full Bohr class.
+
+\textbf{Structure.}
+The formal core is \S\S\,2--6, and it is non-circular: every statement there
+carries its status in its heading --- proved, certified, or proved from
+certified inputs --- and numerical observations are labelled as such where
+they occur. No use of the Riemann Hypothesis, the GUE conjecture, or the
+Hilbert--P\'olya postulate is made anywhere in \S\S\,2--6.
+\end{abstract}
+
+% --------------------------------------------------------
+% Notation and Conventions
+% --------------------------------------------------------
+\section*{Notation and Conventions}
+\label{sec:notation}
+
+\emph{Critical line.}
+Throughout, $\sigma$ denotes $\Re(s)$ and the critical line means
+$\sigma=\tfrac12$. The trace parameter of the operator family is likewise
+written $\sigma$ and is evaluated at $\sigma_0=\tfrac12$ unless stated
+otherwise.
+
+\medskip
+\emph{Global parameters.}
+The reference values are $\kappa=53$ (prime cutoff, giving $16$ active primes
+$p\le\kappa$), $\varepsilon=0.05$ (Gaussian regularisation parameter), and
+$N=100$ (number of Riemann ordinates $\gamma_k$ employed). Certified
+statements are given on the window $\varepsilon\in[0.04,0.07]$. The unfolded
+scale used in \S\,\ref{sec:audibility} is $\tilde\varepsilon=0.25$; it is
+derived, not chosen, from the effective bandwidth at the reference parameters.
+
+\medskip
+\emph{Main objects.}
+The coupling map $\Phi(\sigma):\Hstr\to\Hnull$ between the finite-dimensional
+prime space $\Hstr=\ell^2(\{p\le\kappa\})$ and the ordinate space
+$\Hnull=\ell^2(\{\gamma_1,\dots,\gamma_N\})$ is
+\[
+\Phi(\sigma)_{k,p}=e^{-\varepsilon^2\gamma_k^2/2}\,\sin(\sigma\gamma_k\log p),
+\]
+and the coupling operator is $\Tt(\sigma)=\Phi(\sigma)\circ\Phi(\sigma)^*$ on
+$\Hnull$, with loop operator $T(\sigma)=\Phi(\sigma)^*\circ\Phi(\sigma)$ on
+$\Hstr$. The oscillatory trace sum and the curvature sum are
+\[
+O(\sigma)=\tfrac12\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}
+          \cos(2\sigma\gamma_k\log p),
+\qquad
+B=\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2
+  \cos(\gamma_k\log p),
+\]
+the second being the on-line curvature sum with $O''(\tfrac12)=-2B$. The
+damped inverse spectrum entering \S\,\ref{sec:operator} is
+\[
+G(u)=\sum_{k=1}^{N}e^{-\varepsilon^2\gamma_k^2}\cos(\sigma\gamma_k u),
+\]
+a single even function of one real variable. The Beurling density class of
+\S\,\ref{sec:class} is
+\[
+\Dclass=\{\mathfrak{B}:\ \vartheta_{\mathfrak{B}}(x)=x+O(x/(\log x)^{2+\delta})\},
+\qquad\delta>0.
+\]
+
+\medskip
+\emph{Weights.}
+Two prime weights occur in this series and are numerically distinct. With
+\[
+V_p(\tfrac12)=\frac{4(\log p)^2p}{(p-1)^2},
+\qquad
+f_p=V_p(\tfrac12)-\frac{4(\log p)^2}{p}=\frac{4(\log p)^2(2p-1)}{p(p-1)^2},
+\]
+the
+$\eta$-framework weight is $c_p^{\eta}:=\sqrt{V_p(\tfrac12)}$ and the
+renormalised Weil weight is $c_p^{\mathrm{ren}}:=\sqrt{f_p}$. At the reference
+parameters the associated values of the energy-asymmetry functional are
+$\eta_{\mathrm{orig}}(\tfrac12)=0.69078176$ and
+$\eta_{\mathrm{ren}}(\tfrac12)=0.66926873$. In the convention of the earlier
+papers $\eta[c]=1-E_{\mathrm{spec}}/E_{\mathrm{str}}$, so that
+$E_{\mathrm{spec}}/E_{\mathrm{str}}=1-\eta$ is the Rayleigh quotient of that
+series; $\eta\to-\infty$ therefore means
+$E_{\mathrm{spec}}/E_{\mathrm{str}}\to+\infty$. Both are evaluated in the
+convention in which the phasor argument carries no trace parameter, that is
+$\sin(\gamma_k\log p)$; this is the convention of the earlier papers of the
+series in which these quantities were introduced, and it does not coincide
+with $\sin(\sigma\gamma_k\log p)$ at $\sigma=\tfrac12$.
+
+\medskip
+\emph{Analytical foundations.}
+The proofs use the prime number theorem with classical error term together
+with Mertens' theorem, Weyl's eigenvalue perturbation inequality, Dirichlet's
+pigeonhole principle, and, at exactly one place, the two-function Parseval
+identity for Besicovitch $B^2$ almost periodic functions. The numerical
+completeness checks of \S\,\ref{sec:audibility} use the argument principle;
+it enters no proof.
+
+\medskip
+\emph{Numerical computations.}
+Working precisions vary by artefact and are declared here: the five-world
+battery runs at $40$ digits with \texttt{float64} observable paths; the
+function-side reconstruction at $8$ digits with NumPy/SciPy; the two margin
+and separation certificates in Arb ball arithmetic at $192$ and $320$ bits
+through \texttt{python-flint}, with an \texttt{mpmath} cross-layer at $32$
+digits. Riemann ordinates $\gamma_k$ enter through the normative layer of
+\S\,\ref{sec:methods}, regenerated via \texttt{mpmath.zetazero} or
+isolated in Arb, in either case under exact double-precision cross-check. Verification code is
+available at \url{https://github.com/utehrani/analysislab-nt}.
+
+\medskip
+\emph{Not to be confused with.}
+The following pairs are distinct objects and are never interchanged.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Symbol & Meaning & Distinct from \\
+\midrule
+$G(u)$ & damped inverse spectrum & $g$, the candidate kernel of
+  \S\,\ref{sec:operator} \\
+$\mathcal{F}$ & Bohr spectrum of $g$ & $\Lambda(n)$, von Mangoldt \\
+$\omega_0$ & unimodular constant phase & $\zeta(s)$ \\
+$\mathcal{O}$ & observable (functional on worlds) & $O(\sigma)$, trace sum \\
+$\DSEL\approx 10.9845$ & trace-formula constant & $D\approx 9.470$ \\
+$c_p^{\eta}$ & $\eta$-framework weight & $c_p^{\mathrm{ren}}$, Weil weight \\
+$B$ & curvature sum, $\gamma_k^2$ weights &
+  $B_{\mathrm{int}}^{+}(\varepsilon,N)$, integrated bias \\
+$r(x)$ & normalised leading spectral ratio & bias ratios $r_p$ of the earlier
+  papers \\
+$\mathcal K_{\kappa,\varepsilon}(z)$ & aggregated curvature test kernel &
+  $G(u)$ (ordinate sum); $K_\varepsilon$ (\S\,5) \\
+$\varphi$, $K_\varepsilon$ & test function, curvature kernel & $g$, the
+  candidate kernel of \S\,\ref{sec:operator} \\
+$\mathfrak{B}$ (\S\,4) & Beurling system index & $B$, $\Bsm$, $B[A]$, $B_{\mathrm{int}}^{+}$; world $A$ (\S\,5) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The curvature sums attached to different point sets are distinguished
+throughout by their argument: $B[P]$ for the primes $p\le\kappa$, $B[A]$ for
+the discrete quadrature world $A$, and $\Bsm$ for the smooth measure
+$\mu_{\mathrm{sm}}$ of \S\,\ref{sec:barrier}. The three control objects of
+that section --- $\mu_{\mathrm{sm}}$, its mass-matched rescaling
+$\mu_{\mathrm{norm}}$, and the discrete world $A$ --- are kept apart
+throughout and are never referred to collectively as ``the control world''.
+
+\vspace{2em}
+\newpage
+
+% ============================================================
+% §1 Introduction
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+% --------------------------------------------------------
+\subsection{Background and Motivation}
+% --------------------------------------------------------
+
+This paper is the ninth in a series developing an operator-theoretic framework
+for studying the distribution of the non-trivial zeros of the Riemann zeta
+function. It closes the series.
+
+\textbf{Paper~1}~\cite{Paper1} decomposed the explicit formula into a
+curvature structure and isolated the prime-local contributions that carry it.
+
+\textbf{Paper~2}~\cite{Paper2} constructed the renormalised weights
+$c_p^{\mathrm{ren}}$ and connected the local curvature to the Weil functional.
+
+\textbf{Paper~3}~\cite{Paper3} introduced the finite-cutoff Hilbert-space
+model, the prime space $\Hstr$, the ordinate space $\Hnull$, and the
+energy-asymmetry functional $\eta_{\mathrm{orig}}$ measuring the energy defect
+between them.
+
+\textbf{Paper~4}~\cite{Paper4} exhibited the dual operator and found, on
+its tested finite-cutoff grid, no numerical support for a Hilbert--P\'olya
+interpretation: the tested eigenvalues are not the ordinates, and the
+inverse-spectrum correlation degrades with cutoff. No structural
+obstruction theorem was proved there.
+
+\textbf{Paper~5}~\cite{Paper5} proved the spectral trace formula
+$\mathrm{Tr}\,\Tt(\sigma)=\DSEL-O(\sigma)$ and fixed the constant $\DSEL$.
+
+\textbf{Paper~6}~\cite{Paper6} established the curvature identity
+$O''(\tfrac12)=-2B$ at the critical line.
+
+\textbf{Paper~7}~\cite{Paper7} analysed stationarity of $O'$ under an
+explicitly named logarithmic-saving hypothesis, which asks only for a
+logarithmic saving in the ordinate aspect relative to a trivial bound and is
+not known to follow from the Riemann Hypothesis.
+
+\textbf{Paper~8}~\cite{Paper8} proved unconditionally that the second-moment
+bias of the full Guinand--Weil object is negative, and controlled hypothetical
+off-critical zeros using the verified height of Platt and
+Trudgian~\cite{PlattTrudgian21}.
+
+\textbf{The present paper} asks the question that characterises the object
+rather than extending it: what does this coupling hear, and what can it
+provably not hear? The answer is a classification along three axes, and the
+barrier axis is stated first because it governs how the other two may be read.
+
+The operator-theoretic approach to the zeros has a long history, and the
+present construction sits at a definite distance from its main lines. In the
+programme of Connes and collaborators the spectral realisation is adelic and
+the primes enter through truncated Euler products, that is through a prime
+\emph{cutoff}; recent work in that direction~\cite{Connes26,ConnesVS25} and
+its independent numerical implementations~\cite{Groskin26a} keep this
+architecture. Here the primes are instead the \emph{index set} of the
+operator, and the ordinates enter as frequencies; the difference is
+architectural and is set out in \S\,\ref{sec:discussion}. The
+semiclassical picture of Berry and Keating, and the random-matrix statistics
+descending from Montgomery~\cite{Montgomery73} and
+Odlyzko~\cite{Odlyzko87} through
+Bogomolny and Keating~\cite{BogomolnyKeating96},
+Rudnick and Sarnak~\cite{RudnickSarnak96} and
+Katz and Sarnak~\cite{KatzSarnak99}, provides the background motivation for
+comparing unfolded worlds in \S\,\ref{sec:audibility}; it is neither an input
+nor a hypothesis tested by the registered battery.
+
+% --------------------------------------------------------
+\subsection{Main Results}
+% --------------------------------------------------------
+
+\S\,\ref{sec:operator} records the construction and the two identities
+imported from the earlier papers, and adds two results published here for the
+first time. The kernel identity
+$T_{p,q}=\tfrac12[G(\log(p/q))-G(\log(pq))]$ shows that the companion
+prime-space Gram operator $T=\Phi^{*}\Phi$ \emph{is} the damped inverse
+spectrum sampled at prime ratios and prime products: one function of one
+variable, contracted in two ways. The canonicity
+lemma establishes character rigidity: within the unimodular trigonometric
+almost periodic class with pairwise orthogonal dilates, the building block is
+forced to be a character. The frequency assignment $c=\sigma\gamma_k$ and the
+passage to the odd part $\sin$ are recorded conventions
+(\S\,\ref{sec:operator}).
+
+\S\,\ref{sec:scaling} proves that, at the reference data $(100,0.05)$, the
+normalised leading spectral ratio does not converge as the cutoff grows,
+with a certified two-point separation
+$\Delta_0\ge 0.0840112$; that the energy-asymmetry functional
+$\eta_{\mathrm{orig}}(\kappa)$ diverges to $-\infty$ in mean, an exhaustive
+scan over prime cutoffs $\kappa\le2\cdot10^{5}$ finding the last positive
+value at $\kappa=146521$ and a negative one at the next prime cutoff
+$146527$; and that the ordinate count
+enters only through an explicit tail bound, so that the genuine limit
+parameters are $(\kappa,\varepsilon)$ and not $(\kappa,N)$.
+
+\S\,\ref{sec:class} shows that both scaling laws are invariant across the
+Beurling class $\Dclass$: they hold over every admissible system, with the
+\emph{same} limiting function, the \emph{same} certified separation and the
+\emph{same} leading profile, whose numerical band is class-independent --- a
+within-class non-distinction, not an ordinate-side separation. What these
+observables provably retain of the prime input, at the level of the proved
+leading laws, is the density class: $R$, $\Delta_0$, $F$ and the band are
+class-independent. Lower-order, system-dependent contributions are not
+excluded. A sideband transfer
+makes the response precise for a different object, a smooth generalised-prime
+measure with a bounded oscillating density: the laws are not destroyed, the
+limiting objects move by explicit replacements.
+
+\S\,\ref{sec:barrier} contrasts the primes with three control objects, kept
+separate throughout: the smooth measure $\mu_{\mathrm{sm}}$, whose own zeta
+function is zero-free; its rescaling $\mu_{\mathrm{norm}}$, which is the one
+matching the prime count exactly; and the discrete equal-mass quadrature world
+$A$. A summation formula and a quadrature estimate control the main terms; the
+curvature does not follow, and the discrepancy against $\mu_{\mathrm{sm}}$ and
+against $A$ is certified uniformly on the reference window. No functional of
+the counting data with bounded-Lipschitz constant below $35.51$ can factor the
+discrepancy against $A$.
+
+\S\,\ref{sec:audibility} states the symmetry barrier and reports the
+pre-registered unfolded discrimination test as a measurement.
+\S\,\ref{sec:discussion} assembles the classification and delineates it
+against neighbouring programmes. \S\,\ref{sec:methods} documents the ordinate
+protocol and the certificate stack; \S\,\ref{sec:open} leaves the open
+questions.
+
+% --------------------------------------------------------
+\subsection{Reader Contract}
+% --------------------------------------------------------
+
+This paper \emph{proves} the kernel identity and the canonicity of the phasor
+kernel (\S\,\ref{sec:operator}), the scaling laws, stated at the
+reference data $(100,0.05)$ (\S\,\ref{sec:scaling}), the class transfer with the same limiting objects and the
+sideband transfer for a smooth oscillating measure (\S\,\ref{sec:class}), the main-term equality and the
+factorisation barrier --- the latter proved from certified inputs
+(\S\,\ref{sec:barrier}) --- and the symmetry barrier
+(\S\,\ref{sec:audibility}). These are unconditional mathematical statements.
+
+This paper \emph{establishes numerically} the outcome of the pre-registered
+discrimination test, the completeness counts supporting it, the embedding of
+the sideband transfer in an explicit test world, the robustness of the second
+moment under completion of the mode set to prime powers, and the
+function-side reconstruction experiment of \S\,\ref{sec:discussion}. These
+statements are verified on finite grids and are labelled \emph{numerical} in
+their headings.
+A smaller group of statements is labelled \emph{certified}: they are bounds
+obtained by interval arithmetic with an explicit error protocol, named where
+they occur.
+
+This paper \emph{leaves open} the questions collected in \S\,\ref{sec:open}:
+pointwise finality of the divergence, the minimal order break, the
+exceptional measure under intermediate conditions, the family form of the
+factorisation barrier, the identification design for the prime-side
+separation, pair statistics on the unfolded axis, and the combinatorial gap
+in the canonicity lemma.
+
+Results imported from the earlier papers are marked \emph{proved (cited)} and
+are not reproved here; the citation names the paper and the section in which
+the proof stands.
+
+% ============================================================
+\section{The Coupling Operator: Construction, Trace Identity, and Kernel}
+\label{sec:operator}
+% ============================================================
+
+The construction is explicit and finite. Fix $\kappa$, $\varepsilon$, $N$. The
+matrix $\Phi(\sigma)$ has one column per prime $p\le\kappa$ and one row per
+ordinate $\gamma_k$, and $\Tt(\sigma)=\Phi\Phi^*$, $T(\sigma)=\Phi^*\Phi$ are
+the two Gram operators attached to it. Since $\Phi$ is a finite real matrix,
+$T$ and $\Tt$ are positive semidefinite and
+
+\[
+\mathrm{spec}(T)\setminus\{0\}=\mathrm{spec}(\Tt)\setminus\{0\};
+\]
+ nothing is
+postulated about either spectrum.
+
+\begin{theorem}[Trace formula and curvature identity; proved (cited)]
+\label{thm:imported}
+At the reference parameters,
+$\mathrm{Tr}\,\Tt(\sigma)=\DSEL-O(\sigma)$ with $\DSEL=10.9845$
+(\cite{Paper5}, \S\,3), and $O''(\tfrac12)=-2B$ (\cite{Paper6}, \S\,6).
+Numerically $B=-19342.5476$, hence $O''(\tfrac12)=+38685.0952$, while the
+first derivative is small but not zero, $O'(\tfrac12)=+2.4751$, in the
+three-term decomposition of that derivative (\cite{Paper7}, \S\,4); the ratio
+of the two quantifies proximity to stationarity without establishing it. The second-moment curvature of the full
+Guinand--Weil object is negative unconditionally at the reference cutoff
+(\cite{Paper8}, \S\S\,5--6).
+\end{theorem}
+
+The first new observation is that the prime-space Gram operator
+$T=\Phi^{*}\Phi$ is an arithmetic kernel evaluated at prime ratios and
+products. The ordinate-space companion $\Tt=\Phi\Phi^{*}$ has the same
+non-zero spectrum, but the following identity is an entrywise formula for
+$T$, not for $\Tt$.
+
+\begin{theorem}[Kernel identity; proved]
+\label{thm:kernel}
+For all primes $p,q\le\kappa$ and all $\sigma$,
+\[
+T_{p,q}
+=\tfrac12\bigl[\,G(\log(p/q))-G(\log(pq))\,\bigr],
+\qquad
+G(u)=\sum_{k=1}^{N}e^{-\varepsilon^2\gamma_k^2}\cos(\sigma\gamma_k u).
+\]
+The identity is algebraic and exact; it holds entrywise, for every choice of
+ordinate set and every regularisation width.
+\end{theorem}
+
+\begin{proof}
+By definition
+
+\[
+T_{p,q}=\sum_k e^{-\varepsilon^2\gamma_k^2}
+\sin(\sigma\gamma_k\log p)\sin(\sigma\gamma_k\log q).
+\]
+
+The product formula
+$\sin a\sin b=\tfrac12[\cos(a-b)-\cos(a+b)]$ with
+$a=\sigma\gamma_k\log p$, $b=\sigma\gamma_k\log q$ gives
+$a-b=\sigma\gamma_k\log(p/q)$ and $a+b=\sigma\gamma_k\log(pq)$. Summing over
+$k$ and using the definition of $G$ yields the statement.
+\end{proof}
+
+Thus the single function $G$ determines every entry of the prime-space Gram
+matrix through its values at $\log(p/q)$ and $\log(pq)$: the first channel
+measures logarithmic differences, the second logarithmic sums. One consequence
+is a resolution scale. Two primes whose logarithms are close are seen by $G$
+through nearly the same argument, and their columns become nearly parallel.
+\emph{Numerical observation} (resolution diagnostics). At
+the reference parameters the Gram correlations of the twin pairs $(41,43)$ and
+$(29,31)$ reach $0.937$ and $0.930$ respectively, while distant pairs such as
+$(47,53)$ and $(2,3)$ give $0.134$ and $-0.521$. Counting pairs above the $0.9$ correlation
+threshold --- the criterion used for fusion throughout --- against the
+sixteen active primes leaves fourteen resolvable prime directions at the
+reference parameters.
+The correlation is not monotone in the logarithmic distance, because the
+product term $G(\log(pq))$ modulates it.
+
+\subsection{Canonicity of the phasor kernel}
+
+The kernel $\sin(\sigma\gamma_k\log p)$ was introduced in the earlier papers
+as a construction. What is forced --- and all that is forced --- is its
+character part; the remaining steps are conventions, and they are recorded as
+such below. Write $M[f]$ for the Bohr mean of an almost periodic $f$.
+
+\begin{definition}[Bohr mean and dilate orthogonality]
+For a Bohr almost periodic function $f:\mathbb{R}\to\mathbb{C}$ write
+
+\[
+M[f] := \lim_{T\to\infty} \tfrac1T \int_0^T f(x)\,dx
+\]
+ for its Bohr mean,
+and 
+\[
+g\sim \sum_{\lambda\in\mathcal{F}} a_\lambda e^{i\lambda x}
+\]
+ for its
+Bohr--Fourier series, where $\mathcal{F} = \{\lambda : a_\lambda \neq 0\}$ is
+the (countable) spectrum and $\sum_{\lambda}|a_\lambda|^2 = M[|g|^2]$
+(Parseval). We call the dilate family $\{g(\alpha\,\cdot)\}_{\alpha>0}$
+\emph{pairwise orthogonal} if
+
+\[
+M_x\!\left[g(\alpha x)\,\overline{g(\beta x)}\right] = 0
+\]
+
+for all $\alpha \neq \beta > 0$.
+\end{definition}
+
+Here $g$ is a candidate kernel, a unimodular almost periodic function --- not
+the damped kernel $G$ of Theorem~\ref{thm:kernel}, which is neither unimodular
+nor a candidate.
+
+\begin{lemma}[Character rigidity under unimodularity and dilate
+orthogonality; proved]
+\label{lem:canonicity}
+Let 
+\[
+g(x) = \sum_{\lambda\in\mathcal{F}} a_\lambda e^{i\lambda x}
+\]
+ be a
+trigonometric polynomial ($\mathcal{F}\subset\mathbb{R}$ finite, all
+$a_\lambda\neq 0$) with
+\begin{enumerate}
+\item[(H1)] $|g(x)| = 1$ for all $x\in\mathbb{R}$ (pointwise unimodularity),
+\item[(H2)] 
+\[
+M_x\!\left[g(\alpha x)\,\overline{g(\beta x)}\right] = 0
+\]
+
+  for all $\alpha\neq\beta>0$ (dilate orthogonality).
+\end{enumerate}
+Then $g(x) = \omega_0\, e^{icx}$ with $|\omega_0| = 1$ and a uniquely determined
+frequency $c \in \mathbb{R}\setminus\{0\}$. Conversely, every such
+character satisfies (H1)--(H2); in particular $e^{icx}$ and $e^{-icx}$
+both do, so the hypotheses determine the character only as a
+$\pm c$-pair, while $c$ is unique for each individual $g$.
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (unimodularity kills multi-frequency spectra).}
+Expanding the finite sum,
+
+\[
+|g(x)|^2 = \sum_{\lambda,\mu\in\mathcal{F}} a_\lambda \overline{a_\mu}\,
+e^{i(\lambda-\mu)x} \equiv 1.
+\]
+
+By uniqueness of the coefficients of a trigonometric polynomial, for every
+$\tau\neq 0$,
+\begin{equation}\label{eq:addAC}
+\sum_{\substack{\lambda,\mu\in\mathcal{F}\\ \lambda-\mu=\tau}}
+a_\lambda \overline{a_\mu} \;=\; 0 .
+\end{equation}
+Suppose $\#\mathcal{F} \geq 2$ and set $\lambda^{*} := \max\mathcal{F}$,
+$\lambda_{*} := \min\mathcal{F}$, $\tau_0 := \lambda^{*}-\lambda_{*} > 0$.
+The only pair $(\lambda,\mu)\in\mathcal{F}^2$ with $\lambda-\mu=\tau_0$ is
+$(\lambda^{*},\lambda_{*})$, since $\lambda \le \lambda^{*}$ and
+$\mu \ge \lambda_{*}$ force equality in both. Hence \eqref{eq:addAC} at
+$\tau=\tau_0$ reads $a_{\lambda^{*}}\overline{a_{\lambda_{*}}} = 0$,
+contradicting $a_\lambda\neq 0$ on $\mathcal{F}$. Thus $\mathcal{F} = \{c\}$ and,
+by Parseval, $|a_c|^2 = M[|g|^2] = 1$, i.e.\ $g = \omega_0 e^{icx}$ with
+$|\omega_0|=1$.
+
+\emph{Step 2 (orthogonality excludes the constant).}
+If $c = 0$ then $g \equiv \omega_0$ and
+
+\[
+M[g(\alpha x)\overline{g(\beta x)}] = |\omega_0|^2 = 1 \neq 0
+\]
+ for every
+$\alpha\neq\beta$, contradicting (H2). Hence $c\neq 0$.
+
+\emph{Converse.} For $g = \omega_0 e^{icx}$ with $c\neq0$ and
+$\alpha\neq\beta>0$ one has
+$M[e^{ic(\alpha-\beta)x}] = 0$ because $c(\alpha-\beta)\neq 0$, and
+$|g|\equiv 1$ trivially.
+\end{proof}
+
+\begin{remark}[Division of labour between the hypotheses]
+Neither hypothesis is redundant, and within the trigonometric class their
+roles are sharply asymmetric. $g=\cos(cx)$ satisfies (H2) --- the dilate
+resonances $c\alpha=\pm c\beta$ require $\alpha=\beta$ or $\alpha=-\beta$,
+both excluded --- but violates (H1) and is not a character: (H2) alone is
+insufficient. Conversely $g(x)=e^{i\sin x}$ satisfies (H1) with infinite
+spectrum $\mathbb{Z}$ (Jacobi--Anger, coefficients $J_n(1)$; identity
+$\sum_n J_n(1)J_{n+k}(1)=\delta_{k0}$ realises \eqref{eq:addAC}), yet
+violates (H2): for irrational $\beta/\alpha$ the only dilate resonance is
+$(0,0)$, giving 
+\[
+M[g(\alpha x)\overline{g(\beta x)}] = J_0(1)^2 \approx
+0.5855 \neq 0.
+\]
+ So (H1) alone is insufficient once the spectrum is
+infinite. Inside the trigonometric class, Step~1 shows that (H1) alone
+already forces a single frequency; (H2) contributes exactly the exclusion
+of the constant character.
+\end{remark}
+
+\begin{proposition}[Resonance identities in the full Bohr class; proved]
+\label{prop:resonance}
+Let $g$ be Bohr almost periodic with Bohr--Fourier series
+
+\[
+\sum_{\lambda\in\mathcal{F}} a_\lambda e^{i\lambda x}.
+\]
+ Then for all
+$\alpha,\beta>0$,
+\begin{equation}\label{eq:multAC}
+M_x\!\left[g(\alpha x)\,\overline{g(\beta x)}\right]
+= \sum_{\substack{\lambda,\mu\in\mathcal{F}\\ \alpha\lambda=\beta\mu}}
+a_\lambda\overline{a_\mu}.
+\end{equation}
+If in addition $|g|\equiv 1$ pointwise (H1), then \eqref{eq:addAC} holds
+for every $\tau\neq 0$, and every difference $\tau\neq0$ realised in
+$\mathcal{F}$ is realised by at least two distinct pairs. If, moreover, the
+dilates of $g$ are pairwise orthogonal (H2), then:
+\begin{enumerate}
+\item[(a)] $0\notin\mathcal{F}$: by (H2) the left-hand side of
+\eqref{eq:multAC} vanishes for all $\alpha\neq\beta$; choosing
+$\beta/\alpha$ outside the countable set
+
+\[
+\{\lambda/\mu : \lambda,\mu\in\mathcal{F},\ \mu\neq0\}\cup\{1\}
+\]
+ leaves
+$(0,0)$ as the only resonance on the right-hand side, forcing $|a_0|^2=0$.
+\item[(b)] Ratio rigidity: every ratio $r\neq1$ realised by a same-sign
+pair in $\mathcal{F}$ is realised by at least two distinct pairs (otherwise
+\eqref{eq:multAC} with $\beta/\alpha=r$, whose left-hand side vanishes by
+(H2), reduces to a single nonzero term).
+\end{enumerate}
+All sums converge absolutely (Cauchy--Schwarz on $\ell^2$ coefficients).
+\end{proposition}
+
+\begin{proof}
+$g(\alpha\,\cdot)$ is almost periodic with Bohr--Fourier series
+$\sum_\lambda a_\lambda e^{i(\alpha\lambda)x}$, since the Bohr mean is
+invariant under positive dilations. Identity \eqref{eq:multAC} is the
+two-function Parseval identity for Bohr (hence Besicovitch-$B^2$) almost
+periodic functions~\cite{Besicovitch32,Corduneanu68} applied to the pair
+$g(\alpha\,\cdot)$, $g(\beta\,\cdot)$. For \eqref{eq:addAC}: $|g|^2\equiv 1$
+gives $M[|g|^2 e^{-i\tau x}] = 0$ for $\tau\neq0$, while the two-function
+Parseval identity applied to $g$ and $e^{i\tau x}g$ evaluates the same
+mean as 
+\[
+\sum_{\lambda-\mu=\tau} a_\lambda\overline{a_\mu}.
+\]
+ Absolute
+convergence follows from Cauchy--Schwarz, the sums being inner products
+of shifted, resp.\ rescaled-index, $\ell^2$ families. The difference
+statement is immediate from \eqref{eq:addAC}. For (a) and (b),
+hypothesis (H2) states that the left-hand side of \eqref{eq:multAC}
+vanishes for all $\alpha\neq\beta$; the conclusions then follow as
+indicated in the statement. That (H2) cannot be dropped is shown by
+$g\equiv 1$: Bohr almost periodic and pointwise unimodular, yet
+$\mathcal{F}=\{0\}$.
+\end{proof}
+
+\begin{remark}[Canonicity of the kernel $\sin(\sigma\gamma\log p)$]
+Lemma~\ref{lem:canonicity} shows that, within the class of unimodular
+trigonometric almost periodic kernels with pairwise orthogonal dilates,
+the building block is forced to be the character $x\mapsto e^{icx}$
+(up to constant phase and the sign of $c$); that much is rigid --- the
+character part admits no alternative within the class. What follows is a
+choice, and it is recorded as one: of the
+real functions spanned by the $\pm c$-pair, the even one does not vanish at the
+origin and the odd one does, so the convention that a mode contributes nothing
+at $\log p=0$ selects $\sin(cx)$ up to a scalar. The substitutions
+$c=\sigma\gamma_k$, $x=\log p$ then produce exactly the kernel
+$\sin(\sigma\gamma_k\log p)$ used throughout the series. Class definitions
+that vary the input data therefore run against a kernel whose character part
+is rigid, with projection and frequency conventions declared once and held
+fixed.
+\end{remark}
+
+For infinite spectra the conclusion of Lemma~\ref{lem:canonicity} is open.
+The analytic ingredients are proved above --- \eqref{eq:multAC} for all Bohr
+functions, \eqref{eq:addAC} under (H1), and the conclusions of
+Proposition~\ref{prop:resonance} under (H1)--(H2) --- so what is missing is
+purely combinatorial; the precise question is recorded in
+\S\,\ref{sec:open}. The trigonometric class suffices here, since the
+phasor kernel has finite spectrum. Beyond the single citation of the
+two-function Parseval identity in the proof of
+Proposition~\ref{prop:resonance}, no almost periodic machinery is used
+anywhere in this series.
+
+\subsection{Completion of the mode set}
+
+\begin{remark}[Restriction to prime modes as a design choice; numerical]
+\label{rem:lambda}
+The coupling operator is built from unweighted prime phasors
+$\sin(\sigma\gamma_k\log p)$. Completing the mode set to all prime powers
+$n=p^m\le\kappa$, which gives $24$ modes at $\kappa=53$, leaves every
+structural conclusion intact. The Gram identity of Theorem~\ref{thm:kernel}
+holds verbatim for the extended label set: its proof uses only
+$\sin a\sin b=\tfrac12[\cos(a-b)-\cos(a+b)]$ and the logarithmic labels, never
+the primality of the label, so
+$T_{m,n}=\tfrac12\{G(\log(m/n))-G(\log(mn))\}$ for the completed modes as
+well --- an algebraic identity, with the residual $0$ at $30$ digits serving as
+a reproduction check rather than as its ground. Further,
+the curvature stays sign-definite negative across
+$\varepsilon\in[0.04,0.07]$; and the spectral profile is unchanged, the
+leading mode remaining the one associated with $\gamma_1$, while
+\[
+\lambda_{\max}/\mathrm{Tr}\quad\text{and}\quad\lambda_2/\lambda_1
+\]
+shift by under $4\%$.
+The numerical effect of the completion on the curvature at
+$\varepsilon=0.05$ is small and depends on the --- genuinely underdetermined
+--- power-mode weight: $+3.8\%$ for the weight $\Lambda(n)\log n$, $+1.3\%$
+for $\Lambda(n)^2$, and $+10.8\%$ for the operator's own second-moment weight
+$(\log n)^2$. The completion does \emph{not} reproduce the Guinand--Weil prime
+side: the raw phasors carry no functional-equation factor $n^{-1/2}$, whereas
+the explicit-formula prime term weights each prime power by
+$\Lambda(n)/\sqrt{n}$~\cite{IwaniecKowalski}. The restriction to primes is therefore a modelling convention with
+quantified robustness: the curvature shifts are sign-stable and lie between
+$1.3\%$ and $10.8\%$ depending on the power-mode weight; separately, the two
+quoted spectral ratios move by less than $4\%$. It is not a truncation of a
+canonical prime-power sum.
+\end{remark}
+
+% ============================================================
+\section{Scaling Laws of the Renormalised Spectrum}
+\label{sec:scaling}
+
+Write
+\[
+r(x):=\frac{\lambda_{\max}(\Tt(x))}{\mathrm{Tr}\,\Tt(x)},\qquad u:=\log x,
+\]
+for the normalised leading spectral ratio at prime cutoff $x$.
+
+\begin{theorem}[Non-convergence of the normalised leading ratio; proved,
+separation certified]
+\label{thm:nonconv}
+At $\sigma=\tfrac12$ and for the reference ordinate and regularisation data
+$(N,\varepsilon)=(100,0.05)$, the limit $\lim_{x\to\infty}r(x)$ does not
+exist. Quantitatively,
+\[
+\limsup_{x\to\infty}r(x)-\liminf_{x\to\infty}r(x)\;\ge\;\Delta_0,
+\qquad \Delta_0:=0.0840112 .
+\]
+\end{theorem}
+
+\emph{Strategy of the proof.} Four steps: a uniform elementary asymptotic for
+prime sums of $p^{i\theta}$ over the finite frequency set involved; entrywise
+convergence of $\Tt(x)/\pi(x)$ to an explicit quasi-periodic limit matrix
+$Q(u)$; transfer to eigenvalues by Weyl's inequality, which needs no spectral
+gap; and a recurrence argument producing two values of $u$ that are approached
+infinitely often, at which the limiting ratio
+$R(u)=\lambda_{\max}(Q(u))/\mathrm{Tr}\,Q(u)$ is certified to differ.
+
+\begin{proof}
+\textit{Step 1.} With 
+\[
+h(\theta,u):=\Re[e^{i\theta u}/(1+i\theta)]
+=(\cos\theta u+\theta\sin\theta u)/(1+\theta^2),
+\]
+ partial summation from the
+prime number theorem with classical error term gives
+\[
+\frac{1}{\pi(x)}\sum_{p\le x}\cos(\theta\log p)=h(\theta,\log x)+O(1/\log x),
+\]
+uniformly over the finitely many frequencies occurring below; since
+$|1+i\theta|\ge 1$ there is no small denominator, so no lower bound on
+$|\theta|$ is needed.
+
+\textit{Step 2.} Apply this entrywise with
+$w_k=e^{-\varepsilon^2\gamma_k^2/2}$ to
+\[
+\Tt_{kl}(x)=w_kw_l\sum_{p\le x}\sin(\sigma\gamma_k\log p)\,
+\sin(\sigma\gamma_l\log p),\qquad \sigma=\tfrac12 .
+\]
+The product formula used in
+Theorem~\ref{thm:kernel} turns each entry into a difference of two cosine
+sums, and yields the real symmetric limit matrix
+\[
+Q_{kk}(u)=\tfrac{w_k^2}{2}\bigl(1-h(\gamma_k,u)\bigr),
+\qquad
+Q_{kl}(u)=\tfrac{w_kw_l}{2}
+\Bigl(h\bigl(\tfrac{\gamma_k-\gamma_l}{2},u\bigr)
+     -h\bigl(\tfrac{\gamma_k+\gamma_l}{2},u\bigr)\Bigr)\ (k\neq l),
+\]
+with $\|\Tt(x)/\pi(x)-Q(\log x)\|\le K/\log x$ for an explicit $K$. The map
+$u\mapsto Q(u)$ is quasi-periodic: it is a continuous function along a
+Kronecker flow on a torus whose dimension is the number of rationally
+independent frequencies among the $\gamma_k$ and their half-sums and
+half-differences.
+
+\textit{Step 3.} Since $|h(\theta,u)|\le(1+\theta^2)^{-1/2}$ for all $u$, the
+trace is bounded below uniformly,
+
+\[
+\mathrm{Tr}\,Q(u)\ge\tfrac{\WeN}{2}\bigl(1-(1+\gamma_1^2)^{-1/2}\bigr)
+=\tau_0=0.6380807\ldots>0
+\]
+ with
+\[
+\WeN:=\sum_{k=1}^{N}e^{-\varepsilon^2\gamma_k^2}=\sum_k w_k^2=1.37306
+\]
+at the reference data, and
+$\|Q(u)\|\le\|Q(u)\|_F\le \WeN$, so $R(u)$ is well defined, bounded by
+$\WeN/\tau_0\le 2.152$, and Lipschitz in $u$ with an explicit constant.
+Weyl's inequality transfers Step~2 to $\lambda_{\max}$ without any gap
+assumption, giving $|r(x)-R(\log x)|\le K'/\log x$.
+
+\textit{Step 4.} By Dirichlet's pigeonhole principle the flow returns: there
+are $\tau_n\to\infty$ with all relevant frequencies simultaneously close to
+integer multiples of $2\pi$, hence $\|Q(u+\tau_n)-Q(u)\|\to 0$ uniformly in
+$u$. Therefore every value of $R$ is a limit point of $r$. At the two explicit
+points $u_1=17.6170$ and $u_2=7.1815$ the certificate below gives
+$R(u_1)\ge 0.5169091132$ and $R(u_2)\le 0.4328979030$, whence the stated
+separation. Finally $r$ is a step function, constant between consecutive
+primes, so its value set over real cutoffs coincides with that over prime
+cutoffs, and $\limsup$ and $\liminf$ agree in the two readings.
+\end{proof}
+
+\emph{Certification.} The separation of Step~4 is certified by ball
+arithmetic, not by floating-point evaluation. The lower bound on
+$\lambda_{\max}(Q(u_1))$ is the Rayleigh quotient $\langle v,Qv\rangle/
+\langle v,v\rangle$ of an explicit vector, which is rigorous for any $v$
+whatever; the upper bound on $\lambda_{\max}(Q(u_2))$ is
+$(\mathrm{Tr}\,Q^{m})^{1/m}$ at $m=64$, which majorises the largest eigenvalue
+for even $m$ without any positivity assumption; both traces are enclosed
+directly and the two ratios are formed by outward-rounded interval division.
+The ordinates enter as certified enclosures --- Arb's isolation of the first
+hundred zeta zeros, whose ball midpoints are cross-checked against the
+normative double-precision layer --- so the enclosures are themselves part of
+the certificate rather than a hypothesis about it, and their radii are
+propagated through every operation. The certificate returns
+\[
+R(u_1)-R(u_2)\;\ge\;0.0840112102,
+\]
+and is produced by \texttt{cert\_paper9\_ratio.py} (\S\,\ref{sec:methods}).
+
+\begin{definition}[Averaging operator and ordinate profile]
+\label{def:mean}
+For locally integrable $\psi$ on $[2,\infty)$ set
+\[
+\langle\psi\rangle_X:=\frac{1}{\log X}\int_2^X\psi(x)\,\frac{dx}{x},
+\qquad
+\langle\psi\rangle:=\lim_{X\to\infty}\langle\psi\rangle_X
+\]
+whenever the limit exists. This logarithmic window mean is the only averaging
+operator used in this paper; no other normalisation appears. The
+\emph{ordinate profile} is
+\[
+f(x):=\sum_{k=1}^{N}e^{-\varepsilon^2\gamma_k^2}
+\Bigl(\Im\frac{x^{i\gamma_k}}{\tfrac12+i\gamma_k}\Bigr)^{\!2}.
+\]
+\end{definition}
+
+\begin{lemma}[Spectrum of the ordinate profile and its leading profile;
+proved]
+\label{lem:fmean}
+Write $\tfrac12+i\gamma_k=\varrho_ke^{i\phi_k}$ with
+$\varrho_k^2=\tfrac14+\gamma_k^2$, and set
+
+\[
+b_k:=e^{-\varepsilon^2\gamma_k^2}/(2\varrho_k^2).
+\]
+ Then $f$ is, in the
+variable $u=\log x$, an exponential polynomial with frequency set
+$\{0\}\cup\{\pm2\gamma_k\}$,
+\[
+f(e^u)=\langle f\rangle-\sum_{k=1}^{N}b_k\cos(2\gamma_ku-2\phi_k),
+\qquad
+\langle f\rangle=\sum_{k=1}^{N}b_k
+=\tfrac12\sum_{k=1}^{N}\frac{e^{-\varepsilon^2\gamma_k^2}}
+{\tfrac14+\gamma_k^2}>0 ,
+\]
+and $\langle f\rangle=0.0021613227$ at the reference parameters. The
+associated \emph{leading profile}
+\[
+F(U):=\sum_{\nu}\frac{c_\nu e^{i\nu U}}{1+i\nu}
+=\langle f\rangle-\sum_{k=1}^{N}b_k\,
+\Re\frac{e^{i(2\gamma_kU-2\phi_k)}}{1+2i\gamma_k},
+\]
+where $f(e^u)=\sum_\nu c_\nu e^{i\nu u}$, is Bohr almost periodic with Bohr
+mean $\langle F\rangle=c_0=\langle f\rangle$ and satisfies
+\[
+|F(U)-\langle f\rangle|\;\le\;
+\sum_{k=1}^{N}\frac{b_k}{\sqrt{1+4\gamma_k^2}}
+\;\le\;\frac{\langle f\rangle}{\sqrt{1+4\gamma_1^2}},
+\]
+\[
+\text{hence}\qquad
+F(U)\;\ge\;\langle f\rangle
+\Bigl(1-\frac{1}{\sqrt{1+4\gamma_1^2}}\Bigr)\;>\;0
+\]
+for all $U$: the second inequality uses only $b_k>0$ and
+$\gamma_k\ge\gamma_1>0$, so $F$ is bounded away from zero with no numerical
+input. At the reference parameters the sharper half-width evaluates to
+$\sum_{k}b_k/\sqrt{1+4\gamma_k^2}=6.7448532\cdot10^{-5}$, giving the
+band $F(U)\in[\,0.0020938741,\;0.0022287713\,]$, and the exact envelope above
+evaluates to $0.0020849161$; these three decimals are finite evaluations at the
+reference parameters and carry no proof step [numerical].
+\end{lemma}
+
+\begin{proof}
+\[
+\Im\Bigl[\frac{x^{i\gamma_k}}{\tfrac12+i\gamma_k}\Bigr]
+=\varrho_k^{-1}\sin(\gamma_ku-\phi_k),
+\]
+and $\sin^2\vartheta=\tfrac12(1-\cos2\vartheta)$ gives the displayed expansion
+with $b_k$ as stated; the frequency set is $\{0\}\cup\{\pm2\gamma_k\}$ and the
+sum is finite, so no convergence question arises. The Bohr mean of
+$e^{i\nu U}$ vanishes for $\nu\neq0$, whence $\langle F\rangle=c_0$, and
+$c_0=\langle f\rangle$ because dividing by $1+i\nu$ leaves the constant mode
+unchanged. The first bound is the triangle inequality applied to the displayed sum,
+using $|1+2i\gamma_k|=\sqrt{1+4\gamma_k^2}$. The second follows termwise from
+$\gamma_k\ge\gamma_1>0$ together with $b_k>0$, and summing gives
+$\sum_k b_k=\langle f\rangle$; since $\gamma_1>0$ the factor
+$1-(1+4\gamma_1^2)^{-1/2}$ is positive, so the envelope is strictly positive for
+every $N$ and every $\varepsilon>0$. The decimals are finite evaluations at the
+reference parameters and enter no step of the argument.
+\end{proof}
+
+\begin{theorem}[Divergence of the energy-asymmetry functional in mean; proved]
+\label{thm:eta}
+Let $c_p^{\eta}=\sqrt{V_p(\tfrac12)}$ and let the phasor argument be
+$\gamma_k\log p$, as in the paper of the series in which
+$\eta_{\mathrm{orig}}$ was introduced. Then, with $F$ the leading profile of
+Lemma~\ref{lem:fmean},
+\[
+\langle\eta_{\mathrm{orig}}\rangle_X
+=-\frac{4}{\WeN}\,F(\log X)\,\frac{X}{(\log X)^3}
+\;+\;O\!\left(\frac{X}{(\log X)^4}\right)
+\;\longrightarrow\;-\infty .
+\]
+The leading term carries a bounded oscillating profile, not a constant: the
+window mean is dominated by the upper endpoint of the window, so the
+oscillation of $f$ survives the averaging instead of being washed out. What
+makes the divergence unconditional is the exact envelope of
+Lemma~\ref{lem:fmean},
+$F\ge\langle f\rangle\bigl(1-(1+4\gamma_1^2)^{-1/2}\bigr)>0$, together with
+$\langle F\rangle=\langle f\rangle$.
+\end{theorem}
+
+\begin{proof}
+\textit{Step 1 (structural energy).} With $a_p$ the $p$-th column,
+
+\[
+E_{\mathrm{str}}(x)=\sum_{p\le x}(c_p^{\eta})^2\|a_p\|^2,
+\]
+ where
+\[
+(c_p^{\eta})^2=\frac{4(\log p)^2p}{(p-1)^2}
+=\frac{4(\log p)^2}{p}\bigl(1+O(p^{-1})\bigr),
+\qquad
+\|a_p\|^2=\frac{\WeN}{2}-\frac12\sum_kw_k^2\cos(2\gamma_k\log p).
+\]
+Mertens'
+theorem gives 
+\[
+\sum_{p\le x}(\log p)^2/p=\tfrac12(\log x)^2+O(\log x),
+\]
+ so the
+constant part contributes $\WeN(\log x)^2(1+o(1))$. For the oscillating part, write $\vartheta(t)=t+E(t)$ with
+$E(t)=O\bigl(te^{-c\sqrt{\log t}}\bigr)$, the prime number theorem with
+classical error term~\cite{IwaniecKowalski}. For fixed
+$\tau=2\gamma_k\neq0$,
+\[
+S_\tau(x):=\sum_{p\le x}(\log p)\,p^{-1+i\tau}
+=\int_2^x t^{-1+i\tau}\,d\vartheta(t),
+\]
+\[
+\int_2^x t^{-1+i\tau}\,d\vartheta(t)
+=\frac{x^{i\tau}-2^{i\tau}}{i\tau}
++\Bigl[\frac{E(t)}{t^{1-i\tau}}\Bigr]_2^x
++(1-i\tau)\int_2^x\frac{E(t)}{t^{2-i\tau}}\,dt
+=O_\tau(1),
+\]
+the boundary term vanishing as $t\to\infty$ and the error integral being
+absolutely convergent because
+$\int_2^\infty e^{-c\sqrt{\log t}}\,dt/t<\infty$ (substitute $u=\log t$).
+A second partial summation,
+
+\[
+\sum_{p\le x}(\log p)^2p^{-1+i\tau}
+=(\log x)S_\tau(x)-\int_2^xS_\tau(t)\,dt/t=O_\tau(\log x),
+\]
+ then bounds
+\[
+\sum_{p\le x}\frac{(\log p)^2}{p}\cos(2\gamma_k\log p)=O(\log x).
+\]
+Summing the finitely many $k$,
+\[
+E_{\mathrm{str}}(x)=\WeN(\log x)^2+O(\log x),
+\]
+exactly the precision Step~3 needs for its
+$O\bigl(x/(\log x)^{3}\bigr)$ quotient error.
+
+\textit{Step 2 (spectral energy).} Since
+$c_p^{\eta}=2(\log p)p^{-1/2}(1+O(p^{-1}))$, partial summation from
+$\vartheta(x)=x+O(x/(\log x)^{A})$ gives, for each fixed $\gamma$,
+\[
+\sum_{p\le x}(\log p)\,p^{-1/2+i\gamma}
+=\frac{x^{1/2+i\gamma}}{\tfrac12+i\gamma}+O\!\bigl(x^{1/2}(\log x)^{-A+1}\bigr).
+\]
+Taking imaginary parts, the $k$-th component of
+$\sum_{p\le x}c_p^{\eta}a_p$ equals
+
+\[
+2w_k\sqrt{x}\,\Im[x^{i\gamma_k}/(\tfrac12+i\gamma_k)]
+\]
+ up to the same error,
+so
+\[
+E_{\mathrm{spec}}(x)=4x\,f(x)+O\bigl(x(\log x)^{-A+1}\bigr).
+\]
+
+\textit{Step 3 (quotient).} Hence
+\[
+\eta_{\mathrm{orig}}(x)=1-\frac{E_{\mathrm{spec}}(x)}{E_{\mathrm{str}}(x)}
+=-\,\frac{4x\,f(x)}{\WeN(\log x)^{2}}
++O\!\left(\frac{x}{(\log x)^{3}}\right).
+\]
+
+\textit{Step 4 (the average is endpoint-dominated).} Substituting $x=e^u$ in
+Definition~\ref{def:mean} turns the window mean into
+\[
+\langle\eta_{\mathrm{orig}}\rangle_X
+=-\frac{4}{\WeN\log X}\int_{\log 2}^{\log X}f(e^u)\,\frac{e^u}{u^2}\,du
++O\!\left(\frac{X}{(\log X)^4}\right),
+\]
+an integral whose integrand grows like $e^u$ and which is therefore governed
+by its upper endpoint, not by the mean of $f$. Expanding $f(e^u)$ by
+Lemma~\ref{lem:fmean} and integrating each mode,
+\[
+\int^{U}\frac{e^{(1+i\nu)u}}{u^{2}}\,du
+=\frac{e^{(1+i\nu)U}}{(1+i\nu)U^{2}}
++O\!\left(\frac{e^{U}}{U^{3}}\right),
+\]
+uniformly over the finitely many frequencies $\nu$, because
+$|1+i\nu|\ge1$. Summing over the modes reproduces exactly the combination
+defining $F$, so the integral equals $F(U)\,e^{U}U^{-2}+O(e^UU^{-3})$ with
+$U=\log X$. Dividing by $\log X$ gives the statement. Since
+$F\ge\langle f\rangle\bigl(1-(1+4\gamma_1^2)^{-1/2}\bigr)>0$ by
+Lemma~\ref{lem:fmean}, the mean diverges to
+$-\infty$; the constant-rate form obtained by replacing $F$ with its Bohr
+mean $\langle f\rangle$ is \emph{not} valid pointwise in $X$, only on
+average.
+\end{proof}
+
+\emph{Numerical observation} (sign change of the quotient). The theorem is a
+statement about means and says nothing about individual cutoffs. Evaluating
+$\eta_{\mathrm{orig}}(\kappa)$ directly at every prime cutoff
+$\kappa\le 2\cdot10^{5}$, with the same ordinate list and the weights above,
+the quotient is positive at $\kappa=146521$, where it equals $+0.0049$,
+negative at the next prime cutoff $146527$, where it equals $-0.0005$, and
+negative at every larger prime cutoff in the search range. For orientation,
+$\eta_{\mathrm{orig}}(53)=0.69078176$ and
+$\eta_{\mathrm{orig}}(1009)=0.810955$, while
+$\eta_{\mathrm{orig}}(10^{6})=-41.307$. These are evaluations on a finite
+grid, not part of the theorem.
+
+\begin{theorem}[Ordinate tail and the true limit parameters; proved]
+\label{thm:sat}
+Let $T_N=\Phi_N^{*}\Phi_N$ on $\Hstr$ be the loop operator built from the
+first $N$ ordinates at fixed $\sigma=\tfrac12$, and $T_\infty$ the
+corresponding sum over all positive ordinates; assume
+$\mathrm{Tr}\,T_N>0$. Then
+\[
+\|T_\infty-T_N\|\;\le\;\mathrm{Tr}(T_\infty-T_N)\;\le\;
+\pi(\kappa)\sum_{k>N}e^{-\varepsilon^2\gamma_k^2},
+\qquad
+|r_\infty-r_N|\;\le\;\frac{2\pi(\kappa)}{\mathrm{Tr}\,T_N}
+\sum_{k>N}e^{-\varepsilon^2\gamma_k^2},
+\]
+and the tail is bounded by a geometric series against the
+Riemann--von-Mangoldt density, so $r_N\to r_\infty$: for fixed $\kappa$ and $\varepsilon>0$ the rate is
+governed by the Gaussian ordinate tail $e^{-\varepsilon^2\gamma_N^2}$, up to
+the Riemann--von-Mangoldt factor. The limit parameters of the construction are therefore
+$(\kappa,\varepsilon)$; $N$ is a truncation, not a parameter of the limit.
+\end{theorem}
+
+\begin{proof}
+\textit{Step 1 (positive semidefiniteness and trace tail).}
+On $\Hstr$ the difference decomposes into rank-one terms,
+
+\[
+T_\infty-T_N=\sum_{k>N}e^{-\varepsilon^2\gamma_k^2}v_kv_k^{\!\top}
+\]
+ with
+$(v_k)_p=\sin(\sigma\gamma_k\log p)$, all positive semidefinite; hence the
+operator norm is at most the trace, and $\|v_k\|^2\le\pi(\kappa)$ gives the
+first bound.
+
+\textit{Step 2 (ratio perturbation).} For the second, Weyl's inequality gives
+
+\[
+|\lambda_{\max,\infty}-\lambda_{\max,N}|\le\|\Delta\|
+\]
+ with
+$\Delta=T_\infty-T_N$, and
+\[
+|r_\infty-r_N|
+=\Bigl|\frac{\lambda_{\infty}}{\mathrm{Tr}\,T_\infty}
+      -\frac{\lambda_{N}}{\mathrm{Tr}\,T_N}\Bigr|
+\le\frac{\|\Delta\|\,\mathrm{Tr}\,T_N+\lambda_N\,\mathrm{Tr}\,\Delta}
+        {\mathrm{Tr}\,T_\infty\,\mathrm{Tr}\,T_N}
+\le\frac{2\,\mathrm{Tr}\,\Delta}{\mathrm{Tr}\,T_N},
+\]
+using 
+\[
+\lambda_N\le\mathrm{Tr}\,T_N\le\mathrm{Tr}\,T_\infty.
+\]
+
+
+\textit{Step 3 (Riemann--von-Mangoldt Gaussian tail).} For the tail, split $\sum_{k>N}e^{-\varepsilon^2\gamma_k^2}$ into dyadic blocks
+$\gamma\in[T,2T)$ with $T=\gamma_N$: the Riemann--von-Mangoldt density gives
+$O(T\log T)$ ordinates per block, each contributing at most
+$e^{-\varepsilon^2T^2}$, and the resulting series in $T$ is dominated by a
+geometric one. A single-term estimate would not suffice and is not used.
+
+\textit{Step 4 (transfer to the companion Gram operator).}
+The statement transfers to $\Tt_N=\Phi_N\Phi_N^{*}$ without further work:
+the non-zero spectra of $T_N$ and $\Tt_N$ coincide (\S\,\ref{sec:operator}),
+so trace, largest eigenvalue and hence $r_N$ agree in the two readings.
+\end{proof}
+
+\emph{Numerical observation} (double-precision threshold). The tail bound is
+$2.3\cdot10^{-23}$ at $N=50$ and $1.8\cdot10^{-61}$ at $N=100$, against an
+actual $|r_{100}-r_{50}|=2.9\cdot10^{-24}$. The increments therefore fall
+below the double-precision unit roundoff of $r$ well before the reference
+truncation: the first $N$ with $|r_N-r_{N-1}|<5.5\cdot10^{-17}$ is $N=39$.
+Beyond that point the dependence on $N$ is invisible in double precision but
+is not zero: at $40$ digits the increments are still resolvable and strictly
+signed, with
+\[
+r_{51}-r_{50}=-2.10567\cdot10^{-24},
+\qquad
+\mathrm{Tr}(T_{51}-T_{50})=+6.62880\cdot10^{-23},
+\]
+so exact independence of $N$ is false and only the limit statement above is
+correct. These control values were computed independently at $40$ digits from
+the normative ordinate list; the digits beyond the tenth are not quoted,
+because the normative list carries double precision and does not support
+them.
+
+Two further facts locate the mechanism. \emph{Numerical observation}
+(leading-mode localisation). The leading eigenvector is not carried by
+diagonal dominance: the largest diagonal entry stays bounded as the cutoff
+grows, while $\lambda_{\max}$ grows like $\pi(\kappa)$. The leading mode is
+the wave associated with $\gamma_1$: at cutoff $\kappa\approx10^{4}$, with
+the $650$-ordinate extended list of \S\,\ref{sec:methods} and
+$\varepsilon=0.05$, the squared overlap $|\langle v_{\max},e_1\rangle|^{2}$
+against the corresponding ordinate direction is $0.94$, and it remains above
+$0.83$ on the tested cutoff ladder up to $\kappa\approx10^{7}$. Whether the oscillation of $R$ has a
+pointwise, as opposed to a recurrent, limiting behaviour is a diophantine
+question, recorded in \S\,\ref{sec:open}.
+
+\section{Class Invariance over Beurling Systems}
+\label{sec:class}
+
+Nothing in \S\,\ref{sec:scaling} used the multiplicative structure of the
+integers. This section replaces the primes by a Beurling generalised prime
+system and shows that the same proofs run --- carrying over the limiting
+function $R$, the certified separation $\Delta_0$, the leading profile $F$ and
+its band unchanged.
+
+\begin{definition}[The Beurling side]
+\label{def:beurling}
+A \emph{Beurling system} is a non-decreasing unbounded sequence
+$\mathcal{P}_{\mathfrak{B}}=\{q_1\le q_2\le\cdots\}$ with $q_1>1$, with counting function
+$\pi_{\mathfrak{B}}(x)=\#\{j:q_j\le x\}$ and Chebyshev function
+$\vartheta_{\mathfrak{B}}(x)=\sum_{q_j\le x}\log q_j$~\cite{Beurling37,DiamondZhang16}. The
+coupling data are transported verbatim: the map
+\[
+\Phi_{\mathfrak{B}}(\sigma)_{k,q}=e^{-\varepsilon^2\gamma_k^2/2}\sin(\sigma\gamma_k\log q),
+\qquad q\in\mathcal{P}_{\mathfrak{B}},\ q\le x,
+\]
+the operator
+
+\[
+\Tt_{\mathfrak{B}}(x)=\Phi_{\mathfrak{B}}\Phi_{\mathfrak{B}}^{*},
+\]
+ the ratio
+
+\[
+r_{\mathfrak{B}}(x)=\lambda_{\max}(\Tt_{\mathfrak{B}}(x))/\mathrm{Tr}\,\Tt_{\mathfrak{B}}(x),
+\]
+ the weights
+$c_q^{\eta}=2(\log q)\sqrt{q}/(q-1)$, the column vectors
+\[
+a_q^{\eta}:=\bigl(e^{-\varepsilon^2\gamma_k^2/2}\sin(\gamma_k\log q)\bigr)_{k=1}^{N},
+\]
+the structural and spectral energies
+\[
+E^{\mathfrak{B}}_{\mathrm{str}}(x)=\sum_{q\le x}(c_q^{\eta})^2\|a_q^{\eta}\|^2,
+\qquad
+E^{\mathfrak{B}}_{\mathrm{spec}}(x)=\Bigl\|\sum_{q\le x}c_q^{\eta}\,a_q^{\eta}\Bigr\|^2,
+\]
+ and the quotient
+
+\[
+\eta_{\mathfrak{B}}=1-E^{\mathfrak{B}}_{\mathrm{spec}}/E^{\mathfrak{B}}_{\mathrm{str}}.
+\]
+ Two conventions coexist
+here exactly as in the classical case: $r_{\mathfrak{B}}$ uses $\Phi_{\mathfrak{B}}(\tfrac12)$, while
+$\eta_{\mathfrak{B}}$ keeps the no-$\sigma$ phasor convention of \S\,\ref{sec:scaling},
+matching the import of $\eta_{\mathrm{orig}}$. The ordinate side is not
+varied here: the $\gamma_k$ remain the ordinates of the zeta function.
+For $\delta>0$, $C>0$ and $x_0\ge 2$ let
+\[
+\Dclass(C,x_0):=\bigl\{\mathfrak{B}:\ |\vartheta_{\mathfrak{B}}(x)-x|\le C\,x(\log x)^{-2-\delta}
+\ \text{ for all } x\ge x_0\bigr\},
+\qquad
+\Dclass:=\bigcup_{C,x_0}\Dclass(C,x_0).
+\]
+For the uniformity clause write
+\[
+\Dclass(C,x_0,M_0):=\bigl\{\mathfrak{B}\in\Dclass(C,x_0):\ \pi_{\mathfrak{B}}(x_0)\le M_0\bigr\}:
+\]
+a bound on the early data is genuinely additional information, because points
+accumulating just above $1$ enter $\pi_{\mathfrak{B}}$ at full strength while contributing
+almost nothing to $\vartheta_{\mathfrak{B}}$.
+\end{definition}
+
+\begin{theorem}[Class transfer: same limiting objects and same profile;
+proved]
+\label{thm:class}
+Keep the same reference ordinate and regularisation data as in
+Theorem~\ref{thm:nonconv}, and vary only the prime-side Beurling system.
+Let $\mathfrak{B}\in\Dclass$. Then 
+\[
+r_{\mathfrak{B}}(x)=R(\log x)+O_{\mathfrak{B}}(1/\log x)
+\]
+ with the \emph{same}
+limiting function $R$ as in Theorem~\ref{thm:nonconv}; the limit fails to
+exist for every such $\mathfrak{B}$; and
+
+\[
+\limsup r_{\mathfrak{B}}-\liminf r_{\mathfrak{B}}\ge\Delta_0
+\]
+ with the same $\Delta_0=0.0840112$.
+Likewise $\langle\eta_{\mathfrak{B}}\rangle_X\to-\infty$ for every $\mathfrak{B}\in\Dclass$ with the
+same leading profile $F$ and the same exact positivity envelope of
+Lemma~\ref{lem:fmean} in the rate of Theorem~\ref{thm:eta},
+class-independently. The objects $R$, $u_1$, $u_2$, $\Delta_0$, $F$ and its
+Bohr mean $\langle f\rangle$ depend only on the ordinate side and are free of
+$\mathfrak{B}$; the certificate of Theorem~\ref{thm:nonconv} therefore transfers
+verbatim.
+Uniformity holds on each $\Dclass(C,x_0,M_0)$ with the implied constants
+depending only on $(C,x_0,\delta,M_0)$; over the full class $\Dclass$ it
+fails.
+\end{theorem}
+
+\begin{proof}
+\textit{Step 1.} The only property of the primes used in Step~1 of
+Theorem~\ref{thm:nonconv} is $\vartheta(x)=x+o(x/\log x)$, which
+$\Dclass$ supplies by hypothesis. Split the sum at $x_0$: the early points
+contribute at most $M_0$ to the sum directly and at most $M_0$ again through
+the boundary term of the partial summation at $x_0$ --- together at most
+$2M_0/\pi_{\mathfrak{B}}(x)$ after normalisation --- and
+$\pi_{\mathfrak{B}}(x)\ge(1+o(1))\,x/\log x$ follows from the $\vartheta$-condition
+itself, so the early-data term is absorbed in the error. For $q>x_0$ partial
+summation against the $\vartheta$-bound reproduces
+\[
+\frac{1}{\pi_{\mathfrak{B}}(x)}\sum_{q\le x}\cos(\theta\log q)=h(\theta,\log x)+O(1/\log x)
+\]
+with the same $h$ and the implied constant depending only on
+$(C,x_0,\delta,M_0)$. Steps~2--4 use only this asymptotic and the fixed ordinate
+data, so they carry over with the same $Q$, the same $R$, and the same
+certified points.
+
+\textit{Step 2.} For the quotient, the Beurling form of Mertens' theorem
+
+\[
+\sum_{q\le x}(\log q)^2/q=\tfrac12(\log x)^2+O_{\mathfrak{B}}(1)
+\]
+ follows from
+Definition~\ref{def:beurling} by partial summation, the error integral
+$\int^\infty(\log t)^{-2-\delta}\,dt/t$ converging precisely because
+$\delta>0$; and the spectral side is again $4xf(x)$ up to a smaller error,
+$f$ being built from the ordinates alone. The constants $\WeN$ and the whole profile $F$, band included, are therefore
+untouched.
+
+\textit{Step 3 (uniformity).} Within $\Dclass(C,x_0,M_0)$ every implied
+constant above is a function of $(C,x_0,\delta,M_0)$ only. Over the full
+class $\Dclass$, uniformity fails, and this is a separate statement about
+the union, established by finite deletion: deleting finitely many elements
+from $\mathcal{P}_{\mathfrak{B}}$ keeps $\mathfrak{B}$ in $\Dclass$ but moves $x_0$ arbitrarily far out, so no
+threshold can be chosen uniformly.
+\end{proof}
+
+\begin{remark}[Finite insertion near $1$]
+Fix $(C,x_0,\delta)$ and a base system in $\Dclass(C,x_0,M_0)$ with fixed
+positive uniform slack: there exists $C'<C$ with
+
+\[
+|\vartheta_{\mathfrak{B}}(x)-x|\le C'\,x(\log x)^{-2-\delta}
+\]
+ for all
+$x\ge x_0$. Set $m_0:=\inf_{x\ge x_0}x(\log x)^{-2-\delta}>0$ and choose
+$0<\varepsilon_0\le(C-C')\,m_0$. Adjoining $K$ generalized primes at
+$q_K=\exp(\varepsilon_0/K)<x_0$ costs only $\varepsilon_0$ in $\vartheta$,
+independently of $K$, while raising the count at $x_0$ by $K$; with
+$b(x):=x(\log x)^{-2-\delta}$ the perturbed system stays in the class,
+since 
+\[
+|E_{\mathrm{new}}(x)|\le C'\,b(x)+\varepsilon_0\le C\,b(x).
+\]
+ The
+normalized cosine averages used in Step~1 of the proof are then dominated
+by the inserted points, so no equidistribution-based error control
+depending only on $(C,x_0,\delta)$ can be uniform over $\Dclass(C,x_0)$.
+The observables themselves are far less sensitive: the inserted points
+shift $r(x)$ by $O(1/K)$ and the windowed $\eta$-mean by an amount bounded
+in terms of the reference data alone, uniformly in $K$, within the error
+budget of Theorem~\ref{thm:class}. The construction therefore obstructs
+any proof route via uniform equidistribution control; it does not decide
+whether the conclusions of Theorem~\ref{thm:class} themselves persist on
+$\Dclass(C,x_0)$.
+\end{remark}
+
+The exponent marks the majorant threshold of the present argument, and
+nothing stronger is claimed. Writing $E=\vartheta_{\mathfrak{B}}(t)-t$ and summing by
+parts,
+\[
+\sum_{q\le x}\frac{(\log q)^2}{q}
+=\tfrac12(\log x)^2+\Bigl[\frac{E(t)\log t}{t}\Bigr]_2^x
++\int_2^x E(t)\,\frac{\log t-1}{t^2}\,dt ,
+\]
+the boundary term is $O((\log x)^{-1-\delta})$ and the integral is majorised
+by $\int^x dt/(t(\log t)^{1+\delta})$. For $\delta>0$ this majorant converges
+and the structural energy retains a bounded remainder; at $\delta=0$ it grows
+like $\log\log x$; for $\delta<0$ it is $O((\log x)^{-\delta})$. These are
+upper bounds delivered by this argument, not matching lower bounds: whether
+some system at $\delta\le0$ nevertheless keeps a bounded remainder is part of
+the boundary question of Open Problem~\ref{op:order}. The direction of the classical implication should be stated
+carefully: a sharp Mertens estimate implies the prime number theorem always,
+whereas the prime number theorem does not imply a sharp Mertens
+estimate~\cite{DebruyneVindas17}; counterexamples exist.
+
+The next statement concerns a different object, and the difference matters.
+It is not a Beurling system: it is a \emph{smooth generalised-prime measure},
+a continuous density with a bounded oscillation, and its role here is to show
+how the constants respond to a perturbation of the density that is not a
+change of class.
+
+\begin{definition}[Smooth generalised-prime measure and the conjugate profile]
+\label{def:smoothosc}
+For $0\le a<1$ and $\omega>0$ let
+
+\[
+d\vartheta_{a,\omega}(t)=\bigl(1+a\sin(\omega\log t)\bigr)\,dt,
+\]
+ and write
+\[
+\tilde h(\varphi,u):=\Im\frac{e^{i\varphi u}}{1+i\varphi}
+=\frac{\sin\varphi u-\varphi\cos\varphi u}{1+\varphi^{2}}
+\]
+for the conjugate of the density profile $h$ of
+Theorem~\ref{thm:nonconv}. The sine convention is the one in which the
+transfer below takes its stated form; with a cosine density the same
+computation gives $h(\theta+\omega,u)+h(\theta-\omega,u)$ in place of the
+difference of conjugates, and the mass factor changes accordingly. The two
+conventions are not interchangeable term by term.
+\end{definition}
+
+\begin{theorem}[Sideband transfer of the leading representation; proved
+(smooth family), numerical in the discrete embedding]
+\label{thm:sideband}
+Assume the non-resonance condition: the frequencies $\gamma_k$ and
+$\gamma_k\pm\omega$, $k\le N$, are all non-zero and pairwise distinct in
+absolute value. Then for $d\vartheta_{a,\omega}$ the leading representation transfers
+with explicit replacements:
+\[
+h(\theta,u)\;\longmapsto\;\hat h(\theta,u)
+:=h(\theta,u)+\frac{a}{2}\bigl[\tilde h(\theta+\omega,u)
+-\tilde h(\theta-\omega,u)\bigr],
+\]
+the limit matrix being formed from $\hat h$ by the element formulas of
+Theorem~\ref{thm:nonconv} with $\hat h(0,u)=1+a\,\tilde h(\omega,u)$ on the
+diagonal, and the Bohr mean of the leading profile shifting to
+\[
+\langle f_{\mathrm{osc}}\rangle=\langle f\rangle+\frac{a^2}{8}
+\sum_{k=1}^{N}e^{-\varepsilon^2\gamma_k^2}
+\left[\frac{1}{\tfrac14+(\gamma_k+\omega)^2}
+     +\frac{1}{\tfrac14+(\gamma_k-\omega)^2}\right].
+\]
+A bounded relative oscillation cannot change the \emph{order} of the spectral
+energy, by linearity in the measure; it can only move these objects.
+No general assertion is made that the limiting ratio formed from $\hat h$ is
+non-constant, or that $\inf_U F_{\mathrm{osc}}(U)>0$, for all admissible
+$(a,\omega)$; for the reference pair $(a,\omega)=(0.3,2\pi/3)$ the
+numerical embedding stands as stated ($0.25\%$).
+\end{theorem}
+
+\begin{proof}
+\textit{Count-side transfer.} Insert $d\vartheta_{a,\omega}$ into the
+normalised counting argument of Theorem~\ref{thm:nonconv}, Step~1. Writing
+
+\[
+\sin(\omega\log t)=(t^{i\omega}-t^{-i\omega})/2i,
+\]
+introduce the count measure
+\[
+d\Pi_{a,\omega}(t):=\frac{d\vartheta_{a,\omega}(t)}{\log t}
+=\frac{1+a\sin(\omega\log t)}{\log t}\,dt,
+\]
+so that
+\[
+\int_2^x t^{i\theta}\,d\Pi_{a,\omega}(t)
+=\frac{x^{1+i\theta}}{(1+i\theta)\log x}
++\frac{a}{2i}\Bigl[
+\frac{x^{1+i(\theta+\omega)}}{(1+i(\theta+\omega))\log x}
+-\frac{x^{1+i(\theta-\omega)}}{(1+i(\theta-\omega))\log x}
+\Bigr]
++O\!\Bigl(\frac{x}{\log^2x}\Bigr).
+\]
+After multiplication by $\log x/x$ and taking real parts this is exactly
+the stated $\widehat h$ in the reference normalization; if the perturbed
+mass itself is used for normalization, divide by the corresponding
+$\theta=0$ term.
+
+\textit{Spectral-energy transfer.} Insert $d\vartheta_{a,\omega}$ into the
+partial summation of Theorem~\ref{thm:eta}, Step~2:
+\[
+\int_2^x t^{-1/2+i\gamma}\,d\vartheta_{a,\omega}(t)
+=\frac{x^{1/2+i\gamma}}{\tfrac12+i\gamma}
++\frac{a}{2i}\Bigl[
+\frac{x^{1/2+i(\gamma+\omega)}}{\tfrac12+i(\gamma+\omega)}
+-\frac{x^{1/2+i(\gamma-\omega)}}{\tfrac12+i(\gamma-\omega)}
+\Bigr]+O(1).
+\]
+Under the theorem's non-resonance hypothesis the Bohr cross terms vanish,
+giving the printed $a^{2}/8$ shift: the two sidebands contribute
+\[
+\frac{a^2}{8}\Bigl[\bigl|\tfrac12+i(\gamma_k+\omega)\bigr|^{-2}
++\bigl|\tfrac12+i(\gamma_k-\omega)\bigr|^{-2}\Bigr].
+\]
+Since the perturbation is a bounded
+multiplicative factor of the measure, the leading order $x$ of the spectral
+energy and the order $(\log x)^2$ of the structural energy are unchanged.
+\end{proof}
+
+\begin{remark}[Exact resonance]
+At $\omega=\gamma_j$ the sideband of the $j$-th mode lands at frequency zero
+and becomes a constant, which the Bohr mean no longer halves: the mean
+acquires the additional term
+\[
+\tfrac{a^2}{2}\sum_{k:\,\gamma_k=\omega}e^{-\varepsilon^2\gamma_k^2}
+\]
+beyond the displayed formula --- twice the generic contribution of that
+sideband. The registered probe $(a,\omega)=(0.3,2\pi/3)$ satisfies the
+non-resonance condition, so all figures quoted below are unaffected.
+\end{remark}
+
+\begin{remark}[Which quantity is being shifted]
+The displayed shift of the mean concerns the unnormalised reading. If one
+normalises by the perturbed total mass, the same computation carries a factor
+$\bigl(1+a\,\tilde h(\omega,u)\bigr)^{-1}$, and the shift is correspondingly
+smaller; the two readings differ at order $a^2$ and must not be mixed. The
+$a^2$ statement above is a statement about the Bohr-mean part of the profile;
+the window behaviour runs through the perturbed profile $F_{\mathrm{osc}}$ and
+is not obtained by substituting a constant. All figures quoted here are
+unnormalised.
+\end{remark}
+
+\emph{Numerical evidence} (embedding). For the probe
+$(a,\omega)=(0.3,2\pi/3)$ the formula predicts
+$\langle f_{\mathrm{osc}}\rangle/\langle f\rangle=1.04749$. An explicitly
+constructed discrete test world realising that density profile gives
+$1.0449$, a deviation of $0.25\%$, and the predicted limit matrix matches the
+measured leading ratio of that world to $7\cdot10^{-4}$. The closed formula is
+proved for the smooth family; the agreement of a discrete realisation with it
+is numerical, and is labelled as such.
+
+What the two scaling laws provably see of the prime side, at leading
+order, is the density class; the remainder terms may retain
+system-dependent information. At that leading order the limiting function
+$R$, the separation $\Delta_0$ and the profile $F$ take the same values
+across $\Dclass$. The statement is about
+these observables and is not a claim that no observable whatever could
+distinguish two systems within the class. Two boundary facts complete the picture. Degrading the error exponent to
+$x(\log x)^{-\alpha}$ preserves the laws for \emph{every} $\alpha>0$, with
+degraded rates. Indeed, writing 
+\[
+E(t)=\vartheta_{\mathfrak{B}}(t)-t=O(t/(\log t)^{\alpha}),
+\]
+
+direct Stieltjes partial summation against $E$ gives
+\[
+\int_{2}^{x}t^{-1/2+i\gamma}\,dE(t)
+=O_{\alpha,\gamma}\!\Bigl(\frac{\sqrt{x}}{(\log x)^{\alpha}}\Bigr),
+\]
+the boundary term and the integral against $|E(t)|\,t^{-3/2}$ both being of
+this order (split the integral at $\sqrt{x}$), so the spectral energy keeps
+its leading term:
+
+\[
+E^{\mathfrak{B}}_{\mathrm{spec}}(x)=4x\,f(x)+O_{\alpha,N,\varepsilon}\bigl(x/(\log
+x)^{\alpha}\bigr)
+\]
+ --- small against $x$ for every $\alpha>0$, where the
+substitution $A=\alpha$ in the proof of Theorem~\ref{thm:eta} would require
+$\alpha>1$. On the structural side the remainder follows the
+$\delta$-case distinction recorded above under $\alpha=2+\delta$: bounded
+for $\alpha>2$, $\log\log x$ at $\alpha=2$, $O((\log x)^{2-\alpha})$
+below --- rates degrade, the leading order never does. And it is not settled here whether the window bound admits an exceptional-set
+control under $\Dclass$ at all: the tail available to the present argument is
+polynomial rather than summable, which would cap any such control at density
+tending to zero, and the question is recorded in \S\,\ref{sec:open}. Whether a genuine order deviation destroys the laws is open
+(\S\,\ref{sec:open}).
+
+\section{The Certified Factorisation Barrier}
+\label{sec:barrier}
+
+Section~\ref{sec:class} shows that, at the level of the proved leading
+laws, variation within $\Dclass$ leaves $R$, $\Delta_0$, $F$, and the
+stated band unchanged; lower-order discrimination and discrimination by
+other observables are not excluded. This section asks what the stated
+curvature observable can distinguish against control objects outside that
+within-class comparison, and certifies the margin. Three control objects appear and are
+kept strictly apart.
+
+\begin{definition}[The three control objects]
+\label{def:controls}
+Let $\mu_{\mathrm{sm}}^{\infty}$ be the smooth measure $dt/\log t$ on
+$[2,\infty)$, and let $\mu_{\mathrm{sm}}$ be its restriction to $[2,\kappa]$,
+of total mass $M=\int_2^{\kappa}dt/\log t=18.1846895$ at the reference
+cutoff; every finite comparison below runs exclusively over the
+restriction.
+Let $\mu_{\mathrm{norm}}:=(16/M)\,\mu_{\mathrm{sm}}$ be its rescaling to the
+mass of the prime counting measure, so that $\mu_{\mathrm{norm}}$ --- and only
+$\mu_{\mathrm{norm}}$ --- matches the prime count exactly. Let $A$ be the
+discrete quadrature world --- from here on, $A$ denotes exclusively the discrete
+quadrature world; the Beurling system index in \S\,\ref{sec:class} is
+$\mathfrak{B}$ --- given by the $16$ nodes $a_1<\cdots<a_{16}$ in $[2,\kappa]$
+determined by
+\[
+\int_2^{a_j}\frac{dt}{\log t}=\Bigl(j-\tfrac12\Bigr)\frac{M}{16},
+\qquad j=1,\dots,16,
+\]
+that is the midpoints of the $16$ cells of equal $\mu_{\mathrm{sm}}$-mass
+$M/16$, carrying unit weights. Write
+$E_\pi(t):=\#\{p\le t\}-\mu_{\mathrm{sm}}([2,t])$ for the resulting
+\emph{counting} error of $\pi$ against the smooth measure. Curvature
+sums attached to these objects are written $\Bsm$, $B[\mu_{\mathrm{norm}}]$
+and $B[A]$; the prime curvature is $B[P]$.
+\end{definition}
+
+\begin{remark}[The smooth measure carries no zeros]
+\label{rem:smoothzeta}
+The zeta function attached to the \emph{infinite} measure
+$\mu_{\mathrm{sm}}^{\infty}$ is
+
+\[
+\zeta_{\mathrm{sm}}(s)=\exp\bigl(E_1((s-1)\log 2)\bigr)
+\]
+ for $\Re s>1$, continued
+analytically to the slit plane; an exponential never vanishes, so
+$\zeta_{\mathrm{sm}}$ is zero-free, and its singular behaviour at $s=1$ is the one the density
+$dt/\log t$ requires. The transform of the finite restriction
+$\mu_{\mathrm{sm}}$ is an entire function and carries no singularity claim;
+the finite comparisons of this section use only the restriction. The control
+side therefore carries neither an Euler product nor zeros of its own: the
+contrast against the primes is pure cross-coupling.
+\end{remark}
+
+\begin{theorem}[Summation formula for the smooth measure; proved, finite
+ordering certified]
+\label{thm:inv}
+For $\varphi\in C^1[2,\kappa]$,
+\[
+\sum_{p\le\kappa}\varphi(p)-\int\varphi\,d\mu_{\mathrm{sm}}
+=(16-M)\,\varphi(\kappa)-\int_2^{\kappa}E_\pi(t)\,\varphi'(t)\,dt ,
+\]
+with, at the reference cutoff, $|16-M|=2.184690$ and
+\[
+\sup_{t\le\kappa}|E_\pi(t)|=M-15=3.1846895084\ldots\approx3.184690,
+\]
+the supremum being attained as $t\uparrow\kappa$, that is immediately
+\emph{before} the jump at the cutoff prime, where $E_\pi$ equals $15-M$; at
+$t=\kappa$ itself it has already returned to $16-M$. The identity and the
+reduction to finitely many candidates are proved; the identification of the
+maximiser among them is certified in ball arithmetic by
+\texttt{certify\_smooth\_controls.py} (v2.0), which encloses every candidate
+and verifies the chain $\operatorname{lower}|E_\pi(c_j)|
+>\operatorname{upper}|E_\pi(c_{j+1})|$ along the whole ranking, so that the
+complete finite ordering of the candidates --- not only its maximiser --- is
+certified.
+\end{theorem}
+
+\begin{proof}
+Both sides are integrals against $d(\#\{p\le t\}-\mu_{\mathrm{sm}})=dE_\pi$;
+integrating by parts on $[2,\kappa]$ and using $E_\pi(2^-)=0$ gives the
+identity. The two constants are evaluations of $M$ and of $E_\pi$; for the second,
+$E_\pi$ has unit upward jumps at the primes and decreases continuously in
+between, so on $[2,\kappa]$ the extrema of $|E_\pi|$ occur among exactly
+$31$ one-sided values: the sixteen right values $|E_\pi(p^+)|$ and the fifteen
+left limits $|E_\pi(p^-)|$, $p=3,\dots,\kappa$ --- monotonicity alone decides
+no more than that. Each candidate is an evaluation of the same
+$\mathrm{li}$-difference and is enclosed as a ball; the directed separation
+$\operatorname{lower}|E_\pi(\kappa^-)|>\operatorname{upper}|E_\pi(c)|$ then
+holds along the whole ranking, so the finite ordering is certified as a total
+order: the maximiser is $\kappa^-$ with margin $\ge0.1201$ over the second
+candidate $41^-$, which in turn exceeds the third, $37^-$, by $\ge0.0920$; the
+right endpoint contributes only $|16-M|=2.184690$.
+\end{proof}
+
+\begin{theorem}[Quadrature estimate for the discrete world; proved]
+\label{thm:quad}
+The position-side curvature kernel is
+\[
+K_\varepsilon(t):=(\log t)^2\sum_{k=1}^{N}e^{-\varepsilon^2\gamma_k^2}
+\gamma_k^2\cos(\gamma_k\log t),\qquad t\in[2,\kappa],
+\qquad B[\nu]:=\int K_\varepsilon\,d\nu,
+\]
+so that $B[P]=\sum_{p\le\kappa}K_\varepsilon(p)=B$ and
+
+\[
+\Bsm=\int_2^{\kappa}K_\varepsilon(t)\,\frac{dt}{\log t}.
+\]
+ With this
+kernel, so that
+$B[\nu]=\int K_\varepsilon\,d\nu$ for any measure $\nu$ on $[2,\kappa]$, and
+$y(t)=\int_2^t ds/\log s$ the logarithmic-integral coordinate,
+\[
+B[A]=\frac{16}{M}\,\Bsm+E,
+\qquad
+|E|\;\le\;\frac{16}{M}\cdot\frac{M^3}{6144}\,
+\sup_{y\in[0,M]}\Bigl|\frac{d^2}{dy^2}(K_\varepsilon\circ t)(y)\Bigr| ,
+\]
+\[
+\frac{16}{M}\cdot\frac{M^3}{6144}
+=\frac{M^2}{384}
+\le 0.861154 ,
+\]
+the mass wedge $M/16=1.136543$ being an exact normalisation factor and not an
+error term. Equivalently, before the mass rescaling,
+
+\[
+|\Bsm-(M/16)B[A]|\le(M^3/6144)\sup|d^2(K_\varepsilon\circ t)/dy^2|
+\le 0.978739\,\sup|\cdot|
+\]
+: the two constants are one bound in two
+normalisations, and the derivative is taken in $y$, the variable the rule
+integrates, not in $t$.
+\end{theorem}
+
+\begin{proof}
+Substitute the logarithmic-integral coordinate
+$y(t)=\int_2^t ds/\log s$, which maps $[2,\kappa]$ onto $[0,M]$ and carries
+$\mu_{\mathrm{sm}}$ to Lebesgue measure. In that coordinate the nodes are the
+midpoints $y_j=(j-\tfrac12)M/16$ of $16$ equal panels, so $A$ is exactly the
+midpoint rule for $\int_0^M K_\varepsilon(t(y))\,dy$. The midpoint rule on $n$
+panels of total length $L$ has error at most
+$L^3/(24n^2)\sup|\partial_y^2(K_\varepsilon\circ t)|$, which with $L=M$ and
+$n=16$ is $M^3/(24\cdot256)$ times that supremum; multiplying by the mass factor
+$16/M$ gives the stated constant. The second derivative is the one taken in
+$y$, not in $t$: it is the composed kernel that the rule integrates.
+\end{proof}
+
+The bound of Theorem~\ref{thm:quad} is not sharp for oscillatory integrands.
+It assumes worst-case phases and uses no cancellation, which for the curvature
+kernel costs about five orders of magnitude at small $\varepsilon$: sixteen
+nodes cannot resolve frequencies $\gamma\gtrsim 1/\varepsilon$. This is
+declared, not hidden, and it is the reason the discrimination below is
+certified directly rather than deduced from the quadrature estimate.
+
+\begin{theorem}[Certified discrimination in curvature; certified]
+\label{thm:disc}
+Uniformly for $\varepsilon\in[0.04,0.07]$,
+\[
+|B[P](\varepsilon)-\Bsm(\varepsilon)|\;\ge\;5343.90,
+\qquad
+|B[P](\varepsilon)-B[A](\varepsilon)|\;\ge\;5416.28 .
+\]
+At the reference width the certified ball values are
+$B[P](0.05)=-19342.5476062333843$, $\Bsm(0.05)=-241.150637407723$ and
+$B[A](0.05)=-458.627462650173$, so at the reference width the smooth measure reproduces
+$\approx1.247\%$ of the prime curvature. We write $\Ddisc=5416.28$ for the margin of the discrete comparison, which is
+the one entering Theorem~\ref{thm:fact}; the comparison against
+$\mu_{\mathrm{sm}}$ has the smaller margin $5343.90$ and is quoted for
+orientation only.
+\end{theorem}
+
+\emph{Certification.} The quoted margins are \emph{downward-rounded
+certified lower bounds}: ball arithmetic in Arb at $192$ bits of
+precision~\cite{Johansson17}, with the $\varepsilon$-dependence separated
+exactly, the smooth-measure integrals evaluated through a closed
+antiderivative rather than quadrature, a covering of the window by $800$
+subintervals with exact rational endpoints, and explicit bounds on the
+$\varepsilon$-derivative. The ordinate inputs are certified by Arb
+zeta-zero isolation under exact double-precision cross-check against the
+normative layer, with $100$ Hardy-$Z$ sign-change enclosures of radius
+$10^{-20}$ retained as a redundant second check.
+The artefact is named in \S\,\ref{sec:methods}.
+
+\begin{theorem}[Factorisation barrier: bounded-Lipschitz resolution lower
+bound; proved from certified inputs]
+\label{thm:fact}
+Let
+\[
+\mu_P=\sum_{p\le\kappa}(\log p)^2\delta_p,
+\qquad
+\mu_A=\sum_{j\le16}(\log a_j)^2\delta_{a_j}
+\]
+be the $(\log)^2$-weighted
+counting measures on $[2,\kappa]$, the weighting being the one the curvature
+itself carries; their masses are $141.6150$ and $139.0471$. Write
+
+\[
+\hat K_\varepsilon(t):=K_\varepsilon(t)/(\log t)^2
+\]
+ for the reduced kernel,
+so that $B[P]=\int\hat K_\varepsilon\,d\mu_P$ and
+$B[A]=\int\hat K_\varepsilon\,d\mu_A$: the $(\log)^2$ weight sits in the
+measures here and in the kernel of Theorem~\ref{thm:quad}, never in both. A
+factoring functional is a map $\Psi$ on finite signed measures on
+$[2,\kappa]$; equip that space with the flat bounded-Lipschitz distance
+\[
+\dBL(\mu,\nu):=\sup\Bigl\{\int\varphi\,d(\mu-\nu)\ :\
+\|\varphi\|_\infty\le 1\ \text{ and }\ \mathrm{Lip}(\varphi)\le 1\Bigr\},
+\]
+the flat convention, under which the Dudley sum variant
+$\|\varphi\|_\infty+\mathrm{Lip}(\varphi)\le1$ gives a smaller value, so the
+conclusion holds a fortiori. Then, with $\dBL(\mu_P,\mu_A)$ as certified in
+Lemma~\ref{lem:dbl} below, no functional of the counting data with
+bounded-Lipschitz constant
+\[
+L\;<\;\frac{\Ddisc}{\dBL(\mu_P,\mu_A)}
+\]
+can factor the discrimination of Theorem~\ref{thm:disc}.
+\end{theorem}
+
+For this single pair of measures the bound is exactly the pairwise
+Lipschitz quotient; no stronger obstruction to factorisation is claimed.
+
+The distance itself is a certified input, stated separately so that the
+theorem's status is exact.
+
+\begin{lemma}[Bounded-Lipschitz distance of the weighted measures;
+certified]
+\label{lem:dbl}
+$\dBL(\mu_P,\mu_A)=152.529455\ldots$, rigorously two-sided.
+\end{lemma}
+
+\emph{Certification.} The value is obtained as a linear program in the
+Kantorovich--Rubinstein form, solved to optimality and certified in two
+directions: primal feasibility of the returned $\varphi$ is verified in ball
+arithmetic, and weak duality with residual absorption
+($\|r\|_1=1.8\cdot10^{-14}$) bounds the optimum from the other side.
+
+\begin{proof}[Proof of Theorem~\ref{thm:fact}]
+If $B[P]=\Psi(\mu_P)$ and $B[A]=\Psi(\mu_A)$ for a functional $\Psi$ with
+bounded-Lipschitz constant $L$, then
+
+\[
+|B[P]-B[A]|=|\Psi(\mu_P)-\Psi(\mu_A)|\le L\,\dBL(\mu_P,\mu_A).
+\]
+
+Combining with the lower bound of Theorem~\ref{thm:disc} and the certified
+value of Lemma~\ref{lem:dbl} gives $L\ge\Ddisc/\dBL$.
+\end{proof}
+
+The threshold depends on which margin is inserted, and the three figures in
+circulation are all the same statement at different strengths. With the margin
+declared in advance of the computation, $5000$, the threshold is
+$5000/152.529455=32.78$; with the margin actually achieved uniformly on the
+window, $\Ddisc=5416.28$, it is $35.51$; and pointwise, using the realised
+difference at a single width instead of the uniform bound, it is $123.8$ at
+$\varepsilon=0.05$ and $283.8$ at $\varepsilon=0.04$. The sharp uniform value
+$35.51$ is the one quoted in the abstract.
+
+The honest reading of Theorem~\ref{thm:fact} is a resolution lower bound, not
+an impossibility statement. The curvature is itself bounded-Lipschitz, with
+kernel sup-norm at most $664$ at the reference width; the theorem says that
+any factoring functional must have a constant at least in the tens, that is,
+must resolve the counting data far more finely than the density does. The
+statement covers one pair of worlds; the family form is open, and functionals
+outside the bounded-Lipschitz class are untouched.
+
+The programmatic consequence is the one that matters for
+\S\,\ref{sec:audibility}, and two levels must be kept apart before it is
+drawn: the ordinate channel is external and identical in both comparisons,
+while the intrinsic zeta function of the control side is a separate object ---
+it is the former that carries the coupling. On that external channel both
+objects compared here have the same zero side, and the intrinsic zeta
+function of the smooth measure has no zeros at all, so the entire
+discrimination is carried by the prime side. What is certified is precise and
+should be stated precisely: the curvature separates from the smooth measure
+with uniform margin $\ge5343.90$ and from the discrete world with uniform
+margin $\ge5416.28$, and for the discrete pair --- the pair the
+bounded-Lipschitz distance is attached to --- no functional of the counting
+data with constant below the stated threshold factors that separation. That
+identifies the prime-side weighted point configuration, relative to the
+stated controls, as audible; it does not by itself identify multiplicativity
+as the cause, because the controls vary the point geometry and the
+multiplicative structure together.
+
+\section{Limits of Audibility}
+\label{sec:audibility}
+% ============================================================
+
+The barrier comes first.
+
+For the curvature sums the relevant carrier is the aggregated curvature
+test kernel
+\[
+\mathcal K_{\kappa,\varepsilon}(z)
+:=\sum_{p\le\kappa}(\log p)^2\,z^2 e^{-\varepsilon^2z^2}\cos(z\log p),
+\]
+a sum over \emph{primes} in the \emph{ordinate} variable --- distinct from
+$G$, which sums over ordinates in the ratio variable; the two must not be
+interchanged. That $\mathcal K_{\kappa,\varepsilon}$, and not $G$, carries
+the continued curvature sums is an identity, not a reading: at the reference
+data,
+\[
+\sum_{k=1}^{N}\mathcal K_{\kappa,\varepsilon}(\gamma_k)=B=-19342.5476,
+\]
+the per-ordinate decomposition of the curvature anchor of the series.
+
+\begin{theorem}[Functional-equation symmetry barrier; proved]
+\label{thm:barrier}
+Let a zero be written $\rho=\beta+i\gamma$ and let $\delta=\beta-\tfrac12$
+denote its distance from the critical line. The functional equation
+$\xi(s)=\xi(1-s)$, together with reality of $\xi$ on the real axis, places
+zeros in orbits $\{\tfrac12\pm\delta\pm i\gamma\}$. Every symmetric functional
+of such an orbit is an even function of $\delta$. Evenness holds without any
+regularity hypothesis, and it already implies that no symmetric functional of
+the zero data --- in particular none of the observables of this paper, and
+none of the curvature sums of the earlier papers --- can determine the
+\emph{sign} of $\delta$. If such a functional is in addition differentiable at
+$\delta=0$, its first derivative there vanishes; if it is analytic, the first
+possibly non-zero Taylor coefficient is of even order. For the curvature sums
+of this series, whose $\delta$-dependence enters through the even orbit
+average
+
+\[
+\tfrac12\bigl(\mathcal K_{\kappa,\varepsilon}(\gamma_k+i\delta)
++\mathcal K_{\kappa,\varepsilon}(\gamma_k-i\delta)\bigr),
+\]
+
+that first term is the quadratic one, unless the aggregate quadratic
+coefficient happens to cancel. The class of observables studied here is
+therefore blind to the orientation of the displacement ---
+unconditionally. When such an observable is differentiable in $\delta$
+at $0$, its first derivative there vanishes; when it is real-analytic, its
+expansion contains only even powers, and the response to the magnitude
+begins at even order.
+\end{theorem}
+
+\begin{proof}
+The orbit is invariant under $\delta\mapsto-\delta$ by the functional
+equation combined with conjugation. A symmetric functional of an
+invariant set is invariant under any permutation of it, hence takes the same
+value at $\delta$ and $-\delta$; an even function of $\delta$ has vanishing
+first derivative at $\delta=0$. For the curvature sums the mechanism is
+explicit: each ordinate enters the continued sums through the even orbit
+average
+\[
+\tfrac12\bigl(\mathcal K_{\kappa,\varepsilon}(\gamma_k+i\delta)
++\mathcal K_{\kappa,\varepsilon}(\gamma_k-i\delta)\bigr)
+=\mathcal K_{\kappa,\varepsilon}(\gamma_k)
+-\tfrac{\delta^2}{2}\,\mathcal K_{\kappa,\varepsilon}''(\gamma_k)
++O(\delta^4),
+\]
+so the first-order term vanishes identically and the first possibly non-zero
+contribution is the aggregate quadratic one.
+\end{proof}
+
+This is a limit, not a lament, and it is stated before the measurement so that
+the measurement cannot be misread. The statement is precise about what fails:
+not that the observables carry no trace of a displacement whatever, but that
+they cannot resolve its direction, and that, under differentiability, the
+first-order response to its magnitude vanishes --- for the real-analytic
+curvature sums of this series, the response begins at the quadratic
+term, unless the aggregate quadratic coefficient happens to cancel. What
+the theorem bars is any inference to the
+\emph{orientation} of the displacement. The even-order response can depend on
+$|\beta-\tfrac12|$, so an inference to the \emph{magnitude} is not excluded by
+the theorem; whether the magnitude is in fact reconstructible from these
+observables is neither proved nor tested in this paper, and no such inference
+is made anywhere in it.
+
+What remains open to measurement is the ordinate side: does the coupling hear
+anything about the ordinates beyond their density class? The following
+measurement was designed and registered before it was run.
+
+\emph{Normalisation.} The ordinate axis is varied while the prime side is held
+fixed at $p\le\kappa$. Ordinates are unfolded against each world's own smooth
+counting function, $\tilde b_k:=N_W(b_k)$, giving unit density, and the
+Gaussian weight is applied on the unfolded scale with
+$\tilde\varepsilon=0.25$; robustness is checked at $\tilde\varepsilon=0.10$.
+Only unfolded statements carry discriminating content beyond density. The
+phasor argument in this battery is $\tilde b\log p$, without the trace
+parameter; this differs from the convention of \S\S\,\ref{sec:operator} to
+\ref{sec:barrier} and is declared here because the observables below are
+sensitive to it. The convention was fixed before the computation, not chosen
+after it.
+
+\emph{Design.} Five worlds, each constructed independently and given
+explicitly: the Riemann ordinates $W_\zeta$; the ordinates $W_{\chi_4}$ of the
+Dirichlet $L$-function of the non-principal character modulo $4$; those of the
+Dedekind zeta function of $\mathbb{Q}(i)$, a degree-two Euler object assembled
+as a union, $W_{\mathrm{Ded}}$; those of the Davenport--Heilbronn
+function~\cite{DavenportHeilbronn36}, which has a functional equation but no
+Euler product and of which only the imaginary ordinates enter --- its off-line
+real parts are discarded --- $W_{\mathrm{DH}}$; and a synthetic density skeleton
+$W_{\mathrm{syn}}$ with eight replicates supplying the scatter scale $S_i$.
+The skeleton is the exactly unfolded sequence $\tilde b_k=k-\tfrac12$,
+$k=1,\dots,30$, and the replicates are
+\[
+\tilde b_k^{(m)}=k-\tfrac12+0.25\,\sin\bigl(2\pi\{k\phi_m\}\bigr),
+\qquad \phi_m=\{\phi^{m}\},\quad m=1,\dots,8,
+\]
+with $\phi$ the golden ratio and $\{\cdot\}$ the fractional part: an explicit
+deterministic recipe, with no random number generator anywhere. The recipe
+degenerates, and the degeneration is worth stating precisely. Since
+$\phi^2=\phi+1$, one has $\{\phi\}=\{\phi^2\}$, so the replicates $m=1$ and
+$m=2$ coincide and only seven are distinct. Because $S_i$ below is a maximum
+over the replicates, a repeated replicate contributes a value already present:
+$S_i$ is numerically \emph{unchanged} by the degeneration. What is lost is one
+degree of freedom in the design, not scatter.
+
+With
+\[
+\Phi_{ij}=e^{-\tilde\varepsilon^2\tilde b_i^2/2}\sin(\tilde b_i\log p_j),
+\]
+$G^{\mathrm{un}}=\Phi^{\!\top}\Phi$ on the $16$-dimensional prime space and
+$\Tt=\Phi\Phi^{\!\top}$ on the ordinate space, the five observables fixed in
+advance were
+
+\begin{center}
+\begin{tabular}{@{}cll@{}}
+\toprule
+ & Observable & Normalisation \\
+\midrule
+$\mathcal{O}_1$ & $\sum_j(\log p_j)^2\sum_i e^{-\tilde\varepsilon^2\tilde b_i^2}\tilde b_i^2\cos(\tilde b_i\log p_j)$
+   & raw \\
+$\mathcal{O}_2$ & $\lambda_{\max}(G^{\mathrm{un}})/\mathrm{Tr}\,G^{\mathrm{un}}$ & dimensionless \\
+$\mathcal{O}_3$ & $\mathrm{Tr}\,G^{\mathrm{un}}$ & raw \\
+$\mathcal{O}_4$ & $\bigl(\sum_{i,j}|\Tt_{ij}|-\sum_i|\Tt_{ii}|\bigr)/ \sum_{i,j}|\Tt_{ij}|$ & fraction \\
+$\mathcal{O}_5$ & $\lambda_2(G^{\mathrm{un}})/\lambda_1(G^{\mathrm{un}})$ & dimensionless \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\emph{Criterion.} Registered in advance, with
+\[
+D_i(W):=\bigl|\mathcal{O}_i(W)-\mathcal{O}_i(W_{\mathrm{syn}})\bigr|,
+\qquad
+S_i:=\max_{m=1,\dots,8}
+\bigl|\mathcal{O}_i(W^{(m)})-\mathcal{O}_i(W_{\mathrm{syn}})\bigr|,
+\]
+a world $W$ separates on $\mathcal{O}_i$ if $D_i(W)>3S_i$. The design note fixing worlds, observables, criterion and window
+is dated and archived with the verification code~\cite{Code}.
+
+\emph{Outcome (numerical).} The criterion is not met, and not narrowly. At
+$\tilde\varepsilon=0.25$ the scatter scales are
+$S_1=640.995$, $S_2=0.151280$, $S_3=4.71715$, $S_4=0.0515498$,
+$S_5=0.483144$, and the ratios $D_i/S_i$ are
+
+\begin{center}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & $\mathcal{O}_1$ & $\mathcal{O}_2$ & $\mathcal{O}_3$ & $\mathcal{O}_4$
+ & $\mathcal{O}_5$ \\
+\midrule
+$W_\zeta$            & 0.299 & 0.069 & 0.055 & 0.580 & 0.135 \\
+$W_{\chi_4}$         & 0.342 & 0.031 & 0.064 & 0.324 & 0.073 \\
+$W_{\mathrm{Ded}}$   & 0.154 & 0.630 & 0.586 & 0.270 & 0.270 \\
+$W_{\mathrm{DH}}$    & 0.082 & 0.060 & 0.018 & 0.168 & 0.012 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The largest entry of the whole matrix is $0.630$, a factor $4.8$ below the
+threshold; not one cell reaches even one scatter unit. At
+$\tilde\varepsilon=0.10$ the picture is unchanged, with maximum $0.799$. In
+particular the world with a functional equation but no Euler product does not
+separate either: there is no non-Euler anomaly on this axis. The outcome is
+qualitatively compatible with broad universality heuristics for unfolded local
+statistics~\cite{RudnickSarnak96}, but the battery does not test an $n$-level
+correlation law; its registered conclusion is only that none of the five
+observables separates the declared worlds at the stated threshold.
+
+\emph{Scope.} The finding holds for this battery, this window and this
+coupling. Pair and correlation statistics of the unfolded ordinates were not
+examined; any continuation would be a new experiment requiring its own
+pre-registration. The effective sample behind the gate is small ---
+$n=(\sum_kw_k)^2/\sum_kw_k^2\approx7.1$ at $\tilde\varepsilon=0.25$ and
+$17.6$ at $\tilde\varepsilon=0.10$, the Kish effective size of the Gaussian
+gate weights $w_k=e^{-\tilde\varepsilon^2\tilde b_k^2/2}$ on the $30$
+unfolded ordinates (\texttt{ess\_gate.py}) --- and this was declared in
+advance as the weakest point. No no-go theorem is derived from
+this measurement, and it says nothing whatever about the Riemann Hypothesis.
+The term \emph{pre-registered} is used here as a methodological import from
+the experimental sciences, and is meant literally: design, observables and
+criterion were fixed in a dated document before the computation was run.
+
+\emph{Completeness.} That the ordinate lists are complete in the window was
+verified by rectangle counting via the argument principle. For the two worlds
+whose lists had to be constructed by an independent sign search --- the
+character world and the world with a functional equation but no Euler product
+--- the winding number came out at exactly $30$ in each case, with contour
+minimum modulus at least $0.27$. This is a numerical verification, not an
+interval-arithmetic one, and is labelled accordingly. As a by-product, all
+zeros of the Davenport--Heilbronn function in the window lie on the line, the
+first off-line ordinate, at $85.70$~\cite{Spira94}, lying above the window
+maximum $64.04$ --- a statement about the known zero list, independent of the
+rectangle count.
+
+\section{The Audibility Classification and Discussion}
+\label{sec:discussion}
+% ============================================================
+
+The three preceding sections classify the coupling along three axes.
+Throughout this paper, \emph{audible} is used in a relative sense: a feature
+of the data is called audible if some observable of the stated class
+separates the world carrying it from the stated comparison worlds. The
+classification below is therefore always relative to the declared observable
+class and the declared controls; no absolute notion of audibility is
+asserted.
+
+\begin{center}
+\begin{tabular}{@{}l p{4.6cm} l@{}}
+\toprule
+Axis & Finding & Status \\
+\midrule
+Prime-side point configuration vs.\ stated controls & audible, margins
+  $\ge5343.90$ / $\ge5416.28$ & certified \\
+Prime-side Beurling within-class variation & \raggedright not distinguished at the
+  level of the proved leading laws; same $R$, $\Delta_0$, $F$ and band;
+  lower-order discrimination not excluded & proved \tabularnewline
+Ordinates beyond unfolded one-point density & not separated on this battery &
+numerical \\
+Zero-orbit orientation & not audible; first derivative zero when
+  differentiable & proved \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The order is the point. The barrier is a theorem, so the last row is not a
+gap in the measurement but a boundary of the object; the third row is a
+measurement with a declared scope; and the second row is a proved
+\emph{invariance} --- within the class the proved leading asymptotic data do not distinguish:
+$R$, $\Delta_0$, $F$ and the band are class-independent. The
+system-dependent remainder terms are not controlled sharply enough here to
+exclude lower-order discrimination. The first row states what is certified ---
+the prime-side point configuration separates from the stated controls --- and
+a multiplicative reading of that separation, that what is heard is Euler
+structure, is available as an \emph{interpretation} and is marked as one here:
+the controls of \S\,\ref{sec:barrier} vary point geometry and multiplicative
+structure together, so the certified statement does not attribute the
+separation to either alone. The identification experiment that would decide
+this is stated as Open Problem~\ref{op:ident}. A function-side
+reconstruction experiment, reported after this discussion, is directionally
+compatible with this reading. Read so, the first and
+second rows together say that this coupling is an instrument for arithmetic
+point structure and for counting density --- the latter as the surviving
+class parameter --- and for nothing else that we were able to test on this
+finite battery.
+
+\emph{Numerical observation} (function-side reconstruction; a separate
+experiment, not part of the \S\,\ref{sec:audibility} battery). The
+experiment asks how much of the zero placement, and of the area signature
+between consecutive zeros, a phasor field recovers along the critical line.
+Truth is Hardy's $Z(t)$ on $t\in[100,600]$ (grid $0.04$; $312$ zeros of the
+extended list \texttt{zeros\_650.csv}, cross-checked against the normative
+first-$100$ layer, which it reproduces exactly in double precision, hence
+$311$ areas); the models are the finite cosine sums
+$F(t)=\sum_n 2n^{-1/2}\cos(\theta(t)-t\log n)$ over declared index sets
+inside the Riemann--Siegel window $n\le\sqrt{t/2\pi}$, with two
+pre-declared metrics: zero recovery at tolerance $0.25$ of the local mean
+spacing, and Spearman rank correlation of the areas. With all amplitudes
+fixed at $2n^{-1/2}$, the full window set recovers $98.1\%$ of the zeros
+with $0.0\%$ spurious crossings and area correlation $0.980$; prime indices
+alone drop recovery to $34.6\%$ with $35.4\%$ spurious; adding the constant
+mode and the prime powers $\{4,8,9\}$ reaches $85.9\%$; the single
+semiprime term $n=6=2\cdot3$ closes the gap back to $98.1\%$. After the
+amplitude normalisation, the degradation pattern under removal of composite
+modes is consistent with sensitivity to combination frequencies of already
+active prime modes. The comparison with the curvature side is directional
+only: the curvature controls of \S\,\ref{sec:barrier} vary multiplicative
+structure and point geometry together, so the two experiments are
+directionally compatible, but no common causal feature is established. The
+experiment is produced by \texttt{function\_side\_reconstruction.py} (\S\,\ref{sec:methods}).
+
+\subsection{Near-coincidence fusions}
+
+\emph{Numerical observation.} The resolution scale of
+\S\,\ref{sec:operator} has a sharper consequence once
+the mode set is completed to prime powers. Three further pairs fuse: $31$ with $32$ at
+correlation $0.977$, $16$ with $17$ at $0.908$, and $47$ with $49$ at $0.907$.
+In each case a prime power lands beside a neighbouring prime --- $2^5$ beside
+$31$, $2^4$ beside $17$, $7^2$ beside $47$ --- and the two directions become
+indistinguishable to the operator. The effect is deterministic logarithmic
+geometry and nothing else: the kernel sees $\log n$. Across the completed
+$24$-mode reference set, and at the reference parameters, every pair whose
+logarithms differ by less than roughly $0.065$ was found unresolved; this is
+a one-sided empirical rule for that set, not a general resolution criterion,
+since the pair correlation runs through $G(\log mn)$ as well and is
+therefore not monotone in $|\log m-\log n|$ alone. This threshold is genuinely smaller than the rule of
+thumb $0.12$ obtained by calibrating on prime pairs alone, which is too loose
+for power pairs; the pair $(25,27)$ at logarithmic distance $0.0770$ does not
+fuse, reaching only $0.540$, and the pair $(8,9)$ at $0.1178$ reaches
+$0.224$. Multiplicative structure meets additive structure at these points,
+and the instrument cannot tell them apart.
+
+\subsection{Delineation}
+
+The following delineations are stated rather than implied.
+
+\emph{Prime cutoff against prime indexing.} The line of work of Connes and
+collaborators constructs self-adjoint operators from truncated Euler products,
+the truncation parameter controlling which primes $p\le c$ enter the
+operator~\cite{Connes26,ConnesVS25,Groskin26a}. Self-adjointness is there by
+construction, so the spectrum is real by design; what is approximated is the
+sequence of ordinates, and the entire weight of the Riemann Hypothesis rests
+on an unproven convergence as the cutoff grows. This does not conflict with
+Theorem~\ref{thm:barrier}, whose subject is different: not whether some
+operator can be built whose spectrum is real, but whether the distance of a
+zero from the critical line can be \emph{read off} a class of observables that
+presupposes nothing. In the language of that programme, the scaling spectral
+triple plays the role of the archimedean factor --- the truncated completion
+$\xi=\Gamma_{\mathbb{R}}\prod(1-p^{-s})^{-1}$ in operator form --- and the same
+ingredient that produces the zeros removes, for symmetric functionals, their
+location. Here the primes are the index set of a Gram operator and the
+ordinates are frequencies; that is a different architecture, not a variant of
+the same one.
+
+\emph{The nearest neighbour.} Groskin's finite Guinand--Weil
+dictionary~\cite{Groskin26b} establishes, for the truncated Weil quadratic
+form, an exact finite correspondence in which the value of the truncated form
+on a Galerkin coefficient vector equals a sum of an explicitly constructed
+band-limited test function over the non-trivial zeros. This is thematically
+adjacent to the trace identity of \S\,\ref{sec:operator}: both are exact
+finite bridges between an operator quantity and a sum over zeros.
+Architecturally the two are separate. That construction lives on the
+test-function side, in a frequency-band basis, and its object is Weil
+positivity; there is no prime--ordinate Gram coupling in it, no variation of
+the arithmetic world, and no question of audibility. Neither result implies
+the other, and neither is a special case of the other.
+
+\emph{Screw functions.} Suzuki's unification of the Weil quadratic
+form~\cite{Suzuki26} treats the same positivity question through continuous
+functions rather than distributions; it is adjacent, and likewise free of any
+assumption of the Riemann Hypothesis. It does not index by primes.
+
+\emph{Local Euler factors.} Liu's operator pencils~\cite{Liu26} encode local
+Euler factors prime by prime and compose them as a restricted tensor product.
+Primes do appear there as an index family, which makes this the closest
+parallel track on the indexing question; but the objects are local factors,
+not a global coupling between primes and ordinates, and no spectral ratio,
+no class transfer and no audibility question arises.
+
+\emph{Arithmetical matrices.} Hilberdink and Pushnitski~\cite{HilberdinkPushnitski24}
+obtain spectral asymptotics for a fixed family of arithmetical matrices, with
+the same constant governing both spectral branches, and indicate a connection
+to Beurling systems. That constant belongs to that matrix family. Theorem~\ref{thm:class}
+establishes a different statement: the present leading objects $R$,
+$\Delta_0$, $F$, and their band are invariant across systems in
+$\Dclass$. It does not establish uniqueness of those objects across
+different density classes.
+
+\emph{Operators over Beurling-induced spaces.}
+Kouroupis~\cite{Kouroupis23} studies Hardy spaces of generalised Dirichlet
+series induced by Beurling primes and shows that boundedness and compactness
+of certain composition operators do not depend on the choice of primes. This is genuine operator
+theory over Beurling systems, but there is no Gram matrix, no ordinate
+channel, and no fingerprint in asymptotic spectral constants.
+
+\emph{Off-line zeros.} The Davenport--Heilbronn function is the standard
+reference for the statement that a functional equation without an Euler
+product does not force the zeros onto the line~\cite{DavenportHeilbronn36}. It
+is not the first documented off-line zero: that record belongs to the work of
+Potter and Titchmarsh on the Epstein zeta function~\cite{PotterTitchmarsh35,
+Epstein03}.
+
+% ============================================================
+\section{Methods and Verification}
+\label{sec:methods}
+
+\emph{Ordinate protocol.} Two layers are used and never mixed. The normative
+layer is a fixed list of the first $100$ ordinates in double precision; it
+defines every anchor value and every tolerance quoted in this paper, and it is
+the reason no figure here is quoted beyond the precision that list supports.
+Where a certificate requires more, the ordinates are obtained as certified
+enclosures from Arb's zeta-zero isolation, and the ball midpoints are subject
+to a mandatory cross-check against the normative layer, which they must
+reproduce exactly in double precision; the enclosures are then part of the
+certificate itself. For non-certified high-precision work the regeneration
+recipe remains \texttt{mpmath.zetazero} at $30$ digits, under the same
+cross-check. No regenerated list is archived; the generating scripts are.
+The extended list \texttt{zeros\_650.csv} is a named, non-normative
+auxiliary file used for exactly one numerical experiment
+(\S\,\ref{sec:discussion}); it defines no anchor and no tolerance, and its
+first $100$ entries reproduce the normative layer exactly in double
+precision. No further \emph{normative} ordinate file exists.
+
+\emph{Artefacts.} Each machine-checked statement of this paper has a named
+artefact in the code repository~\cite{Code}. The anchor and prohibition checks
+of the manuscript are \texttt{verify\_paper9.py} (v0.31, 277 checks;
+the script verifies its own check count and exits with failure on any
+shortfall, so a partial run cannot end in success --- it is a drift gate over
+the quoted values, recomputing the anchors marked for recomputation, and does
+not itself reproduce the experiments). The five-world battery of
+\S\,\ref{sec:audibility} is produced by \texttt{unfolded\_discrimination.py}:
+world construction including the Hurwitz-zeta $\chi_4$-line and the
+Davenport--Heilbronn ordinates after the functional-equation construction,
+the five observables with their scatter scales, and the completeness counts
+by the argument principle; the non-$\zeta$ ordinate lists are constructed
+deterministically inside the script, which therefore serves as their
+generation protocol; for $W_\zeta$ the script regenerates the first $31$
+ordinates internally with \texttt{mpmath.zetazero} at $40$ digits and
+cross-checks them against the normative \texttt{zeros\_100.csv}. The effective gate
+size is the one-line computation of \texttt{ess\_gate.py}. Both
+certificate artefacts obtain their ordinates by Arb zeta-zero isolation
+(\texttt{acb.zeta\_zeros}) under exact double-precision cross-check
+against the normative layer. The function-side reconstruction experiment of \S\,\ref{sec:discussion} is
+produced by \texttt{function\_side\_reconstruction.py}: truth grid, index sets, tolerance and
+both metrics are declared in the script, and the quoted recovery and
+correlation figures are its direct output; its ordinate input is the
+auxiliary file \texttt{zeros\_650.csv}. The two-point separation of
+Theorem~\ref{thm:nonconv} is certified by \texttt{cert\_paper9\_ratio.py}
+(v1.2), which obtains the ordinates as certified enclosures from Arb's
+zeta-zero isolation, cross-checks the ball midpoints against the normative
+double-precision layer, builds the limit matrices as ball matrices, bounds the
+leading eigenvalue from below by a Rayleigh quotient at $u_1$ and from above
+by a trace power at $u_2$, and divides the resulting intervals outward. The margins of Theorem~\ref{thm:disc}, the closed
+antiderivative replacing quadrature, the window covering and the linear
+program certifying $\dBL$ in Theorem~\ref{thm:fact} are produced by
+\texttt{certify\_smooth\_controls.py} (v2.0) as downward-rounded certified lower bounds;
+for non-certified high-precision regeneration,
+\texttt{gen\_zeros.py} computes the first $100$ ordinates with
+\texttt{mpmath.zetazero} at $30$ digits and cross-checks their
+double-precision values against the normative \texttt{zeros\_100.csv}. It
+is not an input to either Arb certificate. Each certificate script obtains
+its own certified zero enclosures internally via \texttt{acb.zeta\_zeros}
+and performs the mandatory midpoint cross-check against the normative
+layer.
+
+\emph{Certificate stack.} Certified statements use ball arithmetic in Arb
+through its Python interface, \texttt{python-flint}~0.9.0 on
+FLINT~3.6.0~\cite{Johansson17}; non-certified numerics use
+\texttt{mpmath}~1.4.0~\cite{mpmath} at the precision stated in each place. The
+off-line control quoted from the earlier work of this series rests on the
+verified height $H_0=3\cdot10^{12}$~\cite{PlattTrudgian21}, an unconditional
+finite computation.
+
+\emph{Reproducibility.} The mechanical checks are of four kinds, and the
+gate distinguishes them: values marked for recomputation are recomputed from
+the ordinate list; textual anchors are drift anchors --- their presence is
+enforced, their values fixed by the artefact that produced them; interval
+statements have dedicated certificate artefacts whose outputs are themselves
+checked as anchors; and the identities of Theorems~\ref{thm:imported}
+and~\ref{thm:kernel} are checked as identities, not as approximate
+agreements. Plots are not reproduced here; they live in the
+code repository together with the scripts.
+
+\section{Open Problems}
+\label{sec:open}
+% ============================================================
+
+These are bequests, not a programme. Each is stated in the terms in which it
+would have to be answered.
+
+\begin{openproblem}[Pointwise finality of the divergence]
+\label{op:pointwise}
+Theorem~\ref{thm:eta} is a statement about window means, and
+Theorem~\ref{thm:nonconv} about limit points.
+
+\smallskip
+\noindent\emph{Given.} The profile $f(e^u)$ of Lemma~\ref{lem:fmean} and the
+recurrence of the Kronecker flow.
+
+\smallskip
+\noindent\emph{Target.} A pointwise statement: does
+$\eta_{\mathrm{orig}}(\kappa)\to-\infty$ without averaging?
+
+\smallskip
+\noindent The question splits into two tasks. First, remainder control in
+the small-profile regime: pointwise, Step~3 of the proof of
+Theorem~\ref{thm:eta} gives
+\[
+\eta_{\mathrm{orig}}(e^u)=-\frac{4e^uf(e^u)}{\WeN u^2}+O\Bigl(\frac{e^u}{u^3}\Bigr),
+\]
+so once
+$f(e^u)\lesssim1/u$ the leading term falls to the size of the remainder and
+the remainder decides the sign. Second, quantitative
+simultaneous approximation: under the additional, unproved hypothesis that
+the reference ordinates are linearly independent over $\mathbb{Q}$,
+Kronecker approximation gives $\inf_u f(e^u)=0$, but supplies no rate;
+without that hypothesis even the infimum is not established here. What
+matters is therefore how often and how deeply $f$ nearly vanishes, not that
+it does. The dichotomy is unresolved in both
+directions.
+\end{openproblem}
+
+\begin{openproblem}[Minimal order break]
+\label{op:order}
+Theorem~\ref{thm:class} covers density classes whose remainder is
+$O(x/(\log x)^{2+\delta})$. Determine the minimal deviation from
+$\vartheta_{\mathfrak{B}}(x)\sim x$ that destroys the class laws, rather than merely
+degrading their rates. Whether the scaling laws hold uniformly over the
+sideband family of Theorem~\ref{thm:sideband} --- non-constancy of the
+transferred ratio and positivity of the transferred profile for all
+admissible $(a,\omega)$ --- is likewise open. So is the status of the
+early-data bound: whether $M_0$ in the uniformity clause of
+Theorem~\ref{thm:class} can be dispensed with at fixed $(C,x_0)$: whether
+the uniformity of the conclusions persists on $\Dclass(C,x_0)$ without the
+early-count bound is open; any proof would have to bypass uniform
+equidistribution control, which finite insertion near $1$ destroys (see
+the Remark after Theorem~\ref{thm:class}). It is not
+decided here.
+\end{openproblem}
+
+\begin{openproblem}[Exceptional measure under intermediate conditions]
+\label{op:exceptional}
+It is not established here that the window bound admits any exceptional-set
+control under the hypothesis of Definition~\ref{def:beurling}; the tail
+available to the present argument is polynomial rather than summable, which
+would cap such a control, if one exists, at density tending to zero. Determine
+whether an exceptional-set statement holds at all under $\Dclass$, of what
+strength, and what additional summability of the error term, if any, yields
+finite measure.
+\end{openproblem}
+
+\begin{openproblem}[Family form of the factorisation barrier]
+\label{op:family}
+Theorem~\ref{thm:fact} compares one pair of worlds. Establish a barrier
+uniform over a family of control worlds, and determine whether the threshold
+constant can be pushed beyond the bounded-Lipschitz class.
+\end{openproblem}
+
+\begin{openproblem}[Pair statistics on the unfolded axis]
+\label{op:pair}
+The measurement of \S\,\ref{sec:audibility} used one-point observables.
+Whether pair or higher correlation statistics of the unfolded ordinates
+separate arithmetic worlds from a density skeleton, under a criterion fixed in
+advance, is untested here.
+\end{openproblem}
+
+\begin{openproblem}[Identification design for the prime-side separation]
+\label{op:ident}
+The certified discrimination of \S\,\ref{sec:barrier} separates the prime
+configuration from density-matched controls; it does not identify which
+feature carries the separation, because those controls vary the one-point
+geometry and the multiplicative structure together. Construct a family of
+control worlds matched to the primes in multiplicative structure while varying
+the one-point geometry, or matched in one-point geometry while varying
+multiplicativity, with margins and criterion fixed in advance --- the
+experiment that would turn the interpretation of
+\S\,\ref{sec:discussion} into a result, in either direction.
+\end{openproblem}
+
+\begin{openproblem}[Canonicity beyond the trigonometric class]
+\label{op:canon}
+Lemma~\ref{lem:canonicity} is proved for finite spectra. The analytic
+ingredients \eqref{eq:addAC} and \eqref{eq:multAC}, and the exclusion
+$0\notin\mathcal{F}$, hold in the full Bohr class by
+Proposition~\ref{prop:resonance} under (H1)--(H2). What is missing is purely combinatorial: do
+these three conditions force $\#\mathcal{F}=1$ for countable $\mathcal{F}$
+with square-summable coefficients? The hardest model case is
+$\mathcal{F}\subset\mathbb{Z}$, where the conditions become fibre relations
+$\sum_m a_{pm}\overline{a_{qm}}=0$. Proposition~\ref{prop:resonance}(b),
+under (H1)--(H2), already excludes every spectrum in which some difference or
+some same-sign ratio is uniquely represented.
+\end{openproblem}
+
+% ============================================================
+\section*{Non-Circularity}
+\label{sec:nocirc}
+% ============================================================
+
+We document explicitly that the results of this paper do not rely on the
+objects they are directed toward.
+
+\textbf{No RH as input.}
+The Riemann Hypothesis is never assumed. The ordinates enter as numerically
+specified inputs; no property of their distribution requiring the Riemann
+Hypothesis is used. Theorem~\ref{thm:barrier} is a statement about the
+functional equation alone.
+
+\textbf{No GUE, Montgomery, or Hilbert--P\'olya hypothesis.}
+The distribution of the ordinates is not modelled by random matrix theory.
+The random-matrix literature enters only as background motivation for the
+comparison reported in \S\,\ref{sec:audibility}, never as an assumption and
+never as a hypothesis the battery tests. The coupling operator is neither postulated nor used as a
+Hilbert--P\'olya operator; Paper~4~\cite{Paper4} reports a numerical
+diagnostic failure on its tested finite-cutoff grid. Its entries are
+explicit deterministic arithmetic expressions.
+
+\textbf{No inference from a discriminator to a location.}
+The discrimination established in \S\,\ref{sec:barrier} concerns the prime
+side, and two levels must be kept apart. The ordinate channel that carries the
+coupling is external and identical in both comparisons; separately, the
+intrinsic zeta function of the smooth control world is zero-free
+(Remark~\ref{rem:smoothzeta}), which is a property of that auxiliary object
+and is never transferred to the external ordinates. No statement about the
+position of any zero is drawn from any observable in this paper. Theorem~\ref{thm:barrier} states in which sense such
+an inference is barred: the observables are even in the signed displacement, so
+its orientation is not recoverable and its magnitude is invisible to first
+order.
+
+\textbf{Synthetic worlds are comparison data.}
+The constructed worlds of \S\,\ref{sec:audibility} are comparison data. No
+property of any of them is transferred to the zeta function, and the
+Davenport--Heilbronn data are used as ordinates only.
+
+\textbf{No claim of an RH criterion.}
+Nothing in this paper is offered as a criterion for, or as evidence for or
+against, the Riemann Hypothesis. The negativity of the curvature is a
+one-sided second-moment fact; the classification is a statement about the
+reach of an instrument.
+
+% ============================================================
+\section*{Acknowledgments}
+% ============================================================
+
+The author thanks the readers who provided feedback on earlier versions of
+this paper and on the preceding papers in the series.
+
+% ============================================================
+\section*{Call for Feedback}
+% ============================================================
+
+This paper is part of an open research initiative on prime--zero
+coupling and explicit-formula operators.
+All papers in the series are freely available on Zenodo under CC~BY~4.0, and
+the accompanying verification code is hosted on GitHub.
+
+{\raggedright
+Zenodo:\\
+\url{https://zenodo.org/search?q=metadata.creators.person_or_org.name\%3A\%22Tehrani\%2C\%20Ulrich\%22}\\
+GitHub:\\
+\url{https://github.com/utehrani/analysislab-nt}
+\par}
+
+Topics of particular interest include: the combinatorial question of
+Open Problem~\ref{op:canon}; sharpenings of the factorisation barrier beyond
+the bounded-Lipschitz class; and any observable of the coupling data that
+separates an arithmetic world from a density skeleton under a criterion fixed
+in advance.
+
+% ============================================================
+% References
+% ============================================================
+\newpage
+\begin{thebibliography}{99}
+\sloppy
+
+\bibitem{Paper1}
+U.~Tehrani,
+``A Curvature Decomposition of the Explicit Formula
+for the Riemann Zeta Function'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19025598}, 2026.
+
+\bibitem{Paper2}
+U.~Tehrani,
+``From Local Curvature to the Weil Functional:
+An Explicit Construction'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19106992}, 2026.
+
+\bibitem{Paper3}
+U.~Tehrani,
+``A Finite-Cutoff Hilbert-Space Model
+for Prime--Zero Energy Structure'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19307989}, 2026.
+
+\bibitem{Paper4}
+U.~Tehrani,
+``A Dual Operator for Prime--Zero Coupling
+and a Conditional Proof of Energy Asymmetry'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19364703}, 2026.
+
+\bibitem{Paper5}
+U.~Tehrani,
+``Spectral Trace Formula and Smoothed Zero Sums:
+A Prime--Zero Duality Framework'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19508547}, 2026.
+
+\bibitem{Paper6}
+U.~Tehrani,
+``Positive Curvature of the Spectral Trace
+at the Critical Line'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19665790}, 2026.
+
+\bibitem{Paper7}
+U.~Tehrani,
+``Conditional Stationarity and Positive Curvature of the
+Spectral Trace at the Critical Line'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.20440671}, 2026.
+
+\bibitem{Paper8}
+U.~Tehrani,
+``Unconditional Negativity of the Second-Moment Bias
+and Off-Line Robustness'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.20792123}, 2026.
+
+\bibitem{PlattTrudgian21}
+D.J.~Platt and T.~Trudgian,
+``The Riemann hypothesis is true up to $3\cdot10^{12}$'',
+\emph{Bull.\ Lond.\ Math.\ Soc.} \textbf{53} (2021), no.~3, 792--797.
+
+\bibitem{Connes26}
+A.~Connes,
+``The Riemann Hypothesis: Past, Present and a Letter Through Time'',
+arXiv:2602.04022, 2026.
+
+\bibitem{ConnesVS25}
+A.~Connes and W.D.~van Suijlekom,
+``Quadratic Forms, Real Zeros and Echoes of the Spectral Action'',
+\emph{Comm.\ Math.\ Phys.} \textbf{406} (2025), art.~312,
+DOI 10.1007/s00220-025-05493-1; arXiv:2511.23257.
+
+\bibitem{Groskin26a}
+A.~Groskin,
+``High-Precision Approximation of Riemann Zeros via the Truncated Weil
+Form'',
+arXiv:2605.20224, 2026.
+
+\bibitem{Montgomery73}
+H.L.~Montgomery,
+``The pair correlation of zeros of the zeta function'',
+in \emph{Analytic Number Theory}, Proc.\ Sympos.\ Pure Math.\ \textbf{24},
+Amer.\ Math.\ Soc., 1973, 181--193.
+
+\bibitem{Odlyzko87}
+A.M.~Odlyzko,
+``On the distribution of spacings between zeros of the zeta function'',
+\emph{Math.\ Comp.} \textbf{48} (1987), no.~177, 273--308.
+
+\bibitem{BogomolnyKeating96}
+E.B.~Bogomolny and J.P.~Keating,
+``Random matrix theory and the Riemann zeros II: $n$-point correlations'',
+\emph{Nonlinearity} \textbf{9} (1996), no.~4, 911--935.
+
+\bibitem{RudnickSarnak96}
+Z.~Rudnick and P.~Sarnak,
+``Zeros of principal $L$-functions and random matrix theory'',
+\emph{Duke Math.\ J.} \textbf{81} (1996), no.~2, 269--322.
+
+\bibitem{KatzSarnak99}
+N.M.~Katz and P.~Sarnak,
+``Zeros of zeta functions and symmetry'',
+\emph{Bull.\ Amer.\ Math.\ Soc.} \textbf{36} (1999), no.~1, 1--26.
+
+\bibitem{Besicovitch32}
+A.S.~Besicovitch,
+\emph{Almost Periodic Functions},
+Cambridge University Press, 1932.
+
+\bibitem{Corduneanu68}
+C.~Corduneanu,
+\emph{Almost Periodic Functions},
+Interscience, New York, 1968.
+
+\bibitem{IwaniecKowalski}
+H.~Iwaniec and E.~Kowalski,
+\emph{Analytic Number Theory},
+Amer.\ Math.\ Soc.\ Colloq.\ Publ.\ \textbf{53}, 2004.
+
+\bibitem{Beurling37}
+A.~Beurling,
+``Analyse de la loi asymptotique de la distribution des nombres premiers
+g\'en\'eralis\'es. I'',
+\emph{Acta Math.} \textbf{68} (1937), no.~1, 255--291.
+
+\bibitem{DiamondZhang16}
+H.G.~Diamond and W.-B.~Zhang,
+\emph{Beurling Generalized Numbers},
+Math.\ Surveys Monogr.\ \textbf{213}, Amer.\ Math.\ Soc., 2016.
+
+\bibitem{DebruyneVindas17}
+G.~Debruyne and J.~Vindas,
+``On PNT equivalences for Beurling numbers'',
+\emph{Monatsh.\ Math.} \textbf{184} (2017), no.~3, 401--424.
+
+\bibitem{Johansson17}
+F.~Johansson,
+``Arb: efficient arbitrary-precision midpoint-radius interval arithmetic'',
+\emph{IEEE Trans.\ Comput.} \textbf{66} (2017), no.~8, 1281--1292.
+
+\bibitem{mpmath}
+The mpmath development team,
+\emph{mpmath: a Python library for arbitrary-precision floating-point
+arithmetic}, version~1.4.0, 2026, \texttt{http://mpmath.org/}.
+
+\bibitem{DavenportHeilbronn36}
+H.~Davenport and H.~Heilbronn,
+``On the zeros of certain Dirichlet series'',
+\emph{J.\ London Math.\ Soc.} \textbf{11} (1936), 181--185.
+
+\bibitem{PotterTitchmarsh35}
+H.S.A.~Potter and E.C.~Titchmarsh,
+``The zeros of Epstein's zeta-functions'',
+\emph{Proc.\ London Math.\ Soc.} (2) \textbf{39} (1935), 372--384.
+
+\bibitem{Epstein03}
+P.~Epstein,
+``Zur Theorie allgemeiner Zetafunktionen'',
+\emph{Math.\ Ann.} \textbf{56} (1903), 615--644.
+
+\bibitem{Groskin26b}
+A.~Groskin,
+``A finite Guinand--Weil dictionary and archimedean tail order for the
+truncated Weil quadratic form'',
+arXiv:2607.02828, 2026.
+
+\bibitem{Spira94}
+R.~Spira,
+``Some zeros of the Titchmarsh counterexample'',
+Math.\ Comp.\ \textbf{63} (1994), no.~208, 747--748.
+
+\bibitem{Suzuki26}
+M.~Suzuki,
+``Weil's quadratic form via the screw function'',
+arXiv:2606.09096, 2026.
+
+\bibitem{Liu26}
+K.~Liu,
+``A local Hilbert--P\'olya realisation for elliptic curve
+$L$-func\-tions'', arXiv:2605.\allowbreak17645v2, 2026.
+
+\bibitem{Kouroupis23}
+A.~Kouroupis,
+``Composition operators and generalized primes'',
+\emph{Proc.\ Amer.\ Math.\ Soc.} \textbf{151} (2023), no.~10, 4291--4305,
+DOI 10.1090/proc/16395; arXiv:2208.10170.
+
+\bibitem{HilberdinkPushnitski24}
+T.~Hilberdink and A.~Pushnitski,
+``Spectral asymptotics for a family of arithmetical matrices and connection
+to Beurling primes'',
+arXiv:2401.06892, 2024.
+
+\bibitem{Code}
+U.~Tehrani,
+Verification scripts for the prime--zero coupling series,
+GitHub, \url{https://github.com/utehrani/analysislab-nt}.
+
+\end{thebibliography}
+
+% ============================================================
+% Footer
+% ============================================================
+\enlargethispage{3\baselineskip}
+\vspace*{\fill}
+\begin{minipage}{\linewidth}
+\rule{\linewidth}{0.4pt}\smallskip\\
+\small\emph{Paper~9 v0.31 \textperiodcentered\ August~2026
+\textperiodcentered\ Pauca sed matura}
+\end{minipage}
+
+\end{document}
