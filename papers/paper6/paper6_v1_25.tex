@@ -1,0 +1,1922 @@
+% ============================================================
+% Paper 6 - Positive Curvature of the Spectral Trace
+%           at the Critical Line
+%
+% Author:   Ulrich Tehrani
+% Date:     May 2026
+% Version: v1.25
+% Zenodo:   https://doi.org/10.5281/zenodo.19665790
+% License:  CC BY 4.0
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+\emergencystretch=1em
+
+% --------------------------------------------------------
+% Theorem environments (numbered within section)
+% --------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{remark}{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+% Heuristic environment (clearly marked, never used in proofs)
+\newenvironment{heuristic}[1]{%
+  \par\smallskip\noindent\textit{[Heuristic: #1]}\quad}{%
+  \par\smallskip}
+
+% --------------------------------------------------------
+% Convention box — clean ruled box, no mdframed
+% --------------------------------------------------------
+\newenvironment{conventionbox}{%
+  \medskip
+  \noindent\rule{\linewidth}{0.4pt}\smallskip\par\noindent
+}{%
+  \par\smallskip\noindent\rule{\linewidth}{0.4pt}
+  \medskip
+}
+
+% --------------------------------------------------------
+% Series-wide macros
+% --------------------------------------------------------
+\newcommand{\Hstr}{H_{\mathrm{str}}}
+\newcommand{\Hnull}{H_{\mathrm{null}}}
+\newcommand{\Estr}{E_{\mathrm{str}}}
+\newcommand{\Espec}{E_{\mathrm{spec}}}
+\newcommand{\etaorig}{\eta_{\mathrm{orig}}}
+\newcommand{\Tren}{T_{\mathrm{ren}}}
+\newcommand{\Tt}{\widetilde{T}}
+\newcommand{\Gun}{G^{\mathrm{un}}}
+\newcommand{\Hlocal}{H_{\mathrm{local}}}
+
+% Smoothed zero sums and trace objects
+\newcommand{\DSEL}{D_{\mathrm{SEL}}}
+\newcommand{\Ediag}{E_{\mathrm{diag}}}
+\newcommand{\Ddiag}{D_{\mathrm{diag}}}
+
+% Constants (always use subscript — never plain C)
+\newcommand{\Ceta}{C_{\eta}}
+\newcommand{\CT}{C_{T}}
+
+% --------------------------------------------------------
+% Title
+% --------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries Positive Curvature of the Spectral Trace
+at the Critical Line}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ August 2026
+      \textperiodcentered\ v1.25}
+
+% ============================================================
+\begin{document}
+\maketitle
+% ============================================================
+
+\begin{abstract}
+Building on the exact trace formula $\mathrm{Tr}(\Tt(\sigma))=\DSEL-O(\sigma)$
+established in~\cite{Paper5}, we give a structural analysis of the
+second-order curvature of the spectral trace at the critical line
+and reduce its sign to a single weighted prime--zero sum~$B$.
+The central quantity is the direct curvature sum
+$B=\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2\cos(\gamma_k\log p)$,
+which satisfies the algebraic identity $O''(\tfrac12)=-2B$, together with a
+Guinand--Weil decomposition of a smoothed prime--zero sum $\widetilde Z_p(\varepsilon)$
+whose leading term is proved strictly negative.
+No hypothetical input is used: no Riemann Hypothesis, no Hilbert--P\'olya
+postulate, no GUE conjecture.
+
+\textbf{What is proved.}
+For every prime $p$ and every $\varepsilon>0$, the leading term of the
+Guinand--Weil decomposition satisfies
+$\mathrm{Main}_p(\varepsilon)<0$ (Theorem~\ref{thm:main-neg}), while the
+other-prime error is non-positive (Theorem~\ref{thm:other}).
+The algebraic identity $O''(\tfrac12)=-2B$ connecting curvature to bias
+is derived from the trace formula of~\cite{Paper5}
+(Proposition~\ref{prop:curv-bias}).
+The curvature sign of the spectral trace at $\sigma=\tfrac12$
+thus reduces to the sign of a single scalar quantity~$B$.
+The decomposition
+$\widetilde Z_p(\varepsilon)=\mathrm{Main}_p+\Gamma_p+\mathrm{Const}_p
++\mathrm{Err}_{p^k}+\mathrm{Err}_{\mathrm{other}}$
+is the classical Guinand--Weil explicit formula applied to an even,
+Gaussian-damped test function; its derivation is recalled in~\S\,\ref{sec:gw}.
+
+\textbf{What is numerical.}
+The gamma factor contribution is subleading, with
+$|\Gamma_p(\varepsilon)|/|\mathrm{Main}_p(\varepsilon)|$ numerically
+consistent with linear scaling in~$\varepsilon$
+(Theorem~\ref{thm:gamma}).
+The zero-sum truncation tail at $(\varepsilon,N)=(0.05,100)$ is
+verified numerically to be negligible, with ratio bounded by
+$3\times10^{-61}$ relative to the main term (Theorem~\ref{thm:trunc}).
+The proxy ratio $r^+_{p,N}(\varepsilon)$ appears unimodal on the
+tested $\varepsilon$-grid:
+it exceeds~$1$ for $p\in\{37,53\}$ near $\varepsilon=0.05$ and
+is consistent with decrease toward $r_p^{\infty}\le\tfrac12$
+as $\varepsilon\to 0$
+(Theorem~\ref{thm:ratio-signcross}(a), Remark~\ref{rem:rpinf}).
+On the sampled grid, the observed transition occurs between the
+tested values $\varepsilon=0.020$ and $\varepsilon=0.025$, with
+$Z_{p,N}^+(\varepsilon)<0$ at the tested $\varepsilon=0.020$
+(ordinate proxy $Z_{p,N}^+=\Re Z_{p,\varepsilon,N}$)
+for every prime $p\le 53$ (Theorem~\ref{thm:ratio-signcross}(b)).
+The integrated bias is negative at reference parameters,
+$B_{\mathrm{int}}^+(0.05,100)=-42.21<0$ at
+$(\kappa,\varepsilon,N)=(53,0.05,100)$ (Theorem~\ref{thm:intbias}).
+At the same reference parameters the direct curvature sum equals
+$B=-19\,342.5<0$, which is equivalent to
+$O''(\tfrac12)=+38\,685>0$ by the curvature--bias identity
+(Corollary~\ref{cor:curvature}).
+
+\textbf{What is conditional.}
+If, in addition to the numerically established inequality $B<0$ at the
+reference parameters, the stationarity condition $O'(\tfrac12)=0$
+holds at the same parameters, then $\sigma=\tfrac12$ is a strict local
+minimum of $O$ and $\mathrm{Tr}(\Tt(\sigma))$ attains a strict local
+maximum at $\sigma=\tfrac12$ at the reference parameters
+(Remark following Corollary~\ref{cor:curvature}).
+The conditional statement is clearly marked;
+a weaker first-derivative cancellation estimate is formulated in
+Open Problem~\ref{op:stat}; exact stationarity $O'(\tfrac12)=0$
+remains open.
+
+\textbf{What remains open.}
+Five questions separate the present work from a full curvature proof,
+each precisely named in~\S\,\ref{sec:open}.
+Problem~\ref{op:stat} (\emph{First-derivative cancellation}) asks for
+a nontrivial cancellation estimate for the prime exponential sums
+$S_\kappa(\gamma_k)$ strong enough to give a genuine logarithmic
+saving in $|O'(\tfrac12)|$ relative to the trivial triangle bound.
+Problem~\ref{op:bias-asymp} (\emph{Asymptotic pointwise bias}) asks
+for an analytic proof that $Z_p^\infty(\varepsilon)<0$ for every prime
+$p\le\kappa$ and sufficiently small $\varepsilon>0$, together with a
+finite-$N$ transfer to $Z_{p,N}^+(\varepsilon)$.
+Problem~\ref{op:uniformity} (\emph{Uniformity of positive curvature})
+asks whether the inequalities $B<0$ and $O''(\tfrac12)>0$ persist at
+parameter points $(\kappa,\varepsilon,N)$ other than the reference
+values tested here.
+Problem~\ref{op:transfer} (\emph{Integrated-to-direct transfer}) asks
+whether pointwise or integrated bias implies the negativity of $B$.
+Problem~\ref{op:weil-bridge} (\emph{Lagarias--Weil bridge}) asks whether
+the curvature statement transfers to the Weil-positivity framework
+of~\cite{Lagarias}.
+
+\textbf{Structure.}
+The formal core in \S\S\,\ref{sec:gw}--\ref{sec:curvcor} is non-circular;
+analytic identities, numerical observations, and conditional statements
+are explicitly separated.
+No use of the Riemann Hypothesis, the GUE conjecture, the Montgomery
+pair correlation conjecture, or the Hilbert--P\'olya postulate is made
+anywhere in \S\S\,\ref{sec:gw}--\ref{sec:curvcor}.
+\end{abstract}
+
+\vspace{2em}
+
+% --------------------------------------------------------
+% Notation and Conventions
+% --------------------------------------------------------
+\section*{Notation and Conventions}
+\label{sec:notation}
+
+\emph{Critical line.}
+Throughout, the critical line means $\Re(s)=\tfrac12$.
+The trace parameter $\sigma\in\mathbb{R}$ is evaluated at
+$\sigma=\tfrac12$ unless stated otherwise.
+
+\medskip
+\emph{Global parameters.}
+The reference values are $\kappa=53$ (prime cutoff, yielding the
+$16$ active primes $p\le\kappa$), $\varepsilon=0.05$ (Gaussian
+regularisation parameter), and $N=100$ (number of Riemann ordinates
+$\gamma_k$ employed).
+These values are fixed throughout
+\S\S\,\ref{sec:gw}--\ref{sec:curvcor} unless explicitly varied.
+The associated spectral weight sums are
+\[
+W_{\varepsilon,N}:=\sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2},
+\qquad
+P(\kappa):=\sum_{p\le\kappa}\log p.
+\]
+
+\medskip
+\emph{Main objects.}
+The finite truncation
+\[
+Z_p \;=\; Z_{p,\varepsilon,N} \;:=\;
+\sum_{k=1}^{N} e^{-\varepsilon^2\gamma_k^2}\,p^{i\gamma_k}
+\]
+is the numerical object of~\cite{Paper4,Paper5}.
+The $\gamma_k^2$-weighted variant
+\[
+Z_p^{(2)} \;:=\; \sum_{k=1}^{N} \gamma_k^2\,
+e^{-\varepsilon^2\gamma_k^2}\,p^{i\gamma_k}
+\]
+carries the curvature weighting needed for the bias
+decomposition; the dual form of the curvature sum is
+$B = \sum_p (\log p)^2\,\mathrm{Re}\,Z_p^{(2)}$.
+The associated Guinand--Weil object
+\[
+\widetilde Z_p(\varepsilon) \;:=\; \sum_{\rho}
+h^{\mathrm{even}}_{p,\varepsilon}\!\left(\tfrac{\rho-1/2}{i}\right),
+\qquad
+h^{\mathrm{even}}_{p,\varepsilon}(u)=e^{-\varepsilon^2 u^2}\cos(u\log p),
+\]
+sums over all non-trivial zeros of $\zeta$.
+$\widetilde Z_p(\varepsilon)$ is real-valued by the quartet symmetry
+$\{\rho,\bar\rho,1-\rho,1-\bar\rho\}$ of the non-trivial zeros.
+The finite positive-ordinate cosine proxies
+$Z_{p,N}^+(\varepsilon)=\Re Z_{p,\varepsilon,N}$ and $\Re Z_p^{(2)}$
+are real by construction (cosine kernel).
+The phasor sums $Z_p$ and $Z_p^{(2)}$ themselves are complex;
+only their real parts enter the cosine-kernel computations used here.
+The identity $\widetilde Z_p^{\mathrm{full}} = 2\,Z_p^{+}$ holds when
+all non-trivial zeros lie on the critical line; in general
+$\widetilde Z_p^{\mathrm{full}} = 2\,Z_p^{+} + E_p^{\mathrm{off}}$
+where $E_p^{\mathrm{off}}$ captures off-critical-line contributions
+(see Paper~5, Open Problem~6.5 (GW bridge)).
+All numerical computations in this paper use the ordinate proxy
+$Z_p^{+}(\varepsilon) = \Re Z_{p,\varepsilon,N}$ directly.
+The Guinand--Weil object $\widetilde Z_p$ motivates the decomposition
+but the actual numerical values refer to $Z_p^{+}$.
+At $(\varepsilon,N)=(0.05,100)$ the truncation tail $R_{p,N}$
+is negligible by Theorem~\ref{thm:trunc}.
+The direct curvature sum
+\[
+B \;:=\; \sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,
+(\gamma_k\log p)^2\,\cos(\gamma_k\log p)
+\]
+enters the algebraic identity $O''(\tfrac12)=-2B$
+(Proposition~\ref{prop:curv-bias}); the integrated bias is
+$B_{\mathrm{int}}^+(\varepsilon,N)\;:=\;\sum_p (\log p)^2\,Z_{p,N}^+(\varepsilon)$.
+
+\medskip
+\emph{Analytical foundations.}
+The identity $O''(\tfrac12)=-2B$ (Proposition~\ref{prop:curv-bias})
+is obtained by direct differentiation of the trace oscillatory sum
+of Paper~5.
+The Guinand--Weil decomposition in \S\,\ref{sec:gw} uses the classical
+explicit formula framework of Weil~\cite{Weil} and Guinand~\cite{Guinand}.
+The truncation estimate in Theorem~\ref{thm:trunc} uses
+Riemann--von Mangoldt zero-counting
+estimates~\cite[Thm.\,5.8]{IwaniecKowalski04} and Gaussian tail bounds.
+
+\medskip
+\emph{Numerical computations.}
+All numerical results were computed with \texttt{mpmath}
+at 50~decimal digits of working precision;
+Riemann zeros $\gamma_k$ were evaluated via
+\texttt{mpmath.zetazero}.
+Verification code is available at~\cite{Code}
+(\url{https://github.com/utehrani/analysislab-nt}).
+
+\medskip
+\emph{Not to be confused with.}
+$B$ (curvature sum, weight $(\gamma_k\log p)^2$) and $B_{\mathrm{int}}$
+(integrated bias, weight $(\log p)^2$) differ in their weighting and
+in the object summed; both are negative at the reference parameters,
+but neither implies the other (Open Problem~\ref{op:transfer}).
+$Z_p$ (finite truncation, level~$N$, sum over positive ordinates
+$k=1,\ldots,N$, in contract notation $Z_p^{+}$),
+$Z_p^{(2)}$ (with $\gamma_k^2$-weighting, used in~$B$), and
+$\widetilde Z_p$ (Guinand--Weil object, sum over all non-trivial zeros,
+in contract notation $\widetilde Z_p^{\mathrm{full}}$) are three
+formally distinct objects. For $h^{\mathrm{even}}$ and $N\to\infty$, the identity
+$\widetilde Z_p^{\mathrm{full}}(\varepsilon) = 2\,Z_p^{+}(\varepsilon)$
+holds conditionally on all non-trivial zeros being on the critical line;
+without this assumption, an off-critical contribution $E_p^{\mathrm{off}}$
+must be added (cf.\ Paper~5, Open Problem~6.5 (GW bridge)).
+Numerical computations therefore refer to the ordinate proxy
+$Z_p^{+}(\varepsilon)$, not the full GW object~$\widetilde Z_p^{\mathrm{full}}$.
+$Z_p^{(2)}$ carries the additional spectral weight absent from~$Z_p$.
+The diagonal-energy constants $D\approx 9.470$ of~\cite{Paper2} and
+$\DSEL\approx 10.985$ of~\cite{Paper5} share a name across the series
+but are defined in different operator contexts and must not be
+identified.
+
+\newpage
+
+% -------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Background and Motivation}
+
+This paper is the sixth in a series developing an operator-theoretic
+framework for studying the distribution of the non-trivial zeros of
+the Riemann zeta function $\zeta(s)$.
+The series is built around a finite-dimensional Hilbert-space model in
+which prime numbers mediate coupling between zeros, encoded in an
+explicit operator family.
+
+\textbf{Paper~1}~\cite{Paper1} introduced the local curvature function
+$\Hlocal(\sigma,\kappa)=\psi_1(\sigma)+\sum_{p\le\kappa}V_p(\sigma)$, identifying
+$\sigma=\tfrac12$ as a phase boundary through the divergence
+$\Hlocal(\tfrac12,\kappa)\sim 2(\log\kappa)^2$.
+
+\textbf{Paper~2}~\cite{Paper2} connected this local curvature to the
+Weil explicit functional, constructing admissible test functions
+for which the curvature divergence becomes a structural feature of
+the Weil energy.
+
+\textbf{Paper~3}~\cite{Paper3} made the geometric structure explicit:
+two finite-dimensional Hilbert spaces $\Hstr$ (over primes) and
+$\Hnull$ (over zeros) connected by a linear coupling map $\Phi$, with
+loop operator $T=\Phi^*\circ\Phi$ and a first numerical verification of the
+energy asymmetry $\etaorig>0$.
+
+\textbf{Paper~4}~\cite{Paper4} introduced the dual operator
+$\Tt=\Phi\circ\Phi^*$ on $\Hnull$ --- the Tehrani operator --- and
+established a conditional proof of energy asymmetry under the
+remainder-control assumption $(E_{\mathrm{rem}})$, motivated by
+prime-phase cancellation estimates.
+
+\textbf{Paper~5}~\cite{Paper5} extended this to a one-parameter
+family $\Tt(\sigma)=\Phi(\sigma)\circ\Phi(\sigma)^*$ and proved the
+exact spectral trace identity
+\[
+\mathrm{Tr}(\Tt(\sigma)) \;=\; \DSEL - O(\sigma),
+\qquad
+O(\sigma) \;=\; \tfrac12\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}
+                \cos(2\sigma\gamma_k\log p),
+\]
+where $\DSEL$ is a $\sigma$-independent constant.
+Four independent numerical signatures concentrating at $\sigma=\tfrac12$
+were documented in~\cite{Paper4,Paper5}, and the curvature-bias quantity
+$B=\sum_p(\log p)^2\,\mathrm{Re}(Z_p^{(2)})$ was introduced with the reference
+value $B=-19\,342.5$ at $(\kappa,\varepsilon,N)=(53,0.05,100)$.
+
+\textbf{The present paper} addresses the analytic question left open
+by~\cite{Paper5}: \emph{is there a structural reason, independent of
+the Riemann Hypothesis, why $\sigma=\tfrac12$ is distinguished by the
+trace?}
+We reduce this question at second order to the sign of the direct
+curvature sum $B$ via the algebraic identity $O''(\tfrac12)=-2B$,
+and verify the positive-curvature sign numerically at the reference
+parameters.
+At the reference parameters $B$ is numerically negative, hence
+$O''(\tfrac12)$ is numerically positive.
+The paper establishes this curvature statement together with a
+Guinand--Weil decomposition of a related smoothed prime--zero sum,
+recalls four further numerical signatures from Papers~4--5 concentrating
+at $\sigma=\tfrac12$,
+and formulates five open problems constituting the completion path
+toward a theorem-level selection principle.
+
+The operator $\Tt(\sigma)$ should be viewed neither as a
+Hilbert--P\'olya spectral realisation in the sense of
+Connes~\cite{Connes} or Berry--Keating~\cite{BerryKeating}, nor as a
+de~Branges structure-function criterion~\cite{deBranges}; it is a
+finite-cutoff operator packaging Gaussian-smoothed explicit-formula
+data, closest in spirit to Hilbert-space reformulations of the
+explicit formula such as those of Burnol~\cite{Burnol}.
+
+The heuristic labels ``prime field'' and ``field strength'' used in
+the series denote a finite-cutoff coupling picture in which primes
+mediate pairwise interactions between zero ordinates via explicit
+Gaussian-smoothed phasors; this should be distinguished from the
+periodic-orbit dictionary of Berry--Keating~\cite{BerryKeating},
+the adelic trace-formula picture of Connes~\cite{Connes}, and the
+Frobenius/cohomology picture of function-field zeta functions.
+
+\subsection{Main Results}
+
+The paper contains three main components.
+
+The first is the curvature statement at the critical line.
+At the reference parameters $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+direct numerical evaluation gives $B=-19\,342.5<0$, which is equivalent
+via the algebraic identity of Proposition~\ref{prop:curv-bias} to
+$O''(\tfrac12)=-2B=+38\,685>0$
+(Corollary~\ref{cor:curvature}).
+A strict local minimum of $O$ at $\sigma=\tfrac12$ would require
+additionally that $O'(\tfrac12)=0$. At the reference parameters,
+$O'(\tfrac12)=+2.475\ne0$, so $\sigma=\tfrac12$ is not an exact
+local minimum of $O$ at the reference finite model.
+A sufficiently small stationarity bound, together with a local
+convexity lower bound for $O''$ near $\sigma=\tfrac12$, would
+locate a local minimum near $\sigma=\tfrac12$
+(Problem~\ref{op:stat}).
+
+The curvature identity $O''(\tfrac12)=-2B$ is structurally analogous
+to the Li/Bombieri--Lagarias sign
+criteria~\cite{Li,BombieriLagarias} in that it turns
+explicit-formula data into a sign condition, but it is not a
+derivative of $\xi$ at $s=1$ and not a Weil-positivity theorem; it
+is a local second-order statement in the auxiliary trace parameter
+$\sigma$ at the symmetry point~$\tfrac12$.
+
+Bombieri~\cite{Bombieri} studies the positivity of the
+Weil quadratic functional $Q(g) = W(g\ast\tilde g)$ truncated
+to $L^2[-t,t]$, proving positivity for small $t$ and showing that
+off-critical zeros contribute exactly half a negative eigenvalue
+each.
+The present paper does not truncate the functional in a spatial
+variable: our operator $\Tt(\sigma)=\Phi(\sigma)\Phi(\sigma)^*$
+is a Gram-type finite-rank matrix indexed by explicit
+Gaussian-damped prime phasors at spectral cutoff $\kappa$ and
+regularisation~$\varepsilon$, and our central object is the
+\emph{second derivative} $O''(\tfrac12) = -2B$ of an exact trace
+(not a spectral positivity condition on $Q$).
+The Bombieri quadratic form is the appropriate ambient framework
+for a possible future construction of the Weil transfer
+operator~$W_{\kappa,\varepsilon}$.
+
+The second is the Guinand--Weil bias analysis of~\S\S\,\ref{sec:gw}--\ref{sec:const}.
+The smoothed prime--zero sum $\widetilde Z_p(\varepsilon)$ is decomposed into
+five contributions, of which the leading one is proved negative
+(Theorem~\ref{thm:main-neg}), and the other-prime contribution is proved non-positive
+(Theorem~\ref{thm:other}), while the zero-ordinate truncation
+tail is numerically verified, with analytic tail control, to be
+negligible at the reference parameters
+(Theorem~\ref{thm:trunc}).
+The gamma contribution is shown numerically to be subleading of order
+$\varepsilon$ (Theorem~\ref{thm:gamma}).
+The proxy ratio $r^+_{p,N}(\varepsilon)$ is unimodal on the tested grid
+(Theorem~\ref{thm:ratio-signcross}(a), Remark~\ref{rem:rpinf}), and a sign-crossover
+is localised in $(0.020,\,0.025)$
+(Theorem~\ref{thm:ratio-signcross}(b)).
+The integrated bias
+$B_{\mathrm{int}}^+(\varepsilon,N)=\sum_{p\le\kappa}(\log p)^2\,
+Z_{p,N}^+(\varepsilon)$ is numerically negative at the
+reference parameters, with $B_{\mathrm{int}}^+(0.05,100)=-42.21$
+(Theorem~\ref{thm:intbias}).
+
+The third is the structural separation made explicit in~\S\,\ref{sec:intbias}.
+The quantities $B$, $B_{\mathrm{int}}(\varepsilon)$, and the pointwise
+sign of $Z_{p,N}^+(\varepsilon)$ are structurally distinct
+witnesses of the same qualitative phenomenon: $B$ carries the
+$(\gamma_k\log p)^2$-weighting, $B_{\mathrm{int}}$ only the
+$(\log p)^2$-weighting, and the pointwise statement carries no
+weighting at all.
+$B$ and $B^+_{\mathrm{int}}$ are numerically negative at the reference parameters,
+and the pointwise bias $Z_{p,N}^+(0.05)<0$ holds for $14$ of the $16$ primes; the
+analytical relationship between them is left open as
+Problem~\ref{op:transfer}.
+The five open problems of~\S\,\ref{sec:open} list the steps remaining,
+in order of what we consider tractability:
+Problem~\ref{op:stat} (first-derivative cancellation) is the most tractable and,
+together with the numerically established $B<0$ and local convexity,
+would locate a strict local minimum of $O$ near $\sigma=\tfrac12$.
+An exact strict local minimum at $\sigma=\tfrac12$ requires the
+stronger condition $O'(\tfrac12)=0$.
+
+\subsection{Reader Contract}
+
+This paper \emph{proves}, by direct computation and classical estimates
+of the Guinand--Weil type, that the main term is negative
+(Theorem~\ref{thm:main-neg}), that the other-prime error is
+non-positive (Theorem~\ref{thm:other}), and the algebraic
+curvature--bias identity $O''(\tfrac12)=-2B$
+(Proposition~\ref{prop:curv-bias}).
+These are unconditional mathematical statements.
+
+This paper \emph{establishes numerically}, at the reference parameters
+$(\kappa,\varepsilon,N)=(53,0.05,100)$,
+that the truncation tail is negligible at the reference parameters
+(Theorem~\ref{thm:trunc}, numerically verified at
+$(\varepsilon,N)=(0.05,100)$),
+that the gamma contribution is
+subleading of order $\varepsilon$ (Theorem~\ref{thm:gamma}), that
+the proxy ratio $r^+_{p,N}(\varepsilon)$ is unimodal on the
+tested grid and is consistent with decrease toward $r_p^{\infty}\le\tfrac12$
+(Theorem~\ref{thm:ratio-signcross}(a),
+Remark~\ref{rem:rpinf}), and that the pointwise
+bias $Z_{p,N}^+(\varepsilon)<0$ holds on the tested subgrid at
+$\varepsilon=0.020$ (via ordinate proxy; Theorem~\ref{thm:ratio-signcross}), that
+$B_{\mathrm{int}}^+(0.05,100)=-42.21<0$ (Theorem~\ref{thm:intbias}), and that
+the positive-curvature statement $O''(\tfrac12)=+38\,685>0$ holds at
+the reference parameters (Corollary~\ref{cor:curvature}).
+These statements are verified on a finite grid and are clearly labelled
+[numerical] in their theorem headings.
+
+This paper \emph{states conditionally} that exact stationarity
+$O'(\tfrac12)=0$, together with the numerically established
+$O''(\tfrac12)>0$ at the reference parameters, would make
+$\sigma=\tfrac12$ a strict local minimum of $O$
+(Remark following Corollary~\ref{cor:curvature}).
+A stationarity bound $|O'(\tfrac12)|\ll W_{\varepsilon,N}\cdot P(\kappa)$ would
+become a localisation statement only when additionally combined with
+a local convexity lower bound and the smallness condition stated in
+Problem~\ref{op:stat}.
+No part of the unconditional claims above depends on either condition.
+
+This paper \emph{leaves open} five well-posed questions named in
+\S\,\ref{sec:open}: Problem~\ref{op:stat} (First-derivative cancellation),
+Problem~\ref{op:bias-asymp} (Asymptotic pointwise bias),
+Problem~\ref{op:uniformity} (Uniformity of positive curvature),
+Problem~\ref{op:transfer} (Integrated-to-direct transfer), and
+Problem~\ref{op:weil-bridge} (Lagarias--Weil bridge).
+The first four are formulated entirely within classical analytic number
+theory; the fifth names the remaining bridge to Weil positivity in
+the formulation of~\cite{Lagarias}.
+
+% -------------------------------------------------------
+\section{The Guinand--Weil Decomposition}
+\label{sec:gw}
+
+Throughout, $p$ denotes a rational prime, $\varepsilon>0$ a smoothing
+parameter, and $\rho=\beta+i\gamma$, $0<\beta<1$, a non-trivial zero
+of the Riemann zeta function.
+For critical-line zeros, $(\rho-\tfrac12)/i=\gamma$; off the critical
+line, the argument is complex. The real-valuedness of $\widetilde Z_p$
+follows from the quartet symmetry
+$\{\rho,\bar\rho,1-\rho,1-\bar\rho\}$ of the non-trivial zeros.
+We fix a cutoff $\kappa\ge 2$ and consider only primes $p\le\kappa$.
+For numerical reference we use $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+where $N$ is the number of zeros used in the finite approximation;
+the first $16$ primes lie below $\kappa=53$.
+The Guinand--Weil explicit formula
+(see e.g.\ \cite[\S\,5.5]{IwaniecKowalski04}) is the key analytic tool;
+its admissibility conditions on the test function are recalled below.
+
+\begin{definition}[Smoothed zero sum]
+\label{def:smoothed}
+Let
+\[
+Z_p \;=\; Z_{p,\varepsilon,N} \;:=\; \sum_{k=1}^{N} e^{-\varepsilon^2\gamma_k^2}\,
+p^{i\gamma_k},
+\qquad
+\mathrm{Re}\,Z_p \;=\; \sum_{k=1}^{N} e^{-\varepsilon^2\gamma_k^2}
+                        \cos(\gamma_k\log p).
+\]
+This is the finite numerical object studied in~\cite{Paper4,Paper5}.
+The associated object obtained from the Guinand--Weil explicit formula is
+\[
+\widetilde Z_p(\varepsilon) \;:=\; \sum_{\rho} h^{\mathrm{even}}_{p,\varepsilon}
+\!\left(\tfrac{\rho-\tfrac12}{i}\right),
+\qquad
+h^{\mathrm{even}}_{p,\varepsilon}(u) \;=\; e^{-\varepsilon^2 u^2}
+                                            \cos(u\log p).
+\]
+\end{definition}
+
+The Gaussian $h^{\mathrm{even}}_{p,\varepsilon}$ is admissible
+in the sense of Guinand--Weil (entire of order~2, Schwartz-class
+decay, even, real-valued; cf.\
+Carneiro--Littmann--Vaaler~\cite{CarneiroLittmannVaaler13}
+for the Beurling--Selberg Gaussian-subordination framework;
+and Carneiro--Milinovich--Soundararajan~\cite{CarneiroMilinovichSoundararajan19}
+for Fourier-optimization methods in the explicit-formula context).
+Since $h^{\mathrm{even}}_{p,\varepsilon}$ is even and decays rapidly,
+$\widetilde Z_p(\varepsilon)$ is real-valued and absolutely convergent.
+Its Fourier transform is
+\[
+\widehat{h}_{p,\varepsilon}(x) \;=\; \frac{\sqrt{\pi}}{2\varepsilon}
+\!\left[\exp\!\left(-\tfrac{(\log p-2\pi x)^2}{4\varepsilon^2}\right)
+      +\exp\!\left(-\tfrac{(\log p+2\pi x)^2}{4\varepsilon^2}\right)
+\right],
+\]
+which is strictly positive on $\mathbb R$ and concentrates at
+$\pm\log p/(2\pi)$ as $\varepsilon\to 0$.
+We use the Fourier convention
+$\widehat{h}(x)=\int_{-\infty}^{\infty}h(u)\,e^{-2\pi iux}\,du$,
+matching the arguments $\log n/(2\pi)$ in the Guinand--Weil formula.
+
+\begin{proposition}[Guinand--Weil decomposition convention; classical formula recalled]
+\label{prop:gw}
+For every prime $p$ and every $\varepsilon>0$,
+\[
+\widetilde Z_p(\varepsilon) \;=\; \mathrm{Main}_p(\varepsilon)
+                       + \Gamma_p(\varepsilon)
+                       + \mathrm{Const}_p(\varepsilon)
+                       + \mathrm{Err}_{p^k}(\varepsilon)
+                       + \mathrm{Err}_{\mathrm{other}}(\varepsilon),
+\]
+where the five contributions are defined by the standard partition of
+the prime sum and the archimedean terms of the explicit formula.
+Explicitly,
+\[
+\mathrm{Main}_p(\varepsilon) \;=\; -\frac{1}{2\pi}\cdot\frac{\log p}{\sqrt p}
+\!\left[\widehat{h}_{p,\varepsilon}\!\left(\tfrac{\log p}{2\pi}\right)
+      +\widehat{h}_{p,\varepsilon}\!\left(-\tfrac{\log p}{2\pi}\right)
+\right],
+\]
+\[
+\Gamma_p(\varepsilon) \;=\; \frac{1}{2\pi}\int_{-\infty}^{\infty}
+e^{-\varepsilon^2 t^2}\cos(t\log p)\,
+\mathrm{Re}\,\psi\!\left(\tfrac14 + \tfrac{it}{2}\right)\,dt,
+\]
+\[
+\mathrm{Const}_p(\varepsilon) \;=\; \widetilde Z_p(\varepsilon)
+\,-\, \mathrm{Main}_p(\varepsilon)
+\,-\, \Gamma_p(\varepsilon)
+\,-\, \mathrm{Err}_{p^k}(\varepsilon)
+\,-\, \mathrm{Err}_{\mathrm{other}}(\varepsilon),
+\]
+where $\psi$ denotes the digamma function.
+The prime-power error $\mathrm{Err}_{p^k}$ collects the contribution
+from $n=p^m$, $m\ge 2$ (higher powers of the fixed prime $p$).
+The remaining-prime error $\mathrm{Err}_{\mathrm{other}}$ collects
+the contribution from $n=q^m$ with $q\ne p$ prime and $m\ge 1$
+(all prime powers not involving $p$).
+Both are standard sums
+$\sum_n\Lambda(n)\widehat{h}_{p,\varepsilon}(\log n/(2\pi))/\sqrt n$.
+\end{proposition}
+
+This proposition records the decomposition convention induced by the
+classical Guinand--Weil explicit formula. The present paper does not
+supply a new proof of the explicit formula; it invokes the standard
+formula with the stated Fourier normalisation and defines
+$\mathrm{Const}_p$ as the residual after removing the other displayed
+contributions.
+
+\begin{remark}
+At the test-function evaluations corresponding to the zeta
+singularity at $s=1$ and its functional-equation reflection at
+$s=0$, the completed explicit formula contributes the value
+$h^{\mathrm{even}}_{p,\varepsilon}(u)$ evaluated at $u=\pm i/2$.
+A direct computation gives
+\[
+h^{\mathrm{even}}_{p,\varepsilon}\!\left(\tfrac{i}{2}\right)
++ h^{\mathrm{even}}_{p,\varepsilon}\!\left(-\tfrac{i}{2}\right)
+\;=\; 2\,e^{\varepsilon^2/4}\cosh\!\left(\tfrac{\log p}{2}\right)
+\;=\; e^{\varepsilon^2/4}\!\left(\sqrt p + \tfrac{1}{\sqrt p}\right).
+\]
+This is the hyperbolic cosine, not the circular cosine: the formal
+substitution $\cos(i\log p/2)=\cosh(\log p/2)$ is essential.
+Replacing $\cosh$ by $\cos$ would yield a quantity that is negative
+for $p\ge 29$, which is analytically impossible since the left-hand
+side equals $\sqrt p + 1/\sqrt p>2$ for every $p\ge 2$.
+The correct $\cosh$ form is used throughout what follows.
+See Edwards~\cite[\S1.8, \S1.16, and \S3.6]{Edwards} for the classical derivation
+of the pole contributions at $s=0,1$.
+\end{remark}
+
+The remainder of the paper studies the five terms of the decomposition
+in turn.
+
+% -------------------------------------------------------
+\section{The Main Term}
+\label{sec:main}
+
+\begin{theorem}[Main term negativity; proved]
+\label{thm:main-neg}
+For every prime $p$ and every $\varepsilon>0$,
+\[
+\mathrm{Main}_p(\varepsilon) \;=\; -\frac{\log p}{2\sqrt\pi\,\varepsilon\,\sqrt p}
+\cdot\bigl(1 + e^{-(\log p)^2/\varepsilon^2}\bigr)
+\;<\; 0.
+\]
+\end{theorem}
+
+\begin{proof}
+The Fourier transform $\widehat{h}_{p,\varepsilon}(x)$ is strictly
+positive on $\mathbb R$.
+The two evaluations at $x=\log p/(2\pi)$
+and $x=-\log p/(2\pi)$ sum to $(\sqrt\pi/\varepsilon)
+(1+e^{-(\log p)^2/\varepsilon^2})$,
+with the reflected term exponentially suppressed: at
+$\varepsilon=0.05$ and $p=2$ it is below $10^{-82}$, and decreases
+further for larger~$p$.
+Collecting the dominant contribution,
+\[
+\mathrm{Main}_p(\varepsilon) \;=\; -\frac{1}{2\pi}\cdot\frac{\log p}{\sqrt p}
+\cdot\frac{\sqrt\pi}{\varepsilon}
+\bigl(1 + e^{-(\log p)^2/\varepsilon^2}\bigr)
+= -\frac{\log p}{2\sqrt\pi\,\varepsilon\,\sqrt p}
+\bigl(1 + e^{-(\log p)^2/\varepsilon^2}\bigr).
+\]
+As $\varepsilon\to 0$, the factor $e^{-(\log p)^2/\varepsilon^2}\to 0$,
+giving $|\mathrm{Main}_p(\varepsilon)|\sim
+(\log p)/(2\sqrt\pi\,\varepsilon\,\sqrt p)$.
+The sign is negative because all factors in the leading expression are
+positive and enter with a minus sign.
+\end{proof}
+
+\begin{corollary}[Main-term scaling; proved]
+\label{cor:main-scaling}
+As $\varepsilon\to 0$,
+\[
+|\mathrm{Main}_p(\varepsilon)|\sim
+\frac{\log p}{2\sqrt\pi\,\varepsilon\sqrt p},
+\]
+giving a leading-order scaling of $1/\varepsilon$ with magnitude
+constant $1/(2\sqrt\pi)\approx 0.2821$;
+the signed main term carries an additional minus sign from the prime-sum formula.
+\end{corollary}
+
+At the reference parameter $\varepsilon=0.05$ and for $2\le p\le 53$,
+the main term takes values in the interval $[-4.15,-2.77]$, minimised
+at $p=7$ and maximised at $p=2$.
+
+% -------------------------------------------------------
+\section{Error Terms}
+\label{sec:errors}
+
+We now treat the three remaining contributions other than the constant
+term.
+
+\subsection{The gamma contribution}
+
+\begin{theorem}[Gamma term is subleading; numerical]
+\label{thm:gamma}
+On the tested finite grid
+$p\le 53$, $\varepsilon\in\{0.005,0.010,\ldots,0.100\}$,
+the ratio $|\Gamma_p(\varepsilon)|/|\mathrm{Main}_p(\varepsilon)|$
+is numerically consistent with linear scaling in $\varepsilon$;
+a log--log regression gives slope~$1.001$.
+At $\varepsilon=0.05$, the ratio lies in $[0.017,\,0.172]$
+for all tested primes ($p\le 53$); in particular
+$|\Gamma_p(0.05)|<|\mathrm{Main}_p(0.05)|$ for all $16$ primes $p\le 53$.
+\end{theorem}
+
+\begin{proof}[Numerical verification]
+For every fixed $\varepsilon>0$, the Gaussian factor $e^{-\varepsilon^2 t^2}$
+makes the integrand absolutely integrable on $\mathbb{R}$.
+The claimed ratio range and log--log slope are established by direct
+numerical quadrature over the grid
+$p\le 53$, $\varepsilon\in\{0.005,0.010,\ldots,0.100\}$
+(step $0.005$, giving $20$ values), pooling all $16$ primes;
+the slope is the least-squares slope of
+$\log(|\Gamma_p|/|\mathrm{Main}_p|)$ against $\log\varepsilon$.
+No limit $\varepsilon\to 0$
+is asserted. Establishing an Abel-regularised bound uniform in~$p$,
+which would require explicit control of the oscillatory integral
+as $\varepsilon\downarrow 0$, is part of Problem~\ref{op:bias-asymp}.
+\end{proof}
+
+\subsection{The prime-power and other-prime errors}
+
+\begin{theorem}[Other-prime error is non-positive; proved]
+\label{thm:other}
+For every fixed prime $p\le\kappa$ and every $\varepsilon>0$,
+\[
+\mathrm{Err}_{\mathrm{other},p}(\varepsilon) \;\le\; 0.
+\]
+\end{theorem}
+
+\begin{proof}
+By the standard form of the explicit formula,
+\[
+\mathrm{Err}_{\mathrm{other}}(\varepsilon) \;=\; -\frac{1}{2\pi}
+\sum_{\substack{q\le\kappa\\ q\neq p\\ q\text{ prime}}}
+\frac{\log q}{\sqrt q}
+\!\left[\widehat{h}_{p,\varepsilon}\!\left(\tfrac{\log q}{2\pi}\right)
+      +\widehat{h}_{p,\varepsilon}\!\left(-\tfrac{\log q}{2\pi}\right)
+\right]
++ (\text{higher-prime-power terms}).
+\]
+Each summand has $\log q>0$, $\sqrt q>0$, and
+$\widehat{h}_{p,\varepsilon}(\cdot)>0$ on $\mathbb R$, with an overall
+minus sign.
+The higher-prime-power terms share the same sign structure with
+$\Lambda(q^k)=\log q$ and the same positive transform.
+Hence the full sum is non-positive.
+The identical sign argument applies to all primes $q>\kappa$ and
+higher prime powers with $q\neq p$: the positivity of
+$\widehat h_{p,\varepsilon}$ on~$\mathbb R$ and the negativity of
+the overall sign extend without restriction to the full prime-power range
+in the explicit formula.
+Hence $\mathrm{Err}_{\mathrm{other}}(\varepsilon)\le 0$ for the
+complete GW sum.
+\end{proof}
+
+Theorem~\ref{thm:other} is a structural identity rather than an error
+bound: the contribution from primes $q\neq p$ actively reinforces the
+negativity of $\widetilde Z_p$.
+
+\begin{theorem}[Truncation error is negligible; numerical]
+\label{thm:trunc}
+\[
+\frac{|R_{p,N}(\varepsilon)|}{|\mathrm{Main}_p(\varepsilon)|}
+\;\le\; 3\times 10^{-61}
+\]
+at the reference parameters $(\varepsilon,N)=(0.05,100)$ for every
+prime $p\le 53$, where $R_{p,N}(\varepsilon)=\sum_{k>N}
+e^{-\varepsilon^2\gamma_k^2}\cos(\gamma_k\log p)$ is the tail of the
+zero-ordinate sum.
+\end{theorem}
+
+\begin{proof}
+The triangle inequality gives
+$|R_{p,N}(\varepsilon)|\le\sum_{k>N} e^{-\varepsilon^2\gamma_k^2}$.
+We bound this tail by partial summation against the Riemann--von
+Mangoldt density estimate $N(t+1)-N(t)\ll\log(t+2)$
+(\cite[Thm.\,5.8]{IwaniecKowalski04},
+with explicit zero-counting bounds from Bellotti--Wong~\cite{BellottiWong24}):
+\[
+\sum_{\gamma>\gamma_{100}} e^{-\varepsilon^2\gamma^2}
+\;\ll\;
+  e^{-\varepsilon^2 \gamma_{100}^2}\log(\gamma_{100}+2)
+  + 2\varepsilon^2\int_{\gamma_{100}}^\infty e^{-\varepsilon^2 t^2}
+    t\,\log(t+2)\,dt.
+\]
+At $(\varepsilon,N)=(0.05,100)$, $\gamma_{100}=236.524$, the Gaussian
+factor $e^{-\varepsilon^2 \gamma_{100}^2}=e^{-0.0025\cdot 236.524^2}
+\approx e^{-140}$ renders both terms negligible.
+A standard Gaussian tail bound gives
+$\int_{236}^\infty e^{-0.0025 t^2}\log t\,dt\ll e^{-140}$,
+and the lower bound
+$|\mathrm{Main}_p(\varepsilon)|\ge
+\log 2/(2\sqrt{\pi}\cdot 0.05\cdot\sqrt{53})$
+over the tested prime range yields
+$|R_{p,N}|/|\mathrm{Main}_p|\le 3\times10^{-61}$.
+Accurate evaluation of the partial sums follows
+Brent--Platt--Trudgian~\cite{BrentPlattTrudgian21}.
+For the $\gamma_k^2$-weighted tail: the function
+$t^2 e^{-\varepsilon^2 t^2}$ is monotone decreasing for $t>1/\varepsilon=20$,
+and $\gamma_{100}=236.524\gg 1/\varepsilon$.
+Hence for $k>N$, $\gamma_k>\gamma_{100}$ and
+$\gamma_k^2 e^{-\varepsilon^2\gamma_k^2}
+ \le \gamma_{100}^2 e^{-\varepsilon^2\gamma_{100}^2}
+ \approx \gamma_{100}^2\cdot e^{-140}$.
+By partial summation the sum satisfies
+\[
+\sum_{k>N}\gamma_k^2 e^{-\varepsilon^2\gamma_k^2}
+\;\ll\;
+\gamma_{100}^2\,e^{-\varepsilon^2\gamma_{100}^2}\log(\gamma_{100}+2)
++\int_{\gamma_{100}}^\infty(2t+2\varepsilon^2 t^3)e^{-\varepsilon^2 t^2}
+  \log(t+2)\,dt
+\;\ll\;
+\gamma_{100}^2\cdot e^{-140},
+\]
+which is negligible relative to $|B|$ at the reference parameters.
+The numerical ratio $|R_{p,N}|/|\mathrm{Main}_p|\le 3\times10^{-61}$
+is verified directly by \texttt{mpmath} computation at 50-digit precision
+in the accompanying script~\cite{Code}: the sum
+$\sum_{k=101}^{1000}e^{-\varepsilon^2\gamma_k^2}$
+is evaluated numerically, confirming the stated bound for
+all primes $p\le 53$ at the reference parameters.
+The remaining infinite tail $k>1000$ is bounded analytically.
+At $\gamma_{1000}\approx 1419$ and $\varepsilon=0.05$, the
+Riemann--von Mangoldt estimate gives
+\[
+\sum_{k>1000}e^{-\varepsilon^2\gamma_k^2}
+\;\ll\;
+e^{-\varepsilon^2\gamma_{1000}^2}\log(\gamma_{1000}+2)
+\;\approx\;
+e^{-5034}\cdot 7.3
+\;\approx\; 10^{-2184},
+\]
+which is negligible relative to the partial sum above and to the
+stated bound $3\times10^{-61}$.
+The full infinite-tail control used for the numerical verification
+is obtained by combining the
+numerically computed finite partial sum $(k=101,\ldots,1000)$
+with this explicit analytic estimate.
+\end{proof}
+
+For the ordinate proxy $Z_{p,N}^+$ at the reference parameters,
+the $N=100$ unweighted truncation tail is negligible relative to
+$|\mathrm{Main}_p|$ (Theorem~\ref{thm:trunc}).
+The analogous $\gamma_k^2$-weighted tail entering $B$ is
+controlled by the same Gaussian mechanism; no separate quantified
+bound is stated here, as the sign of $B=-19\,342.5$ is unaffected
+by the tail at the stated numerical precision.
+
+\begin{remark}[Asymptotic constant-term ratio; numerical]
+\label{rem:rpinf}
+The proxy ratio $r^+_{p,N}(\varepsilon):=
+|\mathrm{Const}^+_{p,N}(\varepsilon)|/|\mathrm{Main}_p(\varepsilon)|$
+is observed, on the smallest tested $\varepsilon$-values, to be
+consistent with decrease toward a limiting value as $\varepsilon\downarrow 0$.
+At the smallest tested values ($\varepsilon\le 0.015$), all ratios
+lie below~$0.82$ for every prime $p\le 53$, consistent with convergence
+to a limit $r_p^{\infty}\le\tfrac12$ as $\varepsilon\to 0$.
+An analytic proof of $r_p^{\infty}=\tfrac12$ requires an explicit
+asymptotic expansion of $\mathrm{Const}_p(\varepsilon)$ as $\varepsilon\to 0$
+beyond the leading $e^{\varepsilon^2/4}\cosh(\tfrac{\log p}{2})$ pole term
+evaluated in \S\,\ref{sec:gw}; this is part of Problem~\ref{op:bias-asymp}.
+On the smallest tested values, the data are consistent with
+$\mathrm{Const}_p(\varepsilon)+\mathrm{Main}_p(\varepsilon)$ decreasing
+toward zero; no asymptotic proof is supplied here.
+\end{remark}
+
+% -------------------------------------------------------
+\section{The Constant Term and the Sign-Crossover Localisation}
+\label{sec:const}
+
+The constant term $\mathrm{Const}_p(\varepsilon)$ is the only contribution
+whose full asymptotic structure is not explicitly resolved in the present work.
+It collects the
+$s=0,1$ endpoint contributions in the completed Guinand--Weil formula
+(associated with the zeta singularity at $s=1$ and its reflection
+at $s=0$ under the functional equation), the $\log(2\pi)$ normalisation,
+and the remaining endpoint and normalisation terms not included in
+the displayed prime-power sums.
+It is the only term of the decomposition that resists a short analytic
+treatment.
+We state a numerical result on its asymptotic ratio to the main term
+and, independently, a numerical result localising the sign-crossover
+of $Z_{p,N}^+(\varepsilon)$ on a finite $\varepsilon$-grid.
+
+\begin{theorem}[Finite-grid proxy-ratio pattern and sign-crossover localisation; numerical]
+\label{thm:ratio-signcross}
+Numerically, the following hold.
+
+\emph{(a)} The proxy ratio
+$r^+_{p,N}(\varepsilon):=|\mathrm{Const}^+_{p,N}(\varepsilon)|/
+|\mathrm{Main}_p(\varepsilon)|$ appears unimodal on the tested
+$\varepsilon$-grid, with an observed maximum near the largest tested
+value $\varepsilon=0.050$;
+no continuous unimodality statement is proved.
+The maximum exceeds~$1$ for $p=37$ and $p=53$
+(attaining $1.17$ and $1.21$ respectively at $\varepsilon=0.05$).
+On the smallest tested values $\varepsilon\in\{0.005,0.010,0.015\}$,
+all ratios lie below~$0.82$ for every prime $p\le 53$.
+The numerical data are consistent with decrease toward
+$r_p^{\infty}\le\tfrac12$ for the underlying analytical object;
+no analytic limit is proved
+(Remark~\ref{rem:rpinf}).
+
+\emph{(b)} On the sampled grid, the bias changes sign between
+the tested values $\varepsilon=0.020$ and $\varepsilon=0.025$.
+At the tested value $\varepsilon=0.020$, one finds
+\[
+Z_{p,N}^+(\varepsilon) \;<\; 0 \qquad
+\text{for every prime } p\le 53
+\quad\text{(ordinate proxy } Z_{p,N}^+ = \Re Z_{p,\varepsilon,N}\text{)}.
+\]
+
+Both statements are numerical and refer to the cutoff $\kappa=53$.
+The location of the sign-crossover and the sign at smaller tested
+values of $\varepsilon$ are empirical findings on a finite grid; no
+continuous interval-persistence statement is asserted.
+The analytical question behind (a) is documented as
+Problem~\ref{op:bias-asymp} of~\S\,\ref{sec:open}.
+\end{theorem}
+
+\emph{Discussion.}
+The $s=1$ endpoint evaluation gives
+$h^{\mathrm{even}}_{p,\varepsilon}(i/2)+h^{\mathrm{even}}_{p,\varepsilon}(-i/2)
+= e^{\varepsilon^2/4}(\sqrt p+1/\sqrt p)$,
+which is $O(1)$ as $\varepsilon\downarrow0$ for fixed $p$
+(see Edwards~\cite[\S1.8, \S1.16, and \S3.6]{Edwards}).
+The observed $\varepsilon^{-1}$ component of the proxy residual
+$\mathrm{Const}^+_{p,N}$ arises from the full
+residual in the chosen partition and is not an analytic property
+of the endpoint term alone; an explicit derivation is part of
+Problem~\ref{op:bias-asymp}.
+The limiting coefficient of the proxy ratio is not produced by the
+endpoint term alone.
+It arises from the positive-ordinate proxy normalisation: under the
+GW bridge, $Z_{p,N}^+\approx\tfrac12\widetilde Z_p^{\mathrm{full}}$,
+and hence
+$\mathrm{Const}^+_{p,N}\approx
+\tfrac12\mathrm{Const}_p-\tfrac12(\mathrm{Main}_p+\Gamma_p
++\mathrm{Err}_{p^k}+\mathrm{Err}_{\mathrm{other}})$.
+Since $\mathrm{Main}_p(\varepsilon)\sim
+-\frac{\log p}{2\sqrt\pi\sqrt p}\cdot\varepsilon^{-1}$, this
+identity explains the observed leading contribution
+$\mathrm{Const}^+_{p,N}\approx-\tfrac12\mathrm{Main}_p$ and hence
+the expected ratio $r_p^\infty\to\tfrac12$, modulo the open GW bridge
+and analytic control of the remaining terms.
+Numerical evaluation of $\mathrm{Const}^+_{p,N}(\varepsilon)$ for
+$\varepsilon\in\{0.005,0.010,0.015,0.020,0.025,0.030,0.050\}$ across
+all primes $p\le 53$ shows that the proxy ratio
+$|\mathrm{Const}^+_{p,N}(\varepsilon)|/|\mathrm{Main}_p(\varepsilon)|$ is a
+function whose values on the tested grid exhibit a single peak near
+$\varepsilon=0.050$ and limiting value
+below~$0.82$ on the smallest tested grid values ($\varepsilon\le 0.015$),
+consistent with decrease toward a limiting value
+$r_p^{\infty}\le\tfrac12$ (Remark~\ref{rem:rpinf}).
+For $p\in\{37,53\}$ this maximum narrowly exceeds unity (attaining
+$1.183$ and $1.216$ respectively), which produces two pointwise
+exceptions to the bias at $\varepsilon=0.05$; see below.
+The sign-crossover localisation in (b) is obtained from the grid
+computation directly, not as an analytic consequence of (a).
+
+\emph{Numerical evidence.}
+At $\varepsilon=0.05$ and $\kappa=53$, the proxy-residual values satisfy
+$\mathrm{Const}^+_{p,N}\in[2.44,3.93]$ with mean $3.27$ and standard
+deviation $0.46$ (coefficient of variation $14\%$).
+The displayed $\mathrm{Const}^+_{p,N}(\varepsilon)$ values are computed
+as the residual
+$\mathrm{Const}^+_{p,N}(\varepsilon) := Z_{p,N}^+(\varepsilon)
+  - \mathrm{Main}_p(\varepsilon)
+  - \Gamma_p(\varepsilon)
+  - \mathrm{Err}_{p^k}(\varepsilon)
+  - \mathrm{Err}_{\mathrm{other}}(\varepsilon)$
+at the reference parameters $(\varepsilon,N)=(0.05,100)$.
+These numerical values are the ordinate-proxy residuals: the
+left-hand side is the positive-ordinate half-sum $Z_{p,N}^+$,
+while the subtracted terms ($\mathrm{Main}_p,\Gamma_p,
+\mathrm{Err}_{p^k},\mathrm{Err}_{\mathrm{other}}$)
+are the full Guinand--Weil terms of Proposition~\ref{prop:gw}.
+Since $Z_{p,N}^+\approx\tfrac12\widetilde Z_p$ under the bridge,
+a short computation gives
+\[
+\mathrm{Const}^+_{p,N}(\varepsilon)
+\;\approx\;
+\tfrac12\mathrm{Const}_p(\varepsilon)
+-\tfrac12\bigl(\mathrm{Main}_p(\varepsilon)
++\Gamma_p(\varepsilon)+\mathrm{Err}(\varepsilon)\bigr),
+\]
+so $\mathrm{Const}^+_{p,N}$ is not a half-normalisation of
+$\mathrm{Const}_p$; the two differ by the half-sum of the
+other terms.
+The proxy ratio
+$r^+_{p,N}(\varepsilon)=|\mathrm{Const}^+_{p,N}|/|\mathrm{Main}_p|$
+approaches a value $\le\tfrac12$ as $\varepsilon\to 0$
+(Remark~\ref{rem:rpinf}) because $|\mathrm{Main}_p|\sim\varepsilon^{-1}$
+dominates the $O(1)$ difference term in the limit.
+No exact identity with $\mathrm{Const}_p$ of
+Proposition~\ref{prop:gw} is claimed without the bridge.
+Representative values are listed below.
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$p$ & $\mathrm{Main}_p(0.05)$ & $\Gamma_p(0.05)$
+    & $\mathrm{Const}^+_{p,N}(0.05)$ \\
+\midrule
+$2$  & $-2.77$ & $-0.475$ & $2.44$ \\
+$7$  & $-4.15$ & $-0.193$ & $3.47$ \\
+$23$ & $-3.69$ & $-0.105$ & $3.79$ \\
+$37$ & $-3.35$ & $-0.082$ & $3.93$ \\
+$53$ & $-3.08$ & $-0.069$ & $3.74$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At $\varepsilon=0.05$, the pointwise inequality
+$Z_{p,N}^+(0.05)<0$ holds for $14$ of the $16$ primes
+$p\le 53$.
+The exceptions are $p=37$ and $p=53$, for which
+$Z_{p,N}^+(0.05)\approx+0.50$ and $+0.59$ respectively.
+This is \emph{not} a failure of the underlying decomposition: it
+reflects the finite-$\varepsilon$ maximum of the ratio $r(\varepsilon)$
+near $\varepsilon\approx 0.05$, which narrowly exceeds unity for
+exactly these two primes.
+At the tested value $\varepsilon=0.020$ the pointwise bias holds for
+all $16$ primes without exception.
+At $\varepsilon=0.025$, only $p=53$ fails the pointwise negativity
+condition ($Z_{53,N}^+(0.025)=+0.389>0$), while $p=37$ remains
+negative ($Z_{37,N}^+(0.025)=-0.356<0$).
+At $\varepsilon=0.030$, both exceptions $p=37,53$ are present.
+The sign-crossover for $p=53$ lies in $(0.020,\,0.025)$, and
+that for $p=37$ lies in $(0.025,\,0.030)$.
+Whether the bias persists continuously throughout
+$\varepsilon\in(0,0.020]$ is not established here.
+
+No structural explanation for the exceptions $p=37,53$ at
+$\varepsilon=0.05$ is currently available.
+The phenomenon appears to be a finite-$\varepsilon$, finite-$\kappa$
+manifestation of the observed unimodal peak of $r(\varepsilon)$ near
+$\varepsilon=0.050$, which for exactly these two
+primes narrowly exceeds unity.
+Whether this reflects an underlying arithmetic structure or is a
+numerical coincidence at $\kappa=53$ is not addressed here.
+
+The observed negativity of $Z_{p,N}^+(\varepsilon)$ should
+be read neither as a prime race in the sense of
+Rubinstein--Sarnak~\cite{RubinsteinSarnak} nor as a Landau--Gonek
+prime-power asymptotic; it is a different, prime-indexed sign
+statistic for Gaussian-smoothed explicit-formula evaluations.
+
+\emph{Status.}
+The tested values of $r^+_{p,N}(\varepsilon)$ are numerically consistent
+with decrease toward a value satisfying $r_p^{\infty}\le\tfrac12$
+(Remark~\ref{rem:rpinf}).
+The sign of the ordinate proxy $Z_{p,N}^+$ remains the
+subject of Problem~\ref{op:bias-asymp}.
+Establishing a uniform bound on the finite-$\varepsilon$ correction,
+which would close the asymptotic bias conjecture in its sharpest form,
+is part of Problem~\ref{op:bias-asymp} of~\S\,\ref{sec:open}.
+The empirical sign-crossover localisation above, at $\kappa=53$, is
+the sharpest statement that the present methods allow.
+
+
+\begin{remark}[Relation to Balanzario--C\'ardenas Romero]
+Balanzario and C\'ardenas Romero~\cite{BalanzarioCardenas25}
+study a Gaussian-Hermite-weighted explicit formula
+$S(\xi,k) = (1/\xi)\sqrt{k/2\pi}\,
+\sum_n \exp\{-2(k/\xi^2)(\gamma_n - \xi)^2\}$
+with a negative prime-side leading term of the form
+$-c_2\,\Lambda(n)/\sqrt{n}\cdot\exp\{-(\xi^2/4k)\log^2 n\}$,
+which is structurally analogous to our
+$\mathrm{Main}_p(\varepsilon) = -\log p/(2\sqrt{\pi}\,\varepsilon\sqrt{p})$.
+Their parametrisation uses Hermite polynomials and prime-power
+sums $\Lambda(n)$; our single-prime, leading-$\varepsilon$ form
+with explicit constant $1/(2\sqrt{\pi})$ appears to be a new
+observation.
+\end{remark}
+% -------------------------------------------------------
+\section{The Integrated Bias}
+\label{sec:intbias}
+
+The two expressions for $B$ used below are the same quantity in two
+representations: the primal sum
+\[
+B \;=\; \sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,(\gamma_k\log p)^2\,
+         \cos(\gamma_k\log p)
+\]
+and the dual sum $B=\sum_p(\log p)^2\,\mathrm{Re}\,Z_p^{(2)}$.
+The equivalence between the two is the Curvature-Bias Decomposition
+(cf.~\cite{Paper5}, \S5)
+and is treated here as imported.
+All numerical values in this section refer to the same object.
+
+We use the dual representation as a starting point.
+The curvature bias at $\sigma=\tfrac12$ is encoded in the weighted sum
+\[
+B \;:=\; \sum_{p\le\kappa}(\log p)^2\,\mathrm{Re}\,Z_p^{(2)},
+\]
+which was introduced in~\cite{Paper5} as $-\tfrac12$ times the
+$\sigma=\tfrac12$ evaluation of the second $\sigma$-derivative of the
+trace identity, via the identity $O''(\tfrac12)=-2B$.
+Its structural decomposition is algebraic and does not depend on any
+unproved hypothesis.
+
+\begin{proposition}[Curvature--bias identity; proved]
+\label{prop:curv-bias}
+Let $O(\sigma)=\tfrac12\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}
+\cos(2\sigma\gamma_k\log p)$ and define
+\[
+B \;:=\; \sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,(\gamma_k\log p)^2\,
+         \cos(\gamma_k\log p).
+\]
+Then
+\[
+O''(\tfrac12) \;=\; -2\,B.
+\]
+\end{proposition}
+
+\begin{proof}
+Direct differentiation gives
+\[
+O'(\sigma) \;=\; -\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,\gamma_k\log p\,
+                \sin(2\sigma\gamma_k\log p),
+\]
+\[
+O''(\sigma) \;=\; -2\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,
+                (\gamma_k\log p)^2\,\cos(2\sigma\gamma_k\log p).
+\]
+Evaluation at $\sigma=\tfrac12$ yields
+\[
+O''(\tfrac12) \;=\; -2\sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,
+                (\gamma_k\log p)^2\,\cos(\gamma_k\log p) \;=\; -2\,B.
+\qedhere
+\]
+\end{proof}
+
+\begin{remark}
+This identity shows that all curvature information at $\sigma=\tfrac12$
+is encoded in a single weighted cosine interaction between primes and zeros.
+\end{remark}
+
+Numerically, at reference parameters $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+the direct curvature sum equals $B=-19\,342.5$, hence
+$O''(\tfrac12)=-2B=+38\,685$.
+This value coincides with $\mathrm{Tr}(L)$, where
+$L=-d^2\Tt(\sigma)/d\sigma^2\big|_{\sigma=1/2}$ is the curvature
+operator of~\cite{Paper5}, and provides an independent closed-form
+cross-check for the identity above.
+
+\begin{remark}
+The quantity $B$ is defined as in~\cite[\S5]{Paper5}, and the identity
+$O''(\tfrac12)=-2B$ follows from the explicit form of $O(\sigma)$
+given there.
+The numerical value $B=-19\,342.5$ at $(\kappa,\varepsilon,N)=(53,0.05,100)$
+is the one quoted throughout the series.
+\end{remark}
+
+\begin{theorem}[Integrated proxy bias is negative; numerical]
+\label{thm:intbias}
+At $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+\[
+B_{\mathrm{int}}^+(0.05,100) \;:=\; \sum_{p\le 53}(\log p)^2\,
+Z_{p,N}^+(0.05) \;=\; -42.21 \;<\; 0.
+\]
+\end{theorem}
+
+\begin{observation}[Direct curvature sum; numerical]
+\label{obs:B}
+At $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+$B=-19\,342.5<0$, equivalently $O''(\tfrac12)=-2B=+38\,685>0$.
+\end{observation}
+
+When the parameters $(\varepsilon,N)=(0.05,100)$ are fixed throughout,
+we write $B_{\mathrm{int}}$ as shorthand for $B^+_{\mathrm{int}}(0.05,100)$.
+
+\begin{remark}
+The values $B$ and $B_{\mathrm{int}}$ refer to two \emph{different}
+quantities, not to a single quantity in two forms.
+$B$ is the direct curvature sum weighted by $(\gamma_k\log p)^2$,
+obtained by differentiating the trace identity and evaluating at
+$\sigma=\tfrac12$; $B_{\mathrm{int}}^+(\varepsilon,N)$ is the integrated proxy bias,
+weighted only by $(\log p)^2$ and summed over $Z_{p,N}^+(\varepsilon)$.
+The two differ by a reweighting through the $\gamma_k^2$-factors
+absent in the second.
+Both are numerically negative at the reference parameters, and the
+shared negative sign is a numerical finding rather than the consequence
+of a proved equivalence.
+Proposition~\ref{prop:curv-bias} connects $B$ --- not $B_{\mathrm{int}}$
+--- to the curvature $O''(\tfrac12)$.
+Whether pointwise negativity of $Z_{p,N}^+(\varepsilon)$, or
+the integrated proxy bias $B_{\mathrm{int}}^+(\varepsilon,N)<0$, implies the
+corresponding negativity of $B$ at the same parameters is an open
+question; it is formulated as Problem~\ref{op:transfer} of~\S\,\ref{sec:open}.
+\end{remark}
+
+\begin{remark}
+Although $Z_{p,N}^+(0.05)>0$ at $p=37$ and $p=53$, the
+$(\log p)^2$-weighted sum $B_{\mathrm{int}}$ remains decisively
+negative: the negative contributions from the remaining $14$ primes
+dominate the positive contributions from these two.
+Concretely, $(\log 37)^2\cdot 0.50+(\log 53)^2\cdot 0.59\approx
+6.52+9.30=15.82$, against a cumulative negative contribution of
+$-58.03$ from the other primes, yielding the net value $-42.21$.
+The integrated bias is robust against individual-prime deviations as
+long as these remain isolated.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Positive Curvature at the Critical Line}
+\label{sec:curvcor}
+
+We now record the curvature statement that follows from
+Observation~\ref{obs:B} and Proposition~\ref{prop:curv-bias}, and,
+separately, the conditional strict-local-extremum statement that
+follows once stationarity is added as a hypothesis.
+
+\begin{corollary}[Positive curvature at $\sigma=\tfrac12$; numerical]
+\label{cor:curvature}
+At the reference parameters $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+the direct curvature sum $B$ is numerically negative
+(Observation~\ref{obs:B}), $B=-19\,342.5<0$.
+By Proposition~\ref{prop:curv-bias}, this is equivalent to
+\[
+O''(\tfrac12) \;=\; -2B \;=\; +38\,685 \;>\; 0.
+\]
+\end{corollary}
+
+\begin{proof}
+By Observation~\ref{obs:B}, $B=-19\,342.5$.
+By Proposition~\ref{prop:curv-bias}, $O''(\tfrac12)=-2B$.
+\end{proof}
+
+\begin{remark}
+If, in addition to $B<0$ at the reference parameters (here numerically
+established), the stationarity condition $O'(\tfrac12)=0$ holds at the
+same parameters, then $\sigma=\tfrac12$ is a strict local minimum of
+$O$, and the trace
+\[
+\mathrm{Tr}\,\Tt(\sigma) \;=\; \DSEL - O(\sigma)
+\]
+attains a strict local maximum at $\sigma=\tfrac12$.
+
+The exact vanishing condition $O'(\tfrac12)=0$ is stronger than the
+first-derivative cancellation bound formulated in Problem~\ref{op:stat}
+and remains open.
+Numerically, $O'(\tfrac12)=+2.475$ is approximately $4\%$ of the
+natural scale $W_{\varepsilon,N}\cdot P(\kappa)$, consistent with the cancellation expected
+from the odd kernel $\sin(\gamma_k\log p)$, but no analytical bound on
+$|O'(\tfrac12)|$ is established in the present paper.
+\end{remark}
+
+\begin{remark}
+The paper~\cite{Paper5} recorded four further numerical signatures
+concentrating at $\sigma=\tfrac12$: a $+47\%$ trace spike relative to
+the $\sigma$-neighbourhood average, the dominance of the leading
+eigenvalue $\mu_1$, the minimum of the spectral gap, and the joint
+maximum of $\mathrm{Tr}(L)$ and $\lambda_{\max}(L)$.
+Each of these is numerically robust and independent of the bias
+conditions established here.
+They constitute additional numerical signatures from~\cite{Paper5} at
+the same reference parameters, but do not enter the proof of
+Corollary~\ref{cor:curvature} or of the conditional remark above.
+\end{remark}
+
+\begin{remark}
+The curvature statement identifies $\sigma=\tfrac12$ as a geometrically
+distinguished point of the spectral trace at the reference parameters.
+It is a structural ingredient in a possible route to Weil positivity
+in the Lagarias formulation~\cite{Lagarias}
+(Problem~\ref{op:weil-bridge} of~\S\,\ref{sec:open}), but does not by
+itself establish it.
+No implication concerning the Riemann Hypothesis is asserted or
+implied by Corollary~\ref{cor:curvature}, nor by the conditional remark
+above when the stationarity hypothesis is imposed.
+The curvature identity therefore provides a canonical second-order
+signature of the critical line, independent of global hypotheses.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Open Problems}
+\label{sec:open}
+
+The present work reduces the question of curvature at the critical
+line to five well-posed subproblems.
+We name each and describe the tools we expect to be relevant.
+The problems are listed in order of what we consider tractability.
+
+\begin{openproblem}[First-derivative cancellation and localisation]\label{op:stat}
+The trivial triangle inequality gives
+\[
+|O'_{(\kappa,\varepsilon,N)}(\tfrac12)|
+\;\le\;
+P(\kappa)\sum_{k=1}^N\gamma_k e^{-\varepsilon^2\gamma_k^2}
+\;=\;
+\widetilde C_{\varepsilon,N}\,W_{\varepsilon,N}P(\kappa),
+\qquad
+\widetilde C_{\varepsilon,N}
+:=\frac{\sum_{k=1}^N\gamma_k e^{-\varepsilon^2\gamma_k^2}}
+       {\sum_{k=1}^N e^{-\varepsilon^2\gamma_k^2}},
+\]
+which is finite for fixed $(\varepsilon,N)$ but does not represent
+cancellation. The nontrivial problem is to prove a first-derivative
+\emph{cancellation estimate} of the form: for some $C_0>0$ and $A\ge1$,
+\[
+\bigl|S_\kappa(\gamma)\bigr|
+\;\le\; C_0\,\frac{P(\kappa)}{\gamma(\log\gamma)^A},
+\qquad
+S_\kappa(\gamma):=\sum_{p\le\kappa}(\log p)\sin(\gamma\log p),
+\]
+uniformly in $\kappa\ge 2$ and $\gamma\ge\gamma_1$. This would imply
+\[
+|O'_{(\kappa,\varepsilon,N)}(\tfrac12)|
+\;\le\;
+\frac{C_0\,W_{\varepsilon,N}\,P(\kappa)}{(\log\gamma_1)^A},
+\]
+which is a genuine logarithmic saving over the trivial bound.
+The numerical value at reference parameters is $O'(\tfrac12)=+2.475$,
+approximately $4\%$ of $W_{\varepsilon,N}\cdot P(\kappa)$, consistent with the cancellation
+expected from the odd kernel $\sin(\gamma_k\log p)$.
+The expected tools are: equidistribution of the sequence
+$\{\gamma_k\log p\bmod 2\pi\}$ under appropriate averaging; a discrete
+Weyl-type bound exploiting the independent behaviour of zero heights
+and prime logarithms.
+At the reference parameters, $B<0$ is numerically established
+(Corollary~\ref{cor:curvature}); the remaining open hypothesis is the
+prime-sum cancellation estimate $|S_\kappa(\gamma)|\le C_0 P(\kappa)/(\gamma(\log\gamma)^A)$
+stated above.
+Such a bound would become a localisation statement only when combined
+with a local convexity lower bound and a smallness condition relative
+to that lower bound, as detailed below.
+Specifically, if there exist $\delta>0$ and $m>0$ such that
+$O''(\sigma)\ge m$ on $[\tfrac12-\delta,\tfrac12+\delta]$
+and $|O'(\tfrac12)|<m\delta$, then there exists
+$\sigma_*\in[\tfrac12-\delta,\tfrac12+\delta]$ with
+$O'(\sigma_*)=0$ and
+\[
+|\sigma_* - \tfrac12| \;\le\; \frac{|O'(\tfrac12)|}{m}.
+\]
+The reference-parameter estimate gives
+$\sigma_* - \tfrac12
+\approx -O'(\tfrac12)/O''(\tfrac12) \approx -6.4\times10^{-5}$.
+An exact local minimum at $\sigma=\tfrac12$ requires additionally
+$O'(\tfrac12)=0$; this stronger condition remains open.
+\end{openproblem}
+
+\begin{remark}[Possible conditional route to stationarity]
+\label{rem:stat-conditional}
+A possible partial route toward Problem~\ref{op:stat} would be a cancellation
+estimate for the prime exponential sum
+\[
+S_\kappa(\gamma):=\sum_{p\le\kappa}(\log p)\sin(\gamma\log p).
+\]
+Since
+\[
+O'(\tfrac12)=-\sum_k e^{-\varepsilon^2\gamma_k^2}\gamma_k\,S_\kappa(\gamma_k),
+\]
+an estimate of the form
+\[
+|S_\kappa(\gamma)|\le C_0\,\frac{P(\kappa)}{\gamma(\log\gamma)^A},
+\qquad P(\kappa):=\sum_{p\le\kappa}\log p,
+\]
+for constants $C_0>0$ and $A\ge 1$ (uniform in $\kappa\ge 2$ and
+$\gamma\ge\gamma_1$) would imply
+\[
+|O'(\tfrac12)|\;\le\;
+C_0 P(\kappa)\sum_k \frac{e^{-\varepsilon^2\gamma_k^2}}{(\log\gamma_k)^A}
+\;\le\;
+\frac{C_0\,W_{\varepsilon,N}\,P(\kappa)}{(\log\gamma_1)^A}.
+\]
+No such estimate is proved here. The hypothesis is analogous to
+Vinogradov--Korobov-type cancellation (\cite{Bellotti24a,Bellotti24b},
+\cite{MossinghoffTrudgianYang24}, \cite{Ramare12}) and is strictly
+weaker than RH. The structural obstruction to an unconditional proof
+is described in Remark~\ref{rem:selection-direct}.
+Numerically, $O'(\tfrac12)=+2.475$ and
+$W_{\varepsilon,N}\cdot P(\kappa)/\log\gamma_1\approx 23.3$
+at the reference parameters $(\varepsilon,N)=(0.05,100)$,
+consistent with the route above.
+The route falls short of an unconditional proof: the logarithmic saving
+required to establish $|S_\kappa(\gamma)|\le C_0 P(\kappa)/(\gamma(\log\gamma)^A)$
+uniformly in $\kappa$ is not available; see Remark~\ref{rem:selection-direct}.
+\end{remark}
+
+\begin{remark}[Why non-vanishing on $\Re s=1$ is insufficient]
+\label{rem:selection-direct}
+Direct unconditional proofs of the stationarity bound face a
+structural obstruction: the function $-\zeta'/\zeta(s-i\gamma)$
+has a pole at $s=1+i\gamma$, so the non-vanishing $\zeta(1+it)\neq 0$
+(Hadamard~\cite{Hadamard}, de~la~Vall\'ee~Poussin) alone does not prevent
+cancellation failure
+in the sum $\sum_{p\le\kappa}(\log p)\sin(\gamma\log p)$.
+Thus non-vanishing on $\Re s=1$ alone is insufficient for this route.
+A cancellation estimate of the strength displayed in
+Remark~\ref{rem:stat-conditional}, or an alternative estimate of
+comparable strength, is still required for this route.
+\end{remark}
+
+\begin{openproblem}[Asymptotic ordinate bias and finite-$N$ transfer]\label{op:bias}
+\label{op:bias-asymp}
+
+\emph{(a) Asymptotic target.}
+Let $Z_p^{\infty}(\varepsilon):=
+2\sum_{k=1}^{\infty}e^{-\varepsilon^2\gamma_k^2}\cos(\gamma_k\log p)$
+be the infinite ordinate proxy. Prove analytically that
+$Z_p^{\infty}(\varepsilon)<0$ for every prime $p\le\kappa$ and all
+sufficiently small $\varepsilon>0$.
+
+\emph{(b) Finite-$N$ transfer.}
+For specified $(N,\varepsilon)$, establish
+$|R_{p,N}^{\infty}(\varepsilon)|<|Z_p^{\infty}(\varepsilon)|$
+uniformly for $p\le\kappa$, where
+$R_{p,N}^{\infty}(\varepsilon):=2Z_{p,N}^+(\varepsilon)-Z_p^{\infty}(\varepsilon)$
+is the tail beyond the $N$-th zero. Then $Z_{p,N}^+(\varepsilon)<0$ follows.
+
+The numerical behaviour of $r^+_{p,N}(\varepsilon)$
+(Remark~\ref{rem:rpinf})
+suggests the expected sign for the leading asymptotic of the full GW object,
+but the limit $r_p^{\infty}\le\tfrac12$ is not proved analytically;
+the corresponding sign of $Z_p^{\infty}$ is not directly
+implied (the GW bridge remains open; see Paper~5, Open Problem~6.5 (GW bridge)).
+The open question is an analytic proof that $Z_p^{\infty}(\varepsilon)<0$
+for all primes and small but positive~$\varepsilon$.
+Numerically, pointwise negativity of $Z_{p,N}^+$ is established on the
+tested grid at $\varepsilon=0.020$ for all primes $p\le 53$.
+Closing this gap would prove the asymptotic pointwise-bias target in
+part~(a) and, together with the finite-$N$ transfer in part~(b),
+would give a theorem-level sign statement for $Z_{p,N}^+$ in the
+corresponding small-$\varepsilon$ regime.
+It would \emph{not} by itself prove the finite-grid unimodality
+pattern or the observed grid transition of
+Theorem~\ref{thm:ratio-signcross}; those remain numerical unless
+separately analysed.
+The expected tools are: explicit expansion of the $s=0,1$ endpoint
+terms in the completed Guinand--Weil formula with the correct
+$\cosh$-evaluation of the test function; a Riemann--Lebesgue-type bound on the digamma contribution
+with explicit constant; a cancellation argument between the
+$\varepsilon^{-1}$-coefficients of $\mathrm{Main}_p$ and
+$\mathrm{Const}_p$.
+The problem is formulated entirely within classical analytic number theory.
+\end{openproblem}
+
+\begin{openproblem}[Uniformity of positive curvature]\label{op:uniform}
+\label{op:uniformity}
+Determine whether the inequality $B(\varepsilon,\kappa)<0$, and hence
+$O''(\tfrac12)>0$, persists at parameter points
+$(\kappa,\varepsilon,N)$ other than the reference values
+$(53,0.05,100)$ tested here.
+Corollary~\ref{cor:curvature} establishes the inequality at a single
+point of the parameter space.
+Whether it extends to a neighbourhood, to a larger range of cutoffs
+$\kappa$, or to a different choice of smoothing $\varepsilon$ is a
+distinct question: the direct curvature sum depends non-trivially on
+the $\gamma_k^2$-weights and on the oscillatory phases $\gamma_k\log p$,
+and finite parameter changes could in principle reverse the sign.
+The expected tools are: a systematic numerical survey across a
+parameter grid; an asymptotic expansion of $B(\varepsilon,\kappa)$ for
+large $\kappa$; and, if possible, an analytic reduction via the
+primal-to-dual identity $B=\sum_p(\log p)^2\,\mathrm{Re}\,Z_p^{(2)}$.
+\end{openproblem}
+
+\begin{openproblem}[Integrated-to-direct transfer]\label{op:transfer}
+Establish or disprove the implication
+\[
+\bigl(\,Z_{p,N}^+(\varepsilon)<0 \text{ for all primes }
+p\le\kappa\,\bigr)
+\;\Longrightarrow\;
+B(\varepsilon,\kappa)<0
+\]
+at fixed $(\varepsilon,\kappa)$, where
+\[
+B(\varepsilon,\kappa) \;:=\; \sum_{k,p} e^{-\varepsilon^2\gamma_k^2}\,
+(\gamma_k\log p)^2\,\cos(\gamma_k\log p).
+\]
+At the reference parameters $(\kappa,\varepsilon,N)=(53,0.05,100)$,
+$B^+_{\mathrm{int}}$ and $B$ are numerically negative
+(Theorem~\ref{thm:intbias}, Corollary~\ref{cor:curvature}),
+while the pointwise inequality $Z_{p,N}^+(0.05)<0$ holds for
+$14$ of the $16$ primes $p\le 53$, with exceptions $p=37,53$
+(Theorem~\ref{thm:ratio-signcross}).
+On the tested grid at $\varepsilon=0.020$, the pointwise inequality
+holds for all primes $p\le 53$.
+No analytical implication among these sign statements is established.
+A proof of the displayed implication would extend
+Corollary~\ref{cor:curvature} from a reference-parameter statement to
+a parametrised statement valid wherever the pointwise hypothesis can
+be verified.
+The expected tools are: the explicit prime-side representation of $B$,
+the uniform positivity of the Fourier transform
+$\widehat{h}_{p,\varepsilon}$, and a rearrangement argument
+distributing the $\gamma_k^2$-weights across the pointwise
+contributions.
+The analogous implication with $B^+_{\mathrm{int}}$ in place of $B$ is
+immediate from the positivity of the weights $(\log p)^2$:
+if $Z_{p,N}^+(\varepsilon)<0$ for all $p\le\kappa$, then
+$B^+_{\mathrm{int}}=\sum_p(\log p)^2 Z_{p,N}^+<0$.
+The nontrivial question is whether any sign information survives
+the additional $\gamma_k^2$-reweighting in~$B$.
+The problem is formulated entirely within classical analytic number theory.
+\end{openproblem}
+
+\begin{openproblem}[Lagarias--Weil bridge]\label{op:weil}
+\label{op:weil-bridge}
+The present result introduces a finite-cutoff curvature observable
+for Gaussian-smoothed explicit-formula data; it should be compared
+with Bombieri's finite truncations of Weil's quadratic
+functional~\cite{Bombieri} and with the Li/Bombieri--Lagarias
+positivity framework~\cite{Li,BombieriLagarias}, but it is not yet a
+positivity theorem for the full Weil distribution.
+
+Problem~\ref{op:weil-bridge} asks whether there exists a transfer
+construction under which the finite-cutoff curvature condition
+$O''(\tfrac12)=-2B>0$, together with stationarity
+$O'(\tfrac12)=0$ and an appropriate limiting procedure, yields
+Weil positivity for a specified Gaussian-generated subclass of
+Lagarias-admissible test functions
+(entire of order~2, explicit-formula admissibility conditions).
+This problem is stated here as a named research target, not as a proved implication.
+Establishing this route precisely would require specifying the
+admissible test-function class, constructing an explicit transfer from
+the finite-parameter curvature identity $O''(\tfrac12)=-2B$ to the
+limiting Weil functional, and proving positivity on that limiting class;
+none of these steps is supplied in the present paper.
+Its resolution is beyond the methods of the present paper and requires
+either a direct positivity argument on the Weil distribution or an
+external route via Connes-type operator positivity.
+We are not aware of a direct transfer theorem connecting the
+curvature statement $O''(\tfrac12)>0$ or the Lagarias formulation
+of Weil positivity~\cite{Lagarias} to Bombieri's quadratic
+functional~\cite{Bombieri} or the Connes--Consani
+Weil-positivity framework~\cite{ConnesConsani23}.
+The two bodies of work remain disjoint as of the date of
+this paper; Problem~\ref{op:weil-bridge} is therefore
+genuinely open.
+No implication toward the Riemann Hypothesis is asserted by the
+present paper; the problem above is a named research target,
+not an established claim.
+
+Problems~\ref{op:stat}--\ref{op:transfer} are formulated entirely within
+classical analytic number theory; the present problem is structurally
+the principal outstanding question of the programme.
+\end{openproblem}
+
+\begin{remark}[Outlook: the Weil transfer operator]
+\label{rem:weil-transfer-outlook}
+The curvature identity $O''(\tfrac12)=-2B$ established in this
+paper admits a natural continuation: a possible construction of a
+finite-dimensional Weil transfer matrix $W_{\kappa,\varepsilon}$
+whose entries would be evaluations of the Weil quadratic form on the
+admissible Gaussian test functions $h^{\mathrm{even}}_{p,\varepsilon}$.
+The diagonal of such a matrix would be connected to the
+curvature sum $B$ via the identity $O''(\tfrac12)=-2B$, while
+its off-diagonal structure encodes the prime-zero coupling studied
+in Papers~1--5 of this series.
+
+The Hilbert space $H_W$ derived from the Weil hermitian form
+(see Suzuki~\cite{Suzuki25}) is the natural infinite-dimensional
+ambient space in which the finite-dimensional matrix
+$W_{\kappa,\varepsilon}$ lives as a finite-rank object.
+Connes and Consani~\cite{ConnesConsani23} construct the
+matrix $\sigma(n,m) = Q_W(\eta_n,\eta_m)$ of the Weil quadratic
+form on a basis $\{\eta_n\}$ indexed by integers, using
+prolate-spheroidal cutoffs on a compact interval $[1/\lambda,\lambda]$.
+A possible future construction of the Weil
+transfer operator $W_{\kappa,\varepsilon}$
+is indexed by primes
+$p\le\kappa$ rather than integers~$n$, uses Gaussian smoothing
+of width~$\varepsilon$ on the spectral side rather than a
+prolate-spheroidal cutoff, and is connected to the curvature
+identity $O''(\tfrac12)=-2B$ established here via its diagonal.
+The two constructions are methodologically related but technically
+distinct.
+\end{remark}
+
+% -------------------------------------------------------
+\section*{Non-Circularity}
+\label{sec:nocirc}
+
+We document explicitly that the results of this paper do not rely on
+the objects they are directed toward.
+
+\textbf{No RH as input.}
+At no point is the Riemann Hypothesis assumed.
+The ordinates $\gamma_k$ are used as numerically specified inputs, and
+no property of their distribution requiring the Riemann Hypothesis is
+assumed or used.
+
+\textbf{No GUE, Montgomery, or Hilbert--P\'olya hypothesis.}
+{\sloppy
+The operator $\Tt$ and its $\sigma$-parametrised extension
+$\Tt(\sigma)$ are constructed explicitly from Gaussian-smoothed prime
+phasors in the previous papers of this series~\cite{Paper3,Paper4,Paper5}.
+No random-matrix hypothesis, no pair-correlation conjecture, and no
+Hilbert--P\'olya postulate enters the construction or the proofs.
+\par}
+
+\textbf{$\Tt$ is not a Hilbert--P\'olya operator.}
+As observed numerically in~\cite{Paper5} on the tested finite grids,
+the eigenvalues follow an inverse-ordinate pattern
+$\mu_j\approx\CT/\gamma_{k(j)}$, which is incompatible with a
+Hilbert--P\'olya interpretation on those numerical diagnostics.
+The paper does not attempt a Hilbert--P\'olya realisation.
+
+\textbf{The Guinand--Weil formula is classical.}
+Proposition~\ref{prop:gw} is a classical identity valid for every even,
+sufficiently rapidly decaying test function; its derivation does not
+require the truth of the Riemann Hypothesis.
+Theorems~\ref{thm:main-neg} and~\ref{thm:other}, together with the
+algebraic identity of Proposition~\ref{prop:curv-bias}, are proved
+unconditionally by direct computation.
+Theorem~\ref{thm:trunc} verifies numerically that the
+$N=100$ truncation tail is negligible at the stated reference parameters.
+
+\textbf{Numerical results are clearly marked.}
+Theorems~\ref{thm:gamma},~\ref{thm:ratio-signcross},
+and~\ref{thm:intbias}, and Corollary~\ref{cor:curvature}, rely on
+numerical evaluation of finite sums or one-dimensional numerical
+quadrature; where zero-ordinate truncation enters, the tail is
+controlled by Theorem~\ref{thm:trunc}.
+Each such statement is labelled [numerical] in its heading.
+
+\textbf{Conditional statements are explicitly flagged.}
+The conditional remark following Corollary~\ref{cor:curvature} is
+stated conditionally on the stronger exact stationarity condition
+$O'(\tfrac12)=0$, which is distinguished from the weaker
+first-derivative cancellation target in Problem~\ref{op:stat},
+and adds no further unproved input beyond this explicit assumption.
+Problem~\ref{op:transfer} is named openly and is not used as a
+hypothesis anywhere in \S\S\,\ref{sec:main}--\ref{sec:curvcor}.
+
+\textbf{$\gamma_k$ as inputs, not conclusions.}
+The ordinates appear as numerically specified inputs to the model.
+The claim $\mathrm{Re}(\rho_k)=\tfrac12$ is not used anywhere; the
+reference point $\sigma_0=\tfrac12$ is chosen as the object of study,
+not assumed to be the unique zero location.
+
+% -------------------------------------------------------
+\section*{Acknowledgments}
+
+The author thanks colleagues and external readers for iterative
+critical review across draft versions, whose feedback shaped the
+final formulation of the results in this paper.
+
+% -------------------------------------------------------
+\section*{Call for Feedback}
+
+This paper is part of an open research initiative on prime--zero
+coupling and explicit-formula operators.
+All papers in the series are freely available on Zenodo under CC~BY~4.0,
+and the accompanying verification code is hosted on GitHub.
+
+The author welcomes critical feedback, corrections, and collaboration:
+
+{\raggedright
+Zenodo:\\
+\url{https://zenodo.org/search?q=metadata.creators.person_or_org.name\%3A\%22Tehrani\%2C\%20Ulrich\%22}\\
+GitHub:\\
+\url{https://github.com/utehrani/analysislab-nt}
+\par}
+
+Topics of particular interest include: analytical approaches to the
+asymptotic pointwise bias of Problem~\ref{op:bias-asymp}; the analytic
+stationarity bound of Problem~\ref{op:stat}; uniformity of the
+curvature inequality across a larger parameter range
+(Problem~\ref{op:uniformity}); the integrated-to-direct transfer of
+Problem~\ref{op:transfer}; and, ultimately, the Lagarias--Weil bridge
+of Problem~\ref{op:weil-bridge}.
+
+We particularly welcome expert comment on the following question:
+for a Gaussian-smoothed family $g_\varepsilon$ with
+$g_\varepsilon\to\delta$ as $\varepsilon\to 0$, is it known whether
+the sign of $W(g_\varepsilon * g_\varepsilon^\vee)$ at
+finite~$\varepsilon$ carries arithmetic information, or is positivity
+only meaningful in the distributional limit?
+
+% -------------------------------------------------------
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{Paper1}
+U.~Tehrani,
+``A Curvature Decomposition of the Explicit Formula
+for the Riemann Zeta Function'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19025598}, 2026.
+
+\bibitem{Paper2}
+U.~Tehrani,
+``From Local Curvature to the Weil Functional:
+An Explicit Construction'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19106992}, 2026.
+
+\bibitem{Paper3}
+U.~Tehrani,
+``A Finite-Cutoff Hilbert-Space Model
+for Prime--Zero Energy Structure'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19307989}, 2026.
+
+\bibitem{Paper4}
+U.~Tehrani,
+``A Dual Operator for Prime--Zero Coupling
+and a Conditional Proof of Energy Asymmetry'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19364703}, 2026.
+
+\bibitem{Paper5}
+U.~Tehrani,
+``Spectral Trace Formula and Smoothed Zero Sums:
+A Prime--Zero Duality Framework'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19508547}, 2026.
+
+\bibitem{Code}
+U.~Tehrani,
+\emph{Verification scripts for the series},
+GitHub, \url{https://github.com/utehrani/analysislab-nt}.
+
+\bibitem{Lagarias}
+J.C.~Lagarias,
+``On a positivity property of the Riemann $\xi$-function'',
+\emph{Acta Arithmetica} \textbf{89} (1999), 217--234.
+
+\bibitem{Guinand}
+A.P.~Guinand,
+``A summation formula in the theory of prime numbers'',
+\emph{Proc.\ London Math.\ Soc.}\ (2) \textbf{50} (1948), 107--119.
+
+\bibitem{Weil}
+A.~Weil,
+``Sur les `formules explicites' de la th\'eorie des nombres
+premiers'',
+\emph{Comm.\ S\'em.\ Math.\ Univ.\ Lund, Suppl.}\ (1952), 252--265.
+
+\bibitem{Hadamard}
+J.~Hadamard,
+``Sur la distribution des z\'eros de la fonction $\zeta(s)$
+et ses cons\'equences arithm\'etiques'',
+\emph{Bull.\ Soc.\ Math.\ France} \textbf{24} (1896), 199--220.
+
+\bibitem{Edwards}
+H.M.~Edwards,
+\emph{Riemann's Zeta Function},
+Academic Press, New York, 1974.
+
+\bibitem{Connes}
+A.~Connes,
+``Trace Formula in Noncommutative Geometry and the Zeros of the
+Riemann Zeta Function'',
+\emph{Selecta Math.\ (N.S.)} \textbf{5}.1 (1999), 29--106.
+
+\bibitem{BerryKeating}
+M.V.~Berry and J.P.~Keating,
+``The Riemann Zeros and Eigenvalue Asymptotics'',
+\emph{SIAM Review} \textbf{41}.2 (1999), 236--266.
+
+\bibitem{deBranges}
+L.~de~Branges,
+``The Riemann Hypothesis for Hilbert Spaces of Entire Functions'',
+\emph{Bull.\ Amer.\ Math.\ Soc.\ (N.S.)} \textbf{15}.1 (1986),
+1--17.
+
+\bibitem{Burnol}
+J.-F.~Burnol,
+``On Fourier and Zeta(s)'',
+\emph{Forum Math.} \textbf{16}.6 (2004), 789--840.
+
+\bibitem{Bombieri}
+E.~Bombieri,
+``Remarks on Weil's Quadratic Functional in the Theory of Prime
+Numbers, I'',
+\emph{Rend.\ Lincei Mat.\ Appl.} \textbf{11}.3 (2000), 183--233.
+
+\bibitem{Li}
+X.-J.~Li,
+``The Positivity of a Sequence of Numbers and the Riemann
+Hypothesis'',
+\emph{J.\ Number Theory} \textbf{65}.2 (1997), 325--333.
+
+\bibitem{BombieriLagarias}
+E.~Bombieri and J.C.~Lagarias,
+``Complements to Li's Criterion for the Riemann Hypothesis'',
+\emph{J.\ Number Theory} \textbf{77}.2 (1999), 274--287.
+
+\bibitem{RubinsteinSarnak}
+M.~Rubinstein and P.~Sarnak,
+``Chebyshev's Bias'',
+\emph{Experimental Math.} \textbf{3}.3 (1994), 173--197.
+
+
+\bibitem{IwaniecKowalski04}
+H.~Iwaniec and E.~Kowalski,
+\emph{Analytic Number Theory},
+American Mathematical Society Colloquium Publications,
+vol.~53, AMS, Providence, RI, 2004.
+
+\bibitem{ConnesConsani23}
+A.~Connes and C.~Consani,
+``Spectral triples and zeta-cycles,''
+\textit{Enseign.\ Math.} \textbf{69} (2023), no.~1--2, 93--148.
+arXiv:2106.01715.
+DOI: 10.4171/LEM/1049.
+
+\bibitem{CarneiroLittmannVaaler13}
+E.~Carneiro, F.~Littmann, and J.~D.~Vaaler,
+``Gaussian subordination for the Beurling--Selberg extremal problem,''
+\textit{Trans.\ Amer.\ Math.\ Soc.} \textbf{365} (2013),
+3493--3534.
+arXiv:1008.4969.
+DOI: 10.1090/S0002-9947-2012-05733-X.
+
+\bibitem{CarneiroMilinovichSoundararajan19}
+E.~Carneiro, M.~B.~Milinovich, and K.~Soundararajan,
+``Fourier optimization and prime gaps,''
+\textit{Comment.\ Math.\ Helv.} \textbf{94} (2019), no.~3, 533--568.
+arXiv:1708.04122.
+DOI: 10.4171/CMH/467.
+
+\bibitem{BalanzarioCardenas25}
+E.~P.~Balanzario and D.~E.~C\'{a}rdenas Romero,
+``An explicit formula for the zeros of the Riemann zeta function
+and the statistics of their local distribution,''
+\textit{Ramanujan J.} \textbf{69} (2026), article~21.
+DOI: 10.1007/s11139-025-01297-y.
+
+\bibitem{Ramare12}
+O.~Ramar\'{e},
+``On the behaviour of $\gamma\log p$ modulo~1,''
+arXiv:1203.1759 (2012, revised December 2022).
+Unpublished preprint.
+
+\bibitem{Bellotti24a}
+C.~Bellotti,
+``Explicit bounds for the Riemann zeta function and a new
+zero-free region,''
+\textit{J.\ Math.\ Anal.\ Appl.} \textbf{536} (2024),
+no.~2, art.~128249.
+arXiv:2306.10680.
+DOI: 10.1016/j.jmaa.2024.128249.
+
+\bibitem{Bellotti24b}
+C.~Bellotti,
+``An explicit log-free zero density estimate for the Riemann
+zeta-function,''
+\textit{J.\ Number Theory} \textbf{269} (2025), 37--77.
+arXiv:2405.12545.
+DOI: 10.1016/j.jnt.2024.10.001.
+
+\bibitem{MossinghoffTrudgianYang24}
+M.~J.~Mossinghoff, T.~S.~Trudgian, and A.~Yang,
+``Explicit zero-free regions for the Riemann zeta-function,''
+\textit{Res.\ Number Theory} \textbf{10} (2024), art.~11.
+DOI: 10.1007/s40993-023-00498-y.
+
+\bibitem{Suzuki25}
+M.~Suzuki,
+``On the Hilbert space derived from the Weil distribution,''
+\textit{Canad.\ J.\ Math.}, First View (2025), 1--24.
+arXiv:2301.00421.
+DOI: 10.4153/S0008414X25101739.
+
+\bibitem{BellottiWong24}
+C.~Bellotti and P.-J.~Wong,
+``Improved estimates for the argument and zero-counting function
+of the Riemann zeta-function,''
+arXiv:2412.15470v2 (2025).
+
+\bibitem{BrentPlattTrudgian21}
+R.~P.~Brent, D.~J.~Platt, and T.~S.~Trudgian,
+``Accurate estimation of sums over zeros of the Riemann
+zeta-function,''
+\textit{Math.\ Comp.} \textbf{90} (2021), no.~332, 2923--2935.
+DOI: 10.1090/mcom/3652.
+\end{thebibliography}
+
+% -------------------------------------------------------
+\enlargethispage{3\baselineskip}
+\vspace*{\fill}
+\begin{minipage}{\linewidth}
+\rule{\linewidth}{0.4pt}\smallskip\\
+\small\emph{Paper~6 v1.25 \textperiodcentered\ August~2026
+\textperiodcentered\ Pauca sed matura}
+\end{minipage}
+
+\end{document}

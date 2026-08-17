@@ -1,0 +1,2212 @@
+% ============================================================
+% Unconditional Negativity of the Second-Moment Bias
+% and Off-Line Robustness
+%
+% Author:   Ulrich Tehrani
+% Date:     June 2026
+% Version:  v0.23
+% Zenodo:   10.5281/zenodo.20792123
+% License:  CC BY 4.0
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\hypersetup{colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Unconditional Negativity of the Second-Moment Bias and Off-Line Robustness},
+  pdfauthor={Ulrich Tehrani}}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+\emergencystretch=1em
+
+% --------------------------------------------------------
+% Theorem environments (numbered within section)
+% --------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{remark}{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+% --------------------------------------------------------
+% Series-wide macros
+% --------------------------------------------------------
+\newcommand{\Hstr}{H_{\mathrm{str}}}
+\newcommand{\Hnull}{H_{\mathrm{null}}}
+\newcommand{\Tt}{\widetilde{T}}
+\newcommand{\DSEL}{D_{\mathrm{SEL}}}
+
+% --------------------------------------------------------
+% Paper-8-specific macros
+% --------------------------------------------------------
+\newcommand{\BinfGW}{B_{\mathrm{GW}}^{\infty}}   % full Guinand--Weil second-moment curvature sum
+\newcommand{\Binfline}{B_{\mathrm{line}}^{\infty}} % on-line (ordinate) proxy curvature sum
+\newcommand{\dmin}{\delta_{\min}}           % binding near-zone gap
+\newcommand{\ZtwoGW}{Z_{p,\mathrm{GW}}^{(2)}}   % full GW second-moment zero side
+\newcommand{\Ztwoline}{Z_{p,\mathrm{line}}^{(2)}} % on-line ordinate proxy
+\newcommand{\Pp}{P_p^{(2)}}                 % prime-side second-moment term
+\newcommand{\Gp}{\Gamma_p^{(2)}}            % archimedean second-moment term
+\newcommand{\Eoff}{E_p^{\mathrm{off},(2)}}  % off-line second-moment correction
+\newcommand{\psiR}{\psi_{R}}                % Re psi on the quarter line
+
+% --------------------------------------------------------
+% Title
+% --------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries Unconditional Negativity of the
+Second-Moment Bias and Off-Line Robustness}
+\author{Ulrich Tehrani}
+\date{Research Note \textperiodcentered\ August~2026
+      \textperiodcentered\ v0.23}
+
+% ============================================================
+\begin{document}
+\maketitle
+% ============================================================
+
+\begin{abstract}
+Building on the curvature identity $O''(\tfrac12)=-2B$ of~\cite{Paper6}
+and the spectral trace formula $\mathrm{Tr}(\Tt(\sigma))=\DSEL-O(\sigma)$
+of~\cite{Paper5}, this paper addresses, \emph{unconditionally}, two of the
+open problems left by~\cite{Paper7}. Paper~7 left open a transfer from the
+integrated bias to the direct second-moment curvature sum; the present paper
+does \emph{not} prove that implication. Instead it \emph{bypasses} the
+bridge, proving the direct second-moment negativity independently from the
+differentiated Guinand--Weil formula, and it controls hypothetical
+off-critical zeros.
+We study the second Gaussian moment of the zero sum. Two objects must be
+distinguished, the \emph{full Guinand--Weil} second-moment sum (over all
+non-trivial zeros) and its \emph{on-line ordinate proxy},
+\[
+\ZtwoGW(\varepsilon)=\tfrac12\sum_\rho h^{(2)}_{p,\varepsilon}((\rho-\tfrac12)/i),
+\qquad
+\Ztwoline(\varepsilon)=\sum_{\gamma>0}e^{-\varepsilon^2\gamma^2}\gamma^2\cos(\gamma\log p);
+\]
+they coincide when all zeros lie on the critical line and otherwise differ by
+an off-line correction $\Eoff(\varepsilon)=\ZtwoGW-\Ztwoline$.
+With $\BinfGW(\kappa,\varepsilon)=\sum_{p\le\kappa}(\log p)^2\,\ZtwoGW(\varepsilon)$
+and $\Binfline$ defined from the proxy, differentiating the Gaussian
+explicit-formula identity in the smoothing parameter yields a second-moment
+identity in which the diagonal prime self-interaction dominates; from it we
+prove $\BinfGW(53,\varepsilon)<0$ for every $0<\varepsilon\le 0.05$
+(closed-form for $\varepsilon\le 0.004$, certified by interval arithmetic up
+to the reference width $\varepsilon=0.05$), and a uniform statement
+$\BinfGW(\kappa,\varepsilon)<0$ for every $\kappa\ge 202$ and
+$0<\varepsilon\le\varepsilon_0(\kappa)$ with the explicit threshold
+$\varepsilon_0(\kappa)=1/(4e\kappa\sqrt{\log\kappa})$.
+These sign statements are about the full Guinand--Weil object and assume
+nothing about zero locations.
+To pass from $\BinfGW$ to the operator curvature $O''(\tfrac12)=-2\Binfline$,
+which is built from the on-line ordinates, we bound the off-line correction:
+a $\beta$-uniform magnitude estimate combined with the Platt--Trudgian
+verified height $H_0=3\cdot10^{12}$~\cite{PlattTrudgian21} shows that
+$\sum_{p\le\kappa}(\log p)^2|\Eoff|$ stays below the certified negativity
+margin $M$ for every smoothing width $\varepsilon\ge\varepsilon_{\mathrm{off}}(\kappa,M,H_0)$;
+within a certified full-object negativity range this transfers the sign, so
+for $\varepsilon_{\mathrm{off}}(\kappa,M,H_0)\le\varepsilon\le 0.05$ (in particular
+$\varepsilon=0.05$) one has $\Binfline(53,\varepsilon)<0$ and
+$O''(\tfrac12)>0$.
+No hypothetical input is used: no Riemann Hypothesis, no Hilbert--P\'olya
+postulate, no random-matrix conjecture; the off-line bound rests on an
+unconditional finite-height verification, not on RH.
+
+\textbf{What is proved.}
+The second-moment explicit-formula identity (Theorem~\ref{thm:id});
+the archimedean bound $\Gp=O(1)$ (Theorem~\ref{thm:arch});
+prime-side eigenterm extraction and cross-prime control
+(Theorem~\ref{thm:prime});
+$\BinfGW(53,\varepsilon)<0$ for $0<\varepsilon\le 0.05$
+(Theorem~\ref{thm:ref});
+the uniform negativity threshold $\varepsilon_0(\kappa)$ for $\kappa\ge 202$
+(Theorem~\ref{thm:uniform}); off-line robustness in magnitude form
+(Theorem~\ref{thm:offline}); and the operator curvature
+$O''(\tfrac12)=-2\Binfline>0$ for
+$\varepsilon_{\mathrm{off}}\le\varepsilon\le 0.05$,
+in particular at $\varepsilon=0.05$ (Corollary~\ref{cor:curvline}).
+
+\textbf{What is numerical.}
+At $(\kappa,\varepsilon,N)=(53,0.05,100)$:
+$B(53,0.05,100)=-19\,342.5$; $O''(\tfrac12)=+38\,685.1$;
+$S_3(53)=87.4247$; $\dmin(53)=0.031749$.
+The archimedean bound $I_4(\tfrac14)\le 3561.1$ is \emph{proved}
+(Theorem~\ref{thm:arch}) and \emph{certified} in Arb ball arithmetic
+(\texttt{certify\_I4}).
+
+\textbf{What remains open.}
+The Cancellation Hypothesis~(A$^{**}$) of~\cite{Paper7};
+the Weighted Bias Bridge implication
+$B_{\mathrm{int}}^\infty<0\Rightarrow\BinfGW<0$ (bypassed here, not proved);
+exact stationarity $O'(\tfrac12)=0$;
+the Weil-transfer operator and Weil positivity;
+and the asymptotics of the negativity window.
+
+\textbf{Scope.}
+The negativity $\BinfGW<0$ of the full Guinand--Weil object, and
+$\Binfline<0$ of the on-line proxy for
+$\varepsilon_{\mathrm{off}}\le\varepsilon\le 0.05$,
+are statements about the second-moment bias and the curvature
+$O''(\tfrac12)=-2\Binfline>0$.
+It is \emph{not} a criterion for the Riemann Hypothesis; this paper does
+not claim and does not suggest RH (see the scope remark in
+\S\,\ref{sec:open}).
+
+\textbf{Structure.}
+Sections~\ref{sec:id}--\ref{sec:prime} establish the second-moment
+identity and the three side estimates;
+Sections~\ref{sec:ref}--\ref{sec:uniform} prove negativity at the
+reference parameter and uniformly in the cutoff;
+Section~\ref{sec:offline} proves off-line robustness.
+All results are unconditional (Theorem~\ref{thm:offline} is a magnitude
+statement); no use of RH, GUE, or the Hilbert--P\'olya postulate is made.
+\end{abstract}
+
+\vspace{2em}
+
+% --------------------------------------------------------
+% Notation and Conventions
+% --------------------------------------------------------
+\section*{Notation and Conventions}
+\label{sec:notation}
+
+\emph{Critical line.}
+Throughout, the critical line means $\Re(s)=\tfrac12$.
+The trace parameter $\sigma\in\mathbb{R}$ is evaluated at $\sigma=\tfrac12$
+unless stated otherwise.
+
+\medskip
+\emph{Global parameters.}
+The reference values are $\kappa=53$ (prime cutoff, yielding $16$ active
+primes $p\le\kappa$), $\varepsilon=0.05$ (Gaussian regularisation
+parameter), and $N=100$ (number of Riemann ordinates $\gamma_k$ employed).
+These values are fixed throughout unless explicitly varied.
+We write $P(\kappa):=\sum_{p\le\kappa}\log p=\vartheta(\kappa)$ for the
+Chebyshev theta sum and
+$S_3(\kappa):=\sum_{p\le\kappa}(\log p)^3/\sqrt{p}$.
+At the reference parameters $P(53)\approx 44.93$ and $S_3(53)=87.4247$.
+
+\medskip
+\emph{Main objects.}
+The coupling operator $\Phi(\sigma):\Hstr\to\Hnull$ is defined by
+\[
+\Phi(\sigma)_{k,p}=e^{-\varepsilon^2\gamma_k^2/2}\sin(\sigma\gamma_k\log p),
+\]
+and the Tehrani operator is $\Tt(\sigma)=\Phi(\sigma)\circ\Phi(\sigma)^*$
+(\cite{Paper5}).
+The trace oscillatory sum is
+\[
+O(\sigma)=\tfrac12\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}\cos(2\sigma\gamma_k\log p),
+\]
+with curvature identity $O''(\tfrac12)=-2B$ (\cite{Paper6}), where
+\[
+B=\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2\cos(\gamma_k\log p)
+\]
+is the finite on-line (ordinate) curvature sum.
+The present paper works with two infinite-$N$ second-moment objects that
+must be kept distinct. The \emph{full Guinand--Weil} second-moment zero side
+and its \emph{on-line ordinate proxy} are
+\[
+\ZtwoGW(\varepsilon)
+ := \tfrac12\sum_\rho h^{(2)}_{p,\varepsilon}\!\Bigl(\tfrac{\rho-\tfrac12}{i}\Bigr),
+\qquad
+\Ztwoline(\varepsilon)
+ := \sum_{\substack{\rho=\tfrac12+i\gamma\\ \gamma>0}}
+    e^{-\varepsilon^2\gamma^2}\,\gamma^2\cos(\gamma\log p),
+\]
+the sum in $\ZtwoGW$ ranging over all non-trivial zeros $\rho$ with
+multiplicity; their difference is the off-line correction
+$\Eoff(\varepsilon):=\ZtwoGW(\varepsilon)-\Ztwoline(\varepsilon)$, which
+vanishes when all zeros lie on the critical line. The corresponding
+curvature sums are
+\[
+\BinfGW(\kappa,\varepsilon)
+ := \sum_{p\le\kappa}(\log p)^2\,\ZtwoGW(\varepsilon),
+\qquad
+\Binfline(\kappa,\varepsilon)
+ := \sum_{p\le\kappa}(\log p)^2\,\Ztwoline(\varepsilon),
+\]
+so that $\Binfline$ is the infinite-$N$ form of $B$, and
+$O''(\tfrac12)=-2\Binfline$.
+At the reference parameters the finite-$N$ curvature sum is
+$B(53,0.05,100)=-19\,342.5$, which agrees with $\Binfline(53,0.05)$ up to the
+truncation control quoted from~\cite{Paper6}; we use it as the finite-$N$
+numerical proxy for $\Binfline(53,0.05)$.
+The Gaussian test functions are
+\[
+h^{(0)}_{p,s}(u)=e^{-s u^2}\cos(u\log p),
+\qquad
+h^{(2)}_{p,\varepsilon}(u)=u^2 e^{-\varepsilon^2 u^2}\cos(u\log p)
+ = -\,\partial_s h^{(0)}_{p,s}(u)\big|_{s=\varepsilon^2},
+\]
+both even and entire.
+We write $\Lambda$ for the von Mangoldt function and
+$\psiR(t):=\Re\,\psi(\tfrac14+\tfrac{it}{2})$ for the real part of the
+digamma function on the relevant vertical line; the archimedean
+second-moment term is
+$\Gp(\varepsilon)=\frac{1}{2\pi}\int_0^\infty t^2 e^{-\varepsilon^2 t^2}
+\cos(t\log p)\,\psiR(t)\,dt$.
+
+\medskip
+\emph{Analytical foundations.}
+The proofs use the Guinand--Weil explicit formula for Gaussian test
+functions in the form of~\cite[Thm.~5.12]{IwaniecKowalski04} (the
+historical sources are~\cite{Guinand,Weil}), the Riemann--von Mangoldt
+zero-counting asymptotics
+$N(T)\sim\frac{T}{2\pi}\log\frac{T}{2\pi}$ in the explicit form
+of~\cite{HasanalizadeShenWong21}, and the Chebyshev-type bound
+$\psi(x)\le 1.04\,x$ of~\cite{RosserSchoenfeld62}.
+Section~\ref{sec:offline} uses, as a finite verified arithmetic fact, the
+unconditional interval-arithmetic computation of
+Platt and Trudgian~\cite{PlattTrudgian21}: every non-trivial zero
+$\beta+i\gamma$ with $0<\gamma\le H_0=3\cdot10^{12}$ has $\beta=\tfrac12$.
+No zero-location, pair-correlation, or spectral hypothesis is used.
+
+\medskip
+\emph{Numerical computations.}
+The illustrative tables and calibration values of this paper (anchors such as
+$B(53,0.05,100)=-19\,342.5$, the residual table, the $\kappa=202$ budgets) were
+produced with \texttt{mpmath} at $50$~decimal digits and serve as candidate
+values, not as certificates; Riemann zeros $\gamma_k$ were evaluated via
+\texttt{mpmath.zetazero}.
+The word \emph{certified} is reserved for the threshold statements of
+\S\,\ref{sec:ref}--\ref{sec:uniform}, which are established by a separate
+rigorous \emph{interval} computation in Arb ball arithmetic (midpoint--radius
+with directed outward rounding)~\cite{Johansson17}, as provided by the
+FLINT~3 library (Arb layer) through its Python bindings, with proven Gaussian
+tail bounds below $10^{-380}$. The certificate recomputes every prime-power
+interval contribution, bounds the discarded tail, and prints lower bound,
+right-hand side, and margin for each covering interval, aborting on any
+overlap, gap, or non-positive margin.
+Verification code (the consistency gate and the interval certificate) is
+available at~\cite{Code}
+(\url{https://github.com/utehrani/analysislab-nt}).
+
+\medskip
+\emph{Not to be confused with.}
+The following symbols look similar but are distinct objects.
+\begin{description}[leftmargin=2.6cm,style=nextline,itemsep=2pt]
+\item[$\ZtwoGW$ vs.\ $\Ztwoline$] full Guinand--Weil zero side
+  $\tfrac12\sum_\rho$ versus the on-line ordinate proxy $\sum_{\gamma>0}$;
+  their difference is $\Eoff=\ZtwoGW-\Ztwoline$.
+\item[$\BinfGW$ vs.\ $\Binfline$] full-object sign (this paper) versus the
+  proxy curvature sum (the finite-$N$ ordinate computation gives $-19\,342.5$
+  at $N=100$, consistent with the sign obtained after the off-line transfer).
+\item[$\BinfGW,\Binfline$ vs.\ $B_{\mathrm{int}}$] the $\gamma_k^2$-weighted
+  curvature sums versus the integrated bias: the finite reference value is
+  $B_{\mathrm{int}}^+(0.05,100)=-42.21$ (\cite{Paper6,Paper7}), distinct from
+  the infinite integrated-bias window $B_{\mathrm{int}}^\infty$ (\cite{Paper7}).
+\item[pole $-\tfrac18$ vs.\ ratio $-\tfrac14$] the pole coefficient of
+  $2e^{\varepsilon^2/4}\cosh(\tfrac{\log p}{2})$ is $-\tfrac18$; the ratio to
+  the zeroth-moment pole term is $-\tfrac14$.
+\item[$\varepsilon_0(\kappa)$ vs.\ $\varepsilon_{\mathrm{int}}(\kappa)$] the
+  uniform threshold $1/(4e\kappa\sqrt{\log\kappa})$ of this paper versus the
+  integrated-window scale of~\cite{Paper7}.
+\item[$\varepsilon\le 0.004$ vs.\ $\varepsilon\le 0.05$] the closed-form
+  threshold versus the certified threshold.
+\end{description}
+Both pole numbers are correct: the pole term of the second-moment identity
+equals $-\tfrac18\cdot 2e^{\varepsilon^2/4}\cosh(\tfrac{\log p}{2})$, i.e.\
+exactly minus one quarter of the zeroth-moment pole term.
+The closed-form and certified thresholds in Theorem~\ref{thm:ref} are
+stated separately and never conflated.
+
+\medskip
+\emph{Object summary.}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Object & Definition & Role \\
+\midrule
+$\ZtwoGW$ & $\tfrac12\sum_\rho h^{(2)}_{p,\varepsilon}((\rho-\tfrac12)/i)$ & full GW zero side \\
+$\Ztwoline$ & $\sum_{\gamma>0} e^{-\varepsilon^2\gamma^2}\gamma^2\cos(\gamma\log p)$ & on-line proxy \\
+$\Eoff$ & $\ZtwoGW-\Ztwoline$ & off-line correction \\
+$\BinfGW$ & $\sum_{p\le\kappa}(\log p)^2\,\ZtwoGW$ & proved negative \\
+$\Binfline$ & $\sum_{p\le\kappa}(\log p)^2\,\Ztwoline$ & operator curvature \\
+$B(\kappa,\varepsilon,N)$ & finite ordinate truncation & numerical proxy \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2em}
+\newpage
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================
+
+\subsection{Background and Motivation}
+
+This paper is the eighth in a series developing an operator-theoretic
+framework for studying the distribution of the non-trivial zeros of the
+Riemann zeta function, in which prime numbers mediate the coupling between
+zeros through an explicit family of finite-dimensional operators.
+
+\textbf{Paper~1}~\cite{Paper1} introduced a local curvature decomposition
+of the explicit formula and identified the critical line as a phase
+boundary through a structural divergence of the curvature at
+$\sigma=\tfrac12$.
+
+\textbf{Paper~2}~\cite{Paper2} connected this local curvature to the Weil
+explicit functional through $\sigma$-dependent admissible Gaussian test
+functions, and identified the Weil positivity framework
+of~\cite{Lagarias} as the natural target.
+
+\textbf{Paper~3}~\cite{Paper3} made the geometric structure explicit by
+introducing two finite-dimensional Hilbert spaces, $\Hstr$ over primes and
+$\Hnull$ over zeros, together with the coupling operator
+$\Phi:\Hstr\to\Hnull$ built from prime--zero phasors, and the loop
+operator $T=\Phi^*\circ\Phi$.
+
+\textbf{Paper~4}~\cite{Paper4} introduced the dual Tehrani operator
+$\Tt=\Phi\circ\Phi^*$ on $\Hnull$ and showed, through a
+Hilbert--P\'olya diagnostic ($r_2\to 0.16$ as $\kappa\to\infty$
+[numerical]), that $\Tt$ is \emph{not} a Hilbert--P\'olya operator,
+distinguishing it from the constructions of Berry and
+Keating~\cite{BerryKeating} and de Branges~\cite{deBranges}.
+
+\textbf{Paper~5}~\cite{Paper5} extended the operator family to a
+one-parameter family $\Tt(\sigma)=\Phi(\sigma)\circ\Phi(\sigma)^*$ and
+proved the exact spectral trace identity
+$\mathrm{Tr}(\Tt(\sigma))=\DSEL-O(\sigma)$, where $\DSEL$ is
+$\sigma$-independent.
+It introduced the Guinand--Weil smoothed zero sum as motivation for the
+bias of prime--zero sums.
+
+\textbf{Paper~6}~\cite{Paper6} proved the curvature--bias identity
+$O''(\tfrac12)=-2B$ by direct differentiation of the trace formula, with
+$B=\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2
+\cos(\gamma_k\log p)$, and recorded the reference value $B=-19\,342.5$,
+giving $O''(\tfrac12)=+38\,685.1>0$ [numerical].
+The transfer from the integrated bias to the direct curvature sum was left
+open; the present paper bypasses it (see below).
+
+\textbf{Paper~7}~\cite{Paper7} proved, under two named hypotheses, the
+pointwise asymptotic rate $r_p^\infty=\tfrac12$ and a conditional window
+$B_{\mathrm{int}}^\infty(\kappa,\varepsilon)<0$, and formulated the
+\emph{Weighted Bias Bridge} --- the transfer from the integrated bias
+$B_{\mathrm{int}}^\infty$ to the direct second-moment sum $\BinfGW$ --- and
+the question of off-critical control as its two central open problems.
+
+\smallskip
+\textbf{The present paper} addresses both of these open problems
+\emph{unconditionally}, by bypassing the bridge rather than establishing it:
+we do not prove the implication
+$B_{\mathrm{int}}^\infty<0\Rightarrow\BinfGW<0$, but prove $\BinfGW<0$
+directly.
+We work directly with the second-moment object $\BinfGW(\kappa,\varepsilon)$,
+defined through the zero side of the Guinand--Weil explicit formula and
+hence free of any zero-location hypothesis.
+The mechanism is elementary in outline: differentiating the Gaussian
+explicit-formula identity once in the smoothing parameter $s=\varepsilon^2$
+produces a second-moment identity whose dominant term, for small
+$\varepsilon$, is the diagonal self-interaction of each prime with its own
+term in the explicit formula.
+This term is negative and of size $\varepsilon^{-3}$; every competing
+contribution --- the pole term, the cross-prime interactions, and the
+archimedean integral --- is of strictly lower order, with explicit
+constants.
+The negativity of $\BinfGW$ for small $\varepsilon$ is therefore an
+unconditional, purely prime-side phenomenon.
+
+The operator $\Tt(\sigma)$ of this series is a Gram-type operator with
+explicit arithmetic matrix entries; it is not a Hilbert--P\'olya operator
+(\cite{Paper4}), and does not arise from an adelic or non-commutative
+geometric construction.
+Connes and Consani~\cite{ConnesConsani23} and Connes, Consani, and
+Moscovici~\cite{CCM25} construct spectral triples and zeta-cycles on
+adelic spaces; our framework is finite-cutoff, explicit, and classical.
+Here $\BinfGW$ is an analytic bias object --- the second derivative in
+$\sigma$ of the spectral trace --- not an adelic structure.
+The methodology of replacing a zero-location hypothesis by a certified
+finite-height verification combined with explicit-formula estimates is
+itself well established; the closest mean-square neighbour is the work of
+Brent, Platt, and Trudgian~\cite{BrentPlattTrudgian20} on the error term
+in the prime number theorem, and related Hilbert-space approaches to the
+Weil distribution have been pursued by Burnol~\cite{Burnol} and
+Suzuki~\cite{Suzuki25}.
+The bridge to the Weil positivity criterion of~\cite{Lagarias,Bombieri}
+remains the principal open problem of the series.
+
+\subsection{Main Results}
+
+The six main results of this paper are as follows.
+
+The first, in \S\,\ref{sec:id} (Theorem~\ref{thm:id}), is the
+\emph{second-moment identity}: an explicit decomposition of
+$\ZtwoGW(\varepsilon)$ into a pole term with coefficient $-\tfrac18$
+(equivalently, minus one quarter of the zeroth-moment pole term), a full
+prime-power term over all $q^m$, and an archimedean integral, obtained by
+differentiating the Gaussian explicit formula in $s=\varepsilon^2$.
+
+The second, in \S\,\ref{sec:arch} (Theorem~\ref{thm:arch}), is the
+\emph{archimedean bound} $\Gp(\varepsilon)=O(1)$, with an explicit constant
+$I_4\le 3561.1$ obtained by four-fold integration by parts against
+$\cos(t\log p)$ using $g'''(0)=0$; this term is subdominant by three powers
+of $\varepsilon$.
+
+The third, in \S\,\ref{sec:prime} (Theorem~\ref{thm:prime}), is the
+\emph{prime-side control}: the diagonal $(q,m)=(p,1)$ term contributes
+exactly $\log p/(\sqrt p\,8\sqrt\pi\,\varepsilon^3)$, and the cross-prime
+remainder is controlled through the binding near-zone gap
+$\dmin(53)=0.031749$ (attained by the pair $31\leftrightarrow 2^5$).
+
+The fourth, in \S\,\ref{sec:ref} (Theorem~\ref{thm:ref}), is
+\emph{negativity at the reference parameter}: $\BinfGW(53,\varepsilon)<0$ for
+all $0<\varepsilon\le 0.05$.
+The closed-form criterion proves this for $\varepsilon\le 0.004$; a
+certification by interval arithmetic with the same proven constants extends
+it to the reference width $\varepsilon=0.05$ (and, by chaining interval
+certificates, to $\varepsilon\le 0.0819$).
+These two stages are stated separately.
+This certifies the sign of the full Guinand--Weil object; the operator
+curvature $O''(\tfrac12)=-2\Binfline>0$, built from the on-line ordinates,
+follows once the off-line correction is bounded
+(Corollary~\ref{cor:curvline}, after Theorem~\ref{thm:offline}).
+
+The fifth, in \S\,\ref{sec:uniform} (Theorem~\ref{thm:uniform}), is
+\emph{uniform negativity}: for every cutoff $\kappa\ge 202$ and every
+$0<\varepsilon\le\varepsilon_0(\kappa)$ with
+$\varepsilon_0(\kappa)=1/(4e\kappa\sqrt{\log\kappa})$, one has
+$\BinfGW(\kappa,\varepsilon)<0$.
+This establishes the direct second-moment negativity that the Weighted Bias
+Bridge would have yielded, but proves it directly rather than through the
+bridge.
+
+The sixth, in \S\,\ref{sec:offline} (Theorem~\ref{thm:offline}), is
+\emph{off-line robustness} in magnitude form: a $\beta$-uniform bound on
+the contribution of any hypothetical off-critical zeros, combined with the
+Platt--Trudgian verified height $H_0=3\cdot10^{12}$ and an explicit discrete
+zero-count inequality, shows that the off-line correction $\Eoff$ stays
+below the certified negativity margin $M$ for
+$\varepsilon\ge\varepsilon_{\mathrm{off}}$, without any RH assumption. Within
+a certified negativity range this transfers the sign from $\BinfGW$ to
+$\Binfline$, so for $\varepsilon_{\mathrm{off}}\le\varepsilon\le 0.05$ (in
+particular $\varepsilon=0.05$) one has $O''(\tfrac12)>0$
+(Corollary~\ref{cor:curvline}).
+
+\paragraph{Relation to existing work.}
+The Guinand--Weil explicit formula, its prime-power and archimedean
+(digamma) components, the broader literature in which signs are read off
+from zeros, and the general strategy of removing an RH assumption through a
+certified finite-height zero verification are all classical; the
+Gaussian/Hermite-weighted identity technology appears in nearby form in
+recent work~\cite{BalanzarioCardenas23}. What is new here is the
+conjunction: the unconditional pointwise sign $\BinfGW<0$ for this specific
+Gaussian second-moment curvature functional, the constant-tracked
+archimedean bound (four-fold integration by parts, $I_4\le 3561.1$)
+tailored to the twice-differentiated identity, and the transfer of the
+certified-zero methodology to off-line robustness of a curvature sign
+statement. The identity of \S\,\ref{sec:id} is a specialized differentiated
+descendant of the classical explicit formula, not a new formula; the
+smoothed and weighted explicit-formula framework, the prime-power/digamma
+decomposition, and the certified-zero method itself are cited here as prior
+art, not claimed as contributions.
+
+\subsection{Reader Contract}
+
+This paper \emph{proves} (unconditionally):
+the second-moment explicit-formula identity (Theorem~\ref{thm:id});
+the archimedean bound $\Gp=O(1)$ (Theorem~\ref{thm:arch});
+prime-side eigenterm extraction and cross-prime control
+(Theorem~\ref{thm:prime});
+$\BinfGW(53,\varepsilon)<0$ for all $0<\varepsilon\le 0.05$
+(Theorem~\ref{thm:ref});
+the uniform threshold $\BinfGW(\kappa,\varepsilon)<0$ for $\kappa\ge 202$,
+$\varepsilon\le\varepsilon_0(\kappa)$ (Theorem~\ref{thm:uniform});
+off-line robustness in magnitude form (Theorem~\ref{thm:offline});
+and the operator curvature positivity $O''(\tfrac12)=-2\Binfline>0$ for
+$\varepsilon_{\mathrm{off}}\le\varepsilon\le 0.05$, in particular at
+$\varepsilon=0.05$ (Corollary~\ref{cor:curvline}).
+
+At the reference parameters $(\kappa,\varepsilon,N)=(53,0.05,100)$ this paper
+\emph{establishes numerically} $B(53,0.05,100)=-19\,342.5$,
+$O''(\tfrac12)=+38\,685.1$, and $\dmin(53)=0.031749$.
+It \emph{proves} the archimedean bound $I_4\le 3561.1$ and the closed-form
+threshold $\varepsilon_0(53)=0.004$, and \emph{certifies} (interval
+arithmetic) negativity for $\varepsilon\le 0.05$ with single-interval margins
+$0.83$ on $(0,0.047]$ and $24.29$ on $[0.047,0.05]$.
+
+This paper \emph{leaves open}:
+the Cancellation Hypothesis~(A$^{**}$) of~\cite{Paper7};
+the Weighted Bias Bridge implication
+$B_{\mathrm{int}}^\infty<0\Rightarrow\BinfGW<0$ itself (the present paper
+bypasses it, proving $\BinfGW<0$ directly, rather than establishing the
+implication);
+exact stationarity $O'(\tfrac12)=0$;
+the Weil-transfer operator and Weil positivity;
+and the asymptotics of the negativity window
+$\inf_\kappa\varepsilon_{\mathrm{int}}(\kappa)$.
+
+This paper does \emph{not} claim and does \emph{not} suggest the Riemann
+Hypothesis.
+The negativity $\BinfGW<0$ is a second-moment bias / curvature statement, not
+an RH criterion: the canonical off-critical continuation of the curvature
+test function yields no sign-definite $\delta^2$-defect, as recorded in the
+scope remark of \S\,\ref{sec:open}.
+
+% ============================================================
+\section{Background: Trace Formula, Curvature Identity, and the
+Guinand--Weil Framework}
+\label{sec:bg}
+% ============================================================
+
+This short section records the inputs imported from the preceding papers;
+all are cited, none re-proved here.
+
+\subsection{Trace formula and curvature identity}
+
+Paper~5~\cite{Paper5} proves the exact identity
+$\mathrm{Tr}(\Tt(\sigma))=\DSEL-O(\sigma)$ with $\DSEL$ $\sigma$-independent
+and
+$O(\sigma)=\tfrac12\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}
+\cos(2\sigma\gamma_k\log p)$.
+Differentiating twice in $\sigma$ and evaluating at $\sigma=\tfrac12$,
+Paper~6~\cite{Paper6} obtains the curvature identity
+\[
+O''(\tfrac12) = -2B,
+\qquad
+B = \sum_{k,p}e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2
+   \cos(\gamma_k\log p).
+\]
+The infinite-$N$, on-line form of $B$ is
+$\Binfline(\kappa,\varepsilon)=\sum_{p\le\kappa}(\log p)^2\Ztwoline(\varepsilon)$,
+so that $O''(\tfrac12)=-2\Binfline$ and the sign of $\Binfline$ is the sign
+of $-O''(\tfrac12)$.
+The present paper proves negativity for the full Guinand--Weil object
+$\BinfGW(\kappa,\varepsilon)=\sum_{p\le\kappa}(\log p)^2\ZtwoGW(\varepsilon)$
+on the prime/pole/archimedean side (no zero-location hypothesis), and then
+transfers the sign to $\Binfline$ by bounding $\Eoff$ in
+\S\,\ref{sec:offline}.
+
+\begin{proposition}[Infinite-$N$ curvature identity; proved]\label{prop:infN}
+Write
+\[
+O_\infty(\sigma)=\tfrac12\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}
+\cos(2\sigma\gamma_k\log p)
+\]
+for the $N\to\infty$ on-line trace. For each fixed
+$\varepsilon>0$ the series for $O_\infty$ and its first two $\sigma$-derivatives
+converge locally uniformly in $\sigma$, so $O_\infty\in C^2$ and term-by-term
+differentiation is valid; in particular
+\[
+O_\infty''(\tfrac12)=-2\Binfline(\kappa,\varepsilon).
+\]
+\end{proposition}
+
+\begin{proof}
+The $\nu$-th $\sigma$-derivative of the $(k,p)$ term is bounded by
+$e^{-\varepsilon^2\gamma_k^2}(2\gamma_k\log p)^\nu$. By Riemann--von Mangoldt,
+$N(T)=O(T\log T)$, so for fixed $p$ the ordinate sum
+$\sum_k e^{-\varepsilon^2\gamma_k^2}\gamma_k^{\nu}$ is dominated by
+\[
+\int_0^\infty t^\nu e^{-\varepsilon^2 t^2}\,dN(t)
+=O\!\Bigl(\int_0^\infty t^{\nu+1}\log t\,e^{-\varepsilon^2 t^2}\,dt\Bigr)<\infty,
+\]
+the Gaussian damping overpowering the $O(T\log T)$ growth for every fixed
+$\varepsilon>0$ and $\nu\le 2$. The bound is independent of $\sigma$, so by the
+Weierstrass $M$-test each of $O_\infty,O_\infty',O_\infty''$ converges
+uniformly on compact $\sigma$-sets; differentiation term by term is therefore
+legitimate, and evaluating the second derivative at $\sigma=\tfrac12$ gives
+$-2\sum_{k,p}e^{-\varepsilon^2\gamma_k^2}(\gamma_k\log p)^2\cos(\gamma_k\log p)
+=-2\Binfline$.
+\end{proof}
+
+
+
+\subsection{The Guinand--Weil framework and its second moment}
+
+For an admissible even test function $h$ the Guinand--Weil explicit formula
+\cite[Thm.~5.12]{IwaniecKowalski04} relates the zero side
+$\tfrac12\sum_{\rho}h\bigl((\rho-\tfrac12)/i\bigr)$ (sum over all
+non-trivial zeros $\rho$ with multiplicity) to a pole term, a prime-power
+sum against the Fourier transform $\widehat h$, and an archimedean integral
+against the digamma function.
+When all zeros lie on the critical line the zero side equals
+$\sum_{k\ge 1}h(\gamma_k)$; this is the form used in all numerical
+computations, the zeros entering the computations ($\gamma_k\le 1002$) being
+classically known to lie on the line.
+\emph{No zero-location hypothesis enters any proof below}: all zero sums are
+defined through the zero side of the explicit formula.
+
+The \emph{second moment} arises from the second $\sigma$-derivative of the
+trace, equivalently from differentiating the even Gaussian test function
+$h^{(0)}_{p,s}(u)=e^{-s u^2}\cos(u\log p)$ once in $s$ at $s=\varepsilon^2$:
+$h^{(2)}_{p,\varepsilon}=-\partial_s h^{(0)}_{p,s}|_{s=\varepsilon^2}$.
+This is the object differentiated throughout \S\,\ref{sec:id}.
+
+\begin{remark}
+The full Guinand--Weil object and the ordinate proxy differ, when
+off-critical zeros are present, by the off-line contribution
+$\Eoff$ isolated in \S\,\ref{sec:offline}; under the all-zeros-on-line
+identity of Paper~5 they coincide.
+The present paper never assumes this identity: \S\S\,\ref{sec:id}--\ref{sec:uniform}
+work on the prime/pole/archimedean side, and \S\,\ref{sec:offline} bounds
+$\Eoff$ explicitly.
+\end{remark}
+
+% ============================================================
+\section{The Second-Moment Identity}
+\label{sec:id}
+% ============================================================
+
+We first record absolute convergence, then the explicit identity. The
+differentiated Gaussian identity below belongs to the same family of
+weighted explicit-formula identities as the Gaussian/Hermite-weighted zero
+sums of~\cite{BalanzarioCardenas23}; that work is, however, conditional on
+the Riemann Hypothesis and simplicity of zeros and aims at localization,
+whereas the unconditional sign statement proved here is of a different
+nature.
+
+\begin{lemma}[Absolute convergence of the second moment; proved]
+\label{lem:conv}
+For every $\varepsilon>0$ and every prime $p$ the sum defining
+$\ZtwoGW(\varepsilon)$ converges absolutely, and so does the full zero-side
+sum $\tfrac12\sum_\rho h^{(2)}_{p,\varepsilon}\bigl((\rho-\tfrac12)/i\bigr)$.
+\end{lemma}
+
+\begin{proof}
+Write $\rho=\beta+i\gamma$ with $0<\beta<1$ and
+$z=(\rho-\tfrac12)/i=\gamma-i(\beta-\tfrac12)$.
+Then $\Re(z^2)=\gamma^2-(\beta-\tfrac12)^2\ge\gamma^2-\tfrac14$ and
+$|\cos(zL)|\le e^{|\Im z|L}\le\sqrt p$ with $L=\log p$, so
+\[
+\bigl|h^{(2)}_{p,\varepsilon}(z)\bigr|
+ \le \bigl(\gamma^2+\tfrac14\bigr)\,e^{\varepsilon^2/4}\sqrt p\;
+   e^{-\varepsilon^2\gamma^2}.
+\]
+By the Riemann--von Mangoldt formula in the explicit form
+$N(T)=F(T)+O(\log T)$ with $F(T)=\tfrac{T}{2\pi}\log\tfrac{T}{2\pi}
+-\tfrac{T}{2\pi}+\tfrac78$ and the quantitative remainder
+$|N(T)-F(T)|\le E(T)=O(\log T)$ of~\cite{HasanalizadeShenWong21} (used
+quantitatively in \S\,\ref{sec:offline}), the number of zeros with
+$n\le|\gamma|<n+1$ is
+\[
+N(n+1)-N(n)\le \bigl(F(n+1)-F(n)\bigr)+E(n+1)+E(n)=O(\log(n+2)),
+\]
+since the differenced main term $F(n+1)-F(n)=\tfrac1{2\pi}\log\tfrac{n}{2\pi}
++O(1)$; hence the sum is dominated by
+$\sum_{n\ge 0}(n+1)^2\log(n+2)e^{-\varepsilon^2 n^2}<\infty$.
+The ordinate sum is the special case $\beta=\tfrac12$.
+\end{proof}
+
+\begin{theorem}[Second-moment explicit-formula identity; proved]
+\label{thm:id}
+For every prime $p$ and every $\varepsilon>0$,
+\begin{equation}\label{eq:id}
+\ZtwoGW(\varepsilon)
+ = -\tfrac14\,e^{\varepsilon^2/4}\cosh\!\Bigl(\tfrac{\log p}{2}\Bigr)
+   \;-\; \Pp(\varepsilon) \;+\; \Gp(\varepsilon)
+   \;-\; \tfrac12(\log\pi)\,A_p(\varepsilon),
+\end{equation}
+where, with $b_\varepsilon(\delta):=\tfrac{1}{2\varepsilon^2}
+-\tfrac{\delta^2}{4\varepsilon^4}$ and $L=\log p$,
+\[
+\Pp(\varepsilon)
+ = \sum_{q,\,m\ge 1}\frac{\log q}{q^{m/2}}\,\frac{\sqrt\pi}{4\pi\varepsilon}
+   \Bigl[b_\varepsilon(L-m\log q)\,e^{-(L-m\log q)^2/4\varepsilon^2}
+       + b_\varepsilon(L+m\log q)\,e^{-(L+m\log q)^2/4\varepsilon^2}\Bigr],
+\]
+\[
+\Gp(\varepsilon)
+ = \frac{1}{2\pi}\int_0^\infty t^2 e^{-\varepsilon^2 t^2}\cos(t L)\,
+   \psiR(t)\,dt,
+\qquad
+A_p(\varepsilon)
+ = \frac{1}{2\pi}\int_{-\infty}^\infty t^2 e^{-\varepsilon^2 t^2}\cos(t L)\,dt .
+\]
+The pole term equals
+$-\tfrac18\cdot 2e^{\varepsilon^2/4}\cosh(L/2)$, i.e.\ minus one quarter of
+the zeroth-moment pole term, and is $O(\sqrt p\,)$ uniformly for
+$\varepsilon\le 1$. The conductor term $-\tfrac12(\log\pi)A_p(\varepsilon)$ comes from
+the factor $\pi^{-s/2}$ of the completed zeta function (the half-sum
+$\tfrac12\sum_\rho$ carries the prefactor $\tfrac12$); with
+$A_p(\varepsilon)=\tfrac{1}{4\sqrt\pi\,\varepsilon^3}
+\bigl(1-\tfrac{L^2}{2\varepsilon^2}\bigr)e^{-L^2/4\varepsilon^2}$ it is
+$O\!\bigl(\varepsilon^{-5}e^{-L^2/4\varepsilon^2}\bigr)$ as $\varepsilon\downarrow0$;
+the conductor contribution $-\tfrac12(\log\pi)A_p$ is numerically
+$\approx 8.4\cdot10^{-17}$ for $p=2$ at $\varepsilon=0.05$, negligible on the
+scale of the certified margins, but is retained for exactness. In the interval
+certificate, which lower-bounds $\mathrm{Cross}=-8\sqrt\pi\,\varepsilon^3\BinfGW$,
+the conductor appears as $+(\log\pi)\,h(L^2/4\varepsilon^2)$ with a
+\emph{positive} coefficient: the normalisation $8\sqrt\pi\,\varepsilon^3$ turns
+$-\tfrac12(\log\pi)A_p$ in $N_{\mathrm{GW}}$ into $-(\log\pi)\,h$, and
+$\mathrm{Cross}=-N_{\mathrm{GW}}$ flips this to $+(\log\pi)\,h$, since
+$\bigl(1-\tfrac{L^2}{2\varepsilon^2}\bigr)e^{-L^2/4\varepsilon^2}=+h(L^2/4\varepsilon^2)$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1 (zeroth moment).}
+The Gaussian test function $h^{(0)}_{p,s}$ is even, entire, and of rapid
+decay in horizontal strips, hence admissible
+\cite[Thm.~5.12]{IwaniecKowalski04}; for every $s>0$,
+\begin{equation}\label{eq:id0}
+\begin{aligned}
+\tfrac12\sum_\rho h^{(0)}_{p,s}\bigl((\rho-\tfrac12)/i\bigr)
+ ={}& e^{s/4}\cosh\!\Bigl(\tfrac{L}{2}\Bigr)
+ - \sum_{q,m}\frac{\log q}{q^{m/2}}\,\widehat h^{(0)}_s(m\log q)\\
+ &{}+ \frac{1}{2\pi}\int_0^\infty e^{-s t^2}\cos(t L)\,\psiR(t)\,dt
+ - \tfrac12(\log\pi)\,A^{(0)}_p(s),
+\end{aligned}
+\end{equation}
+with prime-side transform and conductor integral
+\[
+\widehat h^{(0)}_s(u)=\tfrac{1}{4\sqrt{\pi s}}
+\bigl[e^{-(L-u)^2/4s}+e^{-(L+u)^2/4s}\bigr],
+\qquad
+A^{(0)}_p(s)=\tfrac{1}{2\pi}\int_{-\infty}^\infty e^{-st^2}\cos(tL)\,dt.
+\]
+The conductor constant $-\log\pi$ from $\pi^{-s/2}$ does \emph{not} cancel.
+Carried through the half-sum $\tfrac12\sum_\rho$ it contributes
+$-\tfrac12(\log\pi)A^{(0)}_p(s)$; applying $-\partial_s$ at
+$s=\varepsilon^2$ then produces the term $-\tfrac12(\log\pi)A_p(\varepsilon)$
+of~\eqref{eq:id}.
+
+\emph{Step 2 (differentiate in $s$).}
+Differentiate~\eqref{eq:id0} in $s$ at $s=\varepsilon^2$ and multiply by
+$-1$.
+On the zero side, termwise differentiation is justified by dominated
+convergence, the derivative of each term being bounded by the summable
+majorant of Lemma~\ref{lem:conv}; this gives $\ZtwoGW(\varepsilon)$.
+On the pole side,
+$-\partial_s\,e^{s/4}\cosh(L/2)=-\tfrac14 e^{s/4}\cosh(L/2)$.
+On the prime side, for $\delta=L\mp u$,
+\[
+-\partial_s\bigl[s^{-1/2}e^{-\delta^2/4s}\bigr]
+=s^{-1/2}e^{-\delta^2/4s}\bigl(\tfrac{1}{2s}-\tfrac{\delta^2}{4s^2}\bigr),
+\]
+which yields the bracket $b_\varepsilon$ with prefactor
+$\tfrac{1}{4\sqrt\pi\varepsilon}=\tfrac{\sqrt\pi}{4\pi\varepsilon}$;
+termwise differentiation is justified directly, the $s$-derivative of the
+$(q,m)$ term being bounded for $s\ge s_0>0$ by
+$\tfrac{\log q}{q^{m/2}}\,C(s_0)\,(1+(m\log q)^2)\,e^{-(L-m\log q)^2/4s_0}$,
+a Gaussian in $m\log q$ that sums absolutely (independently of the later
+Theorem~\ref{thm:prime}).
+On the archimedean side, differentiation under the integral sign is
+justified by the dominating function
+$t^2 e^{-s_0 t^2}(\log(2+t)+8)$ for $s\ge s_0>0$ (Lemma~\ref{lem:psi}).
+This proves~\eqref{eq:id}.
+\end{proof}
+
+\begin{remark}[Numerical sanity check]
+At $p\in\{2,5,11,37\}$ and $\varepsilon=0.05$, the two sides of the
+zeroth-moment identity~\eqref{eq:id0} agree to $10^{-15}$ and the two sides
+of the differentiated identity~\eqref{eq:id} to $10^{-13}$ relative
+precision. These checks are not used in the proof.
+\end{remark}
+
+% ============================================================
+\section{The Archimedean Term}
+\label{sec:arch}
+% ============================================================
+
+\begin{lemma}[Digamma bounds on the quarter line; proved]
+\label{lem:psi}
+With $a_n:=n+\tfrac14$ and $\tau:=t/2$,
+\[
+\psiR(t) = -\gamma_E+\sum_{n\ge 0}
+   \Bigl(\tfrac{1}{n+1}-\tfrac{a_n}{a_n^2+\tau^2}\Bigr),
+\]
+and for all $t\ge 0$:
+$|\psiR(t)|\le\log(2+t)+8$ and
+$|\psiR'(t)|\le\tfrac{20}{1+t}$.
+Moreover $\psiR$ is even, so all odd derivatives vanish at $t=0$, and
+$\int_0^\infty S_1(t/2)\,dt=\int_0^\infty t^2 S(t/2)\,dt
+=\tfrac{\pi}{2}\psi'(\tfrac14)=\tfrac{\pi}{2}(\pi^2+8G)\approx 27.013$,
+where $S_1,S$ are the trigamma/quadrigamma series and $G$ is Catalan's
+constant.
+\end{lemma}
+
+\begin{proof}
+The series follows from
+$\psi(z)=-\gamma_E+\sum_{n\ge 0}(\tfrac{1}{n+1}-\tfrac{1}{n+z})$ at
+$z=\tfrac14+i\tau$.
+\emph{Bound on $\psiR'$.} Differentiating,
+$\psiR'(t)=-\tfrac12\Im\psi'(\tfrac14+i\tau)=\tau S_1(\tau)$ with
+$S_1(\tau)=\sum_n a_n/(a_n^2+\tau^2)^2$ (since
+$\Im\psi'(\tfrac14+i\tau)=-2\tau\sum_n a_n/(a_n^2+\tau^2)^2$; it is
+$-\tfrac12\Im\psi'$, \emph{not} $\tfrac12\Re\psi'$, consistent with $\psiR$
+even). We bound $\tau S_1(\tau)\le 20/(1+t)$ in two regions.
+For $0\le t\le 2$, per-term maximisation
+($\max_\tau\tau a_n/(a_n^2+\tau^2)^2=9/(16\sqrt3\,a_n^2)$ at $\tau=a_n/\sqrt3$)
+gives $\tau S_1(\tau)\le M_1:=\tfrac{9}{16\sqrt3}\psi'(\tfrac14)<5.59
+\le\tfrac{20}{3}\le\tfrac{20}{1+t}$.
+For $t\ge2$ (so $\tau\ge1$), comparing the unimodal summand to its integral
+plus its peak,
+\[
+S_1(\tau)\le\int_0^\infty\!\tfrac{a}{(a^2+\tau^2)^2}\,da
++\max_a\tfrac{a}{(a^2+\tau^2)^2}
+=\tfrac{1}{2\tau^2}+\tfrac{9}{16\sqrt3\,\tau^3},
+\]
+so $\tau^2 S_1(\tau)\le\tfrac12+\tfrac{9}{16\sqrt3\,\tau}
+\le\tfrac12+\tfrac{9}{16\sqrt3}<0.825$ for $\tau\ge1$; hence
+$\psiR'(t)=\tau S_1(\tau)\le 0.825/\tau=1.65/t<\tfrac{20}{1+t}$. This proves the
+envelope on all of $[0,\infty)$.
+
+\emph{Bound on $\psiR$.} Write $z=\tfrac14+i\tfrac t2$ and use the recurrence
+$\psi(z)=\psi(z+1)-1/z$. Since $\Re(z+1)=\tfrac54\ge\tfrac12$, the standard
+digamma estimate $|\psi(w)-\log w|\le 1/|w|$ for $\Re w\ge\tfrac12$
+\cite[6.3.18]{AbramowitzStegun} gives
+$|\psi(z+1)-\log(z+1)|\le 1/|z+1|\le\tfrac45$. Moreover
+$\Re\log(z+1)=\tfrac12\log(\tfrac{25}{16}+\tfrac{t^2}{4})\le\log(2+t)$ (as
+$\tfrac{25}{16}+\tfrac{t^2}{4}\le(2+t)^2$), and
+$|\Re(1/z)|=\tfrac14/(\tfrac1{16}+\tfrac{t^2}{4})\le 4$. Hence
+\[
+\begin{aligned}
+|\psiR(t)|=|\Re\psi(z)|
+&\le|\Re\log(z+1)|+|\psi(z+1)-\log(z+1)|+|\Re(1/z)|\\
+&\le\log(2+t)+\tfrac45+4<\log(2+t)+8.
+\end{aligned}
+\]
+Both envelopes are upper bounds on the true functions, so the $I_4$ assembly
+(which uses only $|\psiR'|\le20/(1+t)$ and $|\psiR|\le\log(2+t)+8$; the sharp
+higher-derivative bounds come from Lemma~\ref{lem:digamma}) remains valid.
+The exact integrals reduce, after the substitution $t=2a\lambda$, to
+$\tfrac{\pi}{2}\sum_n a_n^{-2}=\tfrac{\pi}{2}\psi'(\tfrac14)$, and
+$\psi'(\tfrac14)=\pi^2+8G$.
+\end{proof}
+
+For the fourth-derivative bound below we record the exact derivatives of
+$\varphi(t):=t^2 e^{-\varepsilon^2 t^2}$,
+\begin{align*}
+\varphi'   &= (2t-2\varepsilon^2 t^3)\,e^{-\varepsilon^2 t^2}, &
+\varphi''  &= (2-10\varepsilon^2 t^2+4\varepsilon^4 t^4)\,e^{-\varepsilon^2 t^2},\\
+\varphi''' &= (-24\varepsilon^2 t+36\varepsilon^4 t^3-8\varepsilon^6 t^5)\,e^{-\varepsilon^2 t^2}, &
+\varphi''''&= (-24\varepsilon^2+156\varepsilon^4 t^2-112\varepsilon^6 t^4+16\varepsilon^8 t^6)\,e^{-\varepsilon^2 t^2},
+\end{align*}
+together with the following higher digamma bounds.
+
+\begin{lemma}[Higher digamma bounds; proved]
+\label{lem:digamma}
+Let $S(\tau):=\sum_{n\ge 0}a_n/(a_n^2+\tau^2)^3$ and
+$S_1(\tau):=\sum_{n\ge 0}a_n/(a_n^2+\tau^2)^2$, with $a_n=n+\tfrac14$ and
+$\tau=t/2$. Then for all $t\ge 0$,
+\[
+|\psiR''(t)|\le\tfrac32 S_1(\tau),\qquad
+|\psiR'''(t)|\le 3\tau\,S(\tau),\qquad
+|\psiR''''(t)|\le\tfrac{15}{2}\,S(\tau),
+\]
+and moreover
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $\displaystyle\int_0^\infty S_1(t/2)\,dt=\int_0^\infty t^2 S(t/2)\,dt
+   =\tfrac{\pi}{2}\psi'(\tfrac14)=\tfrac{\pi}{2}(\pi^2+8G)\approx 27.013$;
+\item for $\tau\ge 1$, $S(\tau)\le c_S/\tau^4$ with
+   $c_S=\tfrac14+\tfrac{125}{216\sqrt5}\le 0.5089$, and
+   $S_1(\tau)\le c_{S_1}/\tau^2$ with
+   $c_{S_1}=\tfrac12+\tfrac{3\sqrt3}{16}\le 0.8248$;
+\item $\displaystyle\sup_{t>0}t^3 S(t/2)\le\sum_{n\ge 0}a_n^{-2}=\psi'(\tfrac14)$;
+\item $S(\tau)\le\zeta(5,\tfrac14)$ and $S_1(\tau)\le\zeta(3,\tfrac14)$ for all
+   $\tau\ge 0$, both decreasing in $\tau$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Termwise differentiation of the series of Lemma~\ref{lem:psi} is justified by
+locally uniform convergence; with $f_a(\tau)=a/(a^2+\tau^2)$ and
+$\tfrac{d}{dt}=\tfrac12\tfrac{d}{d\tau}$,
+\[
+f_a''=\frac{-2a(a^2-3\tau^2)}{(a^2+\tau^2)^3},\quad
+f_a'''=\frac{24a\tau(a^2-\tau^2)}{(a^2+\tau^2)^4},\quad
+f_a''''=\frac{24a(a^4-10a^2\tau^2+5\tau^4)}{(a^2+\tau^2)^5}.
+\]
+Using $|a^2-3\tau^2|\le 3(a^2+\tau^2)$, $|a^2-\tau^2|\le a^2+\tau^2$, and (with
+$a^2=(1-s)u$, $\tau^2=su$) $\max_{0\le s\le 1}|1-12s+16s^2|=5$, so
+$|a^4-10a^2\tau^2+5\tau^4|\le 5(a^2+\tau^2)^2$, dividing by $4,8,16$ gives the
+three pointwise bounds.
+For~(i), substitute $t=2a\lambda$ and use
+$\int_0^\infty(1+\lambda^2)^{-2}d\lambda=\pi/4$,
+$\int_0^\infty\lambda^2(1+\lambda^2)^{-3}d\lambda=\pi/16$; both reduce to
+$\tfrac{\pi}{2}\sum_n a_n^{-2}$.
+For~(ii), integral comparison with the maximal summand gives the stated
+constants; for~(iii), $\max_{\tau>0}8a\tau^3/(a^2+\tau^2)^3=a^{-2}$ at
+$\tau=a$; for~(iv), each summand decreases in $\tau$ and equals the Hurwitz
+value at $\tau=0$.
+\end{proof}
+
+\begin{lemma}[Forward bound for the $I_4$ residual; proved, certified]\label{lem:resid}
+Let $T_1(\varepsilon)=\int_0^\infty|\varphi''''|\,|\psiR|\,dt$ and let
+$R_3(\varepsilon)=T_3(\varepsilon)-9\pi\psi'(\tfrac14)$,
+$R_4(\varepsilon)=T_4(\varepsilon)-6\pi\psi'(\tfrac14)$ be the remainders of
+the two main terms (notation as in Theorem~\ref{thm:arch} below). There are
+elementary majorants
+\[
+T_1(\varepsilon)\le A_1(\varepsilon),\qquad
+R_3(\varepsilon)\le A_3(\varepsilon),\qquad
+R_4(\varepsilon)\le A_4(\varepsilon),
+\]
+with endpoint values, and with $A_1$ increasing on $(0,\tfrac14]$ while
+$A_3,A_4$ obey $\varepsilon$-uniform bounds (proof),
+\[
+A_1(\tfrac14)\le 475,\quad A_3(\tfrac14)\le 57,\quad A_4(\tfrac14)\le 14,
+\]
+so that
+\[
+A_1(\tfrac14)+A_3(\tfrac14)+A_4(\tfrac14)\le 546\le 1697.1 .
+\]
+\end{lemma}
+
+\begin{proof}
+\emph{Strategy.} We bound $|g''''|$ termwise into three majorants $A_1,A_3,A_4$,
+certify their values at $\varepsilon=\tfrac14$ in Arb, and then establish the
+$\varepsilon$-uniform bound on $(0,0.05]$ separately (no monotonicity).
+With $\varphi(t)=t^2e^{-\varepsilon^2 t^2}$,
+$\varphi''''=(-24\varepsilon^2+156\varepsilon^4t^2-112\varepsilon^6t^4
++16\varepsilon^8t^6)e^{-\varepsilon^2t^2}$, so by the triangle inequality and
+$|\psiR(t)|\le\log(2+t)+8$ (Lemma~\ref{lem:psi}),
+\[
+A_1(\varepsilon):=\!\int_0^\infty\!\!\bigl(24\varepsilon^2+156\varepsilon^4t^2
++112\varepsilon^6t^4+16\varepsilon^8t^6\bigr)e^{-\varepsilon^2t^2}
+\bigl(\log(2+t)+8\bigr)\,dt
+\]
+is a majorant for $T_1$; each monomial is a Gaussian moment times a
+logarithmic factor, and the interval certificate
+(\texttt{cert\_paper8.py}, \texttt{certify\_I4}) integrates this majorant
+rigorously in Arb ball arithmetic, giving $A_1(\tfrac14)=474.6\le 475$. For $R_3$, write
+$\varphi''=(2-10\varepsilon^2t^2+4\varepsilon^4t^4)e^{-\varepsilon^2t^2}$ and
+$|\psiR''|\le\tfrac32 S_1(t/2)$ (Lemma~\ref{lem:digamma}); the constant part
+$2$ contributes $9\!\int 2\,S_1(t/2)\,dt=9\pi\psi'(\tfrac14)$, exactly the
+subtracted $T_3$ main term, so
+\[
+R_3(\varepsilon)\le A_3(\varepsilon):=9\!\int_0^\infty\!\!
+\bigl(10\varepsilon^2t^2+4\varepsilon^4t^4\bigr)e^{-\varepsilon^2t^2}
+S_1(t/2)\,dt,
+\]
+with $S_1$ the sharp series of Lemma~\ref{lem:digamma} (not the crude
+$(1+\tau)^{-2}$ bound); $A_3$ is integrated rigorously in Arb,
+$A_3(\tfrac14)=56.1\le 57$. For $R_4$, from
+$\varphi'=(2t-2\varepsilon^2t^3)e^{-\varepsilon^2t^2}$ and
+$|\psiR'''|\le 3\tau S(\tau)$ the leading $2t$ part contributes
+$12\!\int t^2 S(t/2)\,dt=6\pi\psi'(\tfrac14)$ (the $T_4$ main term), leaving
+\[
+R_4(\varepsilon)\le A_4(\varepsilon):=12\varepsilon^2\!\int_0^\infty\!\!
+t^4 e^{-\varepsilon^2t^2}S(t/2)\,dt,
+\]
+again integrated in Arb, $A_4(\tfrac14)=13.7\le 14$. Summing the three
+endpoint values gives $474.6+56.1+13.7=544.4\le1697.1$; the residual bounds
+$A_1,A_3,A_4$, the three main terms, and $T_2$ are all reproduced as Arb
+outputs by \texttt{certify\_I4} (which also self-tests that the digamma
+majorants dominate the true series), so $I_4(\tfrac14)\le3561.1$ is certified,
+not merely numerical.
+
+For the certificate range $0<\varepsilon\le 0.05$ we do \emph{not} invoke any
+monotonicity of $I_4$; instead the uniform bound is certified directly
+(\texttt{certify\_Gw\_uniform}). After the substitution $u=\varepsilon t$,
+\[
+A_1(\varepsilon)=\varepsilon\!\int_0^\infty\!\!(24+156u^2+112u^4+16u^6)
+e^{-u^2}\bigl(\log(2+u/\varepsilon)+8\bigr)\,du,
+\]
+whose integrand carries the factor $\varepsilon\bigl(\log(2+u/\varepsilon)+8\bigr)$
+with $\partial_\varepsilon$-derivative
+$\log(2+u/\varepsilon)+8-\tfrac{1}{1+2\varepsilon/u}\ge 7>0$, so $A_1$ is
+increasing and $A_1(\varepsilon)\le A_1(0.05)$. Writing $\tau=u/2\varepsilon$,
+\[
+\begin{aligned}
+A_3(\varepsilon)&=18\!\int_0^\infty\!\!(10u+4u^3)e^{-u^2}\,\tau S_1(\tau)\,du
+\le 126\,M_1,\\
+A_4(\varepsilon)&=96\!\int_0^\infty\!\! u\,e^{-u^2}\,\tau^3 S(\tau)\,du
+\le 48\,M_3,
+\end{aligned}
+\]
+where $\int(10u+4u^3)e^{-u^2}=7$, $\int u\,e^{-u^2}=\tfrac12$, and the suprema
+are bounded by summing the per-term maxima,
+$M_1:=\sup_{\tau\ge0}\tau S_1(\tau)\le\tfrac{9}{16\sqrt3}\,\psi'(\tfrac14)$
+(each $\tau\,a_n/(a_n^2+\tau^2)^2$ peaks at $\tau=a_n/\sqrt3$) and
+$M_3:=\sup_{\tau\ge0}\tau^3 S(\tau)\le\tfrac18\,\psi'(\tfrac14)$ (peak at
+$\tau=a_n$). Hence $I_4(\varepsilon)\le T_2(0.05)+\text{(main)}+A_1(0.05)
++126M_1+48M_3$, giving $G_w(\varepsilon)\le 1586\le 2693$ for all
+$\varepsilon\in(0,0.05]$ as a single $\varepsilon$-uniform Arb output. It is
+this uniform bound, not monotonicity, that transfers the archimedean constant
+to the whole certificate range.
+\end{proof}
+
+
+\begin{theorem}[Explicit archimedean bound; proved]
+\label{thm:arch}
+For all $0<\varepsilon\le\tfrac14$ and all primes $p\ge 2$ the per-prime bound
+$|\Gp(\varepsilon)|\le I_4(\varepsilon)/2\pi(\log p)^4$ holds; on the certificate
+range $0<\varepsilon\le0.05$ and at the endpoint $\varepsilon=\tfrac14$ the
+certified ceiling $I_4\le 3561.1$ (Lemma~\ref{lem:resid}, no monotonicity) gives
+\[
+\begin{aligned}
+\bigl|\Gp(\varepsilon)\bigr|
+ &\;\le\; \frac{I_4(\varepsilon)}{2\pi(\log p)^4}
+ \;\le\; \frac{567}{(\log p)^4}
+ \;\le\; \frac{1180}{(\log p)^2},\\[2pt]
+&I_4(\tfrac14)\le 3561.1,\quad
+I_4(\varepsilon)\le 3561.1\ \text{on }(0,0.05]\ (\text{Lemma~\ref{lem:resid}}).
+\end{aligned}
+\]
+In particular $\Gp(\varepsilon)=O(1)$, uniformly in $p$, and the weighted
+total obeys
+\[
+\sum_{p\le 53}(\log p)^2|\Gp(\varepsilon)|\le 2693 .
+\]
+\end{theorem}
+
+\begin{proof}
+Write $\varphi(t)=t^2 e^{-\varepsilon^2 t^2}$ and $g=\varphi\,\psiR$, so
+that $2\pi\Gp=\int_0^\infty g(t)\cos(tL)\,dt$.
+Since $\varphi(0)=\varphi'(0)=\varphi'''(0)=0$, $\varphi''(0)=2$, and all
+odd derivatives of $\psiR$ vanish at $0$ (Lemma~\ref{lem:psi}), one has
+$g(0)=g'(0)=0$ and
+$g'''(0)=6\,\psiR'(0)=0$.
+Four integrations by parts against $\cos(tL)$ therefore leave no boundary
+terms and give
+\[
+\int_0^\infty g(t)\cos(tL)\,dt
+ = \frac{1}{L^4}\int_0^\infty g''''(t)\cos(tL)\,dt,
+\qquad
+|\Gp|\le\frac{I_4(\varepsilon)}{2\pi L^4},
+\quad
+I_4(\varepsilon):=\int_0^\infty|g''''(t)|\,dt.
+\]
+\emph{Assembly of $I_4$.} By Leibniz,
+\[
+g''''=\varphi''''\psiR+4\varphi'''\psiR'+6\varphi''\psiR''
+      +4\varphi'\psiR'''+\varphi\,\psiR'''',
+\]
+and we bound the five integrals $T_1,\dots,T_5$ separately, writing
+$E:=e^{-\varepsilon^2 t^2}$ and
+$M_j:=\int_0^\infty t^j E\,dt=\Gamma(\tfrac{j+1}{2})/(2\varepsilon^{j+1})$.
+\begin{itemize}[leftmargin=2em]
+\item $T_1=\int|\varphi''''|\,|\psiR|\,dt$: with $|\psiR|\le\log(2+t)+8$
+  (Lemma~\ref{lem:psi}) and $\log(2+t)\le\log(2+1/\varepsilon)+\log(1+\varepsilon t)$,
+  each of the four monomials of $\varphi''''$ contributes a term carrying a
+  prefactor $\varepsilon^{2k+2}$, all $O(\varepsilon\log(1/\varepsilon))$.
+\item $T_2=4\int|\varphi'''|\tfrac{20}{1+t}\,dt
+  \le 80(24\varepsilon^2 M_0+36\varepsilon^4 M_2+8\varepsilon^6 M_4)=O(\varepsilon)$,
+  using $t^j/(1+t)\le t^{j-1}$.
+\item $T_3=6\int|\varphi''|\tfrac32 S_1(t/2)\,dt
+  \le 9\bigl[2\!\int_0^\infty\! S_1+10\varepsilon^2\!\int t^2 E S_1
+  +4\varepsilon^4\!\int t^4 E S_1\bigr]$; the first integral is exact by
+  Lemma~\ref{lem:digamma}(i), the remainders use the split at $t=2$ with
+  Lemma~\ref{lem:digamma}(ii),(iv) and are $O(\varepsilon)$. Main term
+  $18\cdot\tfrac{\pi}{2}\psi'(\tfrac14)=9\pi\psi'(\tfrac14)\approx 486.2$.
+\item $T_4=4\int|\varphi'|\tfrac{3t}{2}S(t/2)\,dt
+  \le 12\int t^2 E\,S(t/2)\,dt+O(\varepsilon^0)$; on $[0,2]$ use
+  $t^5 S(t/2)\le t^2\psi'(\tfrac14)$ (Lemma~\ref{lem:digamma}(iii)) and on
+  $[2,\infty)$ the decay $t^5 S(t/2)\le 16 c_S t$. Main term
+  $12\cdot\tfrac{\pi}{2}\psi'(\tfrac14)=6\pi\psi'(\tfrac14)\approx 324.2$,
+  remainder $\le\tfrac83\psi'(\tfrac14)\cdot 12\varepsilon^2+96 c_S\le 34.4+48.9$
+  on $(0,\tfrac14]$.
+\item $T_5=\int\varphi\,\tfrac{15}{2}S(t/2)\,dt
+  \le\tfrac{15}{2}\int t^2 S(t/2)\,dt=\tfrac{15\pi}{4}\psi'(\tfrac14)\approx 202.6$
+  (using $E\le 1$).
+\end{itemize}
+Evaluated at $\varepsilon=\tfrac14$ and rounded up, the five rows sum to the
+conservative endpoint ceiling $I_4(\tfrac14)\le 3561.1$, which the proof uses.
+The accompanying Arb certificate \texttt{certify\_I4} recomputes the same
+archimedean budget and outputs the sharper endpoint enclosure
+$I_4(\tfrac14)\le 2408.17$ (together with the $\varepsilon$-uniform bound on
+$(0,0.05]$ of Lemma~\ref{lem:resid}, no monotonicity, used in the weighted
+total); this sharper enclosure is not needed for the proof, it verifies the
+conservative ceiling used below.
+The residual row is
+bounded \emph{forward} by Lemma~\ref{lem:resid}
+($A_1+A_3+A_4\le 544.4$ at $\varepsilon=\tfrac14$), well within the $1697.1$
+budget, so the table summarizes a proof already present in the bounds rather
+than introducing $1697.1$ by subtraction:
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l|l|l}
+term & majorant at $\varepsilon=\tfrac14$ & upper bound \\
+\hline
+$T_3$ main $=9\pi\psi'(\tfrac14)$ & $9\pi(\pi^2+8G)$ & $\le 486.3$ \\
+$T_4$ main $=6\pi\psi'(\tfrac14)$ & $6\pi(\pi^2+8G)$ & $\le 324.2$ \\
+$T_5=\tfrac{15\pi}{4}\psi'(\tfrac14)$ & $\tfrac{15\pi}{4}(\pi^2+8G)$ & $\le 202.7$ \\
+$T_2$ & $80(24\varepsilon^2 M_0+36\varepsilon^4 M_2+8\varepsilon^6 M_4)$ & $\le 850.8$ \\
+$T_1$ and the $T_3,T_4$ remainders & forward via Lem.~\ref{lem:resid} ($\le 544.4$) & $\le 1697.1$ (budget) \\
+\hline
+$I_4(\tfrac14)$ & total & $\le 3561.1$ \\
+\end{tabular}
+\end{center}
+Hence $567/L^4\le 567/(L^2(\log 2)^2)\le 1180/L^2$ as a per-prime bound.
+For the weighted total the rounded constant $567=\lceil I_4(\tfrac14)/2\pi\rceil$
+must be avoided (it would give $567\cdot 4.7514=2694.0>2693$); using the
+unrounded value $I_4(\tfrac14)/2\pi=3561.1/2\pi=566.77$,
+\[
+\sum_{p\le 53}(\log p)^2|\Gp(\varepsilon)|
+ \;\le\; \frac{I_4(\tfrac14)}{2\pi}\sum_{p\le 53}(\log p)^{-2}
+ \;=\; \frac{3561.1}{2\pi}\cdot 4.7514 \;<\; 2693 .
+\]
+\end{proof}
+
+\begin{remark}
+The bound is conservative by roughly two orders of magnitude. Numerically,
+the weighted terms satisfy $(\log p)^2\Gp(\varepsilon)\in[0.26,0.76]$ for
+$p\le 53$ and $\varepsilon\in[0.01,0.1]$, and the residuals numerically
+appear to remain bounded, consistent with finite $O(1)$ limiting behaviour
+as $\varepsilon\to 0$.
+The point is that $\Gp$ is subdominant by three powers of $\varepsilon$
+against the prime-side main term of order $\varepsilon^{-3}$.
+\end{remark}
+
+% ============================================================
+\section{The Prime Side}
+\label{sec:prime}
+% ============================================================
+
+\begin{theorem}[Eigenterm extraction and cross-prime control; proved]
+\label{thm:prime}
+Fix $\kappa\ge 2$ and a prime $p\le\kappa$, and let
+\[
+\delta_p := \min\bigl\{\,|L-m\log q| : q\text{ prime},\ m\ge 1,\
+   (q,m)\ne(p,1)\,\bigr\}>0,
+\qquad L=\log p.
+\]
+Then for all $0<\varepsilon\le\tfrac14$,
+\[
+\Pp(\varepsilon)
+ = \frac{\log p}{\sqrt p\;8\sqrt\pi\,\varepsilon^3} \;+\; E_p(\varepsilon),
+\qquad
+|E_p(\varepsilon)|
+ \le \frac{c_p}{\varepsilon^5}\,e^{-\delta_p^2/4\varepsilon^2}
+   + \frac{c_p^{\mathrm{far}}}{\varepsilon^3}\,e^{-1/16\varepsilon^2},
+\]
+with explicit constants
+$c_p=\tfrac{3\sqrt\pi}{16\pi}
+\sum_{(q,m)\in\mathcal N_p}\tfrac{\log q}{q^{m/2}}$ (the direct near sum) and
+$c_p^{\mathrm{far}}=\tfrac{5\sqrt\pi}{16\pi}
+(1.506\,p+1.04\sqrt p+0.76)$, where
+$\mathcal N_p=\{(q,m)\ne(p,1):|L-m\log q|<1\}$ and $n_p=\#\mathcal N_p$.
+\end{theorem}
+
+\begin{proof}
+\emph{Eigenterm.}
+The term $(q,m)=(p,1)$ has $\delta_-=0$, hence
+$b_\varepsilon(0)=\tfrac{1}{2\varepsilon^2}$ and contributes exactly
+\[
+\frac{\log p}{\sqrt p}\cdot\frac{\sqrt\pi}{4\pi\varepsilon}
+\cdot\frac{1}{2\varepsilon^2}
+=\frac{\log p}{\sqrt p\,8\sqrt\pi\,\varepsilon^3},
+\]
+with no multiplicative error; its $\delta_+=2L$ companion is absorbed below.
+
+\emph{Near zone.}
+For $(q,m)\in\mathcal N_p$ one has $\delta_p\le|\delta_-|<1$, so for
+$\varepsilon\le 1$, $|b_\varepsilon(\delta_-)|\le\tfrac{3}{4\varepsilon^4}$
+and $e^{-\delta_-^2/4\varepsilon^2}\le e^{-\delta_p^2/4\varepsilon^2}$;
+summing the direct near sum $\sum_{(q,m)\in\mathcal N_p}\log q/q^{m/2}$
+(not $n_p\max$) gives the first bound.
+
+\emph{Far zone.}
+For any term with $\delta:=|L\mp m\log q|\ge 1$,
+$|b_\varepsilon(\delta)|e^{-\delta^2/4\varepsilon^2}
+\le\tfrac{5}{4\varepsilon^2}e^{-\delta^2/16\varepsilon^2}e^{-1/16\varepsilon^2}$,
+and for $\varepsilon\le\tfrac14$, $e^{-\delta^2/16\varepsilon^2}\le
+e^{-\delta}$.
+Writing $n=q^m$, the three far families are summed against $e^{-\delta}$:
+for $n>ep$, $\sum_n\Lambda(n)n^{-3/2}p\le 1.506\,p$ (the full Dirichlet
+series $\sum_n\Lambda(n)n^{-3/2}=-\zeta'(\tfrac32)/\zeta(\tfrac32)=1.5052\ldots\le 1.506$
+is a majorant); for $n<p/e$,
+$\sqrt p\,\psi(p)/p\le 1.04\sqrt p$ by Chebyshev~\cite{RosserSchoenfeld62};
+for the $\delta_+$ terms, $\tfrac1p\sum_n\Lambda(n)n^{-3/2}\le 0.76$.
+Multiplying by $\tfrac{\sqrt\pi}{4\pi\varepsilon}$ yields
+$c_p^{\mathrm{far}}$.
+\end{proof}
+
+\begin{remark}
+For $\kappa=53$ the binding proximity is
+$\dmin(53)=\min_{p\le 53}\delta_p=0.031749$, attained by the pair
+$31\leftrightarrow 2^5=32$; the weighted near-zone and far-zone constants are
+\[
+\sum_{p\le 53}(\log p)^2 c_p=163.6\ (=\lceil163.611\rceil,\ \text{direct near sum}),
+\qquad
+\sum_{p\le 53}(\log p)^2 c_p^{\mathrm{far}}\le 1385.
+\]
+\end{remark}
+
+% ============================================================
+\section{Negativity at the Reference Parameter}
+\label{sec:ref}
+% ============================================================
+
+Summing the identity of Theorem~\ref{thm:id} against the weights
+$(\log p)^2$ over $p\le\kappa$ gives
+\begin{equation}\label{eq:assembly}
+\BinfGW(\kappa,\varepsilon)
+ = -\,M(\varepsilon) + \widetilde R(\varepsilon),
+\qquad
+M(\varepsilon)=\frac{S_3(\kappa)}{8\sqrt\pi\,\varepsilon^3},
+\quad
+|\widetilde R(\varepsilon)|\le R(\varepsilon),
+\end{equation}
+where $-M(\varepsilon)$ collects the diagonal eigenterms of
+Theorem~\ref{thm:prime} (each contributing
+$-(\log p)^2\cdot\tfrac{\log p}{\sqrt p\,8\sqrt\pi\varepsilon^3}$, with the
+overall sign from $\BinfGW=\sum(\log p)^2(\,\cdots-\Pp+\Gp)$), and
+$R(\varepsilon)$ bounds, respectively, the weighted near- and far-zone
+cross-prime errors of Theorem~\ref{thm:prime}, the weighted archimedean
+total of Theorem~\ref{thm:arch}, and the weighted pole term:
+\[
+R(\varepsilon)
+ = \frac{C_{\mathrm{near}}(\kappa)}{\varepsilon^5}\,e^{-\dmin^2/4\varepsilon^2}
+ + \frac{C_{\mathrm{far}}(\kappa)}{\varepsilon^3}\,e^{-1/16\varepsilon^2}
+ + G_w(\kappa)
+ + \frac{e^{1/4}}{4}\sum_{p\le\kappa}(\log p)^2\cosh\tfrac{\log p}{2},
+\]
+with $C_{\mathrm{near}}(\kappa)=\sum_{p\le\kappa}(\log p)^2 c_p
+=\tfrac{3\sqrt\pi}{16\pi}W_{\mathrm{near}}(\kappa)$ (the direct near sum of
+Lemma~\ref{lem:assembly}(b), with no $n_p\max$ inflation),
+$C_{\mathrm{far}}(\kappa)=\sum_{p\le\kappa}(\log p)^2 c_p^{\mathrm{far}}$, and
+\[
+G_w(\kappa)=\sup_{0<\varepsilon\le 0.05}\;\sum_{p\le\kappa}(\log p)^2|\Gp(\varepsilon)|
+\]
+the (uniform, $\varepsilon$-independent) weighted
+archimedean total bounded by Theorem~\ref{thm:arch} on the certified range
+$(0,0.05]$ ($\le 2693$ for
+$\kappa=53$; the supremum is taken over the range where $I_4\le3561.1$ is
+certified, not over $(0,\tfrac14]$). For $\kappa=53$, $C_{\mathrm{near}}(53)=163.6$ (direct sum) and
+$C_{\mathrm{far}}(53)\le 1385$.
+Hence $\BinfGW<0$ whenever $R(\varepsilon)<M(\varepsilon)$.
+We state the closed-form and certified ranges separately.
+
+\subsection{Closed-form core}
+
+\begin{theorem}[Closed-form negativity threshold; proved]
+\label{thm:closedform}
+For $\kappa=53$, $\BinfGW(53,\varepsilon)<0$ for all
+$0<\varepsilon\le\varepsilon_0(53):=0.004$.
+More generally, for every $\kappa\ge 2$ and every
+$0<\varepsilon\le\min\{0.05,\dmin/2\}$ with $R(\varepsilon)<M(\varepsilon)$,
+and for all smaller $\varepsilon$, one has $\BinfGW(\kappa,\varepsilon)<0$.
+\end{theorem}
+
+\begin{proof}
+By~\eqref{eq:assembly} it suffices that $R(\varepsilon)<M(\varepsilon)$, and
+that the inequality propagates downward in $\varepsilon$.
+Each error-to-main ratio is non-decreasing on the stated range: the
+near-zone ratio is proportional to
+$\varepsilon^{-2}e^{-\dmin^2/4\varepsilon^2}$ (increasing for
+$\varepsilon<\dmin/2$), the far-zone ratio to $e^{-1/16\varepsilon^2}$, the
+archimedean ratio to $\varepsilon^3$ (since $G_w(\varepsilon)\le 2693$
+holds uniformly, Lemma~\ref{lem:resid}, while $M\propto\varepsilon^{-3}$), and the pole ratio to
+$\varepsilon^3 e^{\varepsilon^2/4}$; all increasing.
+Hence $R(\varepsilon_0)<M(\varepsilon_0)$ at some admissible $\varepsilon_0$
+implies the same for all $0<\varepsilon\le\varepsilon_0$.
+For $\kappa=53$: $S_3(53)=87.4247$, $\pi(53)=16$, $\dmin=0.031749$, and the
+weighted constants of \S\,\ref{sec:prime}, \S\,\ref{sec:arch}.
+At $\varepsilon_0=0.004\le\dmin/2$ one computes $M=9.63\cdot10^{7}$,
+near-zone $\le 3.6\cdot10^{7}$, far-zone $\le 10^{-1000}$, archimedean
+$G_w(53)\le 2693$, pole $\le 102$, so $R<M$ with margin, and the
+monotonicity step extends the conclusion to all $0<\varepsilon\le 0.004$.
+\end{proof}
+
+\subsection{Certified extension to the reference width}
+
+The closed-form criterion is deliberately conservative: it bounds every
+near-zone term by the global minimum $\dmin$ and uses the crude archimedean
+constant.
+Replacing the closed-form cross-prime bound by the exact (finitely
+truncated, with rigorously negligible tail) absolute cross sums, while
+keeping the proven archimedean constant of Theorem~\ref{thm:arch} and the
+pole bound, yields the following certified statement.
+
+\begin{theorem}[Negativity at the reference parameter; proved, certified]
+\label{thm:ref}
+$\BinfGW(53,\varepsilon)<0$ for all $0<\varepsilon\le 0.05$.
+The Arb interval criterion holds on $[10^{-9},0.047]$ with margin $0.83$ and on
+$[0.047,0.05]$ with margin $24.29$; the remaining $(0,10^{-9})$ is covered by
+Theorem~\ref{thm:closedform}, so together these prove $(0,0.05]$. It uses exact finite sums over all prime
+powers with $|\log n\mp\log p|<3$ in 256-bit ($\approx$77-digit) Arb interval arithmetic. The
+discarded prime powers are bounded by a Gauss--Chebyshev majorant: grouping
+them by unit $\log n$-bins, the bin count is at most
+$\psi(e^{k+1})\le1.04\,e^{k+1}$ (Chebyshev), $\Lambda(n)\le\log n<k+1$, and
+$|h|\le(2x-1)e^{-x}$ with $x=(\log n\mp\log p)^2/4\varepsilon^2$; the quadratic
+Gaussian decay $e^{-x}$ dominates the single-exponential bin growth, so the
+tail series is super-exponentially convergent and rigorously below
+$10^{-380}$.
+\end{theorem}
+
+\begin{proof}
+Multiply Theorem~\ref{thm:id} by $8\sqrt\pi\varepsilon^3(\log p)^2$ and sum,
+so the prime side becomes $S_3(53)+\mathrm{Cross}(\varepsilon)$ with the
+cross terms expressed through $h(x):=(1-2x)e^{-x}$ evaluated at
+$x_{n,\pm}=(\log n\mp\log p)^2/4\varepsilon^2$.
+On any interval $[a,b]$ the argument of each $x$ ranges in $[x(b),x(a)]$.
+In the normalised lower-bound expression for
+$\mathrm{Cross}=-8\sqrt\pi\,\varepsilon^3\BinfGW$, both the prime cross terms and
+the conductor term $+(\log\pi)\,h(x_{\ell_p})$ have positive coefficients; each
+is therefore bounded below by its coefficient times
+$\min_{x\in[x(b),x(a)]}h(x)$, giving a
+closed-form interval lower bound
+$\mathrm{LB}[a,b]$.
+With the pole term $-\tfrac14 e^{\varepsilon^2/4}\cosh(\log p/2)<0$ and the
+archimedean side controlled by Theorem~\ref{thm:arch} (weighted total
+$\le 2693$), the interval criterion
+$S_3(53)+\mathrm{LB}[a,b]>8\sqrt\pi b^3\cdot 2693$ implies
+$\BinfGW(53,\varepsilon)<0$ on $[a,b]\cap(0,\tfrac14]$.
+Here the archimedean constant $2693$ is the weighted total
+$\bigl\lceil \tfrac{I_4(1/4)}{2\pi}\sum_{p\le53}(\log p)^{-2}\bigr\rceil
+=\lceil \tfrac{3561.1}{2\pi}\cdot4.7514\rceil$, with $I_4(\tfrac14)\le3561.1$
+established through the explicit integration-by-parts bounds of
+Lemma~\ref{lem:resid}; this bound is \emph{recertified in Arb ball arithmetic}
+by the interval certificate (\texttt{certify\_I4}), which outputs
+$I_4(\tfrac14)\le2408.17$ and hence $G_w\le2693$, so $2693$ is a certified
+output, not a numerical input.
+Evaluating the exact finite sums at 256-bit precision gives the two stated
+single-interval certificates with margins $0.83$ and $24.29$.
+\end{proof}
+
+\begin{remark}[Certificate data]
+The certified inequalities of Theorem~\ref{thm:ref} were produced by the
+interval certificate in the repository~\cite{Code}, run in Arb ball
+arithmetic (FLINT~3, Python bindings) with directed outward (midpoint--radius)
+rounding on all operations at 256-bit working precision ($\approx$77 digits). All interval endpoints are
+decimal rationals. The two reference intervals cover $[10^{-9},0.047]$ (margin
+$0.83$) and $[0.047,0.05]$ (margin $24.29$), i.e.\ the interval certificate
+covers $[10^{-9},0.05]$; the remaining $(0,10^{-9})$ is covered by the
+closed-form Theorem~\ref{thm:closedform} (valid for $\varepsilon\le0.004$), so
+the \emph{union} of the two arguments gives $(0,0.05]$. The extension to
+$\varepsilon\le 0.0819$
+uses $378$ chained intervals of the same form. In each interval the finite
+sum runs over all prime powers with $|\log n\mp\log p|<3$, the discarded
+tail being rigorously below $10^{-380}$. The per-interval lower bound, right
+side, and margin are tabulated in the script output, archived under the
+release tag of~\cite{Code}.
+The certified run used $\texttt{PREC\_BITS}=256$, $\kappa=53$,
+$\texttt{GW\_ARCH\_BOUND}=2693$, $\texttt{TAIL\_CUTOFF}=3$, covering intervals
+$[10^{-9},0.047]$ and $[0.047,0.05]$, parameter-hash \texttt{2b405227},
+source-hash \texttt{d080b67e} (the self-hash of the certificate script,
+regenerated at the release tag). The certified margins are $0.8345$ and
+$24.2883$.
+\end{remark}
+
+\begin{corollary}[Full-object curvature positivity; proved]
+\label{cor:curv}
+The full Guinand--Weil second-moment curvature is positive,
+$-2\BinfGW(53,\varepsilon)>0$ for all $0<\varepsilon\le 0.05$.
+The operator curvature $O''(\tfrac12)=-2\Binfline$ is obtained from this once
+the off-line correction $\Eoff$ is bounded; see
+Corollary~\ref{cor:curvline} after Theorem~\ref{thm:offline}.
+\end{corollary}
+
+\begin{remark}[Numerical illustration at the reference parameter]
+The proved sign $\BinfGW<0$ is made concrete through the on-line proxy at
+$(\kappa,\varepsilon,N)=(53,0.05,100)$, purely as an illustration; the
+proof above does not rely on this evaluation. The prime side is dominated
+by the diagonal eigenterms $\log p/(\sqrt p\,8\sqrt\pi\,\varepsilon^3)$,
+summing to $S_3(53)=87.4247$ before cross-prime corrections, the tightest
+of which sits at the near-zone gap $\dmin(53)=0.031749$ between $\log 32$
+and $\log 31$ (the prime power $2^5$ against the prime $31$). Each pole term
+$-\tfrac14 e^{\varepsilon^2/4}\cosh(\tfrac12\log p)$ is negative, and the
+archimedean budget is bounded by $2693$ (with true weighted value
+$\approx 5.0$). The net second-moment curvature sum evaluates to
+$B(53,0.05,100)=-19\,342.5$, hence $O''(\tfrac12)=+38\,685.1$, in
+agreement with the certified sign. The illustration uses the first $N=100$
+ordinates; the theorems themselves are parameter-symbolic and do not depend
+on a finite zero list.
+\end{remark}
+
+\begin{remark}[Certified continuation]
+Chaining $378$ analytic interval certificates of the same type extends the
+certified range to $\varepsilon\le 0.0819$, where the exact margin crosses
+zero against the present constants.
+Above $\varepsilon\approx 0.07$ the binding term is the archimedean budget
+(true weighted value $\approx 5.0$ versus the bound $2693$); a sharper
+archimedean constant would extend certification further.
+The certified sign $\BinfGW(53,\varepsilon)<0$ holds throughout, and the
+on-line proxy value is negative numerically for all tested
+$\varepsilon\in[0.005,0.60]$, with $B(53,0.05,100)=-19\,342.5$.
+\end{remark}
+
+% ============================================================
+\section{Uniformity in the Cutoff}
+\label{sec:uniform}
+% ============================================================
+
+For general $\kappa$ let $\dmin(\kappa)$ denote the minimal distance
+$|\log p-m\log q|$ over primes $p\le\kappa$ and prime powers $q^m\ne p$
+(with no restriction $q^m\le\kappa$).
+
+\begin{lemma}[Elementary gap bound; proved]
+\label{lem:gap}
+For all $\kappa\ge 2$, $\dmin(\kappa)\ge\dfrac{1}{e\kappa}$.
+\end{lemma}
+
+\begin{proof}
+Only pairs with $|\log p-m\log q|<1$ matter, i.e.\
+$q^m\in(p/e,ep)\subset(0,e\kappa)$.
+Since $p$ is prime and $q^m\ne p$, the integers $p$ and $q^m$ are distinct,
+so $|p-q^m|\ge 1$; the mean value theorem for $\log$ gives
+$|\log p-m\log q|=|p-q^m|/\xi\ge 1/(e\kappa)$ with $\xi<e\kappa$.
+\end{proof}
+
+\begin{lemma}[Global constant assembly; proved]\label{lem:assembly}
+With the Chebyshev-type inputs $\vartheta(x)>0.84x$ $(x\ge101)$,
+$\psi(x)\le1.04x$ and $\pi(x)<1.25506\,x/\log x$
+of~\cite{RosserSchoenfeld62}, for $\kappa\ge202$:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $S_3(\kappa)\ge 0.32\,\sqrt\kappa\,(\log\tfrac\kappa2)^2$;
+\item $W_{\mathrm{near}}(\kappa):=\sum_{p\le\kappa}(\log p)^2
+      \sum_{(q,m)\in\mathcal N_p}\tfrac{\log q}{q^{m/2}}
+      \le 5.85\,\kappa^{3/2}\log\kappa$
+      (the direct near-zone sum, \emph{not} $\sum_p n_p\max$);
+\item $G_w(\kappa)\le 1481\,\kappa/\log\kappa$;
+\item $|B_{\mathrm{pol}}(\kappa,\varepsilon)|\le 0.32\,\kappa^{3/2}\log\kappa$
+      for $\varepsilon\le\tfrac14$.
+\end{enumerate}
+Moreover each ratio of the four error classes to $S_3(\kappa)/4$ is strictly
+decreasing on $[202,\infty)$.
+\end{lemma}
+
+\begin{proof}
+\emph{(a)} Restricting to $\kappa/2<p\le\kappa$ and using
+$\sqrt p>\sqrt{\kappa/2}$, $\log p>\log(\kappa/2)$,
+\[
+S_3(\kappa)\ge(\log\tfrac\kappa2)^2\,\kappa^{-1/2}\bigl(\vartheta(\kappa)-\vartheta(\kappa/2)\bigr)
+\ge(\log\tfrac\kappa2)^2\kappa^{-1/2}\bigl(0.84\kappa-1.04\cdot\tfrac\kappa2\bigr)
+=0.32\sqrt\kappa(\log\tfrac\kappa2)^2,
+\]
+since $0.84-0.52=0.32$ and $\kappa/2\ge101$.
+\emph{(b)} For fixed $p$ the near zone is the window $|L-m\log q|<1$ of
+Theorem~\ref{thm:prime}, i.e.\ every near prime power lies in $(p/e,ep)$, so
+the \emph{direct} sum $\sum_{(q,m)\in\mathcal N_p}\tfrac{\log q}{q^{m/2}}
+=\sum\Lambda(n)/\sqrt n\le e^{1/2}p^{-1/2}\psi(pe)\le1.04\,e^{3/2}\sqrt p$
+(bounding the sum itself, with no $n_p\max$ inflation);
+then $\sum_{p\le\kappa}(\log p)^2\sqrt p\le\sqrt\kappa\,(\log\kappa)^2\,\pi(\kappa)
+\le\sqrt\kappa\,(\log\kappa)^2\cdot1.25506\,\kappa/\log\kappa
+=1.25506\,\kappa^{3/2}\log\kappa$,
+and $1.04\,e^{3/2}\cdot1.25506=5.849\le5.85$, so $W_{\mathrm{near}}\le5.85\kappa^{3/2}\log\kappa$.
+\emph{(c)} $\sum_{p\le\kappa}\ell_p^{-2}\le\pi(\kappa)/(\log2)^2$ with
+$\Gp=O(1)$ from Theorem~\ref{thm:arch}: the per-prime archimedean weight is
+$\le I_4(\tfrac14)/2\pi\le 566.77$, and
+$566.77\cdot1.25506/(\log2)^2\le1481$.
+\emph{(d)} $\cosh(\ell_p/2)\le\sqrt p$ and
+$\tfrac14e^{1/64}\cdot1.25506=0.3187\le0.32$.
+\emph{Monotonicity.} Writing $u=\log\kappa$, $v=\log(\kappa/2)=u-\log2$, the
+four ratios are $R_{\mathrm{near}}\!\propto u/(\kappa v^2)$,
+$R_{\mathrm{arch}}\!\propto\kappa^{-5/2}u^{-5/2}v^{-2}$,
+$R_{\mathrm{pole}}\!\propto\kappa^{-2}u^{-1/2}v^{-2}$, and
+$R_{\mathrm{far}}$ carries the factor $e^{-e^2\kappa^2u/2}$.
+Their logarithmic derivatives are
+\[
+\tfrac{d}{d\kappa}\log R_{\mathrm{near}}=\tfrac1{\kappa u}-\tfrac1\kappa-\tfrac2{\kappa v}
+=-0.0062<0,\quad
+\tfrac{d}{d\kappa}\log R_{\mathrm{arch}}=-\tfrac2\kappa-\tfrac5{2\kappa u}-\tfrac2{\kappa v}
+=-0.0144<0,
+\]
+\[
+\tfrac{d}{d\kappa}\log R_{\mathrm{pole}}=-\tfrac2\kappa-\tfrac1{2\kappa u}-\tfrac2{\kappa v}
+=-0.0125<0\quad(\text{all at }\kappa=202),
+\]
+each manifestly negative for all $\kappa\ge202$ since every summand after the
+first is negative and the first, $1/(\kappa\log\kappa)$, is dominated by
+$1/\kappa$; $R_{\mathrm{far}}$ decreases trivially. Hence all four ratios
+decrease on $[202,\infty)$.
+\end{proof}
+
+
+\begin{theorem}[Uniform negativity threshold; proved]
+\label{thm:uniform}
+Let $\varepsilon_0(\kappa):=\dfrac{1}{4e\kappa\sqrt{\log\kappa}}$.
+Then for every $\kappa\ge 202$ and every $0<\varepsilon\le\varepsilon_0(\kappa)$,
+\[
+\BinfGW(\kappa,\varepsilon)\;<\;0 .
+\]
+\end{theorem}
+
+\begin{proof}
+Fix $\kappa\ge 202$ and $\varepsilon\le\varepsilon_0:=\varepsilon_0(\kappa)$.
+We show each of the four error classes in $R(\varepsilon)$ is below
+$S_3(\kappa)/4$ at $\varepsilon_0$; since every bound below is increasing in
+$\varepsilon$, this covers the whole interval.
+By Lemma~\ref{lem:assembly},
+$S_3(\kappa)\ge 0.32\sqrt\kappa(\log\tfrac\kappa2)^2$ and the assembled
+weighted constants
+$W_{\mathrm{near}}(\kappa)\le 5.85\,\kappa^{3/2}\log\kappa$,
+$G_w(\kappa)\le 1481\,\kappa/\log\kappa$,
+$|B_{\mathrm{pol}}(\kappa,\varepsilon)|\le 0.32\,\kappa^{3/2}\log\kappa$.
+
+\emph{Near zone.}
+By Lemma~\ref{lem:gap}, every near pair has
+$x=\delta^2/4\varepsilon_0^2\ge\dmin^2/4\varepsilon_0^2\ge 4\log\kappa\ge\tfrac12$,
+so $(1+2x)e^{-x}\le 2.95\,\kappa^{-2}$, whence
+$\mathrm{Near}\le 17.3\,\kappa^{-1/2}\log\kappa$ (the value $6.46$ at
+$\kappa=202$).
+
+\emph{Far zone.}
+$\mathrm{Far}\le 20.5\,\kappa^{3/2}\log\kappa\;e^{-e^2\kappa^2\log\kappa/2}$
+with $e^{-1/(32\varepsilon_0^2)}=e^{-e^2\kappa^2\log\kappa/2}$; at $\kappa=202$
+this is below $10^{-100}$ and stays $<0.08\sqrt\kappa(\log\tfrac\kappa2)^2$
+for all $\kappa\ge 2$.
+
+\emph{Archimedean.}
+$8\sqrt\pi\varepsilon_0^3 G_w(\kappa)\le 16.4/(\kappa^2(\log\kappa)^{5/2})$,
+which equals $6.2\cdot10^{-6}$ at $\kappa=202$ and is decreasing in $\kappa$.
+
+\emph{Pole.}
+$8\sqrt\pi\varepsilon_0^3|B_{\mathrm{pol}}|
+\le 3.53\cdot10^{-3}\,\kappa^{-3/2}(\log\kappa)^{-1/2}$, which equals
+$5.4\cdot10^{-7}$ at $\kappa=202$ and is decreasing in $\kappa$.
+
+At the endpoint $\kappa=202$ each of the four error classes is below
+$S_3(\kappa)/4\ge 0.08\sqrt\kappa(\log\tfrac\kappa2)^2=24.2$ (near $6.46$,
+far $<10^{-100}$, archimedean $6.2\cdot10^{-6}$, pole $5.4\cdot10^{-7}$), so
+their sum is below $S_3(202)$. The ratio of each class to $S_3(\kappa)/4$ is
+decreasing for $\kappa\ge 202$, so the comparison persists:
+\[
+\frac{\mathrm{Near}}{S_3/4}\le\frac{216.25\,\log\kappa}{\kappa(\log\tfrac\kappa2)^2}
+\quad(=0.2668\text{ at }\kappa=202),
+\qquad
+\frac{\mathrm{Far}}{S_3/4}\le \frac{257\,\kappa\log\kappa}{(\log\tfrac\kappa2)^2}
+e^{-e^2\kappa^2\log\kappa/2},
+\]
+\[
+\frac{8\sqrt\pi\varepsilon_0^3 G_w}{S_3/4}
+ \le\frac{205}{\kappa^{5/2}(\log\kappa)^{5/2}(\log\tfrac\kappa2)^2},
+\qquad
+\frac{8\sqrt\pi\varepsilon_0^3|B_{\mathrm{pol}}|}{S_3/4}
+ \le\frac{0.045}{\kappa^{2}(\log\kappa)^{1/2}(\log\tfrac\kappa2)^2},
+\]
+each ratio decreasing on $[202,\infty)$ by the logarithmic-derivative
+computation of Lemma~\ref{lem:assembly}.
+
+The monotonicity in $\varepsilon$ and the condition $x\ge\tfrac12$ hold on
+all of $(0,\varepsilon_0]$ because $\varepsilon_0\le\dmin/\sqrt2$; hence
+$-8\sqrt\pi\varepsilon^3\BinfGW\ge S_3-\mathrm{Near}-\mathrm{Far}
+-8\sqrt\pi\varepsilon^3(G_w+|B_{\mathrm{pol}}|)>0$ throughout.
+\end{proof}
+
+\begin{corollary}[Uniform full-object curvature positivity; proved]
+\label{cor:curvuniform}
+For every $\kappa\ge 202$ and $0<\varepsilon\le\varepsilon_0(\kappa)$, the
+full Guinand--Weil curvature is positive, $-2\BinfGW(\kappa,\varepsilon)>0$.
+The operator curvature $O''(\tfrac12)=-2\Binfline$ follows in the certified
+range $\varepsilon_{\mathrm{off}}\le\varepsilon\le\varepsilon_0(\kappa)$ by
+the off-line transfer of Theorem~\ref{thm:offline}
+(Corollary~\ref{cor:curvline}).
+\end{corollary}
+
+\begin{remark}[Calibration]
+The threshold $\varepsilon_0(\kappa)$ is conservative by design.
+Numerically $\kappa\,\dmin(\kappa)\in[1.6,2.5]$ over $\kappa\in[53,3203]$,
+so Lemma~\ref{lem:gap} is sharp up to the constant; at
+$\kappa\in\{101,211\}$ the full exact criterion at
+$\varepsilon=\varepsilon_0(\kappa)$ holds with margins $180.6$ and $396.1$
+(essentially the full main term).
+\end{remark}
+
+% ============================================================
+\section{Off-Line Robustness}
+\label{sec:offline}
+% ============================================================
+
+Sections~\ref{sec:id}--\ref{sec:uniform} are proved on the
+prime/pole/archimedean side and assume nothing about zero locations.
+We now isolate and bound the contribution of any hypothetical off-critical
+zeros to the zero-side sum $\ZtwoGW=\Ztwoline+\Eoff$, where
+$\Eoff(\varepsilon)=\tfrac12\sum_{\rho:\beta\ne 1/2}
+h^{(2)}_{p,\varepsilon}\bigl((\rho-\tfrac12)/i\bigr)$.
+
+\begin{lemma}[Quadruple form and $\beta$-uniform magnitude bound; proved]
+\label{lem:mag}
+Off-critical zeros occur in quadruples
+$Q=\{\rho,\bar\rho,1-\rho,1-\bar\rho\}$ with $\rho=\beta+i\gamma$,
+$\delta:=\beta-\tfrac12\ne 0$.
+The quadruple contribution is real,
+$\operatorname{contrib}_Q(\varepsilon)=2\,\Re\,h^{(2)}_{p,\varepsilon}(z_1)$
+with $z_1=\gamma-i\delta$, and satisfies, independently of $\beta$,
+\[
+\bigl|\operatorname{contrib}_Q(\varepsilon)\bigr|
+ \le 2\bigl(\gamma^2+\tfrac14\bigr)e^{\varepsilon^2/4}\sqrt p\;
+   e^{-\varepsilon^2\gamma^2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Evenness gives $h^{(2)}(-\gamma\mp i\delta)=h^{(2)}(\gamma\pm i\delta)$, and
+real Taylor coefficients give
+$h^{(2)}(\gamma+i\delta)=\overline{h^{(2)}(z_1)}$, so the quadruple sum
+collapses to $2\Re h^{(2)}(z_1)$ after the zero-side factor $\tfrac12$.
+Then $|z_1|^2=\gamma^2+\delta^2\le\gamma^2+\tfrac14$,
+$|e^{-\varepsilon^2 z_1^2}|=e^{-\varepsilon^2(\gamma^2-\delta^2)}
+\le e^{-\varepsilon^2\gamma^2}e^{\varepsilon^2/4}$, and
+$|\cos(z_1\log p)|\le e^{|\delta|\log p}=p^{|\delta|}<\sqrt p$, using
+$|\delta|<\tfrac12$.
+\end{proof}
+
+\begin{theorem}[Off-line robustness, magnitude form; proved]
+\label{thm:offline}
+Let $\kappa$ be the prime cutoff, $H_0=3\cdot10^{12}$, and
+$f_\varepsilon(t):=(t^2+\tfrac14)e^{-\varepsilon^2 t^2}$, which is decreasing
+on $[H_0,\infty)$ once $\varepsilon H_0\ge 2$. Then
+\[
+\sum_{p\le\kappa}(\log p)^2\bigl|\Eoff(\varepsilon)\bigr|
+ \;\le\; 2\,C_\kappa\,e^{\varepsilon^2/4}\,
+ S_{\mathrm{tail}}^{\mathrm{disc}}(\varepsilon,H_0),
+\qquad
+C_\kappa=\sum_{p\le\kappa}(\log p)^2\sqrt p,
+\]
+where the discrete tail
+\[
+S_{\mathrm{tail}}^{\mathrm{disc}}(\varepsilon,H_0)
+ :=\sum_{n\ge 0}\bigl(N(H_0+n+1)-N(H_0+n)\bigr)\,f_\varepsilon(H_0+n)
+\]
+uses, for each bin count, the explicit Hasanalizade--Shen--Wong inequality
+$|N(T)-F(T)|\le E(T)$ of~\cite{HasanalizadeShenWong21}, with
+\[
+F(T)=\tfrac{T}{2\pi}\log\tfrac{T}{2\pi e},
+\qquad
+E(T)=0.1038\log T+0.2573\log\log T+9.3675,
+\]
+so that each bin count satisfies the explicit estimate
+\[
+N(H_0+n+1)-N(H_0+n)\;\le\;F(H_0+n+1)-F(H_0+n)+E(H_0+n+1)+E(H_0+n).
+\]
+We use the Hasanalizade--Shen--Wong constants because they are sufficient for
+the present threshold and match the archived certificate. Newer explicit
+zero-count estimates of Bellotti--Wong~\cite{BellottiWong} improve these
+constants and could slightly sharpen the numerical value of
+$\varepsilon_{\mathrm{off}}$, but are not needed for the proof.
+Consequently, for each certified negativity margin $M$ there is an explicit
+threshold $\varepsilon_{\mathrm{off}}(\kappa,M,H_0)$ with
+$\sum_{p\le\kappa}(\log p)^2|\Eoff(\varepsilon)|<M$ for all
+$\varepsilon\ge\varepsilon_{\mathrm{off}}$.
+Here $M$ is the \emph{scaled} interval-criterion margin of
+Theorem~\ref{thm:ref} (e.g.\ $0.83$ or $21.86$); since
+$8\sqrt\pi\varepsilon^3<1$ on $(0,0.05]$, it lies below the unscaled
+negativity margin $-\BinfGW=(8\sqrt\pi\varepsilon^3)^{-1}\cdot(\text{scaled
+gap})$, so $\sum_{p\le\kappa}(\log p)^2|\Eoff|<M$ is a conservative
+sufficient condition for $\Binfline<0$.
+For $\kappa=53$, $C_{53}=782.89$. The proved closed-form majorant above
+\emph{exists} as an analytic threshold; its concrete decimal value is obtained
+by numerical evaluation (mpmath, not Arb-interval-certified). Against
+the smallest reference margin $M=0.83$ it gives
+$\varepsilon_{\mathrm{off}}(53,0.83,H_0)\le 3.20\cdot10^{-12}$, and against the uniform
+margin $M=S_3/4=21.86$,
+$\varepsilon_{\mathrm{off}}(53,21.86,H_0)\le 3.14\cdot10^{-12}$
+(these values are $\kappa=53$-specific, not uniform in $\kappa$, and
+numerical); the independent numerical discrete evaluation gives
+$3.15\cdot10^{-12}$ and $3.09\cdot10^{-12}$
+respectively, the closed form agreeing to within $1\%$ (the gap is the
+slowly-varying bin-density bound).
+Hence, on a certified full-object negativity range with margin $M$ and for
+$\varepsilon\ge\varepsilon_{\mathrm{off}}(\kappa,M,H_0)$ --- that is, for
+$\varepsilon_{\mathrm{off}}(\kappa,M,H_0)\le\varepsilon\le 0.05$, in particular at
+$\varepsilon=0.05$ (ten orders of magnitude above
+$\varepsilon_{\mathrm{off}}$) --- the certified sign of $\BinfGW$ transfers
+to the on-line proxy: $\Binfline(53,\varepsilon)<0$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1 (finite verified range).}
+By Platt--Trudgian~\cite{PlattTrudgian21} there is no off-critical zero with
+$0<\gamma\le H_0$ (the verified height is $3\,000\,175\,332\,800$, above
+$3\cdot10^{12}$), so $\sum_p(\log p)^2|\Eoff|$ reduces to off-critical
+quadruples with $\gamma>H_0$.
+
+\emph{Step 2 (off-line support and discrete bin majorant).}
+By the object split, $\Eoff=\ZtwoGW-\Ztwoline$ receives no contribution from
+on-line zeros (there the full and proxy summands coincide), so $\Eoff$ is
+supported on the off-critical quadruples $Q$ of Lemma~\ref{lem:mag}, each with
+$|\operatorname{contrib}_Q|\le f_\varepsilon(\gamma)\sqrt p\,e^{\varepsilon^2/4}$.
+Writing $N^{\mathrm{off}}$ for the off-critical counting function, and using
+that the off-critical zeros in any bin are a subset of all zeros there
+($N^{\mathrm{off}}(H_0+n+1)-N^{\mathrm{off}}(H_0+n)\le N(H_0+n+1)-N(H_0+n)$,
+with $f_\varepsilon\ge0$),
+\[
+\sum_{\substack{\gamma>H_0\\ \beta\ne\tfrac12}} f_\varepsilon(\gamma)
+ \le \sum_{n\ge 0}\bigl(N(H_0+n+1)-N(H_0+n)\bigr)\,f_\varepsilon(H_0+n)
+ = S_{\mathrm{tail}}^{\mathrm{disc}}(\varepsilon,H_0),
+\]
+$f_\varepsilon$ being decreasing on $[H_0,\infty)$ for $\varepsilon H_0\ge2$.
+This majorizes the off-line difference by the total zero count; the
+over-count (on-line zeros contribute $0$ to $\Eoff$ but are counted in $N$) is
+harmless for a magnitude statement and avoids any zero-density input.
+
+\emph{Step 3 (zero-count bound).}
+Each bin count $N(H_0+n+1)-N(H_0+n)$ is bounded by differencing the
+explicit inequality of~\cite{HasanalizadeShenWong21}; this replaces the
+Riemann--von Mangoldt density and is a rigorous upper bound for a discrete
+zero sum. Multiplying by $2e^{\varepsilon^2/4}\sqrt p\,(\log p)^2$ and summing
+over $p\le\kappa$ gives the stated bound.
+
+\emph{Step 4 (log-density summation and threshold comparison).}
+The map $\varepsilon\mapsto 2C_\kappa e^{\varepsilon^2/4}
+S_{\mathrm{tail}}^{\mathrm{disc}}$ is strictly decreasing, and the threshold
+$\varepsilon_{\mathrm{off}}$ admits a \emph{closed-form} majorant rather than
+a bare infinite-series bisection. The bin count is \emph{not} uniformly
+bounded: $D_n:=N(H_0+n+1)-N(H_0+n)=O(\log(H_0+n))$ grows with $n$. By the
+explicit HSW inequality and the concavity bound
+$\log(H_0+n)\le\log H_0+n/H_0$ one has the affine majorant
+$D_n\le d_0+d_1 n$ with the \emph{secant} (not tangent) initial value
+$d_0=F(H_0+1)-F(H_0)+E(H_0+1)+E(H_0)$,
+$F(t)=\tfrac{t}{2\pi}\log\tfrac{t}{2\pi}-\tfrac{t}{2\pi}+\tfrac78$, and
+$d_1=\tfrac1{2\pi H_0}+2E'(H_0)$, where
+$E'(H_0)=\tfrac{0.1038}{H_0}+\tfrac{0.2573}{H_0\log H_0}$ captures the
+logarithmic growth of the HSW error term over the bins, so
+$d_1\approx\tfrac1{2\pi H_0}+\tfrac{0.21}{H_0}$ --- still negligible against
+$H_0=3\cdot10^{12}$.
+Keeping the full $f_\varepsilon(t)=(t^2+\tfrac14)e^{-\varepsilon^2t^2}$
+(the $+\tfrac14$ must not be dropped from an upper bound) and using, for $n\ge0$,
+\[
+f_\varepsilon(H_0+n)\le \bigl((H_0+n)^2+\tfrac14\bigr)\, e^{-\varepsilon^2 H_0^2}\,q^{n},
+\qquad q:=e^{-2\varepsilon^2 H_0}\in(0,1),
+\]
+(from $e^{-\varepsilon^2(H_0+n)^2}\le e^{-\varepsilon^2H_0^2}e^{-2\varepsilon^2H_0 n}$
+and $e^{-\varepsilon^2 n^2}\le1$), the tail collapses to the geometric sums
+$\sum q^n,\sum n q^n,\sum n^2 q^n,\sum n^3 q^n$ (all closed forms in $q$):
+\[
+S_{\mathrm{tail}}^{\mathrm{disc}}(\varepsilon,H_0)
+ \le e^{-\varepsilon^2 H_0^2}
+ \Bigl[d_0\bigl(\Sigma_2+\tfrac14\Sigma_0\bigr)
+      +d_1\bigl(\Sigma_2'+\tfrac14\Sigma_1\bigr)\Bigr],
+\]
+with $\Sigma_0=\sum q^n$, $\Sigma_1=\sum nq^n$, $\Sigma_2=\sum(H_0+n)^2q^n$,
+$\Sigma_2'=\sum n(H_0+n)^2q^n$, each a closed expression in $q$ evaluable in
+ball arithmetic. The $\log$-growth term $d_1 n$ changes only the prefactor;
+solving $2C_\kappa e^{\varepsilon^2/4}S_{\mathrm{tail}}^{\mathrm{disc}}=M$
+yields the threshold directly.
+At $\varepsilon=0.05$ the leading bin already carries the factor
+$f_{0.05}(H_0)=O\bigl(H_0^2 e^{-0.0025\,H_0^2}\bigr)$, far beneath every
+margin; the certified sign therefore transfers to $\Binfline$, and with
+$O''(\tfrac12)=-2\Binfline$ the operator curvature is positive in that range.
+\end{proof}
+
+\begin{corollary}[Operator curvature positivity; proved]
+\label{cor:curvline}
+\emph{Reference case $\kappa=53$.} For every $\varepsilon$ with
+$\varepsilon_{\mathrm{off}}(53,M,H_0)\le\varepsilon\le 0.05$ (in particular
+$\varepsilon=0.05$, with the concrete thresholds
+$\varepsilon_{\mathrm{off}}(53,0.83,H_0)\le3.20\cdot10^{-12}$ and
+$\varepsilon_{\mathrm{off}}(53,21.86,H_0)\le3.14\cdot10^{-12}$, which are
+numerical and not Arb-certified, and are not needed at sharp precision since
+$\varepsilon=0.05$ lies far above them), the on-line
+proxy curvature sum is negative, $\Binfline(53,\varepsilon)<0$, and hence the
+operator curvature is strictly positive:
+\[
+O''(\tfrac12)=-2\Binfline(53,\varepsilon)>0.
+\]
+\emph{Uniform case $\kappa\ge 202$.} For every
+$\varepsilon_{\mathrm{off}}(\kappa,M,H_0)\le\varepsilon\le\varepsilon_0(\kappa)$
+(where nonempty) one has $\Binfline(\kappa,\varepsilon)<0$ and
+$O''(\tfrac12)=-2\Binfline(\kappa,\varepsilon)>0$, by
+Theorem~\ref{thm:uniform} and the transfer of Theorem~\ref{thm:offline}.
+\end{corollary}
+
+\begin{proof}
+Theorems~\ref{thm:ref} and~\ref{thm:uniform} give $\BinfGW<0$ in the stated
+ranges. For $\varepsilon\ge\varepsilon_{\mathrm{off}}$, Theorem~\ref{thm:offline}
+bounds the off-line sum below the certified (scaled) margin $M$, which
+satisfies $M<-\BinfGW$ on the certified range. Since
+\[
+\Binfline=\BinfGW-\sum_{p\le\kappa}(\log p)^2\Eoff,
+\qquad
+\Bigl|\sum_{p\le\kappa}(\log p)^2\Eoff\Bigr|<M<-\BinfGW=|\BinfGW|,
+\]
+the sign of $\Binfline$ equals that of $\BinfGW$, i.e.\ negative;
+$O''(\tfrac12)=-2\Binfline$ then gives the curvature sign.
+\end{proof}
+
+\begin{remark}[What is and is not proved here]
+Theorem~\ref{thm:offline} is a \emph{magnitude} statement: it shows that
+hypothetical off-critical zeros leave the negativity, and hence
+$O''(\tfrac12)>0$, intact for every $\varepsilon$ in a certified range with
+$\varepsilon\ge\varepsilon_{\mathrm{off}}$ (that is,
+$\varepsilon_{\mathrm{off}}\le\varepsilon\le 0.05$), in particular at the
+reference width $\varepsilon=0.05$.
+It does not control the \emph{sign} of $\Eoff$, and it does not prove RH.
+Since the negativity theorems are already established on the zero-location-
+free prime side, the distinct content is the explicit, $\beta$-uniform,
+finite-height certificate quantifying the gap between the on-line picture
+and the true zero configuration.
+Subsequent work has refined the complementary zero-free and zero-density
+regime above $H_0$ rather than the verified height itself
+(\cite{MossinghoffTrudgianYang24,Bellotti24a}).
+\end{remark}
+
+% ============================================================
+\section{Open Problems}
+\label{sec:open}
+% ============================================================
+
+\begin{openproblem}[Cancellation Hypothesis]
+\label{op:cancel}
+Establish Assumption~(A$^{**}$) of~\cite{Paper7} analytically: a logarithmic
+saving in $|S_k(\kappa)|/P(\kappa)$ via Vinogradov--Korobov exponential-sum
+techniques (see~\cite{MossinghoffTrudgianYang24,Bellotti24a} for the state
+of the art on zero-free regions).
+Assumption~(A$^{**}$) is a log-saving hypothesis, strictly weaker than the
+Riemann Hypothesis; no equivalence is claimed.
+\end{openproblem}
+
+\begin{openproblem}[Weighted Bias Bridge]
+\label{op:bridge}
+Establish the bridge implication
+$B_{\mathrm{int}}^\infty<0\Rightarrow\BinfGW<0$ directly. The present paper
+does not use it: it proves $\BinfGW<0$ independently and so bypasses the
+bridge. Whether the integrated bias $B_{\mathrm{int}}^\infty$ controls the
+full Guinand--Weil object through such an implication remains open.
+\end{openproblem}
+
+\begin{openproblem}[Exact stationarity]
+\label{op:stat}
+Establish $O'(\tfrac12)=0$, or $|O'(\tfrac12)|/O''(\tfrac12)\to 0$.
+The selection criterion of~\cite{Paper7} quantifies the proximity to
+stationarity but not its exactness; establishing exactness remains open.
+\end{openproblem}
+
+\begin{openproblem}[Weil-transfer operator and positivity]
+\label{op:weil}
+For the prime-local antisymmetric Gaussian component
+$\psi_{p,\varepsilon}(x)=\phi_\varepsilon(x-\log p)-\phi_\varepsilon(x+\log p)$,
+with $\phi_\varepsilon$ the Gaussian
+$(2\pi\varepsilon^2)^{-1/2}\exp(-x^2/2\varepsilon^2)$, define the
+Weil-transfer matrix
+\[
+(\mathsf{W}^{\mathrm{Weil}}_{\kappa,\varepsilon})_{pq}
+:=W(\psi_{p,\varepsilon}\ast\check\psi_{q,\varepsilon}),
+\]
+where $W$ is the
+Weil quadratic functional of~\cite{Lagarias,Bombieri}.
+Establish whether a bridge identity relates
+$\langle\mathsf{W}^{\mathrm{Weil}}_{\kappa,\varepsilon}c^\eta,c^\eta\rangle$,
+with the coefficient vector $c^\eta=(\sqrt{V_p(\tfrac12)})_{p\le\kappa}$,
+to $O''(\tfrac12)$ up to off-diagonal and $\Gamma$-factor corrections, and
+whether the resulting form is positive on the growing finite-cutoff
+subspace.
+The vector $c^\eta$ is not asserted to reproduce the $(\log p)^2$ curvature
+weights directly; identifying the exact renormalisation and correction terms
+between the $c^\eta$-weighted Weil form and the curvature weight is part of
+the problem.
+Positivity of the Weil form on this subspace would be a finite-cutoff
+analogue of the Weil positivity criterion of~\cite{Lagarias}, which is known
+to be equivalent to the Riemann Hypothesis~\cite{Lagarias,Bombieri}.
+\end{openproblem}
+
+\begin{openproblem}[Scaling of the negativity window]
+\label{op:scaling}
+Determine the asymptotics of the negativity threshold; in particular,
+whether $\inf_\kappa\varepsilon_{\mathrm{int}}(\kappa)>0$ for the integrated
+window of~\cite{Paper7}, and how the uniform threshold $\varepsilon_0(\kappa)$
+of Theorem~\ref{thm:uniform} compares with the observed scale
+$\dmin(\kappa)\asymp 2/\kappa$.
+Numerical evidence is oscillatory.
+\end{openproblem}
+
+\begin{remark}[Scope: the curvature is not a direct RH criterion]
+The negativity $\BinfGW<0$ established here is a statement about the
+second-moment bias, and the operator curvature
+$O''(\tfrac12)=-2\Binfline>0$ follows by the off-line transfer; neither is a
+criterion for the Riemann Hypothesis.
+The canonical off-critical continuation of the weighted curvature test
+function
+\[
+h^{(2,w)}_{p,\varepsilon}(u):=(\log p)^2 h^{(2)}_{p,\varepsilon}(u)
+=(\log p)^2 u^2 e^{-\varepsilon^2 u^2}\cos(u\log p),
+\]
+written $G(\gamma):=h^{(2,w)}_{p,\varepsilon}(\gamma)$, is obtained as follows.
+A hypothetical off-critical zero $\rho=\tfrac12+\delta+i\gamma$ enters the
+half-sum $B=\tfrac12\sum_\rho$ together with its complex conjugate
+$\overline\rho=\tfrac12+\delta-i\gamma$, contributing the arguments
+$u=(\rho-\tfrac12)/i=\gamma-i\delta$ and $u=(\overline\rho-\tfrac12)/i=-\gamma-i\delta$;
+since $h^{(2,w)}_{p,\varepsilon}$ is even in $u$, $G(-\gamma-i\delta)=G(\gamma+i\delta)$,
+so this conjugate pair contributes $G(\gamma+i\delta)+G(\gamma-i\delta)$ to
+$\sum_\rho$, i.e.\ $\tfrac12\bigl[G(\gamma+i\delta)+G(\gamma-i\delta)\bigr]$ in the
+half-sum, with on-line limit $G(\gamma)$ at $\delta=0$. The defect relative to
+that limit is
+\[
+\Delta B(\delta,\gamma)
+:=\tfrac12\bigl[G(\gamma+i\delta)+G(\gamma-i\delta)-2G(\gamma)\bigr]
+=\tfrac12\bigl[-\delta^2 G''(\gamma)+O(\delta^4)\bigr]
+=\delta^2 C_2(\gamma)+O(\delta^4),
+\]
+the middle step being the even-order Taylor expansion
+$G(\gamma\pm i\delta)=G(\gamma)\mp\tfrac{\delta^2}{2}G''(\gamma)+O(\delta^4)$ along
+the imaginary direction. Hence
+\[
+C_2(\gamma)=-\tfrac12 G''(\gamma),
+\]
+the factor $-\tfrac12$ originating in the half-sum $\tfrac12\sum_\rho$; the
+functional-equation partners $1-\rho,1-\overline\rho$ form an identical conjugate
+pair contributing the same defect, and the un-normalised convention
+$\Delta B:=G(\gamma+i\delta)+G(\gamma-i\delta)-2G(\gamma)$ (without the half-sum
+$\tfrac12$) would instead read off $-G''(\gamma)$. The coefficient $C_2(\gamma)$ is
+sign-indefinite: for $p=2$, $\varepsilon=0.05$, $G''(\gamma)$ changes sign $13$
+times on $[1,60]$ (e.g.\ $G''(5)\approx+6.41>0$ but $G''(9)\approx-14.85<0$),
+consistent with the larger-range numerical scans; equivalently, the
+Fourier transform of a second derivative is not of fixed sign.
+Hence the curvature bias does not furnish a Weil-positivity / RH criterion.
+This delimits the result and is stated for transparency.
+\end{remark}
+
+% ============================================================
+\section*{Non-Circularity}
+\label{sec:nocirc}
+% ============================================================
+
+We document explicitly that the results of this paper do not rely on the
+objects they are directed toward.
+
+\textbf{No RH as input.}
+The Riemann Hypothesis is never assumed.
+All zero sums are defined through the zero side of the explicit formula and
+require no hypothesis on zero positions; the ordinate form quoted in
+\S\,\ref{sec:bg} coincides with this definition on the range of zeros
+entering any numerical computation.
+The results of \S\S\,\ref{sec:id}--\ref{sec:uniform} are unconditional, and
+\S\,\ref{sec:offline} is a magnitude statement.
+
+\textbf{No GUE, Montgomery, or Hilbert--P\'olya hypothesis.}
+The distribution of the zeros is not modelled by random matrix theory.
+The operator $\Tt$ is not a Hilbert--P\'olya operator (\cite{Paper4}:
+$r_2\to 0.16$); its matrix entries are explicit deterministic arithmetic
+expressions.
+No pair-correlation conjecture is used.
+
+\textbf{Off-line robustness uses a verified height, not RH.}
+The single external input of \S\,\ref{sec:offline} is the Platt--Trudgian
+computation~\cite{PlattTrudgian21}, a rigorous unconditional
+interval-arithmetic verification that no off-critical zero exists below
+$H_0=3\cdot10^{12}$.
+This is a finite arithmetic fact, not an instance of RH.
+
+\textbf{$\BinfGW<0$ is not assumed and not RH-equivalent.}
+The negativity is established by closed-form and certified computation
+(Theorems~\ref{thm:closedform},~\ref{thm:ref},~\ref{thm:uniform}); it is a
+one-sided curvature/bias fact, and by the scope remark of \S\,\ref{sec:open}
+it is not a criterion for RH.
+The non-vanishing $\zeta(1+it)\ne 0$~\cite{Hadamard,dlVP} is an
+unconditional analytical input.
+
+% ============================================================
+\section*{Acknowledgments}
+% ============================================================
+
+The author thanks the readers who provided feedback on earlier versions of
+this paper and on the preceding papers in the series.
+
+% ============================================================
+\section*{Call for Feedback}
+% ============================================================
+
+This paper is part of an open research initiative on prime--zero
+coupling and explicit-formula operators.
+All papers in the series are freely available on Zenodo under CC~BY~4.0, and
+the accompanying verification code is hosted on GitHub.
+
+{\raggedright
+Zenodo:\\
+\url{https://zenodo.org/search?q=metadata.creators.person_or_org.name\%3A\%22Tehrani\%2C\%20Ulrich\%22}\\
+GitHub:\\
+\url{https://github.com/utehrani/analysislab-nt}
+\par}
+
+Topics of particular interest include:
+analytical approaches to Assumption~(A$^{**}$) via exponential-sum methods;
+the relation between the negativity window and zero-free regions for
+$\zeta(s)$; sharper archimedean constants; and any errors or gaps in the
+present arguments.
+
+% ============================================================
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{Paper6}
+U.~Tehrani,
+``Positive Curvature of the Spectral Trace at the Critical Line'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19665790}, 2026.
+
+\bibitem{Paper5}
+U.~Tehrani,
+``Spectral Trace Formula and Smoothed Zero Sums:
+A Prime--Zero Duality Framework'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19508547}, 2026.
+
+\bibitem{Paper7}
+U.~Tehrani,
+``Conditional Stationarity and Positive Curvature of the Spectral Trace
+at the Critical Line'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.20440671}, 2026.
+
+\bibitem{Code}
+U.~Tehrani,
+Verification scripts for the prime--zero coupling series,
+GitHub, \url{https://github.com/utehrani/analysislab-nt}.
+
+\bibitem{Paper1}
+U.~Tehrani,
+``A Curvature Decomposition of the Explicit Formula
+for the Riemann Zeta Function'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19025598}, 2026.
+
+\bibitem{Paper2}
+U.~Tehrani,
+``From Local Curvature to the Weil Functional:
+An Explicit Construction'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19106992}, 2026.
+
+\bibitem{Lagarias}
+J.C.~Lagarias,
+``On a positivity property of the Riemann $\xi$-function'',
+\emph{Acta Arithmetica} \textbf{89} (1999), 217--234.
+
+\bibitem{Paper3}
+U.~Tehrani,
+``A Finite-Cutoff Hilbert-Space Model for Prime--Zero Energy Structure'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19307989}, 2026.
+
+\bibitem{Paper4}
+U.~Tehrani,
+``A Dual Operator for Prime--Zero Coupling
+and a Conditional Proof of Energy Asymmetry'',
+Zenodo, \url{https://doi.org/10.5281/zenodo.19364703}, 2026.
+
+\bibitem{BerryKeating}
+M.V.~Berry and J.P.~Keating,
+``The Riemann Zeros and Eigenvalue Asymptotics'',
+\emph{SIAM Review} \textbf{41}.2 (1999), 236--266.
+
+\bibitem{deBranges}
+L.~de~Branges,
+``The Riemann Hypothesis for Hilbert Spaces of Entire Functions'',
+\emph{Bull.\ Amer.\ Math.\ Soc.\ (N.S.)} \textbf{15}.1 (1986), 1--17.
+
+\bibitem{ConnesConsani23}
+A.~Connes and C.~Consani,
+``Spectral triples and zeta-cycles,''
+\textit{Enseign.\ Math.} \textbf{69} (2023), no.~1--2, 93--148.
+arXiv:2106.01715.
+
+\bibitem{CCM25}
+A.~Connes, C.~Consani, and H.~Moscovici,
+``Zeta spectral triples,''
+arXiv:2511.22755 (2025).
+
+\bibitem{Bombieri}
+E.~Bombieri,
+``Remarks on Weil's Quadratic Functional in the Theory of Prime
+Numbers, I'',
+\emph{Rend.\ Lincei Mat.\ Appl.} \textbf{11}.3 (2000), 183--233.
+
+\bibitem{Burnol}
+J.-F.~Burnol,
+``On Fourier and Zeta(s)'',
+\emph{Forum Math.} \textbf{16}.6 (2004), 789--840.
+
+\bibitem{Suzuki25}
+M.~Suzuki,
+``On the Hilbert space derived from the Weil distribution,''
+\textit{Canad.\ J.\ Math.}, First View (2025), 1--24.
+DOI: 10.4153/S0008414X25101739.
+arXiv:2301.00421.
+
+\bibitem{Guinand}
+A.P.~Guinand,
+``A summation formula in the theory of prime numbers'',
+\emph{Proc.\ London Math.\ Soc.}\ (2) \textbf{50} (1948), 107--119.
+
+\bibitem{Weil}
+A.~Weil,
+``Sur les `formules explicites' de la th\'{e}orie des nombres premiers'',
+\emph{Comm.\ S\'{e}m.\ Math.\ Univ.\ Lund, Suppl.}\ (1952), 252--265.
+
+\bibitem{IwaniecKowalski04}
+H.~Iwaniec and E.~Kowalski,
+\emph{Analytic Number Theory},
+American Mathematical Society Colloquium Publications,
+vol.~53, AMS, Providence, RI, 2004.
+
+\bibitem{BalanzarioCardenas23}
+E.P.~Balanzario and D.E.~C\'{a}rdenas Romero,
+``An explicit formula for the zeros of the Riemann zeta function
+and the statistics of their local distribution'',
+\emph{The Ramanujan Journal} \textbf{69} (2026), Article~21,
+DOI: 10.1007/s11139-025-01297-y; arXiv:2312.00108.
+
+\bibitem{RosserSchoenfeld62}
+J.B.~Rosser and L.~Schoenfeld,
+``Approximate formulas for some functions of prime numbers'',
+\emph{Illinois J.\ Math.} \textbf{6} (1962), 64--94.
+
+\bibitem{HasanalizadeShenWong21}
+E.~Hasanalizade, Q.~Shen, and P.-J.~Wong,
+``Counting zeros of the Riemann zeta function'',
+\emph{J.\ Number Theory} \textbf{235} (2022), 219--241.
+arXiv:2107.06506.
+
+\bibitem{BellottiWong}
+C.~Bellotti and P.-J.~Wong,
+``Improved estimates for the argument and zero-counting function of the
+Riemann zeta-function'' (with an appendix by A.~Fiori),
+\emph{Math.\ Comp.} (2025), DOI: 10.1090/mcom/4133; arXiv:2412.15470.
+
+\bibitem{PlattTrudgian21}
+D.J.~Platt and T.~Trudgian,
+``The Riemann hypothesis is true up to $3\cdot10^{12}$'',
+\emph{Bull.\ Lond.\ Math.\ Soc.} \textbf{53} (2021), no.~3, 792--797.
+
+\bibitem{BrentPlattTrudgian20}
+R.P.~Brent, D.J.~Platt, and T.S.~Trudgian,
+``The mean square of the error term in the prime number theorem'',
+\emph{J.\ Number Theory} \textbf{238} (2022), 740--762.
+arXiv:2010.06451.
+
+\bibitem{MossinghoffTrudgianYang24}
+M.J.~Mossinghoff, T.S.~Trudgian, and A.~Yang,
+``Explicit zero-free regions for the Riemann zeta-function,''
+\textit{Res.\ Number Theory} \textbf{10} (2024), art.~11.
+DOI: 10.1007/s40993-023-00498-y.
+
+\bibitem{Bellotti24a}
+C.~Bellotti,
+``Explicit bounds for the Riemann zeta function
+and a new zero-free region,''
+\textit{J.\ Math.\ Anal.\ Appl.} \textbf{536} (2024),
+no.~2, art.~128249.
+DOI: 10.1016/j.jmaa.2024.128249.
+arXiv:2306.10680.
+
+\bibitem{Johansson17}
+F.~Johansson,
+``Arb: efficient arbitrary-precision midpoint-radius interval arithmetic,''
+\emph{IEEE Trans.\ Comput.} \textbf{66}.8 (2017), 1281--1292.
+arXiv:1611.02831.
+
+\bibitem{Hadamard}
+J.~Hadamard,
+``Sur la distribution des z\'{e}ros de la fonction $\zeta(s)$
+et ses cons\'{e}quences arithm\'{e}tiques'',
+\emph{Bull.\ Soc.\ Math.\ France} \textbf{24} (1896), 199--220.
+
+\bibitem{dlVP}
+C.-J.~de~la~Vall\'{e}e~Poussin,
+``Recherches analytiques sur la th\'{e}orie des nombres premiers'',
+\emph{Ann.\ Soc.\ Sci.\ Bruxelles} \textbf{20} (1896), 183--256.
+
+\bibitem{AbramowitzStegun}
+M.~Abramowitz and I.A.~Stegun,
+\emph{Handbook of Mathematical Functions},
+National Bureau of Standards, Applied Mathematics Series \textbf{55},
+Washington, DC, 1964; \S6.3 (psi function).
+
+\end{thebibliography}
+% ============================================================
+
+\enlargethispage{3\baselineskip}
+\vspace*{\fill}
+\begin{minipage}{\linewidth}
+\rule{\linewidth}{0.4pt}\smallskip\\
+\small\emph{Paper~8 v0.23 \textperiodcentered\ August~2026
+\textperiodcentered\ Pauca sed matura}
+\end{minipage}
+
+\end{document}
